@@ -12,12 +12,15 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 from game import (  # noqa: E402
+    ARTIST_POINTS,
+    YEAR_POINTS,
+    Answer,
     Card,
-    Placement,
     correct_gaps,
     insert_card,
     is_correct_placement,
     resolve_round,
+    score_answer,
 )
 
 
@@ -100,32 +103,32 @@ class TestResolveRound:
         out = resolve_round(
             "a",
             self.timelines,
-            {"a": Placement("a", 1), "b": Placement("b", 0)},
+            {"a": Answer("a", 1), "b": Answer("b", 0)},
             self.subject,
         )
-        assert out.active_correct
+        assert out.scores['a'].year_right
         assert out.card_winner == "a"
         assert not out.stolen
-        assert "b" not in out.token_awards
+        assert not out.scores['b'].year_right
 
     def test_shadow_guess_earns_a_token_even_when_active_is_right(self):
         out = resolve_round(
             "a",
             self.timelines,
-            {"a": Placement("a", 1), "b": Placement("b", 1)},
+            {"a": Answer("a", 1), "b": Answer("b", 1)},
             self.subject,
         )
         assert out.card_winner == "a"
-        assert out.token_awards == {"b": 1}
+        assert out.scores['b'].year_right
 
     def test_active_wrong_and_one_correct_shadow_steals_it(self):
         out = resolve_round(
             "a",
             self.timelines,
-            {"a": Placement("a", 0), "b": Placement("b", 1)},
+            {"a": Answer("a", 0), "b": Answer("b", 1)},
             self.subject,
         )
-        assert not out.active_correct
+        assert not out.scores['a'].year_right
         assert out.card_winner == "b"
         assert out.stolen
 
@@ -134,40 +137,38 @@ class TestResolveRound:
             "a",
             self.timelines,
             {
-                "a": Placement("a", 0),
-                "b": Placement("b", 1, submitted_ms=500),
-                "c": Placement("c", 1, submitted_ms=200),
+                "a": Answer("a", 0),
+                "b": Answer("b", 1, submitted_ms=500),
+                "c": Answer("c", 1, submitted_ms=200),
             },
             self.subject,
         )
         assert out.card_winner == "c"
         assert out.stolen
         # Both were right, so both are paid.
-        assert out.token_awards == {"b": 1, "c": 1}
+        assert out.scores['b'].year_right and out.scores['c'].year_right
 
     def test_nobody_correct_means_the_card_goes_nowhere(self):
         out = resolve_round(
             "a",
             self.timelines,
-            {"a": Placement("a", 0), "b": Placement("b", 2)},
+            {"a": Answer("a", 0), "b": Answer("b", 2)},
             self.subject,
         )
         assert out.card_winner is None
         assert not out.stolen
-        assert out.token_awards == {}
+        assert not any(v.year_right for k, v in out.scores.items() if k != 'a')
 
-    def test_active_player_never_pays_itself_a_shadow_token(self):
-        out = resolve_round(
-            "a", self.timelines, {"a": Placement("a", 1)}, self.subject
-        )
-        assert out.token_awards == {}
+    def test_active_alone_scores_only_itself(self):
+        out = resolve_round("a", self.timelines, {"a": Answer("a", 1)}, self.subject)
+        assert set(out.scores) == {"a"}
+        assert out.card_winner == "a"
 
-    def test_missing_active_placement_counts_as_wrong(self):
-        out = resolve_round(
-            "a", self.timelines, {"b": Placement("b", 1)}, self.subject
-        )
-        assert not out.active_correct
+    def test_active_who_never_answered_forfeits_the_card(self):
+        out = resolve_round("a", self.timelines, {"b": Answer("b", 1)}, self.subject)
+        assert "a" not in out.scores  # no answer, no grade
         assert out.card_winner == "b"
+        assert out.stolen
 
     def test_shadow_guess_is_judged_against_the_guessers_own_timeline(self):
         # c holds a different timeline, so gap 1 is wrong for c but right for b.
@@ -175,8 +176,8 @@ class TestResolveRound:
         out = resolve_round(
             "a",
             self.timelines,
-            {"a": Placement("a", 0), "b": Placement("b", 1), "c": Placement("c", 1)},
+            {"a": Answer("a", 0), "b": Answer("b", 1), "c": Answer("c", 1)},
             self.subject,
         )
-        assert out.token_awards == {"b": 1}
+        assert out.scores['b'].year_right
         assert out.card_winner == "b"

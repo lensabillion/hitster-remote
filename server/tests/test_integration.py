@@ -25,6 +25,12 @@ socketio = pytest.importorskip("socketio")
 import uvicorn  # noqa: E402
 
 
+# One distinctive artist across the whole harness deck, so a test can type a
+# name that is definitely right (or definitely wrong) without knowing which card
+# the shuffle dealt.
+HARNESS_ARTIST = "Kuku Sebsibe"
+
+
 def free_port() -> int:
     with socket.socket() as s:
         s.bind(("127.0.0.1", 0))
@@ -49,7 +55,7 @@ class Harness:
 
         # Short phases keep the suite fast; the logic under test is unchanged.
         main.CLIP_SECONDS = 0.2
-        main.PLACEMENT_SECONDS = 5
+        main.ANSWER_SECONDS = 5
 
         config = uvicorn.Config(
             main.app, host="127.0.0.1", port=self.port, log_level="error"
@@ -64,8 +70,8 @@ class Harness:
                 {
                     "id": f"card{i}",
                     "year": 1960 + i * 4,
-                    "artist_latin": f"Artist {i}",
-                    "title_latin": f"Title {i}",
+                    "artist_latin": HARNESS_ARTIST,
+                    "title_latin": f"Nebiyat {i}",
                     "artist_am": "አርቲስት",
                     "title_am": "ርዕስ",
                     "youtube_id": "",
@@ -172,22 +178,22 @@ async def test_full_round_and_no_spontaneous_advance(tmp_path):
         await guest.wait_for(lambda s: len(s["players"]) == 2)
 
         await host.emit("game:start", {"code": code})
-        await host.wait_for(lambda s: s["phase"] == "placing")
+        await host.wait_for(lambda s: s["phase"] == "answering")
         assert host.state["roundNo"] == 1
 
         # The year must not be disclosed while placing.
         assert host.state["card"] is None
         assert guest.state["card"] is None
 
-        await host.emit("round:place", {"code": code, "gap": 0})
-        await guest.emit("round:place", {"code": code, "gap": 0})
+        await host.emit("round:answer", {"code": code, "gap": 0})
+        await guest.emit("round:answer", {"code": code, "gap": 0})
 
         revealed = await host.wait_for(lambda s: s["phase"] == "revealing")
         assert revealed["card"] is not None
         assert isinstance(revealed["card"]["year"], int)
         assert revealed["roundNo"] == 1
 
-        # Hold well past PLACEMENT_SECONDS: nothing may advance on its own.
+        # Hold well past ANSWER_SECONDS: nothing may advance on its own.
         await asyncio.sleep(1.0)
         assert host.state["phase"] == "revealing"
         assert host.state["roundNo"] == 1, "round advanced without round:next"
@@ -215,9 +221,9 @@ async def test_only_the_host_may_advance(tmp_path):
         await guest.wait_for(lambda s: len(s["players"]) == 2)
 
         await host.emit("game:start", {"code": code})
-        await host.wait_for(lambda s: s["phase"] == "placing")
-        await host.emit("round:place", {"code": code, "gap": 0})
-        await guest.emit("round:place", {"code": code, "gap": 0})
+        await host.wait_for(lambda s: s["phase"] == "answering")
+        await host.emit("round:answer", {"code": code, "gap": 0})
+        await guest.emit("round:answer", {"code": code, "gap": 0})
         await host.wait_for(lambda s: s["phase"] == "revealing")
 
         await guest.emit("round:next", {"code": code})
@@ -249,7 +255,7 @@ async def test_reconnecting_player_gets_seat_timeline_and_audio(tmp_path):
         await guest.wait_for(lambda s: len(s["players"]) == 2)
 
         await host.emit("game:start", {"code": code})
-        await host.wait_for(lambda s: s["phase"] == "placing")
+        await host.wait_for(lambda s: s["phase"] == "answering")
 
         before = next(p for p in guest.state["players"] if p["id"] == "guest-3")
         assert len(before["timeline"]) == 1
@@ -260,7 +266,7 @@ async def test_reconnecting_player_gets_seat_timeline_and_audio(tmp_path):
         returning = Client("guest-3", "Sara")
         await returning.connect(h.url)
         await returning.emit("room:join", {"code": code, "name": "Sara"})
-        state = await returning.wait_for(lambda s: s["phase"] == "placing")
+        state = await returning.wait_for(lambda s: s["phase"] == "answering")
 
         after = next(p for p in state["players"] if p["id"] == "guest-3")
         assert after["timeline"] == before["timeline"], "timeline lost on reconnect"
@@ -272,3 +278,68 @@ async def test_reconnecting_player_gets_seat_timeline_and_audio(tmp_path):
 
         await host.disconnect()
         await returning.disconnect()
+
+
+@pytest.mark.asyncio
+async def test_year_scores_alone_when_the_artist_is_wrong(tmp_path):
+    """The halves are independent: a wrong singer must not void a right year."""
+    async with Harness(tmp_path) as h:
+        host, guest = Client("host-4", "Lensa"), Client("guest-4", "Sara")
+        await host.connect(h.url)
+        await guest.connect(h.url)
+        await host.emit("room:create", {"name": "Lensa"})
+        await host.wait_for(lambda s: s["phase"] == "lobby")
+        code = host.state["code"]
+        await guest.emit("room:join", {"code": code, "name": "Sara"})
+        await guest.wait_for(lambda s: len(s["players"]) == 2)
+
+        await host.emit("game:start", {"code": code})
+        await host.wait_for(lambda s: s["phase"] == "answering")
+
+        await host.emit(
+            "round:answer", {"code": code, "gap": 0, "artist": "Bob Marley", "title": ""}
+        )
+        await guest.emit(
+            "round:answer", {"code": code, "gap": 1, "artist": "Bob Marley", "title": ""}
+        )
+        revealed = await host.wait_for(lambda s: s["phase"] == "revealing")
+
+        for entry in revealed["outcome"]["scores"].values():
+            assert entry["artistRight"] is False
+            assert entry["points"] == (30 if entry["yearRight"] else 0)
+
+        await host.disconnect()
+        await guest.disconnect()
+
+
+@pytest.mark.asyncio
+async def test_artist_alone_is_worth_seventy(tmp_path):
+    """Naming the singer pays even when the card is misplaced."""
+    async with Harness(tmp_path) as h:
+        host, guest = Client("host-5", "Lensa"), Client("guest-5", "Sara")
+        await host.connect(h.url)
+        await guest.connect(h.url)
+        await host.emit("room:create", {"name": "Lensa"})
+        await host.wait_for(lambda s: s["phase"] == "lobby")
+        code = host.state["code"]
+        await guest.emit("room:join", {"code": code, "name": "Sara"})
+        await guest.wait_for(lambda s: len(s["players"]) == 2)
+
+        await host.emit("game:start", {"code": code})
+        await host.wait_for(lambda s: s["phase"] == "answering")
+
+        # A surname alone, misspelled, still counts -- that is the point.
+        await host.emit(
+            "round:answer", {"code": code, "gap": 0, "artist": "Sebsibe", "title": ""}
+        )
+        await guest.emit(
+            "round:answer", {"code": code, "gap": 0, "artist": HARNESS_ARTIST, "title": ""}
+        )
+        revealed = await host.wait_for(lambda s: s["phase"] == "revealing")
+
+        for pid, entry in revealed["outcome"]["scores"].items():
+            assert entry["artistRight"] is True, f"{pid} lost the artist points"
+            assert entry["points"] == (100 if entry["yearRight"] else 70)
+
+        await host.disconnect()
+        await guest.disconnect()

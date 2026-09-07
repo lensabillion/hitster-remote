@@ -81,6 +81,8 @@ export default function Home() {
     outline: "none",
   };
 
+  const canAct = Boolean(name.trim()) && connected;
+
   const primary: React.CSSProperties = {
     background: "var(--gold)",
     color: "#20170a",
@@ -140,9 +142,10 @@ export default function Home() {
               maxWidth: "58ch",
             }}
           >
-            Tap the space where the song belongs — that tap is your whole answer,
-            so there is nothing to type. A year that ties with a card already down
-            may sit on either side of it.
+            Name the singer — worth 70 points — and tap where the song belongs on
+            your timeline, worth 30. You can answer while the music is still
+            playing. A year that ties with a card already down may sit on either
+            side of it.
           </p>
         </div>
         <Timeline cards={SAMPLE} interactive />
@@ -150,60 +153,90 @@ export default function Home() {
 
       <Rule />
 
-      <section
-        style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(auto-fit, minmax(268px, 1fr))",
-          gap: 20,
-        }}
-      >
-        <div className="surface" style={{ padding: 22, display: "flex", flexDirection: "column", gap: 14 }}>
-          <h2 className="display" style={{ fontSize: "var(--t-lg)", margin: 0 }}>
-            Start a room
-          </h2>
+      {/* One name field, shared. It previously sat inside the "Start a room"
+          card, so anyone who only wanted to JOIN found the button disabled with
+          no visible reason. */}
+      <section style={{ display: "flex", flexDirection: "column", gap: 18 }}>
+        <div style={{ display: "flex", flexDirection: "column", gap: 8, maxWidth: 420 }}>
+          <label className="label" htmlFor="player-name">
+            1 · Your name
+          </label>
           <input
+            id="player-name"
             style={field}
-            placeholder="Your name"
+            placeholder="What should everyone call you?"
             value={name}
             onChange={(e) => remember(e.target.value)}
-            aria-label="Your name"
+            autoComplete="off"
           />
-          <button
-            style={{ ...primary, opacity: name.trim() && connected ? 1 : 0.5 }}
-            disabled={!name.trim() || !connected}
-            onClick={() => createRoom(name.trim())}
-          >
-            Create room
-          </button>
         </div>
 
-        <div className="surface" style={{ padding: 22, display: "flex", flexDirection: "column", gap: 14 }}>
-          <h2 className="display" style={{ fontSize: "var(--t-lg)", margin: 0 }}>
-            Join a room
-          </h2>
-          <input
-            style={{ ...field, letterSpacing: "0.35em", textTransform: "uppercase" }}
-            placeholder="CODE"
-            maxLength={4}
-            value={code}
-            onChange={(e) => setCode(e.target.value.toUpperCase())}
-            aria-label="Four letter room code"
-          />
-          <button
-            style={{
-              border: "1px solid var(--gold-dim)",
-              color: "var(--gold)",
-              fontWeight: 600,
-              padding: "11px 18px",
-              borderRadius: "var(--radius)",
-              opacity: code.length === 4 && name.trim() && connected ? 1 : 0.5,
-            }}
-            disabled={code.length !== 4 || !name.trim() || !connected}
-            onClick={() => joinRoom(code, name.trim())}
+        <span className="label">2 · Then either</span>
+
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fit, minmax(268px, 1fr))",
+            gap: 20,
+          }}
+        >
+          <div
+            className="surface"
+            style={{ padding: 22, display: "flex", flexDirection: "column", gap: 12 }}
           >
-            Join
-          </button>
+            <h2 className="display" style={{ fontSize: "var(--t-lg)", margin: 0 }}>
+              Start a room
+            </h2>
+            <p style={{ margin: 0, fontSize: "var(--t-sm)", color: "var(--ink-faint)" }}>
+              You get a four-letter code to send your friends.
+            </p>
+            <button
+              style={{ ...primary, opacity: canAct ? 1 : 0.45 }}
+              disabled={!canAct}
+              onClick={() => createRoom(name.trim())}
+            >
+              Create room
+            </button>
+          </div>
+
+          <div
+            className="surface"
+            style={{ padding: 22, display: "flex", flexDirection: "column", gap: 12 }}
+          >
+            <h2 className="display" style={{ fontSize: "var(--t-lg)", margin: 0 }}>
+              Join a room
+            </h2>
+            <input
+              style={{ ...field, letterSpacing: "0.35em", textTransform: "uppercase" }}
+              placeholder="CODE"
+              maxLength={4}
+              value={code}
+              onChange={(e) => setCode(e.target.value.toUpperCase())}
+              aria-label="Four letter room code"
+              autoComplete="off"
+            />
+            <button
+              style={{
+                border: "1px solid var(--gold-dim)",
+                color: "var(--gold)",
+                fontWeight: 600,
+                padding: "11px 18px",
+                borderRadius: "var(--radius)",
+                opacity: canAct && code.length === 4 ? 1 : 0.45,
+              }}
+              disabled={!canAct || code.length !== 4}
+              onClick={() => joinRoom(code, name.trim())}
+            >
+              Join
+            </button>
+          </div>
         </div>
+
+        {!name.trim() && (
+          <span style={{ fontSize: "var(--t-sm)", color: "var(--ink-faint)" }}>
+            Enter your name above to create or join a room.
+          </span>
+        )}
       </section>
 
       {error && (

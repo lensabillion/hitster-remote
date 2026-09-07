@@ -177,6 +177,20 @@ export default function AudioClip({
         </span>
       )}
 
+      {playing && (
+        <button
+          onClick={() => stop()}
+          style={{
+            border: "1px solid var(--rule)",
+            color: "var(--ink-soft)",
+            padding: "7px 12px",
+            borderRadius: "var(--radius)",
+            fontSize: "var(--t-sm)",
+          }}
+        >
+          Stop
+        </button>
+      )}
       <button
         onClick={replay}
         style={{
@@ -190,7 +204,7 @@ export default function AudioClip({
         Replay
       </button>
       <span style={{ fontSize: "var(--t-xs)", color: "var(--ink-faint)" }}>
-        free — no penalty
+        replay is free — answer whenever you like
       </span>
     </div>
   );

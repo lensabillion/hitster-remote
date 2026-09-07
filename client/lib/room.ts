@@ -19,33 +19,46 @@ export type PlayerView = {
   id: string;
   name: string;
   tokens: number;
+  score: number;
   connected: boolean;
   isHost: boolean;
   timeline: TimelineCard[];
 };
 
+export type AnswerScore = {
+  artistRight: boolean;
+  yearRight: boolean;
+  titleRight: boolean;
+  points: number;
+  artistGuess: string;
+  titleGuess: string;
+  gap: number;
+};
+
 export type Outcome = {
-  activeCorrect: boolean;
   cardWinner: string | null;
   stolen: boolean;
-  tokenAwards: Record<string, number>;
-  placements: Record<string, number>;
+  scores: Record<string, AnswerScore>;
 };
 
 export type RoomState = {
   code: string;
   hostId: string;
-  phase: "lobby" | "playing" | "placing" | "revealing" | "over";
+  phase: "lobby" | "answering" | "revealing" | "over";
   roundNo: number;
+  roundsPlanned: number;
   activePlayerId: string | null;
   viewerId: string;
-  cardsToWin: number;
-  deckRemaining: number;
+  maxRoundScore: number;
+  clipSeconds: number;
+  isLastRound: boolean;
   players: PlayerView[];
-  placedPlayerIds: string[];
-  hasPlaced: boolean;
+  answeredPlayerIds: string[];
+  hasAnswered: boolean;
+  myAnswer: { gap: number; artistGuess: string; titleGuess: string } | null;
   card: (TimelineCard & { addedBy: string }) | null;
   outcome: Outcome | null;
+  standings: { id: string; name: string; score: number }[];
 };
 
 export type AudioCue = {
@@ -125,8 +138,9 @@ export function useRoom() {
     (code: string) => emit("game:start", { code }),
     [emit],
   );
-  const place = useCallback(
-    (code: string, gap: number) => emit("round:place", { code, gap }),
+  const answer = useCallback(
+    (code: string, gap: number, artist: string, title: string) =>
+      emit("round:answer", { code, gap, artist, title }),
     [emit],
   );
   const nextRound = useCallback(
@@ -143,7 +157,7 @@ export function useRoom() {
     createRoom,
     joinRoom,
     startGame,
-    place,
+    answer,
     nextRound,
   };
 }

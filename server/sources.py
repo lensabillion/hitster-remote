@@ -22,24 +22,15 @@ are resolved per round and never stored.
 from __future__ import annotations
 
 import re
-import unicodedata
-from difflib import SequenceMatcher
 
 import httpx
 
+# Matching lives in matching.py so the strict catalogue rule and the generous
+# player-input rule sit side by side and cannot drift apart.
+from matching import artist_matches, normalize, similarity  # noqa: F401
+
 YOUTUBE_ID_RE = re.compile(r"(?:v=|youtu\.be/|/embed/|/shorts/)([0-9A-Za-z_-]{11})")
 _TIMEOUT = httpx.Timeout(10.0, connect=5.0)
-
-# A Deezer hit is only usable if the artist really matches. A single whole-string
-# ratio cannot do this: "Teddy Afro" vs "Teddy Karo" (a different artist) scores
-# 0.90, while "Mulatu Astatke" vs "Mulatu Astatqe" (a transliteration variant we
-# want) scores 0.93. The bands overlap.
-#
-# Comparing word by word separates them cleanly, because a wrong artist tends to
-# differ wholly in one word ("afro" vs "karo" = 0.50) while a transliteration
-# variant differs slightly in every word ("astatke" vs "astatqe" = 0.86).
-ARTIST_OVERALL_MIN = 0.85
-ARTIST_WORD_MIN = 0.80
 
 
 def extract_youtube_id(url: str) -> str | None:
@@ -48,36 +39,6 @@ def extract_youtube_id(url: str) -> str | None:
     if re.fullmatch(r"[0-9A-Za-z_-]{11}", url.strip()):
         return url.strip()
     return None
-
-
-def normalize(s: str) -> str:
-    """Casefold and strip accents so 'Erè mèla mèla' matches 'Ere mela mela'."""
-    s = unicodedata.normalize("NFKD", s.strip().casefold())
-    s = "".join(c for c in s if not unicodedata.combining(c))
-    return re.sub(r"\s+", " ", re.sub(r"[^\w\s]", " ", s)).strip()
-
-
-def similarity(a: str, b: str) -> float:
-    return SequenceMatcher(None, normalize(a), normalize(b)).ratio()
-
-
-def artist_matches(wanted: str, found: str) -> bool:
-    """Whether `found` names the same artist as `wanted`.
-
-    Requires a good whole-string score *and* that every word individually has a
-    close counterpart. The word test is what rejects "Teddy Karo" for "Teddy
-    Afro": the surnames share almost nothing, even though the full strings look
-    similar because the forenames are identical.
-    """
-    a_words, b_words = normalize(wanted).split(), normalize(found).split()
-    if not a_words or len(a_words) != len(b_words):
-        return False
-    if similarity(wanted, found) < ARTIST_OVERALL_MIN:
-        return False
-    return all(
-        SequenceMatcher(None, x, y).ratio() >= ARTIST_WORD_MIN
-        for x, y in zip(a_words, b_words)
-    )
 
 
 def strip_youtube_decorations(title: str) -> str:

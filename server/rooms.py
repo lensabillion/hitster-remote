@@ -3,8 +3,6 @@
 Players are keyed by a durable id the client keeps in localStorage, never by
 socket id. A refresh, a tunnel, or a dropped connection therefore costs a player
 nothing: the socket is re-bound to the same seat and the timeline is still there.
-Keying by socket id is the single change that would make this game unplayable on
-an unreliable connection, which is the connection it is designed for.
 
 Everything here is in memory. It changes several times a second and is worthless
 once a round resolves; db.py holds the part that must outlive the process.
@@ -17,20 +15,22 @@ import string
 from dataclasses import dataclass, field
 
 from game import (
+    MAX_ROUND_SCORE,
     STARTING_TOKENS,
+    Answer,
     Card,
     Phase,
-    Placement,
     RoundOutcome,
-    clamp_tokens,
     insert_card,
     now_ms,
     resolve_round,
 )
 
-CARDS_TO_WIN = 8
 CLIP_SECONDS = 30
-PLACEMENT_SECONDS = 25
+# A ceiling, not a pace. The round ends as soon as everyone has answered; this
+# only stops one absent player from stalling the table.
+ANSWER_SECONDS = 90
+DEFAULT_ROUNDS = 12
 
 
 @dataclass(slots=True)
@@ -39,6 +39,7 @@ class Player:
     name: str
     sid: str | None = None
     tokens: int = STARTING_TOKENS
+    score: int = 0
     timeline: list[Card] = field(default_factory=list)
 
     @property
@@ -54,11 +55,12 @@ class Room:
     seats: list[str] = field(default_factory=list)
     phase: Phase = Phase.LOBBY
     round_no: int = 0
+    rounds_planned: int = DEFAULT_ROUNDS
     active_seat: int = 0
     deck: list[Card] = field(default_factory=list)
     draw_index: int = 0
     current_card: Card | None = None
-    placements: dict[str, Placement] = field(default_factory=dict)
+    answers: dict[str, Answer] = field(default_factory=dict)
     clip_started_ms: int = 0
     last_outcome: RoundOutcome | None = None
 
@@ -86,7 +88,6 @@ class Room:
         return player
 
     def detach_socket(self, sid: str) -> str | None:
-        """Mark a player disconnected without unseating them."""
         for player in self.players.values():
             if player.sid == sid:
                 player.sid = None
@@ -117,16 +118,20 @@ class Room:
 
     # ---------- round flow ----------
 
-    def start_game(self, deck: list[Card]) -> None:
+    def start_game(self, deck: list[Card], rounds: int | None = None) -> None:
         self.deck = list(deck)
         random.shuffle(self.deck)
         self.draw_index = 0
         self.round_no = 0
         self.active_seat = 0
-        self.phase = Phase.PLAYING
-        # Each player is seeded with one card, face up, as their starting year.
+        # One seed card each, then one card per round.
+        seats = max(1, len(self.players))
+        playable = max(1, len(self.deck) - seats)
+        self.rounds_planned = min(rounds or DEFAULT_ROUNDS, playable)
+        self.phase = Phase.ANSWERING
         for player in self.players.values():
             player.tokens = STARTING_TOKENS
+            player.score = 0
             player.timeline = []
             if seed := self.draw():
                 player.timeline = [seed]
@@ -140,63 +145,74 @@ class Room:
 
     def begin_round(self) -> Card | None:
         card = self.draw()
-        if card is None:
+        if card is None or self.round_no >= self.rounds_planned:
             self.phase = Phase.OVER
             return None
         self.current_card = card
-        self.placements = {}
+        self.answers = {}
         self.last_outcome = None
         self.round_no += 1
-        self.phase = Phase.PLAYING
+        # Answering opens with the clip, not after it.
+        self.phase = Phase.ANSWERING
         self.clip_started_ms = now_ms()
         return card
 
-    def open_placement(self) -> None:
-        if self.phase is Phase.PLAYING:
-            self.phase = Phase.PLACING
-
-    def submit_placement(self, player_id: str, gap: int) -> bool:
-        """Record a sealed placement. One per player per round, no changing it."""
-        if self.phase is not Phase.PLACING:
+    def submit_answer(
+        self, player_id: str, gap: int, artist_guess: str, title_guess: str
+    ) -> bool:
+        """Seal one answer card. One per player per round, no changing it."""
+        if self.phase is not Phase.ANSWERING:
             return False
-        if player_id not in self.players or player_id in self.placements:
+        if player_id not in self.players or player_id in self.answers:
             return False
-        self.placements[player_id] = Placement(player_id=player_id, gap=gap)
+        self.answers[player_id] = Answer(
+            player_id=player_id,
+            gap=gap,
+            artist_guess=artist_guess.strip(),
+            title_guess=title_guess.strip(),
+        )
         return True
 
-    def everyone_placed(self) -> bool:
+    def everyone_answered(self) -> bool:
         expected = {p.id for p in self.connected_players()}
-        return bool(expected) and expected <= set(self.placements)
+        return bool(expected) and expected <= set(self.answers)
 
     def reveal(self) -> RoundOutcome | None:
-        """Resolve the round and apply its effects to timelines and tokens."""
+        """Resolve the round and apply points, then the card itself."""
         if self.current_card is None:
             return None
         active_id = self.active_player_id or ""
         timelines = {pid: p.timeline for pid, p in self.players.items()}
 
-        outcome = resolve_round(active_id, timelines, self.placements, self.current_card)
+        outcome = resolve_round(active_id, timelines, self.answers, self.current_card)
 
-        for player_id, tokens in outcome.token_awards.items():
+        for player_id, score in outcome.scores.items():
             if player := self.players.get(player_id):
-                player.tokens = clamp_tokens(player.tokens + tokens)
+                player.score += score.points
 
         if outcome.card_winner and (winner := self.players.get(outcome.card_winner)):
-            placement = self.placements.get(outcome.card_winner)
-            if placement:
+            if answer := self.answers.get(outcome.card_winner):
                 winner.timeline = insert_card(
-                    winner.timeline, self.current_card, placement.gap
+                    winner.timeline, self.current_card, answer.gap
                 )
 
         self.phase = Phase.REVEALING
         self.last_outcome = outcome
         return outcome
 
-    def winner(self) -> Player | None:
-        for player in self.players.values():
-            if len(player.timeline) >= CARDS_TO_WIN:
-                return player
-        return None
+    def is_last_round(self) -> bool:
+        return self.round_no >= self.rounds_planned or self.draw_index >= len(self.deck)
+
+    def standings(self) -> list[Player]:
+        return sorted(
+            self.players.values(),
+            key=lambda p: (p.score, len(p.timeline)),
+            reverse=True,
+        )
+
+    def leader(self) -> Player | None:
+        ranked = self.standings()
+        return ranked[0] if ranked else None
 
 
 rooms: dict[str, Room] = {}
@@ -225,73 +241,87 @@ def drop_empty_rooms() -> None:
             del rooms[code]
 
 
+def _card_json(card: Card) -> dict:
+    return {
+        "id": card.id,
+        "year": card.year,
+        "artistAm": card.artist_am,
+        "titleAm": card.title_am,
+        "artistLatin": card.artist_latin,
+        "titleLatin": card.title_latin,
+    }
+
+
 def serialize(room: Room, viewer_id: str) -> dict:
     """Room state as one player may see it.
 
-    The current card's year, artist and title are withheld until the reveal.
-    Anything sent here is readable in devtools, so an unrevealed year must not
-    appear in this payload under any circumstances.
+    The current card is withheld entirely until the reveal. Anything sent here
+    is readable in devtools, so an unrevealed answer must not appear in this
+    payload under any circumstances.
     """
     revealing = room.phase is Phase.REVEALING
     card = room.current_card
+    own_answer = room.answers.get(viewer_id)
 
     return {
         "code": room.code,
         "hostId": room.host_id,
         "phase": room.phase.value,
         "roundNo": room.round_no,
+        "roundsPlanned": room.rounds_planned,
         "activePlayerId": room.active_player_id,
         "viewerId": viewer_id,
-        "cardsToWin": CARDS_TO_WIN,
-        "deckRemaining": max(0, len(room.deck) - room.draw_index),
+        "maxRoundScore": MAX_ROUND_SCORE,
+        "clipSeconds": CLIP_SECONDS,
+        "isLastRound": room.is_last_round(),
         "players": [
             {
                 "id": p.id,
                 "name": p.name,
                 "tokens": p.tokens,
+                "score": p.score,
                 "connected": p.connected,
                 "isHost": p.id == room.host_id,
-                "timeline": [
-                    {
-                        "id": c.id,
-                        "year": c.year,
-                        "artistAm": c.artist_am,
-                        "titleAm": c.title_am,
-                        "artistLatin": c.artist_latin,
-                        "titleLatin": c.title_latin,
-                    }
-                    for c in p.timeline
-                ],
+                "timeline": [_card_json(c) for c in p.timeline],
             }
             for p in (room.players[pid] for pid in room.seats if pid in room.players)
         ],
-        # Who has sealed a placement -- but never what they chose.
-        "placedPlayerIds": sorted(room.placements),
-        "hasPlaced": viewer_id in room.placements,
-        "card": (
+        # Who has sealed an answer -- but never what they wrote.
+        "answeredPlayerIds": sorted(room.answers),
+        "hasAnswered": viewer_id in room.answers,
+        "myAnswer": (
             {
-                "id": card.id,
-                "year": card.year,
-                "artistAm": card.artist_am,
-                "titleAm": card.title_am,
-                "artistLatin": card.artist_latin,
-                "titleLatin": card.title_latin,
-                "addedBy": card.added_by,
+                "gap": own_answer.gap,
+                "artistGuess": own_answer.artist_guess,
+                "titleGuess": own_answer.title_guess,
             }
-            if card and revealing
+            if own_answer
             else None
         ),
+        "card": _card_json(card) | {"addedBy": card.added_by} if card and revealing else None,
         "outcome": (
             {
-                "activeCorrect": room.last_outcome.active_correct,
                 "cardWinner": room.last_outcome.card_winner,
                 "stolen": room.last_outcome.stolen,
-                "tokenAwards": room.last_outcome.token_awards,
-                "placements": {
-                    pid: p.gap for pid, p in room.placements.items()
+                "scores": {
+                    pid: {
+                        "artistRight": s.artist_right,
+                        "yearRight": s.year_right,
+                        "titleRight": s.title_right,
+                        "points": s.points,
+                        "artistGuess": room.answers[pid].artist_guess,
+                        "titleGuess": room.answers[pid].title_guess,
+                        "gap": room.answers[pid].gap,
+                    }
+                    for pid, s in room.last_outcome.scores.items()
+                    if pid in room.answers
                 },
             }
             if revealing and room.last_outcome
             else None
         ),
+        "standings": [
+            {"id": p.id, "name": p.name, "score": p.score}
+            for p in room.standings()
+        ],
     }

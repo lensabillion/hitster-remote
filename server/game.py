@@ -6,20 +6,30 @@ import time
 from dataclasses import dataclass, field
 from enum import Enum
 
-# Hitster constants.
+from matching import player_artist_matches, player_title_matches
+
 TOKEN_CAP = 5
 STARTING_TOKENS = 2
-SKIP_COST = 1
-BUY_CARD_COST = 3
+
+# Knowing who sang it is the game; knowing exactly when is the tiebreaker.
+# The song title is captured and shown at the reveal but carries no points.
+ARTIST_POINTS = 70
+YEAR_POINTS = 30
+MAX_ROUND_SCORE = ARTIST_POINTS + YEAR_POINTS
 
 
 class Phase(str, Enum):
-    """Where a room is in the round cycle."""
+    """Where a room is in the round cycle.
+
+    There is no separate "listening" phase: the answer card is open from the
+    moment the clip starts, so a player may answer over the music or stop it and
+    answer afterwards. Gating answers behind the end of the clip made the round
+    feel rigid and punished anyone who recognised the song in two seconds.
+    """
 
     LOBBY = "lobby"
-    PLAYING = "playing"  # Clip is audible.
-    PLACING = "placing"  # Everyone is sealing a placement.
-    REVEALING = "revealing"  # Simultaneous flip.
+    ANSWERING = "answering"
+    REVEALING = "revealing"
     OVER = "over"
 
 
@@ -45,12 +55,26 @@ class Card:
 
 
 @dataclass(slots=True)
-class Placement:
-    """A sealed guess. Hidden from everyone until the reveal."""
+class Answer:
+    """A sealed answer card. Hidden from everyone until the reveal."""
 
     player_id: str
     gap: int
+    artist_guess: str = ""
+    title_guess: str = ""
     submitted_ms: int = field(default_factory=lambda: int(time.time() * 1000))
+
+
+@dataclass(slots=True)
+class AnswerScore:
+    artist_right: bool
+    year_right: bool
+    title_right: bool
+    points: int
+
+    @property
+    def anything_right(self) -> bool:
+        return self.artist_right or self.year_right
 
 
 def is_correct_placement(timeline: list[Card], card: Card, gap: int) -> bool:
@@ -61,8 +85,6 @@ def is_correct_placement(timeline: list[Card], card: Card, gap: int) -> bool:
 
     Both bounds are inclusive, which is exactly the official same-year rule --
     "if the year matches an existing card, either side of it counts as correct".
-    A card from 1975 may sit on either side of another 1975 card because equality
-    satisfies the lower bound and the upper bound alike.
     """
     if not 0 <= gap <= len(timeline):
         return False
@@ -74,7 +96,6 @@ def is_correct_placement(timeline: list[Card], card: Card, gap: int) -> bool:
 
 
 def insert_card(timeline: list[Card], card: Card, gap: int) -> list[Card]:
-    """Return a new timeline with `card` inserted at `gap`."""
     return timeline[:gap] + [card] + timeline[gap:]
 
 
@@ -83,67 +104,82 @@ def correct_gaps(timeline: list[Card], card: Card) -> list[int]:
     return [g for g in range(len(timeline) + 1) if is_correct_placement(timeline, card, g)]
 
 
+def score_answer(answer: Answer, card: Card, timeline: list[Card]) -> AnswerScore:
+    """Grade one answer card out of 100.
+
+    The two halves are independent on purpose: naming the singer but misplacing
+    the year still scores 70, because knowing who sang it is most of what the
+    game is asking. Artist matching is deliberately generous about
+    transliteration -- a player should never lose points to a spelling of an
+    Amharic name that has no agreed Latin form.
+    """
+    artist_right = player_artist_matches(answer.artist_guess, card.artist_latin)
+    year_right = is_correct_placement(timeline, card, answer.gap)
+    title_right = player_title_matches(answer.title_guess, card.title_latin)
+
+    points = (ARTIST_POINTS if artist_right else 0) + (YEAR_POINTS if year_right else 0)
+    return AnswerScore(artist_right, year_right, title_right, points)
+
+
 @dataclass(slots=True)
 class RoundOutcome:
     """What the reveal resolved to."""
 
-    active_correct: bool
-    card_winner: str | None  # Who ends up with the card, if anyone.
+    scores: dict[str, AnswerScore]  # player_id -> grade
+    card_winner: str | None  # who adds the card to their timeline
     stolen: bool
-    token_awards: dict[str, int]  # player_id -> tokens gained
     correct_gaps: list[int]
+
+    def points_for(self, player_id: str) -> int:
+        score = self.scores.get(player_id)
+        return score.points if score else 0
 
 
 def resolve_round(
     active_player_id: str,
     timelines: dict[str, list[Card]],
-    placements: dict[str, Placement],
+    answers: dict[str, Answer],
     card: Card,
 ) -> RoundOutcome:
-    """Resolve one round of simultaneous shadow placement.
+    """Resolve one round of simultaneous answering.
 
-    The active player's placement is real: correct and they keep the card.
-    Everyone else placed on their own timeline as a shadow guess, which earns a
-    token when right, and steals the card when right *and* the active player was
-    wrong.
+    Everyone is graded out of 100 against their own timeline, so nobody is idle
+    and nobody's score depends on whose turn it is.
 
-    Ties between stealers go to the earliest sealed submission. Because every
-    placement is sealed before any is revealed, submission time only ever breaks
-    a tie between two already-correct guesses -- it never decides whether a guess
-    counts, so no player gains an advantage from lower latency.
+    The card itself still goes somewhere, because the timeline is what the year
+    is judged against and it has to keep growing: to the active player if they
+    placed correctly, otherwise to the earliest correct challenger. Ties break on
+    submission time, which only ever separates two already-correct answers -- so
+    a faster connection never wins a card that knowledge did not.
     """
-    active_placement = placements.get(active_player_id)
-    active_timeline = timelines.get(active_player_id, [])
+    scores: dict[str, AnswerScore] = {}
+    for player_id, answer in answers.items():
+        scores[player_id] = score_answer(answer, card, timelines.get(player_id, []))
+
     active_correct = bool(
-        active_placement
-        and is_correct_placement(active_timeline, card, active_placement.gap)
+        active_player_id in scores and scores[active_player_id].year_right
     )
-
-    token_awards: dict[str, int] = {}
-    correct_shadows: list[Placement] = []
-
-    for player_id, placement in placements.items():
-        if player_id == active_player_id:
-            continue
-        if is_correct_placement(timelines.get(player_id, []), card, placement.gap):
-            token_awards[player_id] = 1
-            correct_shadows.append(placement)
 
     card_winner: str | None = None
     stolen = False
     if active_correct:
         card_winner = active_player_id
-    elif correct_shadows:
-        correct_shadows.sort(key=lambda p: p.submitted_ms)
-        card_winner = correct_shadows[0].player_id
-        stolen = True
+    else:
+        challengers = [
+            answers[pid]
+            for pid, score in scores.items()
+            if pid != active_player_id and score.year_right
+        ]
+        if challengers:
+            challengers.sort(key=lambda a: a.submitted_ms)
+            card_winner = challengers[0].player_id
+            stolen = True
 
     return RoundOutcome(
-        active_correct=active_correct,
+        scores=scores,
         card_winner=card_winner,
         stolen=stolen,
-        token_awards=token_awards,
-        correct_gaps=correct_gaps(active_timeline, card),
+        correct_gaps=correct_gaps(timelines.get(active_player_id, []), card),
     )
 
 

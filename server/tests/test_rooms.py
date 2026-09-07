@@ -2,9 +2,9 @@
 
 Two properties matter most here and neither fails loudly in manual play:
 
-1. An unrevealed year must never reach any client. A leak is invisible during a
+1. An unrevealed card must never reach any client. A leak is invisible during a
    game and silently decides who wins.
-2. A dropped socket must never cost a seat, a timeline, or tokens. This is the
+2. A dropped socket must never cost a seat, a timeline, or a score. This is the
    connection the game is designed for.
 """
 
@@ -24,8 +24,8 @@ def card(year: int, name: str = "c") -> Card:
     return Card(
         id=f"{name}{year}",
         year=year,
-        artist_latin=f"{name} artist",
-        title_latin=f"{name} title",
+        artist_latin=f"Singer{name.upper()}",
+        title_latin=f"Song{name.upper()}",
         artist_am="አርቲስት",
         title_am="ርዕስ",
     )
@@ -39,6 +39,10 @@ def make_room(n: int = 3) -> Room:
     return room
 
 
+def deck(n: int = 12) -> list[Card]:
+    return [card(1960 + i * 3, f"c{i}") for i in range(n)]
+
+
 class TestSeating:
     def test_creator_is_host_and_first_seat(self):
         room = make_room(3)
@@ -49,18 +53,17 @@ class TestSeating:
     def test_rejoining_rebinds_the_socket_without_taking_a_new_seat(self):
         room = make_room(2)
         room.players["p1"].timeline = [card(1970)]
-        room.players["p1"].tokens = 4
+        room.players["p1"].score = 140
 
         room.detach_socket("sid1")
         assert not room.players["p1"].connected
-        assert room.seats == ["p0", "p1"]  # seat is kept
+        assert room.seats == ["p0", "p1"]
 
         room.add_player("p1", "Player 1", "sid1-new")
         assert room.players["p1"].connected
-        assert room.players["p1"].sid == "sid1-new"
-        assert len(room.players["p1"].timeline) == 1  # timeline survived
-        assert room.players["p1"].tokens == 4  # tokens survived
-        assert room.seats == ["p0", "p1"]  # still no duplicate seat
+        assert len(room.players["p1"].timeline) == 1
+        assert room.players["p1"].score == 140
+        assert room.seats == ["p0", "p1"]
 
     def test_host_migrates_when_the_host_drops(self):
         room = make_room(3)
@@ -81,94 +84,125 @@ class TestSeating:
 
 
 class TestRoundFlow:
-    def test_start_game_seeds_one_card_each_and_resets_tokens(self):
+    def test_start_game_seeds_one_card_each_and_zeroes_scores(self):
         room = make_room(3)
-        room.start_game([card(1960 + i, f"c{i}") for i in range(12)])
-        assert room.phase is Phase.PLAYING
+        room.start_game(deck())
+        assert room.phase is Phase.ANSWERING
         for player in room.players.values():
             assert len(player.timeline) == 1
-            assert player.tokens == 2
+            assert player.score == 0
 
-    def test_placements_are_one_per_player_and_final(self):
+    def test_answering_is_open_from_the_start_of_the_round(self):
+        """No listen-then-place gate: a player who knows it can answer at once."""
         room = make_room(2)
-        room.start_game([card(1960 + i, f"c{i}") for i in range(10)])
+        room.start_game(deck())
         room.begin_round()
-        room.open_placement()
+        assert room.phase is Phase.ANSWERING
+        assert room.submit_answer("p0", 0, "Someone", "")
 
-        assert room.submit_placement("p0", 1)
-        assert not room.submit_placement("p0", 0)  # no second bite
-        assert room.placements["p0"].gap == 1
-
-    def test_placement_is_refused_outside_the_placing_phase(self):
+    def test_answers_are_one_per_player_and_final(self):
         room = make_room(2)
-        room.start_game([card(1960 + i, f"c{i}") for i in range(10)])
+        room.start_game(deck())
         room.begin_round()
-        assert room.phase is Phase.PLAYING
-        assert not room.submit_placement("p0", 0)
+        assert room.submit_answer("p0", 1, "First", "")
+        assert not room.submit_answer("p0", 0, "Second", "")
+        assert room.answers["p0"].gap == 1
+        assert room.answers["p0"].artist_guess == "First"
 
-    def test_everyone_placed_ignores_disconnected_players(self):
+    def test_answers_are_refused_outside_the_answering_phase(self):
+        room = make_room(2)
+        room.start_game(deck())
+        room.begin_round()
+        room.submit_answer("p0", 0, "", "")
+        room.submit_answer("p1", 0, "", "")
+        room.reveal()
+        assert room.phase is Phase.REVEALING
+        assert not room.submit_answer("p0", 0, "", "")
+
+    def test_everyone_answered_ignores_disconnected_players(self):
         room = make_room(3)
-        room.start_game([card(1960 + i, f"c{i}") for i in range(12)])
+        room.start_game(deck())
         room.begin_round()
-        room.open_placement()
         room.detach_socket("sid2")
 
-        room.submit_placement("p0", 0)
-        assert not room.everyone_placed()
-        room.submit_placement("p1", 0)
-        assert room.everyone_placed()  # p2 is gone; the game does not stall
+        room.submit_answer("p0", 0, "", "")
+        assert not room.everyone_answered()
+        room.submit_answer("p1", 0, "", "")
+        assert room.everyone_answered()  # p2 is gone; the table does not stall
 
-    def test_winner_is_detected_at_the_card_threshold(self):
+    def test_reveal_adds_points_to_the_running_score(self):
         room = make_room(2)
-        assert room.winner() is None
-        room.players["p1"].timeline = [card(1900 + i, f"w{i}") for i in range(8)]
-        assert room.winner() is room.players["p1"]
+        room.start_game(deck())
+        subject = room.begin_round()
+        # Gap 0 is correct only if the subject predates the seeded card.
+        room.submit_answer("p0", 0, subject.artist_latin, "")
+        room.submit_answer("p1", 0, "Somebody Else", "")
+        room.reveal()
+        assert room.players["p0"].score >= 70  # artist alone is worth 70
+        assert room.players["p1"].score < 70
+
+    def test_standings_rank_by_score(self):
+        room = make_room(3)
+        room.players["p0"].score = 100
+        room.players["p1"].score = 250
+        room.players["p2"].score = 40
+        assert [p.id for p in room.standings()] == ["p1", "p0", "p2"]
+        assert room.leader().id == "p1"
+
+    def test_game_ends_after_the_planned_rounds(self):
+        room = make_room(2)
+        room.start_game(deck(), rounds=2)
+        assert room.begin_round() is not None
+        assert room.begin_round() is not None
+        assert room.is_last_round()
+        assert room.begin_round() is None
+        assert room.phase is Phase.OVER
 
 
 class TestSerializeWithholdsTheAnswer:
     def setup_method(self):
         self.room = make_room(2)
-        self.room.start_game([card(1960 + i * 5, f"c{i}") for i in range(12)])
+        self.room.start_game(deck())
         self.subject = self.room.begin_round()
-        self.room.open_placement()
 
-    def test_no_unrevealed_year_appears_anywhere_in_the_payload(self):
-        blob = json.dumps(serialize(self.room, "p0"))
-        # Timelines legitimately contain years, so assert on the card field.
-        assert serialize(self.room, "p0")["card"] is None
-        assert serialize(self.room, "p0")["outcome"] is None
-        # The subject card's own identifiers must not be present at all.
+    def test_the_unrevealed_card_appears_nowhere_in_the_payload(self):
+        blob = json.dumps(serialize(self.room, "p0"), ensure_ascii=False)
+        state = serialize(self.room, "p0")
+        assert state["card"] is None
+        assert state["outcome"] is None
         assert self.subject.id not in blob
         assert self.subject.title_latin not in blob
+        assert self.subject.artist_latin not in blob
 
     def test_card_is_disclosed_only_once_revealing(self):
-        self.room.submit_placement("p0", 0)
-        self.room.submit_placement("p1", 0)
+        self.room.submit_answer("p0", 0, "", "")
+        self.room.submit_answer("p1", 0, "", "")
         self.room.reveal()
         state = serialize(self.room, "p0")
-        assert self.room.phase is Phase.REVEALING
-        assert state["card"] is not None
         assert state["card"]["year"] == self.subject.year
 
-    def test_other_players_choices_stay_hidden_before_the_reveal(self):
-        self.room.submit_placement("p1", 2)
-        state = serialize(self.room, "p0")
-        # p0 learns that p1 has sealed something, never what.
-        assert state["placedPlayerIds"] == ["p1"]
-        assert state["outcome"] is None
-        assert "2" not in json.dumps(state.get("outcome"))
+    def test_other_players_answers_stay_hidden_before_the_reveal(self):
+        self.room.submit_answer("p1", 2, "Aster Aweke", "Y'shebellu")
+        blob = json.dumps(serialize(self.room, "p0"), ensure_ascii=False)
+        assert serialize(self.room, "p0")["answeredPlayerIds"] == ["p1"]
+        assert serialize(self.room, "p0")["outcome"] is None
+        assert "Aster Aweke" not in blob, "another player's guess leaked"
+        assert "Y'shebellu" not in blob
 
-    def test_viewer_only_learns_its_own_placement_status(self):
-        self.room.submit_placement("p1", 2)
-        assert serialize(self.room, "p0")["hasPlaced"] is False
-        assert serialize(self.room, "p1")["hasPlaced"] is True
+    def test_viewer_sees_only_its_own_answer_back(self):
+        self.room.submit_answer("p1", 2, "Aster Aweke", "")
+        assert serialize(self.room, "p0")["hasAnswered"] is False
+        assert serialize(self.room, "p0")["myAnswer"] is None
+        assert serialize(self.room, "p1")["hasAnswered"] is True
+        assert serialize(self.room, "p1")["myAnswer"]["artistGuess"] == "Aster Aweke"
 
-    def test_placements_are_disclosed_at_the_reveal(self):
-        self.room.submit_placement("p0", 0)
-        self.room.submit_placement("p1", 1)
+    def test_every_answer_is_disclosed_at_the_reveal(self):
+        self.room.submit_answer("p0", 0, "Someone", "")
+        self.room.submit_answer("p1", 1, "Aster Aweke", "")
         self.room.reveal()
         outcome = serialize(self.room, "p0")["outcome"]
-        assert outcome["placements"] == {"p0": 0, "p1": 1}
+        assert outcome["scores"]["p1"]["artistGuess"] == "Aster Aweke"
+        assert outcome["scores"]["p0"]["gap"] == 0
 
 
 class TestRoomRegistry:
