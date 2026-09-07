@@ -1,76 +1,154 @@
+"""Pure game rules. No I/O, no state — everything here is testable in isolation."""
+
 from __future__ import annotations
 
-import re
 import time
-from difflib import SequenceMatcher
+from dataclasses import dataclass, field
+from enum import Enum
 
-YOUTUBE_ID_RE = re.compile(
-    r"(?:v=|youtu\.be/|/embed/|/shorts/)([0-9A-Za-z_-]{11})"
-)
-PLAYLIST_ID_RE = re.compile(r"[?&]list=([A-Za-z0-9_-]+)")
-
-
-def extract_video_id(url: str) -> str | None:
-    match = YOUTUBE_ID_RE.search(url)
-    if match:
-        return match.group(1)
-    if len(url) == 11 and re.fullmatch(r"[0-9A-Za-z_-]{11}", url):
-        return url
-    return None
+# Hitster constants.
+TOKEN_CAP = 5
+STARTING_TOKENS = 2
+SKIP_COST = 1
+BUY_CARD_COST = 3
 
 
-def extract_playlist_id(url: str) -> str | None:
-    match = PLAYLIST_ID_RE.search(url)
-    if match:
-        pid = match.group(1)
-        # Ignore the special "Mix" / radio playlists — they're per-user and
-        # not addressable through the Data API.
-        if pid.startswith("RD") or pid.startswith("UL"):
-            return None
-        return pid
-    return None
+class Phase(str, Enum):
+    """Where a room is in the round cycle."""
+
+    LOBBY = "lobby"
+    PLAYING = "playing"  # Clip is audible.
+    PLACING = "placing"  # Everyone is sealing a placement.
+    REVEALING = "revealing"  # Simultaneous flip.
+    OVER = "over"
 
 
-def parse_artist_song(title: str) -> tuple[str, str]:
-    """Parse 'Artist - Song' from a YouTube title.
+@dataclass(slots=True)
+class Card:
+    """One song. `year` is the human-confirmed original release year."""
 
-    Strips common decorations like (Official Video), [HD], etc.
+    id: str
+    year: int
+    artist_latin: str
+    title_latin: str
+    artist_am: str = ""
+    title_am: str = ""
+    youtube_id: str = ""
+    deezer_track_id: int | None = None
+    added_by: str = ""
+
+    def display_artist(self) -> str:
+        return self.artist_am or self.artist_latin
+
+    def display_title(self) -> str:
+        return self.title_am or self.title_latin
+
+
+@dataclass(slots=True)
+class Placement:
+    """A sealed guess. Hidden from everyone until the reveal."""
+
+    player_id: str
+    gap: int
+    submitted_ms: int = field(default_factory=lambda: int(time.time() * 1000))
+
+
+def is_correct_placement(timeline: list[Card], card: Card, gap: int) -> bool:
+    """True if `card` belongs in `gap` of a chronologically ordered `timeline`.
+
+    `gap` is an insertion index in 0..len(timeline): gap 0 is before every card,
+    gap len(timeline) is after every card.
+
+    Both bounds are inclusive, which is exactly the official same-year rule --
+    "if the year matches an existing card, either side of it counts as correct".
+    A card from 1975 may sit on either side of another 1975 card because equality
+    satisfies the lower bound and the upper bound alike.
     """
-    cleaned = re.sub(r"\s*[\(\[][^()\[\]]*[\)\]]", "", title).strip()
-    # Try to split on dash variants
-    for sep in [" - ", " – ", " — "]:
-        if sep in cleaned:
-            artist, song = cleaned.split(sep, 1)
-            return artist.strip(), song.strip()
-    return cleaned, ""
-
-
-def normalize(s: str) -> str:
-    s = s.lower().strip()
-    s = re.sub(r"[^\w\s]", "", s)
-    s = re.sub(r"\s+", " ", s)
-    return s
-
-
-def fuzzy_match(guess: str, target: str, threshold: float = 0.6) -> bool:
-    """Server-side guard. Frontend uses fuse.js as the primary check."""
-    g, t = normalize(guess), normalize(target)
-    if not g or not t:
+    if not 0 <= gap <= len(timeline):
         return False
-    if g == t or g in t or t in g:
-        return True
-    return SequenceMatcher(None, g, t).ratio() >= threshold
+    if gap > 0 and timeline[gap - 1].year > card.year:
+        return False
+    if gap < len(timeline) and card.year > timeline[gap].year:
+        return False
+    return True
 
 
-def score_guess(elapsed_seconds: float, correct: bool) -> int:
-    """1 point base + up to 5 speed bonus.
+def insert_card(timeline: list[Card], card: Card, gap: int) -> list[Card]:
+    """Return a new timeline with `card` inserted at `gap`."""
+    return timeline[:gap] + [card] + timeline[gap:]
 
-    Bonus drops by 1 every 3 seconds: <3s=5, <6s=4, <9s=3, <12s=2, <15s=1, else=0.
+
+def correct_gaps(timeline: list[Card], card: Card) -> list[int]:
+    """Every gap that would count as correct. Usually one, two when years tie."""
+    return [g for g in range(len(timeline) + 1) if is_correct_placement(timeline, card, g)]
+
+
+@dataclass(slots=True)
+class RoundOutcome:
+    """What the reveal resolved to."""
+
+    active_correct: bool
+    card_winner: str | None  # Who ends up with the card, if anyone.
+    stolen: bool
+    token_awards: dict[str, int]  # player_id -> tokens gained
+    correct_gaps: list[int]
+
+
+def resolve_round(
+    active_player_id: str,
+    timelines: dict[str, list[Card]],
+    placements: dict[str, Placement],
+    card: Card,
+) -> RoundOutcome:
+    """Resolve one round of simultaneous shadow placement.
+
+    The active player's placement is real: correct and they keep the card.
+    Everyone else placed on their own timeline as a shadow guess, which earns a
+    token when right, and steals the card when right *and* the active player was
+    wrong.
+
+    Ties between stealers go to the earliest sealed submission. Because every
+    placement is sealed before any is revealed, submission time only ever breaks
+    a tie between two already-correct guesses -- it never decides whether a guess
+    counts, so no player gains an advantage from lower latency.
     """
-    if not correct:
-        return 0
-    bonus = max(0, 5 - int(elapsed_seconds // 3))
-    return 1 + bonus
+    active_placement = placements.get(active_player_id)
+    active_timeline = timelines.get(active_player_id, [])
+    active_correct = bool(
+        active_placement
+        and is_correct_placement(active_timeline, card, active_placement.gap)
+    )
+
+    token_awards: dict[str, int] = {}
+    correct_shadows: list[Placement] = []
+
+    for player_id, placement in placements.items():
+        if player_id == active_player_id:
+            continue
+        if is_correct_placement(timelines.get(player_id, []), card, placement.gap):
+            token_awards[player_id] = 1
+            correct_shadows.append(placement)
+
+    card_winner: str | None = None
+    stolen = False
+    if active_correct:
+        card_winner = active_player_id
+    elif correct_shadows:
+        correct_shadows.sort(key=lambda p: p.submitted_ms)
+        card_winner = correct_shadows[0].player_id
+        stolen = True
+
+    return RoundOutcome(
+        active_correct=active_correct,
+        card_winner=card_winner,
+        stolen=stolen,
+        token_awards=token_awards,
+        correct_gaps=correct_gaps(active_timeline, card),
+    )
+
+
+def clamp_tokens(n: int) -> int:
+    return max(0, min(n, TOKEN_CAP))
 
 
 def now_ms() -> int:
