@@ -139,73 +139,33 @@ export default function AudioClip({
   }
 
   if (!cue || cue.source === "none") {
-    return (
-      <p style={{ color: "var(--ink-faint)", fontSize: "var(--t-sm)", margin: 0 }}>
-        No audio for this card.
-      </p>
-    );
+    return <p className="hint">No audio for this card.</p>;
   }
 
   return (
-    <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+    <div className="row" style={{ gap: 12 }}>
       <audio ref={audioRef} preload="auto" />
-      <div
-        ref={ytHost}
-        aria-hidden
-        style={{ position: "absolute", left: -9999, top: -9999 }}
-      />
+      <div ref={ytHost} aria-hidden style={{ position: "absolute", left: -9999, top: -9999 }} />
 
       {needsGesture ? (
-        <button
-          onClick={playFromGesture}
-          style={{
-            background: "var(--gold)",
-            color: "#20170a",
-            fontWeight: 700,
-            padding: "9px 16px",
-            borderRadius: "var(--radius)",
-          }}
-        >
+        <button className="btn" onClick={playFromGesture} style={{ padding: "10px 18px" }}>
           ▶ Play the clip
         </button>
       ) : (
-        <span
-          className="label"
-          style={{ color: playing ? "var(--gold)" : "var(--ink-faint)" }}
-        >
+        <span className={`pill ${playing ? "pill-gold" : ""}`}>
           {playing ? "♪ playing" : "clip ended"}
         </span>
       )}
 
       {playing && (
-        <button
-          onClick={() => stop()}
-          style={{
-            border: "1px solid var(--rule)",
-            color: "var(--ink-soft)",
-            padding: "7px 12px",
-            borderRadius: "var(--radius)",
-            fontSize: "var(--t-sm)",
-          }}
-        >
+        <button className="btn-ghost" onClick={() => stop()}>
           Stop
         </button>
       )}
-      <button
-        onClick={replay}
-        style={{
-          border: "1px solid var(--rule)",
-          color: "var(--ink-soft)",
-          padding: "7px 12px",
-          borderRadius: "var(--radius)",
-          fontSize: "var(--t-sm)",
-        }}
-      >
+      <button className="btn-ghost" onClick={replay}>
         Replay
       </button>
-      <span style={{ fontSize: "var(--t-xs)", color: "var(--ink-faint)" }}>
-        replay is free — answer whenever you like
-      </span>
+      <span className="hint">free — answer whenever you like</span>
     </div>
   );
 }

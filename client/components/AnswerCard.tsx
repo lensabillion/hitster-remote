@@ -3,18 +3,14 @@
 import { useState } from "react";
 import Timeline, { type Card } from "@/components/Timeline";
 
-/* The answer card.
+/* The answer card — the thing that leads the screen on your turn.
  *
- * Open from the moment the clip starts, so you can answer over the music or
- * stop it and answer afterwards. Nothing here waits for the song to finish.
+ * Open from the moment the clip starts, so you can answer over the music or stop
+ * it first. Nothing here waits for the song to finish.
  *
- * Weighting follows the grade: the singer is most of the game, the year is the
- * rest, and the song title is captured but scores nothing -- so it is last,
- * smallest, and marked optional rather than sitting there looking compulsory.
- *
- * Artist is typed in Latin script deliberately. Amharic titles have no agreed
- * Latin spelling, so the server matches generously: "Telahun Gesesse" and
- * "Gessesse" both count for Tilahun Gessesse. */
+ * Ordered by what it is worth. The singer is 70 points so it comes first and gets
+ * the autofocus; the placement is 30; the title scores nothing, so it sits last,
+ * smaller, and says "optional" rather than looking compulsory. */
 
 export default function AnswerCard({
   timeline,
@@ -35,61 +31,42 @@ export default function AnswerCard({
   const [title, setTitle] = useState("");
   const [gap, setGap] = useState<number | null>(null);
 
-  const field: React.CSSProperties = {
-    background: "var(--ground)",
-    border: "1px solid var(--rule)",
-    borderRadius: "var(--radius)",
-    padding: "11px 13px",
-    color: "var(--ink)",
-    width: "100%",
-    outline: "none",
-  };
-
   if (sealed) {
     return (
-      <div
-        className="surface"
-        style={{
-          padding: 20,
-          display: "flex",
-          flexDirection: "column",
-          gap: 8,
-          borderColor: "var(--verd)",
-        }}
-      >
-        <span className="label" style={{ color: "var(--verd)" }}>
-          Sealed — waiting for the others
+      <div className="hero" style={{ borderColor: "var(--green)" }}>
+        <span className="label" style={{ color: "var(--green)" }}>
+          Answer sealed
         </span>
-        <span style={{ color: "var(--ink-soft)" }}>
+        <p className="muted" style={{ fontSize: "var(--t-md)" }}>
           You said{" "}
           <strong style={{ color: "var(--ink)" }}>
-            {sealedAnswer?.artistGuess || "— no artist —"}
+            {sealedAnswer?.artistGuess || "— nothing —"}
           </strong>
           {sealedAnswer?.titleGuess ? ` · “${sealedAnswer.titleGuess}”` : ""}
-        </span>
-        <span style={{ fontSize: "var(--t-xs)", color: "var(--ink-faint)" }}>
-          Nothing is revealed until everyone has answered.
-        </span>
+        </p>
+        <p className="hint">Nothing is revealed until the answer is in.</p>
       </div>
     );
   }
 
-  const canSeal = gap !== null;
-
   return (
-    <div
-      className="surface"
-      style={{ padding: 20, display: "flex", flexDirection: "column", gap: 20 }}
-    >
-      <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-        <div style={{ display: "flex", justifyContent: "space-between", gap: 12 }}>
-          <span className="label">Who sang it?</span>
-          <span className="label" style={{ color: "var(--gold)" }}>
-            {artistPoints} pts
-          </span>
+    <div className="hero">
+      <div className="stack" style={{ gap: 4 }}>
+        <span className="label" style={{ color: "var(--gold)" }}>
+          Your turn
+        </span>
+        <h2 className="display" style={{ fontSize: "var(--t-xl)", margin: 0 }}>
+          Who sang it, and when?
+        </h2>
+      </div>
+
+      <div className="stack">
+        <div className="row" style={{ justifyContent: "space-between" }}>
+          <span className="label">1 · The singer</span>
+          <span className="pill pill-gold">{artistPoints} points</span>
         </div>
         <input
-          style={field}
+          className="field"
           placeholder="Artist name, in Latin letters"
           value={artist}
           onChange={(e) => setArtist(e.target.value)}
@@ -97,25 +74,27 @@ export default function AnswerCard({
           autoComplete="off"
           autoFocus
         />
-        <span style={{ fontSize: "var(--t-xs)", color: "var(--ink-faint)" }}>
+        <p className="hint">
           Spelling is forgiving — “Telahun Gesesse” or just “Gessesse” both count.
-        </span>
+        </p>
       </div>
 
-      <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-        <div style={{ display: "flex", justifyContent: "space-between", gap: 12 }}>
-          <span className="label">When? Tap where it goes</span>
-          <span className="label" style={{ color: "var(--gold)" }}>
-            {yearPoints} pts
-          </span>
+      <div className="stack">
+        <div className="row" style={{ justifyContent: "space-between" }}>
+          <span className="label">2 · Where it goes</span>
+          <span className="pill pill-gold">{yearPoints} points</span>
         </div>
         <Timeline cards={timeline} interactive onPlace={setGap} />
+        <p className="hint">
+          Tap a gap. If the year ties one already down, either side counts.
+        </p>
       </div>
 
-      <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-        <span className="label">Song title — optional, not scored</span>
+      <div className="stack">
+        <span className="label">3 · Song title — optional, not scored</span>
         <input
-          style={{ ...field, padding: "9px 13px", fontSize: "var(--t-sm)" }}
+          className="field"
+          style={{ fontSize: "var(--t-sm)", padding: "10px 14px" }}
           placeholder="If you know it"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
@@ -125,19 +104,12 @@ export default function AnswerCard({
       </div>
 
       <button
-        disabled={!canSeal}
+        className="btn"
+        disabled={gap === null}
         onClick={() => onSeal(gap!, artist.trim(), title.trim())}
-        style={{
-          background: canSeal ? "var(--gold)" : "var(--surface-lift)",
-          color: canSeal ? "#20170a" : "var(--ink-faint)",
-          fontWeight: 700,
-          padding: "12px 20px",
-          borderRadius: "var(--radius)",
-          alignSelf: "flex-start",
-          cursor: canSeal ? "pointer" : "not-allowed",
-        }}
+        style={{ alignSelf: "flex-start" }}
       >
-        {canSeal ? "Seal my answer" : "Pick where it goes first"}
+        {gap === null ? "Pick where it goes first" : "Seal my answer"}
       </button>
     </div>
   );

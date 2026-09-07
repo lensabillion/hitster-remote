@@ -10,86 +10,47 @@ import { useRoom, type PlayerView, type RoomState } from "@/lib/room";
 const ARTIST_POINTS = 70;
 const YEAR_POINTS = 30;
 
-function Pill({
-  children,
-  tone = "faint",
-}: {
-  children: React.ReactNode;
-  tone?: "faint" | "gold" | "good" | "bad";
-}) {
-  const colors = {
-    faint: ["var(--rule-soft)", "var(--ink-faint)"],
-    gold: ["var(--gold-wash)", "var(--gold)"],
-    good: ["var(--verd-wash)", "var(--verd)"],
-    bad: ["var(--red-wash)", "var(--red)"],
-  } as const;
-  const [bg, fg] = colors[tone];
-  return (
-    <span
-      className="label"
-      style={{ background: bg, color: fg, padding: "3px 9px", borderRadius: 2 }}
-    >
-      {children}
-    </span>
-  );
-}
+type Tone = "" | "gold" | "good" | "bad";
+const Pill = ({ children, tone = "" }: { children: React.ReactNode; tone?: Tone }) => (
+  <span className={`pill${tone ? ` pill-${tone}` : ""}`}>{children}</span>
+);
 
 function Scoreboard({ state }: { state: RoomState }) {
   return (
-    <div style={{ display: "flex", flexWrap: "wrap", gap: 10 }}>
+    <div className="scores">
       {state.standings.map((p, i) => (
         <div
           key={p.id}
-          className="surface"
-          style={{
-            padding: "8px 14px",
-            display: "flex",
-            alignItems: "baseline",
-            gap: 10,
-            borderColor: i === 0 ? "var(--gold-dim)" : "var(--rule)",
-          }}
+          className={`score${i === 0 && p.score > 0 ? " score-lead" : ""}${
+            p.id === state.viewerId ? " score-you" : ""
+          }`}
         >
-          <span
-            style={{
-              fontSize: "var(--t-sm)",
-              color: p.id === state.viewerId ? "var(--gold)" : "var(--ink-soft)",
-            }}
-          >
+          <span className="score-name">
             {p.name}
+            {p.id === state.viewerId ? " (you)" : ""}
           </span>
-          <span
-            className="display numeral"
-            style={{ fontSize: "var(--t-md)", color: "var(--ink)" }}
-          >
-            {p.score}
-          </span>
+          <span className="score-val">{p.score}</span>
         </div>
       ))}
     </div>
   );
 }
 
-function PlayerStrip({ player, state }: { player: PlayerView; state: RoomState }) {
+function PlayerRow({ player, state }: { player: PlayerView; state: RoomState }) {
   const isActive = state.activePlayerId === player.id;
-
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-      <div style={{ display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap" }}>
-        <span
-          className="display"
-          style={{
-            fontSize: "var(--t-md)",
-            color: isActive ? "var(--gold)" : "var(--ink)",
-          }}
-        >
+    <div className={`player${isActive ? " player-active" : ""}`}>
+      <div className="player-head">
+        <span className="player-name">
           {player.name}
           {player.id === state.viewerId ? " (you)" : ""}
         </span>
         {isActive && state.phase !== "lobby" && <Pill tone="gold">their turn</Pill>}
         {player.isHost && <Pill>host</Pill>}
         {!player.connected && <Pill tone="bad">offline</Pill>}
-        <span style={{ fontSize: "var(--t-xs)", color: "var(--ink-faint)" }}>
-          {player.score} pts · {player.timeline.length} cards
+        <span className="hint" style={{ marginLeft: "auto" }}>
+          {player.score} pts · {player.timeline.length}{" "}
+          {player.timeline.length === 1 ? "card" : "cards"}
         </span>
       </div>
       <Timeline cards={player.timeline} />
@@ -103,18 +64,16 @@ export default function RoomPage({ params }: { params: Promise<{ code: string }>
   const { state, audio, error, connected, playerId, joinRoom, startGame, answer, nextRound } =
     useRoom();
 
-  // Join (or rejoin) on mount and on every reconnect. Identity is durable, so
-  // the server puts us back in the same seat with our score and timeline.
+  // Join, and rejoin on every reconnect. Identity is durable, so the server puts
+  // us back in the same seat with our score and timeline.
   useEffect(() => {
     if (connected) joinRoom(roomCode, getPlayerName() || "Player");
   }, [connected, roomCode, joinRoom]);
 
   if (!state) {
     return (
-      <main style={{ padding: 64, maxWidth: 720, margin: "0 auto" }}>
-        <p style={{ color: "var(--ink-soft)" }}>
-          {connected ? `Joining ${roomCode}…` : "Connecting…"}
-        </p>
+      <main className="page">
+        <p className="muted">{connected ? `Joining ${roomCode}…` : "Connecting…"}</p>
         {error && <p style={{ color: "var(--red)" }}>{error}</p>}
       </main>
     );
@@ -125,48 +84,22 @@ export default function RoomPage({ params }: { params: Promise<{ code: string }>
   const outcome = state.outcome;
   const activeName =
     state.players.find((p) => p.id === state.activePlayerId)?.name ?? "Someone";
+  const hostName = state.players.find((p) => p.isHost)?.name ?? "the host";
+  const connectedCount = state.players.filter((p) => p.connected).length;
 
   return (
-    <main
-      style={{
-        position: "relative",
-        zIndex: 1,
-        maxWidth: 980,
-        margin: "0 auto",
-        padding: "40px 24px 96px",
-        display: "flex",
-        flexDirection: "column",
-        gap: 30,
-      }}
-    >
-      <header
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "baseline",
-          gap: 16,
-          flexWrap: "wrap",
-        }}
-      >
-        <div style={{ display: "flex", alignItems: "baseline", gap: 14 }}>
-          <span className="display amharic" style={{ fontSize: "var(--t-xl)" }}>
+    <main className="page">
+      <header className="topbar">
+        <div className="brand">
+          <span className="display am" style={{ fontSize: "var(--t-xl)" }}>
             ዜማ
           </span>
-          <span
-            className="display numeral"
-            style={{
-              fontSize: "var(--t-lg)",
-              color: "var(--gold)",
-              letterSpacing: "0.2em",
-            }}
-          >
-            {state.code}
-          </span>
+          <span className="code">{state.code}</span>
         </div>
-        <div style={{ display: "flex", gap: 10, alignItems: "center" }}>
+        <div className="row">
           {state.phase !== "lobby" && (
             <Pill>
-              round {state.roundNo} of {state.roundsPlanned}
+              round {state.roundNo} / {state.roundsPlanned}
             </Pill>
           )}
           <Pill tone={connected ? "good" : "bad"}>
@@ -177,69 +110,76 @@ export default function RoomPage({ params }: { params: Promise<{ code: string }>
 
       {error && (
         <div
+          className="card"
           style={{
+            borderColor: "var(--red)",
             background: "var(--red-wash)",
-            border: "1px solid var(--red)",
-            borderRadius: "var(--radius)",
-            padding: "10px 14px",
-            color: "var(--red)",
-            fontSize: "var(--t-sm)",
+            padding: "12px 16px",
           }}
         >
-          {error}
+          <span style={{ color: "var(--red)", fontSize: "var(--t-sm)" }}>{error}</span>
         </div>
       )}
 
       {state.phase !== "lobby" && <Scoreboard state={state} />}
 
+      {/* ---------- lobby ---------- */}
       {state.phase === "lobby" && (
-        <section
-          className="surface"
-          style={{ padding: 24, display: "flex", flexDirection: "column", gap: 16 }}
-        >
-          <h2 className="display" style={{ margin: 0, fontSize: "var(--t-xl)" }}>
-            Waiting for players
-          </h2>
-          <p style={{ color: "var(--ink-soft)", margin: 0, maxWidth: "58ch" }}>
-            Share the code <strong style={{ color: "var(--gold)" }}>{state.code}</strong>.
-            Take turns. On your turn a song plays and you name the singer
-            ({ARTIST_POINTS} points) and place it on your timeline ({YEAR_POINTS}{" "}
-            points). Everyone hears every song, so you can follow along while you wait
-            for your turn. Wear headphones if you are on a call together, or the music
-            echoes through everyone&apos;s microphone.
+        <section className="hero">
+          <div className="stack" style={{ gap: 6 }}>
+            <span className="label">Waiting to start</span>
+            <h2 className="display" style={{ fontSize: "var(--t-2xl)", margin: 0 }}>
+              Share the code{" "}
+              <span style={{ color: "var(--gold)", letterSpacing: "0.1em" }}>
+                {state.code}
+              </span>
+            </h2>
+          </div>
+          <p className="muted">
+            You take turns. On your turn a song plays and you name the singer (
+            {ARTIST_POINTS} points) and place it on your timeline ({YEAR_POINTS}).
+            Everyone hears every song. Highest score wins.
           </p>
-          <ul style={{ margin: 0, paddingLeft: 18 }}>
-            {state.players.map((p) => (
-              <li key={p.id}>
-                {p.name} {p.isHost && "· host"} {!p.connected && "· offline"}
-              </li>
-            ))}
-          </ul>
+
+          <div className="stack">
+            <span className="label">{connectedCount} in the room</span>
+            <div className="row">
+              {state.players.map((p) => (
+                <span key={p.id} className="score">
+                  <span className="score-name">{p.name}</span>
+                  {p.isHost && <Pill>host</Pill>}
+                  {!p.connected && <Pill tone="bad">offline</Pill>}
+                </span>
+              ))}
+            </div>
+          </div>
+
+          <p className="hint">
+            Wear headphones if you are on a call together, or the music echoes through
+            everyone&apos;s microphone.
+          </p>
+
           {isHost ? (
             <button
+              className="btn"
+              style={{ alignSelf: "flex-start" }}
               onClick={() => startGame(state.code)}
-              style={{
-                background: "var(--gold)",
-                color: "#20170a",
-                fontWeight: 700,
-                padding: "11px 20px",
-                borderRadius: "var(--radius)",
-                alignSelf: "flex-start",
-              }}
+              disabled={connectedCount < 2}
             >
-              Start the game
+              {connectedCount < 2 ? "Need one more player" : "Start the game"}
             </button>
           ) : (
-            <p style={{ color: "var(--ink-faint)", margin: 0 }}>
-              Waiting for the host to start.
-            </p>
+            <p className="hint">Waiting for {hostName} to start.</p>
           )}
         </section>
       )}
 
+      {/* ---------- answering ---------- */}
       {state.phase === "answering" && you && (
-        <section style={{ display: "flex", flexDirection: "column", gap: 16 }}>
-          <AudioClip cue={audio} />
+        <>
+          <div className="card" style={{ padding: "16px 20px" }}>
+            <AudioClip cue={audio} />
+          </div>
 
           {state.isMyTurn ? (
             <AnswerCard
@@ -254,108 +194,69 @@ export default function RoomPage({ params }: { params: Promise<{ code: string }>
               }
             />
           ) : (
-            /* Watchers hear the same clip. They do not answer this one -- their
-               song comes on their own turn. */
-            <div
-              className="surface"
-              style={{ padding: 22, display: "flex", flexDirection: "column", gap: 8 }}
-            >
-              <span className="label">
-                {activeName}&apos;s turn
-              </span>
-              <p style={{ margin: 0, color: "var(--ink-soft)", maxWidth: "54ch" }}>
-                Listen along — {activeName} is naming this one. Your song comes on
-                your turn.
-              </p>
-              <span style={{ fontSize: "var(--t-sm)", color: "var(--ink-faint)" }}>
-                {state.hasAnswered ? "" : "Waiting for their answer…"}
-              </span>
-            </div>
+            /* Watching. They hear the same clip and answer on their own turn. */
+            <section className="hero">
+              <span className="label">Listening</span>
+              <h2 className="display" style={{ fontSize: "var(--t-2xl)", margin: 0 }}>
+                <span style={{ color: "var(--gold)" }}>{activeName}</span> is naming this
+                one
+              </h2>
+              <p className="muted">Follow along — your song comes on your turn.</p>
+            </section>
           )}
-        </section>
+        </>
       )}
 
+      {/* ---------- reveal ---------- */}
       {state.phase === "revealing" && state.card && (
-        <section
-          className="surface"
-          style={{
-            padding: 28,
-            display: "flex",
-            flexDirection: "column",
-            gap: 20,
-            borderColor: "var(--gold-dim)",
-          }}
-        >
+        <section className="hero">
           <span className="label">The answer</span>
-          <div style={{ display: "flex", alignItems: "baseline", gap: 22, flexWrap: "wrap" }}>
-            <span
-              className="display numeral"
-              style={{ fontSize: "var(--t-3xl)", color: "var(--gold)", lineHeight: 1 }}
-            >
-              {state.card.year}
-            </span>
-            <div style={{ display: "flex", flexDirection: "column" }}>
-              <span className="display amharic" style={{ fontSize: "var(--t-lg)" }}>
+          <div className="row" style={{ gap: 24, alignItems: "baseline" }}>
+            <span className="reveal-year">{state.card.year}</span>
+            <div className="stack" style={{ gap: 2 }}>
+              <span className="display am" style={{ fontSize: "var(--t-xl)" }}>
                 {state.card.artistAm || state.card.artistLatin}
               </span>
-              <span className="amharic" style={{ color: "var(--ink-soft)" }}>
+              <span
+                className="am"
+                style={{ color: "var(--ink-soft)", fontSize: "var(--t-md)" }}
+              >
                 {state.card.titleAm || state.card.titleLatin}
               </span>
-              <span style={{ fontSize: "var(--t-sm)", color: "var(--ink-faint)" }}>
+              <span className="hint">
                 {state.card.artistLatin} — {state.card.titleLatin}
               </span>
             </div>
           </div>
 
           {outcome && (
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                gap: 10,
-                borderTop: "1px solid var(--rule)",
-                paddingTop: 16,
-              }}
-            >
-              <span className="label">
-                {outcome.playerId === state.viewerId
-                  ? "Your answer"
-                  : `${activeName}'s answer`}
-              </span>
-              <div style={{ display: "flex", gap: 10, flexWrap: "wrap", alignItems: "center" }}>
+            <>
+              <div className="verdict">
+                <span className="label">
+                  {outcome.playerId === state.viewerId ? "You" : activeName}
+                </span>
                 <Pill tone={outcome.artistRight ? "good" : "bad"}>
                   singer {outcome.artistRight ? `+${ARTIST_POINTS}` : "0"}
                 </Pill>
                 <Pill tone={outcome.yearRight ? "good" : "bad"}>
                   year {outcome.yearRight ? `+${YEAR_POINTS}` : "0"}
                 </Pill>
-                {outcome.titleRight && <Pill tone="gold">knew the title too</Pill>}
-                <span
-                  className="display numeral"
-                  style={{ fontSize: "var(--t-lg)", color: "var(--gold)" }}
-                >
-                  +{outcome.points}
-                </span>
+                {outcome.titleRight && <Pill tone="gold">knew the title</Pill>}
+                <span className="points">+{outcome.points}</span>
               </div>
-              <span style={{ color: "var(--ink-faint)", fontSize: "var(--t-sm)" }}>
-                said “{outcome.artistGuess || "nothing"}”
-                {outcome.titleGuess ? ` · “${outcome.titleGuess}”` : ""}
-                {outcome.keptCard ? " · kept the card" : " · lost the card"}
-              </span>
-            </div>
+              <p className="hint">
+                Said “{outcome.artistGuess || "nothing"}”
+                {outcome.titleGuess ? ` · “${outcome.titleGuess}”` : ""} ·{" "}
+                {outcome.keptCard ? "kept the card" : "lost the card"}
+              </p>
+            </>
           )}
 
           {isHost && (
             <button
+              className="btn"
+              style={{ alignSelf: "flex-start" }}
               onClick={() => nextRound(state.code)}
-              style={{
-                background: "var(--gold)",
-                color: "#20170a",
-                fontWeight: 700,
-                padding: "11px 20px",
-                borderRadius: "var(--radius)",
-                alignSelf: "flex-start",
-              }}
             >
               {state.isLastRound ? "See the final scores" : "Next song"}
             </button>
@@ -363,39 +264,38 @@ export default function RoomPage({ params }: { params: Promise<{ code: string }>
         </section>
       )}
 
+      {/* ---------- over ---------- */}
       {state.phase === "over" && (
-        <section
-          className="surface"
-          style={{
-            padding: 28,
-            borderColor: "var(--gold)",
-            display: "flex",
-            flexDirection: "column",
-            gap: 12,
-          }}
-        >
+        <section className="hero">
           <span className="label">Final</span>
-          <span
+          <h2
             className="display"
-            style={{ fontSize: "var(--t-2xl)", color: "var(--gold)" }}
+            style={{ fontSize: "var(--t-3xl)", margin: 0, color: "var(--gold)" }}
           >
             {state.standings[0]?.name} wins
-          </span>
-          <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
+          </h2>
+          <div className="stack" style={{ gap: 6 }}>
             {state.standings.map((p, i) => (
-              <span key={p.id} style={{ color: "var(--ink-soft)" }}>
-                <span className="numeral">{i + 1}.</span> {p.name} —{" "}
-                <strong style={{ color: "var(--ink)" }}>{p.score}</strong>
-              </span>
+              <div key={p.id} className="row" style={{ gap: 12 }}>
+                <span className="num" style={{ color: "var(--ink-faint)", width: 22 }}>
+                  {i + 1}
+                </span>
+                <span style={{ color: "var(--ink-soft)" }}>{p.name}</span>
+                <span className="score-val" style={{ marginLeft: "auto" }}>
+                  {p.score}
+                </span>
+              </div>
             ))}
           </div>
         </section>
       )}
 
-      <section style={{ display: "flex", flexDirection: "column", gap: 26 }}>
-        <span className="label">Timelines</span>
+      <section className="stack" style={{ gap: 0, marginTop: 8 }}>
+        <span className="label" style={{ marginBottom: 6 }}>
+          Timelines
+        </span>
         {state.players.map((p) => (
-          <PlayerStrip key={p.id} player={p} state={state} />
+          <PlayerRow key={p.id} player={p} state={state} />
         ))}
       </section>
     </main>
