@@ -5,14 +5,15 @@ title: Resolve Deezer preview URLs server-side at round start
 kind: feature
 status: open
 priority: 0
-version: 2
+version: 3
+spec_path: docs/project/specs/active/plan-2026-09-07-remote-group-game.md
 labels:
   - audio
 dependencies:
   - type: blocks
     target: is-01m1xvve5cnqp2q4411a39h7sz
 created_at: 2026-09-07T11:59:41.600Z
-updated_at: 2026-09-07T12:00:58.198Z
+updated_at: 2026-09-07T12:21:38.343Z
 ---
 Deezer preview URLs are HMAC-signed and expire in exactly 15 minutes. Measured:
 

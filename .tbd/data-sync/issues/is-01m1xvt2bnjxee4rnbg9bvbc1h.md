@@ -5,7 +5,8 @@ title: Replace socket-id player keys with durable UUID identity
 kind: feature
 status: open
 priority: 0
-version: 3
+version: 4
+spec_path: docs/project/specs/active/plan-2026-09-07-remote-group-game.md
 labels:
   - server
   - resilience
@@ -15,7 +16,7 @@ dependencies:
   - type: blocks
     target: is-01m1xvvf4v7q1794xhy10hhber
 created_at: 2026-09-07T11:59:41.429Z
-updated_at: 2026-09-07T12:00:58.355Z
+updated_at: 2026-09-07T12:21:37.844Z
 ---
 server/rooms.py keys players by socket.io sid. A refresh, a sleep, or a dropped
 connection destroys the player and their timeline.

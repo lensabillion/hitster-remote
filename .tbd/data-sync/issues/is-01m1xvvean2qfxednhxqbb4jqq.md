@@ -3,15 +3,19 @@ type: is
 id: is-01m1xvvean2qfxednhxqbb4jqq
 title: Sealed challenge window for latency-fair steals
 kind: feature
-status: open
+status: closed
 priority: 2
-version: 1
+version: 2
 labels:
   - server
   - game-model
 dependencies: []
 created_at: 2026-09-07T12:00:26.453Z
-updated_at: 2026-09-07T12:00:26.453Z
+updated_at: 2026-09-07T12:21:39.803Z
+closed_at: 2026-09-07T12:21:39.802Z
+close_reason: "Superseded by hitster-dwei: the sealed challenge is promoted from an edge case to the core round loop (simultaneous shadow placement). Same mechanism, wider scope."
+resolution: null
+duplicate_of: null
 ---
 The steal rule is what makes Hitster a game rather than a quiz — every player must form
 an opinion on every card, because staying silent while an opponent fumbles is how you

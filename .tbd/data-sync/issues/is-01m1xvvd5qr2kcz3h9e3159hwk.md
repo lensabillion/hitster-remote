@@ -5,15 +5,18 @@ title: Build the deck-builder CLI
 kind: feature
 status: open
 priority: 1
-version: 2
+version: 4
+spec_path: docs/project/specs/active/plan-2026-09-07-remote-group-game.md
 labels:
   - deck
   - tooling
 dependencies:
   - type: blocks
     target: is-01m1xvvdb1n1mbj814h4zz9a9c
+  - type: blocks
+    target: is-01m1xx1mmtcm95krp62b4dnhmh
 created_at: 2026-09-07T12:00:25.271Z
-updated_at: 2026-09-07T12:00:57.047Z
+updated_at: 2026-09-07T12:21:39.488Z
 ---
 Release years cannot be automated. MusicBrainz returned three different answers for
 one of the best-documented singles in pop history:

@@ -5,13 +5,14 @@ title: Curate the first 80-120 card deck
 kind: task
 status: open
 priority: 1
-version: 1
+version: 2
+spec_path: docs/project/specs/active/plan-2026-09-07-remote-group-game.md
 labels:
   - deck
   - content
 dependencies: []
 created_at: 2026-09-07T12:00:25.440Z
-updated_at: 2026-09-07T12:00:25.440Z
+updated_at: 2026-09-07T12:21:38.178Z
 ---
 Deezer's Ethiopian catalogue is real. All six artists tested returned tracks with
 working previews: Teddy Afro, Mahmoud Ahmed, Aster Aweke, Rophnan, Mulatu Astatke, Gigi.

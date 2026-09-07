@@ -5,13 +5,14 @@ title: Timeline UI with tap-to-place gap slots
 kind: feature
 status: open
 priority: 1
-version: 1
+version: 2
+spec_path: docs/project/specs/active/plan-2026-09-07-remote-group-game.md
 labels:
   - client
   - ui
 dependencies: []
 created_at: 2026-09-07T12:00:26.113Z
-updated_at: 2026-09-07T12:00:26.113Z
+updated_at: 2026-09-07T12:21:37.517Z
 ---
 The centrepiece. Get this right and it feels like the box; get it wrong and nothing
 else matters.

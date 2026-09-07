@@ -5,7 +5,8 @@ title: Rewrite room state as the Hitster game model
 kind: feature
 status: open
 priority: 1
-version: 6
+version: 8
+spec_path: docs/project/specs/active/plan-2026-09-07-remote-group-game.md
 labels:
   - server
   - game-model
@@ -20,8 +21,10 @@ dependencies:
     target: is-01m1xvvefxp254apvfj1fmax4n
   - type: blocks
     target: is-01m1xvven4afanzyph2aeqbctm
+  - type: blocks
+    target: is-01m1xx1mfh10ysrn5t35nsmcyh
 created_at: 2026-09-07T12:00:25.609Z
-updated_at: 2026-09-07T12:00:58.042Z
+updated_at: 2026-09-07T12:21:39.330Z
 ---
 The current server plays a different game: everyone races to type an artist, scored on
 reaction time. Hitster is turn-based and positional with no clock at its core.

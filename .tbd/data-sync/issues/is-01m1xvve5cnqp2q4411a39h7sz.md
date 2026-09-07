@@ -5,13 +5,14 @@ title: Client audio player with next-track prefetch
 kind: task
 status: open
 priority: 2
-version: 1
+version: 2
+spec_path: docs/project/specs/active/plan-2026-09-07-remote-group-game.md
 labels:
   - client
   - audio
 dependencies: []
 created_at: 2026-09-07T12:00:26.284Z
-updated_at: 2026-09-07T12:00:26.284Z
+updated_at: 2026-09-07T12:21:38.507Z
 ---
 Swap the hidden YouTube iframe for an <audio> element fed by resolved Deezer previews.
 
