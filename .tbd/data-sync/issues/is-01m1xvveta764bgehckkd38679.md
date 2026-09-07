@@ -3,14 +3,18 @@ type: is
 id: is-01m1xvveta764bgehckkd38679
 title: Demote YouTube to a per-card fallback source
 kind: task
-status: open
+status: closed
 priority: 3
-version: 1
+version: 2
 labels:
   - audio
 dependencies: []
 created_at: 2026-09-07T12:00:26.954Z
-updated_at: 2026-09-07T12:00:26.954Z
+updated_at: 2026-09-07T17:58:16.388Z
+closed_at: 2026-09-07T17:58:16.387Z
+close_reason: "Verified done: audio_for() tries Deezer first and falls back to the card's youtube_id; AudioClip drives the IFrame API on that path."
+resolution: null
+duplicate_of: null
 ---
 Some songs are not on Deezer. Keep client/src/components/YouTubePlayer.jsx as a
 fallback behind the <audio> path rather than deleting it.
