@@ -3,15 +3,19 @@ type: is
 id: is-01m1xybj81gk5tzsh4hvk65rpt
 title: "Amharic sources: Deezer primary via field-scoped search, YouTube fallback"
 kind: feature
-status: open
+status: closed
 priority: 0
-version: 1
+version: 2
 labels:
   - deck
   - audio
 dependencies: []
 created_at: 2026-09-07T12:44:11.905Z
-updated_at: 2026-09-07T12:44:11.905Z
+updated_at: 2026-09-07T17:58:02.322Z
+closed_at: 2026-09-07T17:58:02.321Z
+close_reason: "Shipped: field-scoped Deezer search is primary, YouTube per-card fallback, documented in sources.py, CLAUDE.md and docs/ARCHITECTURE.md."
+resolution: null
+duplicate_of: null
 ---
 Correct measurement, replacing an earlier wrong one.
 

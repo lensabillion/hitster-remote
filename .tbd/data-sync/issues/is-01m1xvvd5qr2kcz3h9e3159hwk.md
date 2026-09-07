@@ -3,9 +3,9 @@ type: is
 id: is-01m1xvvd5qr2kcz3h9e3159hwk
 title: Build the deck-builder CLI
 kind: feature
-status: open
+status: closed
 priority: 1
-version: 4
+version: 5
 spec_path: docs/project/specs/active/plan-2026-09-07-remote-group-game.md
 labels:
   - deck
@@ -16,7 +16,11 @@ dependencies:
   - type: blocks
     target: is-01m1xx1mmtcm95krp62b4dnhmh
 created_at: 2026-09-07T12:00:25.271Z
-updated_at: 2026-09-07T12:21:39.488Z
+updated_at: 2026-09-07T17:58:02.142Z
+closed_at: 2026-09-07T17:58:02.141Z
+close_reason: "Shipped: server/tools/build_deck.py, Deezer-first with YouTube fallback, add/import/list/check subcommands. Verified end-to-end on real Amharic songs."
+resolution: null
+duplicate_of: null
 ---
 Release years cannot be automated. MusicBrainz returned three different answers for
 one of the best-documented singles in pop history:

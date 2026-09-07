@@ -3,9 +3,9 @@ type: is
 id: is-01m1xvt2h1xv7n957w1t7bppv1
 title: Resolve Deezer preview URLs server-side at round start
 kind: feature
-status: open
+status: closed
 priority: 0
-version: 3
+version: 4
 spec_path: docs/project/specs/active/plan-2026-09-07-remote-group-game.md
 labels:
   - audio
@@ -13,7 +13,11 @@ dependencies:
   - type: blocks
     target: is-01m1xvve5cnqp2q4411a39h7sz
 created_at: 2026-09-07T11:59:41.600Z
-updated_at: 2026-09-07T12:21:38.343Z
+updated_at: 2026-09-07T17:58:02.698Z
+closed_at: 2026-09-07T17:58:02.698Z
+close_reason: "Shipped: server resolves a fresh Deezer preview per round (15-min expiry), client plays it via AudioClip with Stop/Replay, re-sent on reconnect."
+resolution: null
+duplicate_of: null
 ---
 Deezer preview URLs are HMAC-signed and expire in exactly 15 minutes. Measured:
 

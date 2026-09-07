@@ -3,14 +3,18 @@ type: is
 id: is-01m1yfcsr324aa9x1ehgbwx9rw
 title: "Turn-based play: one song, one answerer, everyone listens"
 kind: feature
-status: open
+status: closed
 priority: 1
-version: 1
+version: 2
 labels:
   - design
 dependencies: []
 created_at: 2026-09-07T17:41:58.147Z
-updated_at: 2026-09-07T17:41:58.147Z
+updated_at: 2026-09-07T17:58:02.511Z
+closed_at: 2026-09-07T17:58:02.511Z
+close_reason: "Shipped in PR #4 and documented in docs/ARCHITECTURE.md: typed Latin answer card with 70/30 independent scoring, classic turn order, watchers still receive audio."
+resolution: null
+duplicate_of: null
 ---
 Shipped, replacing simultaneous shadow placement.
 

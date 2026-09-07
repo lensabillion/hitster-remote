@@ -3,16 +3,20 @@ type: is
 id: is-01m1xvve5cnqp2q4411a39h7sz
 title: Client audio player with next-track prefetch
 kind: task
-status: open
+status: closed
 priority: 2
-version: 2
+version: 3
 spec_path: docs/project/specs/active/plan-2026-09-07-remote-group-game.md
 labels:
   - client
   - audio
 dependencies: []
 created_at: 2026-09-07T12:00:26.284Z
-updated_at: 2026-09-07T12:21:38.507Z
+updated_at: 2026-09-07T17:58:02.692Z
+closed_at: 2026-09-07T17:58:02.691Z
+close_reason: "Shipped: server resolves a fresh Deezer preview per round (15-min expiry), client plays it via AudioClip with Stop/Replay, re-sent on reconnect."
+resolution: null
+duplicate_of: null
 ---
 Swap the hidden YouTube iframe for an <audio> element fed by resolved Deezer previews.
 
