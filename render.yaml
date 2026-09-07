@@ -1,13 +1,20 @@
-# One-click alternative to Fly. Render supports WebSockets on the free tier,
-# but free instances sleep after inactivity and cold-start slowly — fine for
-# testing, worth the paid tier for an actual game night.
+# Browser-only deployment for the game server. No local CLI, no Docker needed:
+# connect this repo in the Render dashboard and it reads this file.
+#
+# Render supports WebSockets on the free tier, but free instances sleep after
+# ~15 minutes idle and cold-start slowly. Fine for testing; upgrade before a
+# real game night, or the first person to open the room waits ~30s.
 services:
   - type: web
     name: zema-server
     runtime: docker
-    rootDir: server
-    dockerfilePath: ./Dockerfile
+    plan: free
+    region: frankfurt          # roughly between Addis Ababa and San Francisco
+    # Both paths are relative to the REPOSITORY ROOT, not to each other.
+    # Getting this wrong is the usual reason a Docker service fails to build.
+    dockerfilePath: ./server/Dockerfile
+    dockerContext: ./server
     healthCheckPath: /health
     envVars:
       - key: CORS_ORIGINS
-        sync: false   # set to your Vercel URL in the dashboard
+        sync: false            # set to your Vercel URL in the dashboard
