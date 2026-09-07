@@ -3,21 +3,24 @@
 
 Release years cannot be taken from an API. MusicBrainz returns three different
 answers for "Billie Jean"; Deezer and iTunes both report reissue dates. So every
-card's year is confirmed by a human here, once, offline -- and the deck is then a
+year is confirmed by a human here, once, offline -- and the deck is then a
 committed asset the game just reads.
 
-Two ways in:
+Deezer is the primary source, so a card needs only artist, title and year. A
+YouTube URL is optional and is the fallback for the ~13% of Amharic artists
+Deezer does not carry.
 
-    python tools/build_deck.py add                 # one card at a time
-    python tools/build_deck.py import cards.tsv    # bulk, from a seed file
+    python tools/build_deck.py add                  # one card at a time
+    python tools/build_deck.py import cards.tsv     # bulk
+    python tools/build_deck.py list
+    python tools/build_deck.py check                # re-probe sources
 
-Seed file is tab-separated, one card per line, '#' comments allowed:
+Seed file is tab-separated, '#' comments allowed:
 
-    youtube_url <TAB> year <TAB> artist_latin <TAB> title_latin [<TAB> artist_am <TAB> title_am]
+    year <TAB> artist_latin <TAB> title_latin [<TAB> artist_am <TAB> title_am <TAB> youtube_url]
 
-Anything omitted is inferred from the YouTube title via oEmbed, which needs no
-API key. Deezer is probed opportunistically and attached only when the artist
-genuinely matches.
+A card with neither a Deezer match nor a YouTube URL is rejected, because it
+would be unplayable.
 """
 
 from __future__ import annotations
@@ -42,12 +45,19 @@ THIS_YEAR = 2026
 EARLIEST_YEAR = 1900
 
 
-def card_id(youtube_id: str) -> str:
-    return hashlib.sha1(youtube_id.encode()).hexdigest()[:12]
+def card_id(artist: str, title: str) -> str:
+    return hashlib.sha1(f"{artist.lower()}|{title.lower()}".encode()).hexdigest()[:12]
+
+
+def valid_year(value: str) -> int | None:
+    try:
+        year = int(value)
+    except (ValueError, TypeError):
+        return None
+    return year if EARLIEST_YEAR <= year <= THIS_YEAR else None
 
 
 def split_artist_title(raw: str) -> tuple[str, str]:
-    """Best-effort 'Artist - Title' split from a YouTube title."""
     cleaned = strip_youtube_decorations(raw)
     for sep in (" - ", " – ", " — "):
         if sep in cleaned:
@@ -56,63 +66,37 @@ def split_artist_title(raw: str) -> tuple[str, str]:
     return "", cleaned
 
 
-def valid_year(value: str) -> int | None:
-    try:
-        year = int(value)
-    except ValueError:
-        return None
-    return year if EARLIEST_YEAR <= year <= THIS_YEAR else None
-
-
 async def build_card(
-    url: str,
-    year: int | None = None,
-    artist_latin: str = "",
-    title_latin: str = "",
+    year: int,
+    artist_latin: str,
+    title_latin: str,
     artist_am: str = "",
     title_am: str = "",
+    youtube_url: str = "",
     added_by: str = "",
-    interactive: bool = False,
 ) -> dict | None:
-    youtube_id = extract_youtube_id(url)
-    if not youtube_id:
-        print(f"  ✗ not a YouTube URL: {url}")
-        return None
-
-    meta = await youtube_title(youtube_id)
-    if meta:
-        guess_artist, guess_title = split_artist_title(meta["title"])
-        artist_latin = artist_latin or guess_artist or meta["channel"]
-        title_latin = title_latin or guess_title
-    elif not (artist_latin and title_latin):
-        print(f"  ✗ could not read the YouTube title for {youtube_id}")
-        return None
-
-    if interactive:
-        print(f"  YouTube: {meta['title'] if meta else youtube_id}")
-        artist_latin = input(f"  Artist (Latin) [{artist_latin}]: ").strip() or artist_latin
-        title_latin = input(f"  Title  (Latin) [{title_latin}]: ").strip() or title_latin
-        artist_am = input(f"  Artist (አማርኛ)  [{artist_am}]: ").strip() or artist_am
-        title_am = input(f"  Title  (አማርኛ)  [{title_am}]: ").strip() or title_am
-        while year is None:
-            year = valid_year(input("  Original release year: ").strip())
-            if year is None:
-                print(f"    needs a year between {EARLIEST_YEAR} and {THIS_YEAR}")
-
-    if year is None:
-        print(f"  ✗ no year for {artist_latin} - {title_latin}")
+    if not artist_latin or not title_latin:
+        print("  ✗ needs both an artist and a title (in Latin script)")
         return None
 
     deezer_id = await deezer_probe(artist_latin, title_latin)
+    youtube_id = extract_youtube_id(youtube_url) if youtube_url else None
+
+    if not deezer_id and not youtube_id:
+        print(
+            f"  ✗ {artist_latin} — {title_latin}: not on Deezer and no YouTube URL. "
+            "Add a YouTube link for this one."
+        )
+        return None
 
     return {
-        "id": card_id(youtube_id),
+        "id": card_id(artist_latin, title_latin),
         "year": year,
         "artist_latin": artist_latin,
         "title_latin": title_latin,
         "artist_am": artist_am,
         "title_am": title_am,
-        "youtube_id": youtube_id,
+        "youtube_id": youtube_id or "",
         "deezer_track_id": deezer_id,
         "added_by": added_by,
     }
@@ -121,8 +105,13 @@ async def build_card(
 def describe(card: dict) -> str:
     artist = card["artist_am"] or card["artist_latin"]
     title = card["title_am"] or card["title_latin"]
-    source = "youtube+deezer" if card["deezer_track_id"] else "youtube"
-    return f"  ✓ {card['year']}  {artist} — {title}  [{source}]"
+    sources = []
+    if card["deezer_track_id"]:
+        sources.append("deezer")
+    if card["youtube_id"]:
+        sources.append("youtube")
+    who = f"  ·  {card['added_by']}" if card.get("added_by") else ""
+    return f"  ✓ {card['year']}  {artist} — {title}  [{'+'.join(sources)}]{who}"
 
 
 async def cmd_add(args: argparse.Namespace) -> int:
@@ -130,19 +119,37 @@ async def cmd_add(args: argparse.Namespace) -> int:
     added = 0
     try:
         while True:
-            url = input("\nYouTube URL (blank to finish): ").strip()
-            if not url:
+            print()
+            artist = input("Artist (Latin, blank to finish): ").strip()
+            if not artist:
                 break
-            card = await build_card(url, added_by=args.by, interactive=True)
+            title = input("Title  (Latin): ").strip()
+            artist_am = input("Artist (አማርኛ, optional): ").strip()
+            title_am = input("Title  (አማርኛ, optional): ").strip()
+
+            year = None
+            while year is None:
+                year = valid_year(input("Original release year: ").strip())
+                if year is None:
+                    print(f"  needs a year between {EARLIEST_YEAR} and {THIS_YEAR}")
+
+            card = await build_card(
+                year, artist, title, artist_am, title_am, added_by=args.by
+            )
+            if card is None:
+                url = input("  YouTube URL for this song (blank to skip): ").strip()
+                if url:
+                    card = await build_card(
+                        year, artist, title, artist_am, title_am, url, args.by
+                    )
             if card:
                 await db.upsert_cards([card])
                 print(describe(card))
                 added += 1
     except (EOFError, KeyboardInterrupt):
         print()
-    finally:
-        total = await db.card_count()
-        await db.close()
+    total = await db.card_count()
+    await db.close()
     print(f"\nAdded {added}. Deck now holds {total} cards.")
     return 0
 
@@ -160,19 +167,20 @@ async def cmd_import(args: argparse.Namespace) -> int:
         if not line or line.startswith("#"):
             continue
         parts = [p.strip() for p in line.split("\t")]
-        if len(parts) < 2:
-            print(f"  ✗ line {lineno}: need at least a URL and a year")
+        if len(parts) < 3:
+            print(f"  ✗ line {lineno}: need at least year, artist and title")
             failures += 1
             continue
-        url, year_raw, *rest = parts
-        year = valid_year(year_raw)
+
+        year = valid_year(parts[0])
         if year is None:
-            print(f"  ✗ line {lineno}: bad year {year_raw!r}")
+            print(f"  ✗ line {lineno}: bad year {parts[0]!r}")
             failures += 1
             continue
-        rest += [""] * (4 - len(rest))
+
+        parts += [""] * (6 - len(parts))
         card = await build_card(
-            url, year, rest[0], rest[1], rest[2], rest[3], added_by=args.by
+            year, parts[1], parts[2], parts[3], parts[4], parts[5], args.by
         )
         if card:
             cards.append(card)
@@ -185,11 +193,13 @@ async def cmd_import(args: argparse.Namespace) -> int:
     total = await db.card_count()
     await db.close()
 
-    with_deezer = sum(1 for c in cards if c["deezer_track_id"])
+    both = sum(1 for c in cards if c["deezer_track_id"] and c["youtube_id"])
+    deezer_only = sum(1 for c in cards if c["deezer_track_id"] and not c["youtube_id"])
+    yt_only = sum(1 for c in cards if c["youtube_id"] and not c["deezer_track_id"])
     print(f"\nImported {len(cards)} cards ({failures} failed).")
-    print(f"{with_deezer} also playable from Deezer; the rest are YouTube-only.")
+    print(f"  deezer only: {deezer_only}   youtube only: {yt_only}   both: {both}")
     print(f"Deck now holds {total} cards.")
-    return 0 if not failures else 1
+    return 1 if failures else 0
 
 
 async def cmd_list(_: argparse.Namespace) -> int:
@@ -202,13 +212,33 @@ async def cmd_list(_: argparse.Namespace) -> int:
     print(f"{len(cards)} cards\n")
     for c in cards:
         print(describe(c))
-    span = f"{cards[0]['year']}–{cards[-1]['year']}"
-    print(f"\nSpanning {span}.")
+    print(f"\nSpanning {cards[0]['year']}–{cards[-1]['year']}.")
     return 0
 
 
+async def cmd_check(_: argparse.Namespace) -> int:
+    """Re-probe every card, so a source that has gone away surfaces before a game."""
+    await db.connect()
+    cards = await db.all_cards()
+    broken = 0
+    for c in cards:
+        deezer_id = await deezer_probe(c["artist_latin"], c["title_latin"])
+        has_yt = bool(c["youtube_id"])
+        if not deezer_id and not has_yt:
+            print(f"  ✗ unplayable: {c['artist_latin']} — {c['title_latin']}")
+            broken += 1
+        elif deezer_id != c["deezer_track_id"]:
+            print(
+                f"  ~ deezer id changed: {c['artist_latin']} — {c['title_latin']} "
+                f"{c['deezer_track_id']} → {deezer_id}"
+            )
+    await db.close()
+    print(f"\nChecked {len(cards)} cards. {broken} unplayable.")
+    return 1 if broken else 0
+
+
 def main() -> int:
-    parser = argparse.ArgumentParser(description="Build the Hitster Remote deck.")
+    parser = argparse.ArgumentParser(description="Build the Zema deck.")
     sub = parser.add_subparsers(dest="command", required=True)
 
     p_add = sub.add_parser("add", help="add cards interactively")
@@ -220,8 +250,10 @@ def main() -> int:
     p_import.add_argument("--by", default="", help="who is adding these cards")
     p_import.set_defaults(func=cmd_import)
 
-    p_list = sub.add_parser("list", help="show the current deck")
-    p_list.set_defaults(func=cmd_list)
+    sub.add_parser("list", help="show the current deck").set_defaults(func=cmd_list)
+    sub.add_parser("check", help="re-probe every card's sources").set_defaults(
+        func=cmd_check
+    )
 
     args = parser.parse_args()
     return asyncio.run(args.func(args))

@@ -52,14 +52,38 @@ Seed format is tab-separated:
 - `server/tools/build_deck.py` — offline deck curation CLI.
 - `client/app/` — Next.js App Router. `client/components/Timeline.tsx` is the centrepiece.
 
+## Scoring
+
+Each round is graded out of 100 and the two halves are independent:
+
+- **70 — the singer.** Typed into the answer card in Latin letters. Matching is
+  deliberately generous (`matching.player_artist_matches`): a surname alone counts, so
+  does a plausible misspelling. Amharic names have no agreed Latin spelling, so a player
+  must never lose points to a transliteration they had no way to guess.
+- **30 — the year.** Earned by placing the card correctly on your own timeline, not by
+  typing a year. Relative order is the forgiving part of the game and it stays that way.
+- **0 — the song title.** Captured and shown at the reveal, never scored.
+
+Highest total after the planned rounds wins. Naming the singer but misplacing the card
+still scores 70; the halves must not gate each other.
+
+Answering is open from the moment the clip starts. There is no listen-then-place gate:
+you may answer over the music, or stop the clip and answer after. The answer window is a
+ceiling that only stops an absent player stalling the table.
+
 ## Rules that are easy to get wrong
 
 - **Same-year rule.** A card whose year ties with one already on the timeline may sit on
   *either* side of it. Both bounds in `is_correct_placement` are inclusive, which is
   exactly this rule — do not "fix" them to strict inequalities.
-- **Everyone places every round.** The active player's placement is real; everyone
-  else's is a shadow guess that earns a token when right, and steals the card when right
-  while the active player was wrong.
+- **One song, one answer.** Only the player whose turn it is answers; the server rejects
+  an out-of-turn submission. Everyone else *hears the same clip* and watches — the audio
+  cue goes to every socket, not just the answering one. Their song comes on their turn.
+- **Turns are dealt evenly.** `rounds_planned` is rounded down to a whole number of turns
+  each, so nobody sitting early in the seat order gets an extra song.
+- **Two matchers, opposite temperaments.** `artist_matches` (catalogue) is strict, so a
+  wrong Deezer track is never attached. `player_artist_matches` (typed input) is
+  generous, so a player is never robbed by spelling. Do not collapse them into one.
 - **Sealed until reveal.** Never send an unrevealed card's year to any client. Ties
   between correct stealers break on earliest submission, which only ever separates two
   already-correct guesses — so lower latency never wins a card.

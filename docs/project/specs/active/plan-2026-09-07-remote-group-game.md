@@ -82,7 +82,17 @@ the wrong thing.
 
 Three changes turn Hitster into a remote group game.
 
-#### 1. Simultaneous shadow placement — the core change
+#### 1. Simultaneous shadow placement — SUPERSEDED
+
+> **Reversed on 2026-09-07 after playtesting.** This section is kept for the reasoning,
+> not as the current rule. Play showed that having everyone answer every round did not
+> feel like taking turns at all — it read as everyone playing solitaire side by side.
+> The game is now classic turn order: one song, one player answers it, everyone else
+> hears the clip and follows along. The downtime concern below is real but was
+> outweighed by how the alternative actually played, and watchers still hear every song
+> rather than sitting in silence.
+
+The superseded design follows.
 
 Every round, **every player privately places the card**, not just the active one.
 
