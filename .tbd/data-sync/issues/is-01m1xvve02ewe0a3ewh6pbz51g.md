@@ -3,16 +3,16 @@ type: is
 id: is-01m1xvve02ewe0a3ewh6pbz51g
 title: Timeline UI with tap-to-place gap slots
 kind: feature
-status: open
+status: in_progress
 priority: 1
-version: 2
+version: 3
 spec_path: docs/project/specs/active/plan-2026-09-07-remote-group-game.md
 labels:
   - client
   - ui
 dependencies: []
 created_at: 2026-09-07T12:00:26.113Z
-updated_at: 2026-09-07T12:21:37.517Z
+updated_at: 2026-09-07T16:58:35.095Z
 ---
 The centrepiece. Get this right and it feels like the box; get it wrong and nothing
 else matters.

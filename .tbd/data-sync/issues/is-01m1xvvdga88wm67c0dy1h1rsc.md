@@ -3,9 +3,9 @@ type: is
 id: is-01m1xvvdga88wm67c0dy1h1rsc
 title: Rewrite room state as the Hitster game model
 kind: feature
-status: open
+status: closed
 priority: 1
-version: 8
+version: 9
 spec_path: docs/project/specs/active/plan-2026-09-07-remote-group-game.md
 labels:
   - server
@@ -24,7 +24,11 @@ dependencies:
   - type: blocks
     target: is-01m1xx1mfh10ysrn5t35nsmcyh
 created_at: 2026-09-07T12:00:25.609Z
-updated_at: 2026-09-07T12:21:39.330Z
+updated_at: 2026-09-07T16:58:34.932Z
+closed_at: 2026-09-07T16:58:34.932Z
+close_reason: "Shipped in PR #4: Hitster game model in rooms.py, and per-viewer serialization asserted by tests to withhold unrevealed years."
+resolution: null
+duplicate_of: null
 ---
 The current server plays a different game: everyone races to type an artist, scored on
 reaction time. Hitster is turn-based and positional with no clock at its core.

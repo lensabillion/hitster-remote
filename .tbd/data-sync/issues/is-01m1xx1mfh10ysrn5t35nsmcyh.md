@@ -3,9 +3,9 @@ type: is
 id: is-01m1xx1mfh10ysrn5t35nsmcyh
 title: "Simultaneous shadow placement: every player places every round"
 kind: feature
-status: open
+status: closed
 priority: 1
-version: 2
+version: 3
 spec_path: docs/project/specs/active/plan-2026-09-07-remote-group-game.md
 labels:
   - design
@@ -14,7 +14,11 @@ dependencies:
   - type: blocks
     target: is-01m1xx1mt60d37s8vh2bdgnx0n
 created_at: 2026-09-07T12:21:17.937Z
-updated_at: 2026-09-07T12:21:39.645Z
+updated_at: 2026-09-07T16:58:34.772Z
+closed_at: 2026-09-07T16:58:34.772Z
+close_reason: "Shipped in PR #4: durable UUID identity with reconnect (verified by full page reload mid-game), and simultaneous shadow placement resolving in resolve_round."
+resolution: null
+duplicate_of: null
 ---
 THE core design change. Converts N-1 idle players into N engaged players.
 
