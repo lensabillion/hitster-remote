@@ -102,18 +102,36 @@ Jumbo hand-curates 300 cards, and why the deck here has to be curated too.
 
 **→ `[hitster-w8fp]` Build the deck-builder CLI · `[hitster-g1dh]` Curate the deck.**
 
-### F6 — Deezer's Ethiopian catalogue is real ✅
+### F6 — Deezer's Amharic catalogue is good, but only via the right endpoint ✅⚠️
 
-Checked on a hunch; all six artists returned tracks with working previews:
+Measured across 24 major Amharic artists, counting only playable tracks whose artist
+name actually matches the one requested:
 
 ```
-Teddy Afro      Mahmoud Ahmed     Aster Aweke
-Rophnan         Mulatu Astatke    Gigi
+21/24 (87%)  field-scoped track search:  q=artist:"Teddy Afro"
+ 9/24 (37%)  artist endpoint:            /search/artist  +  /artist/{id}/top
 ```
 
-This is the project's advantage over the retail box. A deck of Western hits makes the
-game a memory test for whoever grew up with them. A deck split between global hits,
-Ethiopian classics and Ethio-jazz makes it a genuine contest.
+**The endpoint choice decides the answer.** `/search/artist` is unreliable for these
+names — it answers "Teddy Afro" with "Teddy Karo", an unrelated artist with no playable
+tracks — while field-scoped track search returns 23 playable Teddy Afro tracks. An
+earlier revision of this document used the artist endpoint, concluded contemporary
+Amharic pop was largely absent, and was wrong. Never use `/search/artist` here.
+
+Remaining gaps at 87%: Gigi, Munit Mesfin, Yehune Belay. These fall back to YouTube.
+
+Two further constraints:
+
+- **Amharic-script search returns nothing.** `አስቴር አወቀ` and `ማህሙድ አህመድ` both yield zero
+  results. Search by Latin transliteration; carry the Amharic strings separately for
+  display.
+- **A returned artist must be verified, not trusted.** A whole-string similarity ratio
+  cannot do this: "Teddy Afro" vs "Teddy Karo" (wrong artist) scores 0.90, while
+  "Mulatu Astatke" vs "Mulatu Astatqe" (a transliteration variant we want) scores 0.93.
+  Word-by-word comparison separates them, because a wrong artist differs wholly in one
+  word while a variant differs slightly in every word. See `server/sources.py`.
+
+This is the project's advantage over the retail box, which has no Amharic content at all.
 
 ### F7 — Unverified: does the Deezer CDN reach Ethiopia? ⚠️
 

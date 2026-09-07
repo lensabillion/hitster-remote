@@ -1,0 +1,163 @@
+/* Design system.
+ *
+ * Palette is drawn from Ethiopian Orthodox manuscript illumination -- the gold
+ * leaf, liturgical red and verdigris of a Ge'ez codex on darkened parchment --
+ * rather than the flag palette, which would read as souvenir tourism.
+ *
+ * Two families, no more:
+ *   Abyssinica SIL     display. A calligraphic Ge'ez face rooted in the
+ *                      manuscript hand the palette comes from. One weight, so
+ *                      it is used at size and never asked to carry hierarchy.
+ *   Noto Sans Ethiopic text and UI. Variable 100-900, which is where all
+ *                      hierarchy comes from.
+ *
+ * Both cover Ethiopic and Latin, so an Amharic title and a Latin one sit in the
+ * same face at the same weight. Mixing a Latin-only face with an Ethiopic-only
+ * fallback is the standard way bilingual type goes wrong: the scripts end up at
+ * different apparent sizes and colours on the same line.
+ *
+ * Committed to a single dark theme on purpose -- this is played at night, on a
+ * call, with the lights down.
+ */
+
+:root {
+  /* Ground and surfaces: near-black with a warm red bias, not neutral grey. */
+  --ground: #14100f;
+  --surface: #1e1816;
+  --surface-lift: #29211e;
+  --rule: #362b27;
+  --rule-soft: #241d1a;
+
+  /* Parchment inks. */
+  --ink: #f2e9dc;
+  --ink-soft: #b5a493;
+  --ink-faint: #7c6e62;
+
+  /* Illumination accents. Gold leads; red and verdigris are semantic only. */
+  --gold: #e0a73c;
+  --gold-dim: #8a6624;
+  --gold-wash: rgba(224, 167, 60, 0.12);
+  --red: #c4442f;
+  --red-wash: rgba(196, 68, 47, 0.14);
+  --verd: #4e8c75;
+  --verd-wash: rgba(78, 140, 117, 0.14);
+
+  /* Type scale, 1.25 minor third off a 16px base. */
+  --t-xs: 0.72rem;
+  --t-sm: 0.85rem;
+  --t-base: 1rem;
+  --t-md: 1.2rem;
+  --t-lg: 1.5rem;
+  --t-xl: 2rem;
+  --t-2xl: 2.9rem;
+  --t-3xl: 4.2rem;
+
+  --space: 8px;
+  --radius: 3px;
+
+  color-scheme: dark;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: var(--ground);
+  color: var(--ink);
+  font-family: var(--font-text), "Noto Sans Ethiopic", ui-sans-serif, system-ui, sans-serif;
+  font-size: var(--t-base);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  min-height: 100vh;
+}
+
+/* A faint gold vignette, the way gilding catches light on a dark page. */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(
+    ellipse 80% 60% at 50% -10%,
+    var(--gold-wash),
+    transparent 70%
+  );
+  z-index: 0;
+}
+
+/* ---------- type roles ---------- */
+
+.display {
+  font-family: var(--font-display), "Abyssinica SIL", var(--font-text), serif;
+  font-weight: 400;
+  line-height: 1.05;
+  letter-spacing: -0.005em;
+  text-wrap: balance;
+}
+
+.label {
+  font-family: var(--font-text), sans-serif;
+  font-size: var(--t-xs);
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+}
+
+/* Amharic needs a touch more line height: the Ge'ez syllabary carries more
+   vertical detail per glyph than Latin at the same optical size. */
+.amharic {
+  line-height: 1.75;
+}
+
+.numeral {
+  font-family: var(--font-display), serif;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.01em;
+}
+
+/* ---------- primitives ---------- */
+
+.surface {
+  background: var(--surface);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+}
+
+button {
+  font: inherit;
+  cursor: pointer;
+  border: none;
+  background: none;
+  color: inherit;
+}
+
+input {
+  font: inherit;
+  color: inherit;
+}
+
+:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
