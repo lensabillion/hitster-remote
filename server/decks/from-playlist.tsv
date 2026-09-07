@@ -1,0 +1,74 @@
+# Worksheet from a YouTube playlist. Fill in the YEAR on every line,
+# fix any artist/title the guesser got wrong, then:
+#     python tools/build_deck.py import decks/from-playlist.tsv
+#
+# No API gives a trustworthy original release year, and none of these
+# titles carry one, so the years have to be yours. Delete any line you
+# do not want in the deck.
+#
+# year <TAB> artist_latin <TAB> title_latin <TAB> artist_am <TAB> title_am <TAB> youtube_url
+?	Solomon Kassa	Liqefish			https://www.youtube.com/watch?v=Ncl7z8P_g1k	# Solomon Kassa - Liqefish
+?	Tadele Roba	Kefitret yeglish			https://www.youtube.com/watch?v=6C_UKhtqn80	# Tadele Roba - Kefitret yeglish (Lyrics)
+?	Mesfin Bekele	Ney BeKiremt ( መስፍን በቀለ			https://www.youtube.com/watch?v=ZePj0oadtaw	# Mesfin Bekele - Ney BeKiremt ( መስፍን በቀለ - ነይ በክረምት ) - Lyric
+?		and India Mix			https://www.youtube.com/watch?v=SD4ARXpkqhc	# Amharic and India Mix music
+?		Madebabes Yikir			https://www.youtube.com/watch?v=2e70mkdmwJw	# Madebabes Yikir
+?	Mezmur Yohannes	Lijinetae			https://www.youtube.com/watch?v=K2yA8ZkstG4	# Mezmur Yohannes - Lijinetae
+?	Bekele Song	Anbessa			https://www.youtube.com/watch?v=bLg4j4gMzqA	# Bekele Song - Anbessa
+?	Hab Engidaw	wedet wedet			https://www.youtube.com/watch?v=BmPsIze6juc	# NEW amharic music - Hab Engidaw - wedet wedet new
+?	Johnnie Bass	Anchi Kalesh			https://www.youtube.com/watch?v=N2emYqvIDwA	# Johnnie Bass - Anchi Kalesh(wube keremela) - ዮሐንስ ታፈሰ - አንቺ 
+?	BRENDA FASSIE	Vulindlela			https://www.youtube.com/watch?v=JB-OGtSEc64	# BRENDA FASSIE - Vulindlela (Official Music Video)
+?	Amalaye Song	Kake Tesfaye			https://www.youtube.com/watch?v=SZaVcgujKbg	# Amalaye Song : Kake Tesfaye
+?		Oromo , Jambo Jote, Dafii Kootu, JJ			https://www.youtube.com/watch?v=JedM31FfqjY	# Oromo Music, Jambo Jote, Dafii Kootu, JJ, Ethiopian Music
+?		song			https://www.youtube.com/watch?v=X-UoNSdpqI8	# ethiopian song
+?	Haimanot Girma	Labablih			https://www.youtube.com/watch?v=ZLv0ym5mML4	# Haimanot Girma - Labablih
+?		Yebichaye			https://www.youtube.com/watch?v=SufFltN0LEg	# Yebichaye
+?		Sayat Demissie The "Hasbun Mesrek			https://www.youtube.com/watch?v=u7dEqIZBsvI	# Sayat Demissie The Official "Hasbun Mesrek" Video Clip
+?	Dereje Dubale	Befikresh tasere || ደረጀ ዱባለ			https://www.youtube.com/watch?v=yq5kVPvgyG8	# Dereje Dubale - Befikresh tasere || ደረጀ ዱባለ - በፍቅርሽ ታስሬ (lyr
+?		Yana Lig Eyalen			https://www.youtube.com/watch?v=Se_Tmw5GuAs	# Yana Lig Eyalen
+?	ታምራት ደስታ	የማትመጪ እንደሆን ~ Tamirat Desta			https://www.youtube.com/watch?v=aonQ9v6HYqE	# ታምራት ደስታ _ የማትመጪ እንደሆን (ሙዚቃ ግጥም) ~ Tamirat Desta _ yematmech
+?		Saysh Esasalehu			https://www.youtube.com/watch?v=ckZHQBjv3-I	# Saysh Esasalehu
+?		Etbkeshalhu			https://www.youtube.com/watch?v=3n6bs33rCT0	# Etbkeshalhu
+?					https://www.youtube.com/watch?v=zUIOZ7vHUoo	# blank title — needs everything
+?	Hibist Tiruneh	Befetereh / ህብስት ጥሩነህ			https://www.youtube.com/watch?v=m69Z2qlFPsI	# Hibist Tiruneh - Befetereh (Lyrics) / ህብስት ጥሩነህ - በፈጠረህ Ethi
+?		Liju Yene			https://www.youtube.com/watch?v=t-GIcfP3Kgs	# Liju Yene New
+?		Semay			https://www.youtube.com/watch?v=ParW0MXx5ss	# Semay [Remastered]
+?		Madingo Afewerk Mognu libe ማዲንጎ አፈወርቅ ሞኙ ልቤ			https://www.youtube.com/watch?v=DG983Jh5kEA	# Madingo Afewerk Mognu libe Lyrics ማዲንጎ አፈወርቅ ሞኙ ልቤ
+?		Yehelme Gudegna			https://www.youtube.com/watch?v=0TrRFLnkJf4	# Yehelme Gudegna [Remastered]
+?	Aster Awake	Ken Bayene			https://www.youtube.com/watch?v=IQaCJX5owBs	# Aster Awake - Ken Bayene with lyrics (ቀን ባይኔ)
+?	Teddy Afro	Hab Dahlak			https://www.youtube.com/watch?v=FDaReu_HOzE	# Hab Dahlak By Teddy Afro
+?		Atasferaragn			https://www.youtube.com/watch?v=I8MgPqaygXo	# Atasferaragn [Remastered]
+?		Enateye			https://www.youtube.com/watch?v=hw-5F8vY948	# Enateye
+?	Teddy Afro	Lambadina			https://www.youtube.com/watch?v=tazS5K2Nr7k	# Teddy Afro - Lambadina [Official Video]
+?		Zim			https://www.youtube.com/watch?v=56dvqbsKPYM	# Zim
+?	Ethiopia: ሔኖክ አበበ	ሆኑዋታል / Henok Abebe			https://www.youtube.com/watch?v=Ke3mDPxRw8M	# Ethiopia: ሔኖክ አበበ : ሆኑዋታል / Henok Abebe : Honuatal
+?		Timechi Endehu			https://www.youtube.com/watch?v=XqlyjvH66Ng	# Timechi Endehu
+?	Teddy Afro	Alamin			https://www.youtube.com/watch?v=xE-9kJOPbxE	# Teddy Afro - Alamin [Official Video]
+?		Yefikr Mrchay			https://www.youtube.com/watch?v=7C1Wgv83csg	# Yefikr Mrchay
+?		Salaysh			https://www.youtube.com/watch?v=Jk2jX70jJq0	# Salaysh
+?	ፀሀየ ዩሀንስ	Yalanchima			https://www.youtube.com/watch?v=R5udIwJ--oM	# ፀሀየ ዩሀንስ | Yalanchima (ያላንችማ) | Bireman
+?	Michael Belayneh	Tizita			https://www.youtube.com/watch?v=lRJNQCT1acM	# Michael Belayneh - - Tizita - ትዝታ
+?		Lalaterf			https://www.youtube.com/watch?v=94kcrRJHMn4	# Lalaterf
+?		Ayne Hulgeze			https://www.youtube.com/watch?v=pnr_dMS6SnY	# Ayne Hulgeze
+?		Johnny Raga . K'ayln Shftaw Lbu Unfaithful Heart ጆኒ ራጋ እና ካይልን ሽፍታው ልቡ የሙዚቃ ግጥም			https://www.youtube.com/watch?v=QRQdJ1_sZkY	# Johnny Raga Ft. K'ayln Shftaw Lbu Unfaithful Heart Music Lyr
+?		Negregne			https://www.youtube.com/watch?v=sY7V7cIfEbw	# Negregne
+?		Lemen Yehon			https://www.youtube.com/watch?v=e5rplUi4Y3E	# Lemen Yehon
+?		sew mekrosh			https://www.youtube.com/watch?v=SA67Mdqs9xg	# sew mekrosh
+?		Wede Ager Bet			https://www.youtube.com/watch?v=v2dHs5qDNNI	# Wede Ager Bet
+?		Endet Lichal			https://www.youtube.com/watch?v=COyD47qhBGk	# Endet Lichal
+?		Yasebeshal			https://www.youtube.com/watch?v=RQBhuRLas2A	# Yasebeshal
+?		Baybay			https://www.youtube.com/watch?v=FZBDR37A_xA	# Baybay
+?		Teddy Afro leman lemash ለማን ልማሽ			https://www.youtube.com/watch?v=l-sbb6hPV0Q	# Teddy Afro (Tewodros Kassahun) leman lemash ለማን ልማሽ
+?		Kome			https://www.youtube.com/watch?v=xeChGeSYShQ	# Kome
+?		Egnan Mayet			https://www.youtube.com/watch?v=HtypKtMVxj8	# Egnan New Mayet
+?		Chuh Chuh			https://www.youtube.com/watch?v=EZ6qgkNqc4I	# Chuh Chuh
+?	ሌላአለም ማናዬ የእኔ ነሽ ከግጥሙ ጋር	Lelaalem Manaye Yene nesh			https://www.youtube.com/watch?v=LJH3BN2CrKk	# ሌላአለም ማናዬ የእኔ ነሽ ከግጥሙ ጋር | Lelaalem Manaye Yene nesh with ly
+?	Teddy Afro	Nigeregn Kalshign			https://www.youtube.com/watch?v=ZWPeWQmGP7I	# Teddy Afro - Nigeregn Kalshign [Official Video]
+?		Athijibgne			https://www.youtube.com/watch?v=b7_FlqL4nLk	# Athijibgne
+?		Yafekeresh Libbe			https://www.youtube.com/watch?v=yIVvt8IGRPQ	# Yafekeresh Libbe
+?	Ethiopia	Bisrat Garedew			https://www.youtube.com/watch?v=eEM9hu46qSg	# Ethiopia Music - Bisrat Garedew (Official Music Video)
+?	Bisrat Garedew	Salamnibet			https://www.youtube.com/watch?v=Hpx8AnTi70U	# Bisrat Garedew - Salamnibet - ብስራት ጋረደው - ሳላምንበት - Ethiopian
+?	Ephrem Tamiru	Negresh Nebere			https://www.youtube.com/watch?v=PQ_ozPQvGWM	# Ephrem Tamiru - Negresh Nebere - ኤፍሬም ታምሩ - ነግሬሽ ነበረ - Ethio
+?	Tsehaye Yohannes	Blen | ብሌን			https://www.youtube.com/watch?v=QNLw_n_WpDw	# Tsehaye Yohannes - Blen | ብሌን (Official Music Video)
+?	Yehunie Belay	“Zegelila”			https://www.youtube.com/watch?v=yV5-fE192og	# Yehunie Belay – “Zegelila” (ዘገሊላ) | Official Music Video
+?	Uzaza Aleyna	Helen Berhe			https://www.youtube.com/watch?v=8yOfFtOHL_4	# Ethiopian Music | Uzaza Aleyna |  Helen Berhe | ኡዛዛ አሌና | ሔለ
+?	እዮብ መኮንን -- Yzebarkalu	ይዘባርቃሉ || Old			https://www.youtube.com/watch?v=DxGu_SFPZgg	# እዮብ መኮንን -- Yzebarkalu(Lyrics) _ ይዘባርቃሉ ||  Ethiopian Old Mu

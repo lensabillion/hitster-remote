@@ -28,6 +28,7 @@ from __future__ import annotations
 import argparse
 import asyncio
 import hashlib
+import re
 import sys
 from pathlib import Path
 
@@ -202,6 +203,112 @@ async def cmd_import(args: argparse.Namespace) -> int:
     return 1 if failures else 0
 
 
+NOISE = re.compile(
+    r"(?i)\b(official|lyrics?|video|clip|music|remastered|new|ethiopian|amharic"
+    r"|audio|hd|full|album|with lyrics|ft\.?|feat\.?)\b"
+)
+
+
+def tidy(text: str) -> str:
+    text = re.sub(r"[\(\[][^()\[\]]*[\)\]]", " ", text)
+    text = NOISE.sub(" ", text)
+    return re.sub(r"\s+", " ", text).strip(" -–—_|:,\"'")
+
+
+def guess_artist_title(raw: str) -> tuple[str, str]:
+    """Best guess at (artist, title) from a messy YouTube title.
+
+    Real playlists are not tidy. Of 65 videos in the playlist this was built
+    against, only 21 used a plain "Artist - Title" form; the rest hid the artist
+    behind "By X", pipes, colons, or nothing at all. This recovers what it can
+    and leaves the rest for a human -- it never invents an artist.
+    """
+    if m := re.search(r"(?i)^(.*?)\s+by\s+(.+)$", tidy(raw)):
+        return tidy(m.group(2)), tidy(m.group(1))
+    for sep in (" - ", " – ", " — ", " _ ", " | ", " : "):
+        if sep in raw:
+            parts = [tidy(p) for p in raw.split(sep)]
+            parts = [p for p in parts if p]
+            if len(parts) >= 2:
+                return parts[0], parts[1]
+    return "", tidy(raw)
+
+
+def fetch_playlist(url: str) -> list[dict]:
+    """List a playlist's videos. Metadata only -- nothing is downloaded."""
+    try:
+        from yt_dlp import YoutubeDL
+    except ImportError:
+        print("This needs yt-dlp:  pip install yt-dlp")
+        return []
+    opts = {"quiet": True, "extract_flat": True, "skip_download": True,
+            "ignoreerrors": True, "no_warnings": True}
+    with YoutubeDL(opts) as ydl:
+        info = ydl.extract_info(url, download=False) or {}
+    return [e for e in (info.get("entries") or []) if e and e.get("id")]
+
+
+async def cmd_playlist(args: argparse.Namespace) -> int:
+    """Turn a YouTube playlist into a worksheet a human can finish.
+
+    This deliberately does NOT write to the deck. No source gives a trustworthy
+    original release year, and this playlist's titles carry no years at all, so
+    every year has to come from a person. What the tool removes is the typing of
+    ids, artists and titles -- not the judgement.
+    """
+    entries = fetch_playlist(args.url)
+    if not entries:
+        print("No videos found. Is the playlist public?")
+        return 1
+
+    print(f"{len(entries)} videos. Checking Deezer for lighter audio…\n")
+    rows, deezer_hits, needs_artist = [], 0, 0
+
+    for entry in entries:
+        raw = (entry.get("title") or "").strip()
+        vid = entry["id"]
+        if not raw:
+            rows.append(("", "", "", vid, "blank title — needs everything"))
+            needs_artist += 1
+            continue
+
+        artist, title = guess_artist_title(raw)
+        deezer_id = await deezer_probe(artist, title) if artist and title else None
+        if deezer_id:
+            deezer_hits += 1
+        if not artist:
+            needs_artist += 1
+        note = raw[:60]
+        rows.append((artist, title, deezer_id or "", vid, note))
+
+    out = Path(args.out)
+    out.parent.mkdir(parents=True, exist_ok=True)
+    with out.open("w", encoding="utf-8") as fh:
+        fh.write(
+            "# Worksheet from a YouTube playlist. Fill in the YEAR on every line,\n"
+            "# fix any artist/title the guesser got wrong, then:\n"
+            f"#     python tools/build_deck.py import {out}\n"
+            "#\n"
+            "# No API gives a trustworthy original release year, and none of these\n"
+            "# titles carry one, so the years have to be yours. Delete any line you\n"
+            "# do not want in the deck.\n"
+            "#\n"
+            "# year <TAB> artist_latin <TAB> title_latin <TAB> artist_am <TAB> title_am <TAB> youtube_url\n"
+        )
+        for artist, title, deezer_id, vid, note in rows:
+            fh.write(
+                f"?\t{artist}\t{title}\t\t\t"
+                f"https://www.youtube.com/watch?v={vid}\t# {note}\n"
+            )
+
+    print(f"Wrote {out}")
+    print(f"  {len(rows)} rows")
+    print(f"  {needs_artist} need an artist typed in by hand")
+    print(f"  {deezer_hits} also found on Deezer (lighter audio; the rest play from YouTube)")
+    print(f"  {len(rows)} need a year — every single one")
+    return 0
+
+
 async def cmd_list(_: argparse.Namespace) -> int:
     await db.connect()
     cards = await db.all_cards()
@@ -249,6 +356,13 @@ def main() -> int:
     p_import.add_argument("file")
     p_import.add_argument("--by", default="", help="who is adding these cards")
     p_import.set_defaults(func=cmd_import)
+
+    p_pl = sub.add_parser(
+        "playlist", help="turn a YouTube playlist into a worksheet to fill in"
+    )
+    p_pl.add_argument("url")
+    p_pl.add_argument("--out", default="decks/from-playlist.tsv")
+    p_pl.set_defaults(func=cmd_playlist)
 
     sub.add_parser("list", help="show the current deck").set_defaults(func=cmd_list)
     sub.add_parser("check", help="re-probe every card's sources").set_defaults(
