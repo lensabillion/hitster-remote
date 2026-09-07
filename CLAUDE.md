@@ -84,9 +84,10 @@ ceiling that only stops an absent player stalling the table.
 - **Two matchers, opposite temperaments.** `artist_matches` (catalogue) is strict, so a
   wrong Deezer track is never attached. `player_artist_matches` (typed input) is
   generous, so a player is never robbed by spelling. Do not collapse them into one.
-- **Sealed until reveal.** Never send an unrevealed card's year to any client. Ties
-  between correct stealers break on earliest submission, which only ever separates two
-  already-correct guesses — so lower latency never wins a card.
+- **Sealed until reveal.** Never send an unrevealed card to any client — not the year,
+  not the artist, not the title. Room state is fanned out per viewer rather than
+  broadcast for exactly this reason; a leak here does not fail loudly, it silently
+  decides who wins.
 
 ## Music sources
 

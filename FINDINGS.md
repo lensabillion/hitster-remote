@@ -26,12 +26,15 @@ rights wrapper, not a music player.
 | **The steal** | Shout **"HITSTER!"** before the flip, spend a token, point at the right gap. Right = steal the card. Wrong = lose the token. |
 | **Modes** | Original (placement only) · Pro (+artist & title) · Expert (+exact year) · Co-op (shared timeline, 5 shared tokens) |
 
-> **The steal is the load-bearing rule.** It forces every player to form an opinion on
-> every card, because staying quiet while an opponent fumbles is how you lose. Drop it
-> and this becomes a solitaire quiz with spectators. It is also the single hardest rule
-> to move online — see §4.
-
----
+> **The steal is the load-bearing rule of the *physical* game.** It forces every player
+> to form an opinion on every card, because staying silent while an opponent fumbles is
+> how you lose.
+>
+> This version does not implement it. Two attempts to carry it across — a sealed
+> simultaneous challenge, then having everyone answer every round — both made the game
+> feel less like taking turns rather than more, and were reversed after play. See §4.
+> Watchers hear every song and answer on their own turn instead. Whether they should get
+> anything more is an open question, not an oversight.
 
 ## 2. Verified findings
 
@@ -154,78 +157,94 @@ Verified from the US only. Every other finding has a fallback; this one does not
 
 ## 3. What breaks when you go remote
 
-Five assumptions in the boxed game stop holding once players are 12,000 km apart.
+Five assumptions in the boxed game stop holding once players are 12,000 km apart. All
+five now have an implemented answer.
 
-1. **One phone, one room, one speaker.** Remotely every player is their own speaker.
-   Do *not* stream audio peer-to-peer — the server broadcasts a track id and a start
-   timestamp, and each browser plays its own copy. Sub-second drift is invisible in a
-   game where nobody compares waveforms. `[hitster-fvtg]`
-2. **Cards on a table are public.** Every timeline must render on every screen, live.
-   An opponent's row is not decorative — it is the information the steal is played on.
-   `[hitster-pdhg]`
-3. **"First to shout" is unfair over latency.** See §4. `[hitster-r80t]`
-4. **Face-down placement is a physical secret.** The server must withhold the pending
-   card and reveal to everyone at once. Anyone can open devtools. `[hitster-sces]`
-5. **Nobody disconnects from a table.** A dropped socket must not cost a timeline.
-   `[hitster-3tq3]` `[hitster-nq2l]`
+1. **One phone, one room, one speaker.** Remotely every player is their own speaker. The
+   server broadcasts a track id and a start timestamp; each browser plays its own copy
+   from Deezer's CDN. Nothing is streamed peer to peer — sub-second drift is invisible in
+   a game where nobody compares waveforms. **Everyone receives the audio, including the
+   players who are not answering.**
+2. **Cards on a table are public.** Every timeline renders on every screen, live.
+3. **Typing Ge'ez is not realistic.** Answers are typed in Latin letters and matched
+   generously, because Amharic names have no agreed transliteration. See §F6 and
+   `server/matching.py`.
+4. **Face-down placement is a physical secret.** The server withholds the whole card —
+   artist, title and year — from every client until the reveal, and fans state out per
+   viewer rather than broadcasting one payload. Anyone can open devtools.
+5. **Nobody disconnects from a table.** Players are keyed by a durable UUID held in the
+   browser, never by socket id, so a dropped connection costs no score, seat, timeline or
+   turn — and the reconnecting player is re-sent the current round's audio so they can
+   keep playing rather than just watching.
 
----
+## 4. Design decisions, including the ones that were reversed
 
-## 4. Design decision: the sealed challenge window
+Two significant calls were made from theory and then changed by playing the game. Both
+are recorded here because the reasoning is still worth having, and because otherwise
+someone will re-argue them.
 
-Addis Ababa ↔ San Francisco is a few hundred milliseconds each way, and it is not
-symmetric. A click race hands the steal to whoever has better transit — permanently.
-This needs a *different mechanism*, not a faster one.
+### Everyone answers every round → REVERSED
 
-**Replace the shout race with a sealed window:**
+Board-game design treats downtime as the primary enemy, and the standard remedy is
+simultaneous play. Reasoning from that, the first build had every player answer every
+round, with the active player's answer counting for the card and everyone else's earning
+a token or stealing it.
 
-- The active player commits a face-down placement.
-- A 10-second window opens. Every other player privately marks the gap they believe is
-  correct.
-- Everything reveals at once — placement and challenges together.
-- Nothing is first-come-first-served, so no latency advantage exists.
-- If two challengers are both correct, award by earliest server receipt and refund both
-  tokens.
+**Playing it showed the opposite problem.** It did not read as a turn-taking game at all
+— it felt like several people playing solitaire alongside each other. The game is now
+classic turn order: one song, one player answers, everyone else listens. The downtime
+concern is real but was outweighed, and watchers hear every song rather than sitting in
+silence.
 
-Same tension, no unfairness. Arguably a better rule than the original. `[hitster-r80t]`
+### Never require typed answers → REVERSED
 
----
+The original recommendation was that answers should never be typed, because typing Ge'ez
+needs a keyboard most players lack and Latin transliteration has no correct spelling to
+match against.
 
-## 5. Disposition of the existing code
+**The second half of that objection was solvable.** Answers are typed in Latin letters,
+and the matcher is deliberately generous — a surname alone or a plausible misspelling both
+count. The first half disappears because nobody needs a Ge'ez keyboard.
 
-The plumbing survives; the game does not. What is in `server/` today is a speed quiz —
-race to type an artist, scored on reaction time — and Hitster is turn-based and
-positional with no clock at its core.
+### Scoring: 70 / 30
 
-| Piece | Fate | Why |
-|---|---|---|
-| FastAPI + python-socketio ASGI mount | **Keep** | Right shape for this. |
-| Room codes, lobby, join flow | **Keep** | `rooms.py` needs its state swapped, not its lifecycle. |
-| Vite + React + Tailwind, `socket.js` | **Keep** | Screens get replaced; the shell is sound. |
-| `YouTubePlayer.jsx` | **Demote** | Becomes a per-card fallback behind `<audio>`. `[hitster-e08z]` |
-| Players keyed by socket `sid` | **Replace** | A refresh destroys the player. Fatal here. `[hitster-3tq3]` |
-| `score_guess`, speed bonus, fuse.js | **Delete** | Wrong game. `[hitster-kxwr]` |
-| `parse_artist_song` off YouTube titles | **Delete** | Deezer returns clean structured fields. |
-| Round auto-advance timers | **Replace** | Turn order and a challenge window, not a countdown. |
+Knowing who sang it is most of what the game asks, so it carries most of the grade. The
+year is worth 30 and is earned by *placing* the card, not by typing a year — relative
+order is the forgiving part of the game and stays that way. The song title is captured and
+shown at the reveal but scores nothing. The halves are independent: name the singer,
+misplace the year, still take 70.
 
-`fuzzy_match()` is worth keeping — it becomes relevant again for Pro/Expert naming.
+Highest total after the planned rounds wins, and the round count is rounded to a whole
+number of turns each so nobody gets an extra song.
 
----
+## 5. What became of the original prototype
 
-## 6. Build order
+The repo began as a speed quiz — everyone raced to type an artist, scored on reaction
+time. The plumbing survived; the game did not.
 
-Run `tbd ready` for the live list. The intended sequence:
+| Piece | Outcome |
+|---|---|
+| FastAPI + python-socketio ASGI mount | **Kept** |
+| Room codes, lobby, join flow | **Kept**, rewritten around durable identity |
+| Vite + React + Tailwind | **Replaced** by Next.js |
+| `YouTubePlayer.jsx` | **Demoted** to the fallback path inside `AudioClip.tsx` |
+| Players keyed by socket `sid` | **Replaced** by a durable UUID — the change that makes reconnect work |
+| `score_guess`, speed bonus, fuse.js | **Deleted.** Wrong game |
+| `parse_artist_song` off YouTube titles | **Deleted.** Deezer returns structured fields |
+| `fuzzy_match` | **Superseded** by `matching.py`, which splits strict catalogue matching from generous player matching |
 
-1. `[hitster-ci18]` Verify Deezer reaches Ethiopia — **do this before anything else**
-2. `[hitster-3tq3]` Durable UUID player identity — small now, a rewrite later
-3. `[hitster-w8fp]` Deck-builder CLI → `[hitster-g1dh]` curate 80–120 cards
-4. `[hitster-e7v4]` Hitster game model → `[hitster-zaxj]` placement validator
-5. `[hitster-wtjw]` + `[hitster-fvtg]` Audio path
-6. `[hitster-pdhg]` Timeline UI — the centrepiece
-7. `[hitster-r80t]` + `[hitster-8fix]` Tokens and the sealed challenge
-8. `[hitster-d1sj]` + `[hitster-nq2l]` Deploy and resilience
+## 6. What is built, and what is not
 
----
+**Built and tested:** rooms and lobby, durable identity and reconnect, deck builder and
+SQLite storage, Deezer-primary audio with YouTube fallback, turn order, the answer card,
+70/30 scoring, the reveal, running scores and final standings. 106 tests.
+
+**Not built:** tokens to spend, Pro/Expert modes, collaborative decks, reaction pings,
+deployment. The visual design is a first pass and is due a rework.
+
+**Still needed from a human:** the starter deck's years are unverified guesses. No API
+reports original release dates reliably — that is the whole reason the deck builder
+exists — so a person has to confirm them before the deck is fair to play with.
 
 ## 7. Prior art worth reading
 
