@@ -94,6 +94,17 @@ it remotely turned out to need three things the retail game does not:
 
 All three are documented with evidence in [FINDINGS.md](FINDINGS.md).
 
+## Deploy
+
+Two hosts, and the split is forced: the Next.js client goes to Vercel, but the Socket.IO
+server **cannot** — it holds a WebSocket open for the whole game and Vercel's functions are
+serverless. It needs Fly.io, Railway or Render.
+
+If you imported this repo to Vercel and got a **404**, set the project's **Root Directory**
+to `client`. The app is not at the repo root.
+
+Full steps: [docs/DEPLOY.md](docs/DEPLOY.md).
+
 ## Documentation
 
 | Document | What it covers |
@@ -101,6 +112,7 @@ All three are documented with evidence in [FINDINGS.md](FINDINGS.md).
 | [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) | How the system works — round lifecycle, socket protocol, state, scoring, matching |
 | [FINDINGS.md](FINDINGS.md) | What the music APIs actually do, verified against live services |
 | [Design spec](docs/project/specs/active/plan-2026-09-07-remote-group-game.md) | Why the game is shaped this way, including decisions that were later reversed |
+| [docs/DEPLOY.md](docs/DEPLOY.md) | Getting it online, and why the server cannot live on Vercel |
 | [CLAUDE.md](CLAUDE.md) | Working notes — the things that are easy to get wrong |
 
 ## Issue tracking

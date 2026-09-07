@@ -1,0 +1,25 @@
+# fly launch --no-deploy   then   fly deploy
+app = "zema-server"
+primary_region = "cdg"   # Paris: roughly between Addis Ababa and San Francisco
+
+[build]
+  dockerfile = "Dockerfile"
+
+[env]
+  PORT = "8080"
+  # Set the real value with:
+  #   fly secrets set CORS_ORIGINS=https://your-app.vercel.app
+  # Leave it unset only while testing — it defaults to "*".
+
+[http_service]
+  internal_port = 8080
+  force_https = true
+  auto_stop_machines = "suspend"
+  auto_start_machines = true
+  # Keep one machine warm. A cold start mid-game drops every socket in the room,
+  # and while identity is durable enough to survive that, it is a visible stutter.
+  min_machines_running = 1
+
+[[vm]]
+  size = "shared-cpu-1x"
+  memory = "256mb"
