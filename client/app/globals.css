@@ -454,3 +454,46 @@ body::before {
     transition-duration: 0.01ms !important;
   }
 }
+
+/* ---------- banners ---------- */
+
+.banner {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 18px;
+  border-radius: var(--r);
+  border: 1px solid var(--rule);
+  background: var(--surface);
+  color: var(--ink-soft);
+  font-size: var(--t-sm);
+  flex-wrap: wrap;
+}
+
+.banner-bad {
+  border-color: var(--red);
+  background: var(--red-wash);
+  color: var(--ink);
+}
+
+.mono {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.9em;
+  background: var(--ground);
+  border: 1px solid var(--rule);
+  padding: 1px 6px;
+  border-radius: 4px;
+  overflow-wrap: anywhere;
+}
+
+.linkish {
+  background: none;
+  border: none;
+  color: var(--ink-faint);
+  font: inherit;
+  font-size: var(--t-sm);
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: var(--r-sm);
+}
+.linkish:hover { color: var(--gold); }

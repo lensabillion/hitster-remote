@@ -72,7 +72,6 @@ export default function AnswerCard({
           onChange={(e) => setArtist(e.target.value)}
           aria-label="Artist name"
           autoComplete="off"
-          autoFocus
         />
         <p className="hint">
           Spelling is forgiving — “Telahun Gesesse” or just “Gessesse” both count.
