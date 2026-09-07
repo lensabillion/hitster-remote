@@ -3,15 +3,19 @@ type: is
 id: is-01m1xyzcttw4gf6whwf174dekv
 title: "Never require typed answers: Amharic input rules out free text"
 kind: task
-status: open
+status: closed
 priority: 1
-version: 1
+version: 2
 labels:
   - design
   - ui
 dependencies: []
 created_at: 2026-09-07T12:55:01.722Z
-updated_at: 2026-09-07T12:55:01.722Z
+updated_at: 2026-09-07T17:28:10.113Z
+closed_at: 2026-09-07T17:28:10.113Z
+close_reason: "Reversed by the user: they want typed answers after all, in Latin script, which resolves the Ge'ez-keyboard objection. Implemented as a 70/30 answer card with generous transliteration matching (matching.player_artist_matches)."
+resolution: null
+duplicate_of: null
 ---
 Raised by the user while reviewing the first build: "how am I gonna type my answer?"
 
