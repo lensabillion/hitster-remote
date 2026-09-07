@@ -3,16 +3,20 @@ type: is
 id: is-01m1xwvnndeqpep59s32ca7fdx
 title: Write and review the game design doc
 kind: task
-status: in_progress
+status: closed
 priority: 0
-version: 4
+version: 5
 spec_path: docs/project/specs/active/plan-2026-09-07-remote-group-game.md
 labels:
   - design
   - docs
 dependencies: []
 created_at: 2026-09-07T12:18:02.541Z
-updated_at: 2026-09-07T12:21:39.171Z
+updated_at: 2026-09-07T17:57:47.245Z
+closed_at: 2026-09-07T17:57:47.245Z
+close_reason: Design doc written, reviewed by the user, and now reconciled with what actually shipped in docs/ARCHITECTURE.md and the As-built section of the spec.
+resolution: null
+duplicate_of: null
 ---
 Before implementation: a DESIGN.md covering what makes this fun as a REMOTE group
 game, not merely a faithful Hitster port.
