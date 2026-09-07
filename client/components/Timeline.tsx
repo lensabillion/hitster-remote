@@ -11,116 +11,33 @@ export type Card = {
   titleLatin: string;
 };
 
-/* The timeline is the centrepiece: it is what every player looks at, and it is
- * where the whole game is played. Two decisions carry it.
+/* The timeline: a scrolling rail of cards with tappable slots between them.
  *
- * Placement is by gap, not by drag. A drag target on a phone is a fiddly thing
- * and this is played one-handed on a call; tapping the space between two cards
- * is unambiguous and needs no pointer precision.
+ * Placement is by tapping a gap, never by dragging. A drag target is fiddly on a
+ * phone and this is played one-handed while on a call.
  *
- * The year is set in the display face at the largest size on the page, because
- * the year is the answer -- it is what the round is about, and what the reveal
- * lands on. */
+ * The year is the largest thing on a card because the year is what the round is
+ * about. Amharic title next, Latin artist last and small — enough to recognise a
+ * card at a glance without turning it into a paragraph. */
 
 function Gap({
   index,
   selected,
   onSelect,
-  interactive,
 }: {
   index: number;
   selected: boolean;
   onSelect: (i: number) => void;
-  interactive: boolean;
 }) {
-  if (!interactive) return <div style={{ width: 10 }} aria-hidden />;
   return (
     <button
+      className={`tl-gap${selected ? " tl-gap-on" : ""}`}
       onClick={() => onSelect(index)}
-      aria-label={`Place here, position ${index + 1}`}
+      aria-label={`Place the song in position ${index + 1}`}
       aria-pressed={selected}
-      style={{
-        width: selected ? 74 : 26,
-        alignSelf: "stretch",
-        minHeight: 128,
-        borderRadius: 2,
-        border: selected
-          ? "1px solid var(--gold)"
-          : "1px dashed var(--rule)",
-        background: selected ? "var(--gold-wash)" : "transparent",
-        transition: "width 160ms ease, background 160ms ease",
-        display: "grid",
-        placeItems: "center",
-        flexShrink: 0,
-      }}
     >
-      <span
-        className="display"
-        style={{
-          fontSize: selected ? "var(--t-lg)" : "var(--t-md)",
-          color: selected ? "var(--gold)" : "var(--ink-faint)",
-          lineHeight: 1,
-        }}
-      >
-        {selected ? "?" : "+"}
-      </span>
+      {selected ? "?" : "+"}
     </button>
-  );
-}
-
-function CardFace({ card }: { card: Card }) {
-  return (
-    <article
-      className="surface"
-      style={{
-        width: 168,
-        flexShrink: 0,
-        padding: "14px 14px 12px",
-        display: "flex",
-        flexDirection: "column",
-        gap: 10,
-        minHeight: 128,
-      }}
-    >
-      <div
-        className="display numeral"
-        style={{
-          fontSize: "var(--t-xl)",
-          color: "var(--gold)",
-          lineHeight: 1,
-        }}
-      >
-        {card.year}
-      </div>
-      <div style={{ display: "flex", flexDirection: "column", gap: 2 }}>
-        <div
-          className="amharic"
-          style={{
-            fontSize: "var(--t-base)",
-            fontWeight: 600,
-            color: "var(--ink)",
-          }}
-        >
-          {card.titleAm || card.titleLatin}
-        </div>
-        <div
-          className="amharic"
-          style={{ fontSize: "var(--t-sm)", color: "var(--ink-soft)" }}
-        >
-          {card.artistAm || card.artistLatin}
-        </div>
-        <div
-          style={{
-            fontSize: "var(--t-xs)",
-            color: "var(--ink-faint)",
-            letterSpacing: "0.02em",
-            marginTop: 2,
-          }}
-        >
-          {card.artistLatin}
-        </div>
-      </div>
-    </article>
   );
 }
 
@@ -140,33 +57,37 @@ export default function Timeline({
     onPlace?.(i);
   }
 
+  if (!cards.length && !interactive) {
+    return <p className="tl-empty">No cards yet.</p>;
+  }
+
   return (
-    <div
-      style={{
-        display: "flex",
-        alignItems: "stretch",
-        gap: 6,
-        overflowX: "auto",
-        padding: "4px 2px 12px",
-      }}
-    >
+    <div className="tl">
       {cards.map((card, i) => (
         <div key={card.id} style={{ display: "contents" }}>
-          <Gap
-            index={i}
-            selected={selected === i}
-            onSelect={choose}
-            interactive={interactive}
-          />
-          <CardFace card={card} />
+          {interactive ? (
+            <Gap index={i} selected={selected === i} onSelect={choose} />
+          ) : (
+            <div className="tl-spacer" aria-hidden />
+          )}
+          <article className="tl-card">
+            <div className="tl-year">{card.year}</div>
+            <div className="stack" style={{ gap: 3 }}>
+              <div className="tl-title am">{card.titleAm || card.titleLatin}</div>
+              <div className="tl-artist am">{card.artistAm || card.artistLatin}</div>
+            </div>
+          </article>
         </div>
       ))}
-      <Gap
-        index={cards.length}
-        selected={selected === cards.length}
-        onSelect={choose}
-        interactive={interactive}
-      />
+      {interactive ? (
+        <Gap
+          index={cards.length}
+          selected={selected === cards.length}
+          onSelect={choose}
+        />
+      ) : (
+        <div className="tl-spacer" aria-hidden />
+      )}
     </div>
   );
 }
