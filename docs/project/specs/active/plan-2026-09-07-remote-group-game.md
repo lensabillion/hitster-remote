@@ -4,7 +4,7 @@
 
 **Author:** Lensa Billion Mudda (with Claude)
 
-**Status:** Draft — awaiting review
+**Status:** Implemented in part, and revised by play. See “As built” below.
 
 ## Overview
 
@@ -17,6 +17,37 @@ fun over a video call with 3–6 people — not the infrastructure, which is in
 **The design thesis in one line:** a faithful Hitster port would be a bad remote game,
 because Hitster is turn-based and turn-based means dead air. The fix is to make every
 player act on every round while keeping the timeline economy intact.
+
+> **That thesis was tested and did not survive.** Making everyone answer every round
+> removed the dead air but stopped the game feeling like taking turns at all. The shipped
+> game is classic turn order — one song, one answerer, everyone else listening. The
+> reasoning below is kept because it is still the right question; the answer was wrong.
+> See “As built”.
+
+## As built
+
+What actually shipped, after two rounds of playtesting reversed two decisions in this
+document.
+
+| Area | Shipped |
+|---|---|
+| **Turn structure** | Classic turn order. One song belongs to one player's turn; the server refuses an out-of-turn answer. Everyone else receives the same audio and answers on their own turn. |
+| **Answering** | A typed answer card — singer, year by placement, optional title — open from the moment the clip starts, with a Stop control. No listen-then-place gate. |
+| **Scoring** | 70 for the singer, 30 for the placement, graded independently. Title captured but unscored. Highest total wins; rounds are dealt evenly across players. |
+| **Input** | Latin script, matched generously. A surname alone or a plausible misspelling both count. |
+| **Audio** | Deezer preview primary, YouTube fallback, resolved fresh per round and sent to every socket. |
+| **Identity** | Durable UUID in `localStorage`; reconnect restores seat, score, timeline and audio. |
+
+Reversed from this document:
+
+- **Simultaneous shadow placement** → turn order. It read as parallel solitaire.
+- **"Never require typed answers"** → typed answers in Latin script. The Ge'ez-keyboard
+  objection disappears once input is Latin, and generous matching handles the rest.
+
+Not built: tokens to spend, Pro/Expert modes, collaborative decks, reaction pings,
+deployment. The visual design is a first pass.
+
+Full detail: [docs/ARCHITECTURE.md](../../../ARCHITECTURE.md).
 
 ## Goals
 
@@ -171,21 +202,19 @@ Only `placing` accepts player input, and it accepts it from **everyone**.
 
 ### Rules that carry over unchanged
 
-- Timeline is chronological, earliest at the left.
+- Timeline is chronological, earliest at the left. **Shipped.**
 - **Same-year rule:** if the card's year matches an adjacent card, either side counts.
-  `[hitster-zaxj]`
-- Tokens cap at 5.
-- Spend 1 token to skip a song you have no idea about.
-- Spend 3 tokens to take a card placed for free.
+  **Shipped**, with a test class named after the rule.
+- Tokens: the field exists on `Player` but nothing spends it yet. **Not shipped.**
 
 ### Rules that change for remote group play
 
-| Physical rule | Remote replacement | Why |
+| Physical rule | What shipped | Why |
 |---|---|---|
-| Shout "HITSTER!" first | Sealed simultaneous challenge | Click races are unfair across asymmetric latency |
-| Only the active player acts | Everyone places every round | Removes N−1 idle players |
-| Earn a token by naming artist + title | Earn a token by a correct shadow guess | Free-text naming is unreliable across languages; keep naming for Pro mode later |
-| First to 10 cards | **First to 8**, or most cards after a set round count | 10 cards × 6 players is too long for one call |
+| Shout "HITSTER!" first | **Nothing.** No steal | Two attempts to port it both made the game feel less like taking turns |
+| Only the active player acts | **Unchanged** — only the active player answers | Proposed as "everyone places every round"; reversed after play |
+| Earn a token by naming artist + title | **Naming is now the main scoring event**, worth 70 of 100 | Typed in Latin and matched generously, so transliteration never costs points |
+| First to 10 cards | **Highest score** after a set number of turns each | Makes the 70/30 grade decide the game rather than decorate it |
 | DJ scans a card | Server draws; no DJ role | The DJ role exists only because of physical QR codes |
 
 ### Social presence
@@ -274,17 +303,20 @@ from Addis Ababa. Everything else has a fallback; that does not.
 
 ## Open Questions
 
-1. **Win condition** — first to 8 cards, or fixed round count with most cards winning?
-   Fixed rounds makes session length predictable, which matters when people have to
-   leave a call. Recommendation: fixed round count, configurable.
-2. **Does a wrong active placement discard the card, or return it to the deck?**
-   Discarding is the physical rule; returning it keeps a good song in play.
-3. **Should shadow guesses cost anything?** Currently free, which maximises engagement.
-   Charging a token to steal is more faithful but punishes participation.
+1. ~~**Win condition**~~ — **Resolved:** highest score after a fixed number of turns
+   each, configurable via `rounds` on `game:start`. Rounds are rounded down to a whole
+   number of turns per player so nobody gets an extra song.
+2. **Does a wrong placement discard the card, or return it to the deck?** Currently
+   discarded, which is the physical rule. Returning it would keep a good song in play.
+   Still open.
+3. ~~**Should shadow guesses cost anything?**~~ — **Moot:** shadow guesses no longer
+   exist. The open version of this question is whether watchers should get anything to do
+   beyond listening. Do not add it unprompted; a version of it was already rejected.
 4. **Deck size per player.** 15 songs each × 5 friends = 75 cards. Enough for several
    sessions before repeats become noticeable.
-5. **Do we show whose timeline is closest to winning?** Visible pressure is fun but can
-   make a runaway leader dispiriting.
+5. ~~**Do we show whose timeline is closest to winning?**~~ — **Resolved by shipping:**
+   a scoreboard sits above every screen, so the standings are always visible. Whether a
+   runaway leader is dispiriting is now something to watch for in play.
 6. **Teams for 7+?** Out of scope now; worth not designing ourselves out of.
 
 ## References
