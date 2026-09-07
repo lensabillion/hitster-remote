@@ -71,7 +71,6 @@ function Scoreboard({ state }: { state: RoomState }) {
 
 function PlayerStrip({ player, state }: { player: PlayerView; state: RoomState }) {
   const isActive = state.activePlayerId === player.id;
-  const sealed = state.answeredPlayerIds.includes(player.id);
 
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
@@ -86,10 +85,9 @@ function PlayerStrip({ player, state }: { player: PlayerView; state: RoomState }
           {player.name}
           {player.id === state.viewerId ? " (you)" : ""}
         </span>
-        {isActive && <Pill tone="gold">their card</Pill>}
+        {isActive && state.phase !== "lobby" && <Pill tone="gold">their turn</Pill>}
         {player.isHost && <Pill>host</Pill>}
         {!player.connected && <Pill tone="bad">offline</Pill>}
-        {sealed && state.phase === "answering" && <Pill tone="good">sealed</Pill>}
         <span style={{ fontSize: "var(--t-xs)", color: "var(--ink-faint)" }}>
           {player.score} pts · {player.timeline.length} cards
         </span>
@@ -124,7 +122,9 @@ export default function RoomPage({ params }: { params: Promise<{ code: string }>
 
   const you = state.players.find((p) => p.id === state.viewerId);
   const isHost = state.hostId === playerId;
-  const myScore = state.outcome?.scores[state.viewerId];
+  const outcome = state.outcome;
+  const activeName =
+    state.players.find((p) => p.id === state.activePlayerId)?.name ?? "Someone";
 
   return (
     <main
@@ -202,10 +202,11 @@ export default function RoomPage({ params }: { params: Promise<{ code: string }>
           </h2>
           <p style={{ color: "var(--ink-soft)", margin: 0, maxWidth: "58ch" }}>
             Share the code <strong style={{ color: "var(--gold)" }}>{state.code}</strong>.
-            Each round you name the singer ({ARTIST_POINTS} points) and place the song on
-            your timeline ({YEAR_POINTS} points). Everyone answers every round. Wear
-            headphones if you are on a call together, or the music echoes through
-            everyone&apos;s microphone.
+            Take turns. On your turn a song plays and you name the singer
+            ({ARTIST_POINTS} points) and place it on your timeline ({YEAR_POINTS}{" "}
+            points). Everyone hears every song, so you can follow along while you wait
+            for your turn. Wear headphones if you are on a call together, or the music
+            echoes through everyone&apos;s microphone.
           </p>
           <ul style={{ margin: 0, paddingLeft: 18 }}>
             {state.players.map((p) => (
@@ -239,21 +240,38 @@ export default function RoomPage({ params }: { params: Promise<{ code: string }>
       {state.phase === "answering" && you && (
         <section style={{ display: "flex", flexDirection: "column", gap: 16 }}>
           <AudioClip cue={audio} />
-          <AnswerCard
-            key={state.roundNo}
-            timeline={you.timeline}
-            artistPoints={ARTIST_POINTS}
-            yearPoints={YEAR_POINTS}
-            sealed={state.hasAnswered}
-            sealedAnswer={state.myAnswer}
-            onSeal={(gap, artistGuess, titleGuess) =>
-              answer(state.code, gap, artistGuess, titleGuess)
-            }
-          />
-          <span style={{ fontSize: "var(--t-xs)", color: "var(--ink-faint)" }}>
-            {state.answeredPlayerIds.length} of{" "}
-            {state.players.filter((p) => p.connected).length} sealed.
-          </span>
+
+          {state.isMyTurn ? (
+            <AnswerCard
+              key={state.roundNo}
+              timeline={you.timeline}
+              artistPoints={ARTIST_POINTS}
+              yearPoints={YEAR_POINTS}
+              sealed={state.hasAnswered}
+              sealedAnswer={state.myAnswer}
+              onSeal={(gap, artistGuess, titleGuess) =>
+                answer(state.code, gap, artistGuess, titleGuess)
+              }
+            />
+          ) : (
+            /* Watchers hear the same clip. They do not answer this one -- their
+               song comes on their own turn. */
+            <div
+              className="surface"
+              style={{ padding: 22, display: "flex", flexDirection: "column", gap: 8 }}
+            >
+              <span className="label">
+                {activeName}&apos;s turn
+              </span>
+              <p style={{ margin: 0, color: "var(--ink-soft)", maxWidth: "54ch" }}>
+                Listen along — {activeName} is naming this one. Your song comes on
+                your turn.
+              </p>
+              <span style={{ fontSize: "var(--t-sm)", color: "var(--ink-faint)" }}>
+                {state.hasAnswered ? "" : "Waiting for their answer…"}
+              </span>
+            </div>
+          )}
         </section>
       )}
 
@@ -289,51 +307,43 @@ export default function RoomPage({ params }: { params: Promise<{ code: string }>
             </div>
           </div>
 
-          {myScore && (
+          {outcome && (
             <div
               style={{
                 display: "flex",
+                flexDirection: "column",
                 gap: 10,
-                flexWrap: "wrap",
-                alignItems: "center",
                 borderTop: "1px solid var(--rule)",
                 paddingTop: 16,
               }}
             >
-              <Pill tone={myScore.artistRight ? "good" : "bad"}>
-                singer {myScore.artistRight ? `+${ARTIST_POINTS}` : "0"}
-              </Pill>
-              <Pill tone={myScore.yearRight ? "good" : "bad"}>
-                year {myScore.yearRight ? `+${YEAR_POINTS}` : "0"}
-              </Pill>
-              {myScore.titleRight && <Pill tone="gold">you knew the title too</Pill>}
+              <span className="label">
+                {outcome.playerId === state.viewerId
+                  ? "Your answer"
+                  : `${activeName}'s answer`}
+              </span>
+              <div style={{ display: "flex", gap: 10, flexWrap: "wrap", alignItems: "center" }}>
+                <Pill tone={outcome.artistRight ? "good" : "bad"}>
+                  singer {outcome.artistRight ? `+${ARTIST_POINTS}` : "0"}
+                </Pill>
+                <Pill tone={outcome.yearRight ? "good" : "bad"}>
+                  year {outcome.yearRight ? `+${YEAR_POINTS}` : "0"}
+                </Pill>
+                {outcome.titleRight && <Pill tone="gold">knew the title too</Pill>}
+                <span
+                  className="display numeral"
+                  style={{ fontSize: "var(--t-lg)", color: "var(--gold)" }}
+                >
+                  +{outcome.points}
+                </span>
+              </div>
               <span style={{ color: "var(--ink-faint)", fontSize: "var(--t-sm)" }}>
-                you said “{myScore.artistGuess || "nothing"}”
+                said “{outcome.artistGuess || "nothing"}”
+                {outcome.titleGuess ? ` · “${outcome.titleGuess}”` : ""}
+                {outcome.keptCard ? " · kept the card" : " · lost the card"}
               </span>
             </div>
           )}
-
-          <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-            <span className="label">Everyone</span>
-            <div style={{ display: "flex", flexWrap: "wrap", gap: 10 }}>
-              {Object.entries(state.outcome?.scores ?? {}).map(([pid, s]) => (
-                <span
-                  key={pid}
-                  style={{ fontSize: "var(--t-sm)", color: "var(--ink-soft)" }}
-                >
-                  {state.players.find((p) => p.id === pid)?.name}:{" "}
-                  <strong style={{ color: "var(--ink)" }}>+{s.points}</strong>
-                  {s.artistGuess ? ` (“${s.artistGuess}”)` : ""}
-                </span>
-              ))}
-            </div>
-            {state.outcome?.stolen && state.outcome.cardWinner && (
-              <Pill tone="gold">
-                card taken by{" "}
-                {state.players.find((p) => p.id === state.outcome!.cardWinner)?.name}
-              </Pill>
-            )}
-          </div>
 
           {isHost && (
             <button

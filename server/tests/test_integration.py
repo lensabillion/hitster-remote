@@ -185,9 +185,13 @@ async def test_full_round_and_no_spontaneous_advance(tmp_path):
         assert host.state["card"] is None
         assert guest.state["card"] is None
 
-        await host.emit("round:answer", {"code": code, "gap": 0})
+        # Only the active player may answer; the guest's attempt is refused.
         await guest.emit("round:answer", {"code": code, "gap": 0})
+        await asyncio.sleep(0.3)
+        assert guest.errors, "an out-of-turn answer should be refused"
+        assert host.state["phase"] == "answering"
 
+        await host.emit("round:answer", {"code": code, "gap": 0})
         revealed = await host.wait_for(lambda s: s["phase"] == "revealing")
         assert revealed["card"] is not None
         assert isinstance(revealed["card"]["year"], int)
@@ -223,7 +227,6 @@ async def test_only_the_host_may_advance(tmp_path):
         await host.emit("game:start", {"code": code})
         await host.wait_for(lambda s: s["phase"] == "answering")
         await host.emit("round:answer", {"code": code, "gap": 0})
-        await guest.emit("round:answer", {"code": code, "gap": 0})
         await host.wait_for(lambda s: s["phase"] == "revealing")
 
         await guest.emit("round:next", {"code": code})
@@ -299,14 +302,12 @@ async def test_year_scores_alone_when_the_artist_is_wrong(tmp_path):
         await host.emit(
             "round:answer", {"code": code, "gap": 0, "artist": "Bob Marley", "title": ""}
         )
-        await guest.emit(
-            "round:answer", {"code": code, "gap": 1, "artist": "Bob Marley", "title": ""}
-        )
         revealed = await host.wait_for(lambda s: s["phase"] == "revealing")
 
-        for entry in revealed["outcome"]["scores"].values():
-            assert entry["artistRight"] is False
-            assert entry["points"] == (30 if entry["yearRight"] else 0)
+        outcome = revealed["outcome"]
+        assert outcome["playerId"] == "host-4"
+        assert outcome["artistRight"] is False
+        assert outcome["points"] == (30 if outcome["yearRight"] else 0)
 
         await host.disconnect()
         await guest.disconnect()
@@ -332,14 +333,47 @@ async def test_artist_alone_is_worth_seventy(tmp_path):
         await host.emit(
             "round:answer", {"code": code, "gap": 0, "artist": "Sebsibe", "title": ""}
         )
-        await guest.emit(
-            "round:answer", {"code": code, "gap": 0, "artist": HARNESS_ARTIST, "title": ""}
-        )
         revealed = await host.wait_for(lambda s: s["phase"] == "revealing")
 
-        for pid, entry in revealed["outcome"]["scores"].items():
-            assert entry["artistRight"] is True, f"{pid} lost the artist points"
-            assert entry["points"] == (100 if entry["yearRight"] else 70)
+        outcome = revealed["outcome"]
+        assert outcome["artistRight"] is True, "a surname alone should score"
+        assert outcome["points"] == (100 if outcome["yearRight"] else 70)
+
+        await host.disconnect()
+        await guest.disconnect()
+
+
+@pytest.mark.asyncio
+async def test_watchers_hear_the_song_and_the_turn_rotates(tmp_path):
+    """Everyone hears every clip; only the player whose turn it is answers."""
+    async with Harness(tmp_path) as h:
+        host, guest = Client("host-6", "Lensa"), Client("guest-6", "Sara")
+        await host.connect(h.url)
+        await guest.connect(h.url)
+        await host.emit("room:create", {"name": "Lensa"})
+        await host.wait_for(lambda s: s["phase"] == "lobby")
+        code = host.state["code"]
+        await guest.emit("room:join", {"code": code, "name": "Sara"})
+        await guest.wait_for(lambda s: len(s["players"]) == 2)
+
+        await host.emit("game:start", {"code": code})
+        await host.wait_for(lambda s: s["phase"] == "answering")
+
+        # Round 1 belongs to the host, but BOTH players are sent the audio.
+        assert host.state["isMyTurn"] is True
+        assert guest.state["isMyTurn"] is False
+        assert host.audio, "the answering player got no audio"
+        assert guest.audio, "the watching player got no audio"
+
+        await host.emit("round:answer", {"code": code, "gap": 0, "artist": "x"})
+        await host.wait_for(lambda s: s["phase"] == "revealing")
+        await host.emit("round:next", {"code": code})
+        await guest.wait_for(lambda s: s["roundNo"] == 2)
+
+        # Round 2 belongs to the guest.
+        assert guest.state["isMyTurn"] is True
+        assert host.state["isMyTurn"] is False
+        assert len(guest.audio) >= 2, "the watcher stopped receiving audio"
 
         await host.disconnect()
         await guest.disconnect()

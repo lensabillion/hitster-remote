@@ -114,32 +114,50 @@ class TestRoundFlow:
         room.start_game(deck())
         room.begin_round()
         room.submit_answer("p0", 0, "", "")
-        room.submit_answer("p1", 0, "", "")
         room.reveal()
         assert room.phase is Phase.REVEALING
         assert not room.submit_answer("p0", 0, "", "")
 
-    def test_everyone_answered_ignores_disconnected_players(self):
+    def test_only_the_active_player_may_answer(self):
+        """One song, one answer. Everyone else listens and waits their turn."""
         room = make_room(3)
         room.start_game(deck())
         room.begin_round()
-        room.detach_socket("sid2")
+        assert room.active_player_id == "p0"
 
-        room.submit_answer("p0", 0, "", "")
-        assert not room.everyone_answered()
-        room.submit_answer("p1", 0, "", "")
-        assert room.everyone_answered()  # p2 is gone; the table does not stall
+        assert not room.submit_answer("p1", 0, "Someone", "")
+        assert not room.submit_answer("p2", 0, "Someone", "")
+        assert not room.active_answered()
 
-    def test_reveal_adds_points_to_the_running_score(self):
+        assert room.submit_answer("p0", 0, "Someone", "")
+        assert room.active_answered()
+
+    def test_the_turn_passes_to_the_next_player(self):
+        room = make_room(3)
+        room.start_game(deck())
+        room.begin_round()
+        assert room.active_player_id == "p0"
+        room.advance_seat()
+        room.begin_round()
+        assert room.active_player_id == "p1"
+        assert room.submit_answer("p1", 0, "Someone", "")
+        assert not room.submit_answer("p0", 0, "Someone", "")
+
+    def test_everyone_gets_the_same_number_of_turns(self):
+        room = make_room(3)
+        room.start_game(deck(20), rounds=10)
+        # 10 wanted over 3 players would give someone an extra song.
+        assert room.rounds_planned % 3 == 0
+        assert room.rounds_planned == 9
+
+    def test_reveal_scores_only_the_player_whose_turn_it_is(self):
         room = make_room(2)
         room.start_game(deck())
         subject = room.begin_round()
-        # Gap 0 is correct only if the subject predates the seeded card.
         room.submit_answer("p0", 0, subject.artist_latin, "")
-        room.submit_answer("p1", 0, "Somebody Else", "")
         room.reveal()
         assert room.players["p0"].score >= 70  # artist alone is worth 70
-        assert room.players["p1"].score < 70
+        assert room.players["p1"].score == 0  # not their turn
 
     def test_standings_rank_by_score(self):
         room = make_room(3)
@@ -176,33 +194,34 @@ class TestSerializeWithholdsTheAnswer:
 
     def test_card_is_disclosed_only_once_revealing(self):
         self.room.submit_answer("p0", 0, "", "")
-        self.room.submit_answer("p1", 0, "", "")
         self.room.reveal()
         state = serialize(self.room, "p0")
         assert state["card"]["year"] == self.subject.year
 
-    def test_other_players_answers_stay_hidden_before_the_reveal(self):
-        self.room.submit_answer("p1", 2, "Aster Aweke", "Y'shebellu")
-        blob = json.dumps(serialize(self.room, "p0"), ensure_ascii=False)
-        assert serialize(self.room, "p0")["answeredPlayerIds"] == ["p1"]
-        assert serialize(self.room, "p0")["outcome"] is None
-        assert "Aster Aweke" not in blob, "another player's guess leaked"
+    def test_the_answer_stays_hidden_from_the_watchers_until_the_reveal(self):
+        self.room.submit_answer("p0", 2, "Aster Aweke", "Y'shebellu")
+        blob = json.dumps(serialize(self.room, "p1"), ensure_ascii=False)
+        assert serialize(self.room, "p1")["outcome"] is None
+        assert "Aster Aweke" not in blob, "the answerer's guess leaked to a watcher"
         assert "Y'shebellu" not in blob
 
-    def test_viewer_sees_only_its_own_answer_back(self):
-        self.room.submit_answer("p1", 2, "Aster Aweke", "")
-        assert serialize(self.room, "p0")["hasAnswered"] is False
-        assert serialize(self.room, "p0")["myAnswer"] is None
-        assert serialize(self.room, "p1")["hasAnswered"] is True
-        assert serialize(self.room, "p1")["myAnswer"]["artistGuess"] == "Aster Aweke"
+    def test_each_viewer_knows_only_whether_it_is_their_own_turn(self):
+        assert serialize(self.room, "p0")["isMyTurn"] is True
+        assert serialize(self.room, "p1")["isMyTurn"] is False
 
-    def test_every_answer_is_disclosed_at_the_reveal(self):
-        self.room.submit_answer("p0", 0, "Someone", "")
-        self.room.submit_answer("p1", 1, "Aster Aweke", "")
+    def test_viewer_sees_only_its_own_answer_back(self):
+        self.room.submit_answer("p0", 2, "Aster Aweke", "")
+        assert serialize(self.room, "p0")["hasAnswered"] is True
+        assert serialize(self.room, "p0")["myAnswer"]["artistGuess"] == "Aster Aweke"
+        assert serialize(self.room, "p1")["hasAnswered"] is False
+        assert serialize(self.room, "p1")["myAnswer"] is None
+
+    def test_the_answer_is_disclosed_to_everyone_at_the_reveal(self):
+        self.room.submit_answer("p0", 0, "Aster Aweke", "")
         self.room.reveal()
-        outcome = serialize(self.room, "p0")["outcome"]
-        assert outcome["scores"]["p1"]["artistGuess"] == "Aster Aweke"
-        assert outcome["scores"]["p0"]["gap"] == 0
+        outcome = serialize(self.room, "p1")["outcome"]
+        assert outcome["playerId"] == "p0"
+        assert outcome["artistGuess"] == "Aster Aweke"
 
 
 class TestRoomRegistry:

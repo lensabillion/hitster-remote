@@ -90,94 +90,85 @@ class TestOrdinaryPlacement:
 
 
 class TestResolveRound:
+    """One song, one answer.
+
+    Only the player whose turn it is answers the card. Everyone else hears the
+    clip and gets their own song on their own turn.
+    """
+
     def setup_method(self):
         self.subject = card(1985, "subject")
-        # Both players hold the same two-card timeline, so gap 1 is correct.
         self.timelines = {
-            "a": [card(1970), card(1990)],
+            "a": [card(1970), card(1990)],  # gap 1 is correct
             "b": [card(1970), card(1990)],
-            "c": [card(1970), card(1990)],
         }
 
-    def test_active_correct_keeps_the_card_and_nobody_steals(self):
-        out = resolve_round(
-            "a",
-            self.timelines,
-            {"a": Answer("a", 1), "b": Answer("b", 0)},
-            self.subject,
-        )
-        assert out.scores['a'].year_right
-        assert out.card_winner == "a"
-        assert not out.stolen
-        assert not out.scores['b'].year_right
-
-    def test_shadow_guess_earns_a_token_even_when_active_is_right(self):
-        out = resolve_round(
-            "a",
-            self.timelines,
-            {"a": Answer("a", 1), "b": Answer("b", 1)},
-            self.subject,
-        )
-        assert out.card_winner == "a"
-        assert out.scores['b'].year_right
-
-    def test_active_wrong_and_one_correct_shadow_steals_it(self):
-        out = resolve_round(
-            "a",
-            self.timelines,
-            {"a": Answer("a", 0), "b": Answer("b", 1)},
-            self.subject,
-        )
-        assert not out.scores['a'].year_right
-        assert out.card_winner == "b"
-        assert out.stolen
-
-    def test_earliest_sealed_submission_wins_between_two_stealers(self):
-        out = resolve_round(
-            "a",
-            self.timelines,
-            {
-                "a": Answer("a", 0),
-                "b": Answer("b", 1, submitted_ms=500),
-                "c": Answer("c", 1, submitted_ms=200),
-            },
-            self.subject,
-        )
-        assert out.card_winner == "c"
-        assert out.stolen
-        # Both were right, so both are paid.
-        assert out.scores['b'].year_right and out.scores['c'].year_right
-
-    def test_nobody_correct_means_the_card_goes_nowhere(self):
-        out = resolve_round(
-            "a",
-            self.timelines,
-            {"a": Answer("a", 0), "b": Answer("b", 2)},
-            self.subject,
-        )
-        assert out.card_winner is None
-        assert not out.stolen
-        assert not any(v.year_right for k, v in out.scores.items() if k != 'a')
-
-    def test_active_alone_scores_only_itself(self):
+    def test_correct_placement_keeps_the_card(self):
         out = resolve_round("a", self.timelines, {"a": Answer("a", 1)}, self.subject)
-        assert set(out.scores) == {"a"}
-        assert out.card_winner == "a"
+        assert out.active_player_id == "a"
+        assert out.score.year_right
+        assert out.keeps_card
 
-    def test_active_who_never_answered_forfeits_the_card(self):
-        out = resolve_round("a", self.timelines, {"b": Answer("b", 1)}, self.subject)
-        assert "a" not in out.scores  # no answer, no grade
-        assert out.card_winner == "b"
-        assert out.stolen
+    def test_wrong_placement_loses_the_card(self):
+        out = resolve_round("a", self.timelines, {"a": Answer("a", 0)}, self.subject)
+        assert not out.score.year_right
+        assert not out.keeps_card
 
-    def test_shadow_guess_is_judged_against_the_guessers_own_timeline(self):
-        # c holds a different timeline, so gap 1 is wrong for c but right for b.
-        self.timelines["c"] = [card(1990), card(1995)]
+    def test_only_the_active_players_answer_is_graded(self):
+        # b answered too -- an out-of-turn submission the server should never
+        # have accepted. Even if it arrives, it must not be scored.
+        out = resolve_round(
+            "a", self.timelines, {"a": Answer("a", 0), "b": Answer("b", 1)}, self.subject
+        )
+        assert out.active_player_id == "a"
+        assert not out.keeps_card
+        assert out.points == 0
+
+    def test_no_answer_scores_nothing_and_keeps_nothing(self):
+        out = resolve_round("a", self.timelines, {}, self.subject)
+        assert out.score is None
+        assert out.points == 0
+        assert not out.keeps_card
+
+    def test_artist_alone_scores_seventy(self):
         out = resolve_round(
             "a",
             self.timelines,
-            {"a": Answer("a", 0), "b": Answer("b", 1), "c": Answer("c", 1)},
+            {"a": Answer("a", 0, artist_guess="subject")},
             self.subject,
         )
-        assert out.scores['b'].year_right
-        assert out.card_winner == "b"
+        assert out.score.artist_right
+        assert not out.score.year_right
+        assert out.points == ARTIST_POINTS
+
+    def test_year_alone_scores_thirty(self):
+        out = resolve_round(
+            "a",
+            self.timelines,
+            {"a": Answer("a", 1, artist_guess="somebody else entirely")},
+            self.subject,
+        )
+        assert not out.score.artist_right
+        assert out.score.year_right
+        assert out.points == YEAR_POINTS
+
+    def test_both_right_scores_the_full_hundred(self):
+        out = resolve_round(
+            "a",
+            self.timelines,
+            {"a": Answer("a", 1, artist_guess="subject")},
+            self.subject,
+        )
+        assert out.points == ARTIST_POINTS + YEAR_POINTS
+
+
+class TestScoreAnswer:
+    def test_title_is_captured_but_never_scored(self):
+        subject = Card(
+            id="s", year=1975, artist_latin="Mahmoud Ahmed", title_latin="Tezeta"
+        )
+        score = score_answer(
+            Answer("a", 0, artist_guess="wrong", title_guess="Tezeta"), subject, []
+        )
+        assert score.title_right
+        assert score.points == YEAR_POINTS  # empty timeline, so the gap is right

@@ -123,16 +123,20 @@ def score_answer(answer: Answer, card: Card, timeline: list[Card]) -> AnswerScor
 
 @dataclass(slots=True)
 class RoundOutcome:
-    """What the reveal resolved to."""
+    """What the reveal resolved to.
 
-    scores: dict[str, AnswerScore]  # player_id -> grade
-    card_winner: str | None  # who adds the card to their timeline
-    stolen: bool
-    correct_gaps: list[int]
+    One song, one answer. Only the player whose turn it is answers the card;
+    everyone else hears the clip and watches. The turn then passes on, so each
+    song belongs to exactly one player.
+    """
 
-    def points_for(self, player_id: str) -> int:
-        score = self.scores.get(player_id)
-        return score.points if score else 0
+    active_player_id: str
+    score: AnswerScore | None  # None when the active player never answered
+    keeps_card: bool
+
+    @property
+    def points(self) -> int:
+        return self.score.points if self.score else 0
 
 
 def resolve_round(
@@ -141,46 +145,18 @@ def resolve_round(
     answers: dict[str, Answer],
     card: Card,
 ) -> RoundOutcome:
-    """Resolve one round of simultaneous answering.
+    """Grade the turn.
 
-    Everyone is graded out of 100 against their own timeline, so nobody is idle
-    and nobody's score depends on whose turn it is.
-
-    The card itself still goes somewhere, because the timeline is what the year
-    is judged against and it has to keep growing: to the active player if they
-    placed correctly, otherwise to the earliest correct challenger. Ties break on
-    submission time, which only ever separates two already-correct answers -- so
-    a faster connection never wins a card that knowledge did not.
+    Only the active player's answer counts. Their card is graded against their
+    own timeline, and they keep it when the year is right -- the timeline is
+    both the play surface and the record of what they have won.
     """
-    scores: dict[str, AnswerScore] = {}
-    for player_id, answer in answers.items():
-        scores[player_id] = score_answer(answer, card, timelines.get(player_id, []))
+    answer = answers.get(active_player_id)
+    if answer is None:
+        return RoundOutcome(active_player_id, None, False)
 
-    active_correct = bool(
-        active_player_id in scores and scores[active_player_id].year_right
-    )
-
-    card_winner: str | None = None
-    stolen = False
-    if active_correct:
-        card_winner = active_player_id
-    else:
-        challengers = [
-            answers[pid]
-            for pid, score in scores.items()
-            if pid != active_player_id and score.year_right
-        ]
-        if challengers:
-            challengers.sort(key=lambda a: a.submitted_ms)
-            card_winner = challengers[0].player_id
-            stolen = True
-
-    return RoundOutcome(
-        scores=scores,
-        card_winner=card_winner,
-        stolen=stolen,
-        correct_gaps=correct_gaps(timelines.get(active_player_id, []), card),
-    )
+    score = score_answer(answer, card, timelines.get(active_player_id, []))
+    return RoundOutcome(active_player_id, score, score.year_right)
 
 
 def clamp_tokens(n: int) -> int:

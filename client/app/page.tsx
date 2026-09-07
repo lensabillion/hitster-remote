@@ -123,9 +123,9 @@ export default function Home() {
             margin: 0,
           }}
         >
-          Hear a song. Guess when it came out. Slot it into your timeline before
-          anyone steals it from you. Everyone places every round, so nobody sits
-          waiting for a turn.
+          Take turns. On your turn a song plays: name the singer and slot it into
+          your timeline. Everyone hears every song, so you are always listening
+          even when it is not your go.
         </p>
       </header>
 
@@ -142,10 +142,10 @@ export default function Home() {
               maxWidth: "58ch",
             }}
           >
-            Name the singer — worth 70 points — and tap where the song belongs on
-            your timeline, worth 30. You can answer while the music is still
-            playing. A year that ties with a card already down may sit on either
-            side of it.
+            On your turn: name the singer — worth 70 points — and tap where the song
+            belongs on your timeline, worth 30. You can answer while the music is
+            still playing, or stop it first. A year that ties with a card already
+            down may sit on either side of it.
           </p>
         </div>
         <Timeline cards={SAMPLE} interactive />

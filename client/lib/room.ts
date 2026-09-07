@@ -25,20 +25,16 @@ export type PlayerView = {
   timeline: TimelineCard[];
 };
 
-export type AnswerScore = {
+/* One song, one answer: the outcome describes the turn, not the table. */
+export type Outcome = {
+  playerId: string;
+  keptCard: boolean;
+  points: number;
   artistRight: boolean;
   yearRight: boolean;
   titleRight: boolean;
-  points: number;
   artistGuess: string;
   titleGuess: string;
-  gap: number;
-};
-
-export type Outcome = {
-  cardWinner: string | null;
-  stolen: boolean;
-  scores: Record<string, AnswerScore>;
 };
 
 export type RoomState = {
@@ -53,7 +49,7 @@ export type RoomState = {
   clipSeconds: number;
   isLastRound: boolean;
   players: PlayerView[];
-  answeredPlayerIds: string[];
+  isMyTurn: boolean;
   hasAnswered: boolean;
   myAnswer: { gap: number; artistGuess: string; titleGuess: string } | null;
   card: (TimelineCard & { addedBy: string }) | null;

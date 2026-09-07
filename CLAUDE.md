@@ -76,8 +76,11 @@ ceiling that only stops an absent player stalling the table.
 - **Same-year rule.** A card whose year ties with one already on the timeline may sit on
   *either* side of it. Both bounds in `is_correct_placement` are inclusive, which is
   exactly this rule — do not "fix" them to strict inequalities.
-- **Everyone answers every round.** Everyone is graded; the card itself goes to the
-  active player if they placed correctly, otherwise to the earliest correct challenger.
+- **One song, one answer.** Only the player whose turn it is answers; the server rejects
+  an out-of-turn submission. Everyone else *hears the same clip* and watches — the audio
+  cue goes to every socket, not just the answering one. Their song comes on their turn.
+- **Turns are dealt evenly.** `rounds_planned` is rounded down to a whole number of turns
+  each, so nobody sitting early in the seat order gets an extra song.
 - **Two matchers, opposite temperaments.** `artist_matches` (catalogue) is strict, so a
   wrong Deezer track is never attached. `player_artist_matches` (typed input) is
   generous, so a player is never robbed by spelling. Do not collapse them into one.

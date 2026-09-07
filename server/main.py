@@ -296,6 +296,8 @@ async def on_answer(sid, data):  # noqa: ANN001
         return
     player_id = (data or {}).get("playerId", "")
     gap = (data or {}).get("gap")
+    if player_id != room.active_player_id:
+        return await fail(sid, "It is not your turn — this song belongs to someone else")
     if not isinstance(gap, int):
         return await fail(sid, "Pick where it goes on your timeline first")
 
@@ -306,7 +308,7 @@ async def on_answer(sid, data):  # noqa: ANN001
         return
 
     await push_state(room)
-    if room.everyone_answered():
+    if room.active_answered():
         await do_reveal(room)
 
 

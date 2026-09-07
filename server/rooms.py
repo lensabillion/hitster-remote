@@ -127,7 +127,11 @@ class Room:
         # One seed card each, then one card per round.
         seats = max(1, len(self.players))
         playable = max(1, len(self.deck) - seats)
-        self.rounds_planned = min(rounds or DEFAULT_ROUNDS, playable)
+        # One song per turn, so plan a whole number of turns each -- otherwise
+        # whoever sits early in the order gets more songs than everyone else.
+        wanted = min(rounds or DEFAULT_ROUNDS, playable)
+        turns_each = max(1, wanted // seats)
+        self.rounds_planned = turns_each * seats
         self.phase = Phase.ANSWERING
         for player in self.players.values():
             player.tokens = STARTING_TOKENS
@@ -160,8 +164,15 @@ class Room:
     def submit_answer(
         self, player_id: str, gap: int, artist_guess: str, title_guess: str
     ) -> bool:
-        """Seal one answer card. One per player per round, no changing it."""
+        """Seal the answer for this turn.
+
+        One song, one answer: only the player whose turn it is may answer.
+        Everyone else hears the clip and watches, and gets their own song on
+        their own turn.
+        """
         if self.phase is not Phase.ANSWERING:
+            return False
+        if player_id != self.active_player_id:
             return False
         if player_id not in self.players or player_id in self.answers:
             return False
@@ -173,9 +184,10 @@ class Room:
         )
         return True
 
-    def everyone_answered(self) -> bool:
-        expected = {p.id for p in self.connected_players()}
-        return bool(expected) and expected <= set(self.answers)
+    def active_answered(self) -> bool:
+        """The turn is over once its one player has sealed an answer."""
+        active = self.active_player_id
+        return bool(active) and active in self.answers
 
     def reveal(self) -> RoundOutcome | None:
         """Resolve the round and apply points, then the card itself."""
@@ -186,14 +198,11 @@ class Room:
 
         outcome = resolve_round(active_id, timelines, self.answers, self.current_card)
 
-        for player_id, score in outcome.scores.items():
-            if player := self.players.get(player_id):
-                player.score += score.points
-
-        if outcome.card_winner and (winner := self.players.get(outcome.card_winner)):
-            if answer := self.answers.get(outcome.card_winner):
-                winner.timeline = insert_card(
-                    winner.timeline, self.current_card, answer.gap
+        if player := self.players.get(active_id):
+            player.score += outcome.points
+            if outcome.keeps_card and (answer := self.answers.get(active_id)):
+                player.timeline = insert_card(
+                    player.timeline, self.current_card, answer.gap
                 )
 
         self.phase = Phase.REVEALING
@@ -287,7 +296,7 @@ def serialize(room: Room, viewer_id: str) -> dict:
             for p in (room.players[pid] for pid in room.seats if pid in room.players)
         ],
         # Who has sealed an answer -- but never what they wrote.
-        "answeredPlayerIds": sorted(room.answers),
+        "isMyTurn": viewer_id == room.active_player_id,
         "hasAnswered": viewer_id in room.answers,
         "myAnswer": (
             {
@@ -301,21 +310,28 @@ def serialize(room: Room, viewer_id: str) -> dict:
         "card": _card_json(card) | {"addedBy": card.added_by} if card and revealing else None,
         "outcome": (
             {
-                "cardWinner": room.last_outcome.card_winner,
-                "stolen": room.last_outcome.stolen,
-                "scores": {
-                    pid: {
-                        "artistRight": s.artist_right,
-                        "yearRight": s.year_right,
-                        "titleRight": s.title_right,
-                        "points": s.points,
-                        "artistGuess": room.answers[pid].artist_guess,
-                        "titleGuess": room.answers[pid].title_guess,
-                        "gap": room.answers[pid].gap,
-                    }
-                    for pid, s in room.last_outcome.scores.items()
-                    if pid in room.answers
-                },
+                "playerId": room.last_outcome.active_player_id,
+                "keptCard": room.last_outcome.keeps_card,
+                "points": room.last_outcome.points,
+                "artistRight": bool(
+                    room.last_outcome.score and room.last_outcome.score.artist_right
+                ),
+                "yearRight": bool(
+                    room.last_outcome.score and room.last_outcome.score.year_right
+                ),
+                "titleRight": bool(
+                    room.last_outcome.score and room.last_outcome.score.title_right
+                ),
+                "artistGuess": (
+                    room.answers[room.last_outcome.active_player_id].artist_guess
+                    if room.last_outcome.active_player_id in room.answers
+                    else ""
+                ),
+                "titleGuess": (
+                    room.answers[room.last_outcome.active_player_id].title_guess
+                    if room.last_outcome.active_player_id in room.answers
+                    else ""
+                ),
             }
             if revealing and room.last_outcome
             else None
