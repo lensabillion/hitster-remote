@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import Timeline, { type Card } from "@/components/Timeline";
 import { getPlayerName, setPlayerName } from "@/lib/identity";
 import { onRoomJoined, useRoom } from "@/lib/room";
+import { ConnectionBanner, ErrorBanner } from "@/components/Banner";
 
 /* Sample timeline. Real artists with verified catalogue entries; the years are
  * illustrative, and confirming them is exactly what the deck builder makes a
@@ -46,9 +47,19 @@ const SAMPLE: Card[] = [
 
 export default function Home() {
   const router = useRouter();
-  const { createRoom, joinRoom, error, connected } = useRoom();
+  const { createRoom, joinRoom, error, clearError, connection, connected, serverUrl } =
+    useRoom();
   const [name, setName] = useState("");
   const [code, setCode] = useState("");
+  // Guards against a double tap creating two rooms; cleared if the server never
+  // answers, so a failed attempt does not lock the button forever.
+  const [busy, setBusy] = useState(false);
+
+  useEffect(() => {
+    if (!busy) return;
+    const t = window.setTimeout(() => setBusy(false), 6000);
+    return () => window.clearTimeout(t);
+  }, [busy]);
 
   useEffect(() => setName(getPlayerName()), []);
   useEffect(() => onRoomJoined((joined) => router.push(`/room/${joined}`)), [router]);
@@ -58,10 +69,13 @@ export default function Home() {
     setPlayerName(value);
   }
 
-  const ready = Boolean(name.trim()) && connected;
+  const ready = Boolean(name.trim()) && connected && !busy;
 
   return (
     <main className="page" style={{ gap: 40, paddingTop: 56 }}>
+      <ConnectionBanner connection={connection} serverUrl={serverUrl} />
+      <ErrorBanner message={error} onDismiss={clearError} />
+
       <header className="stack" style={{ gap: 14 }}>
         <span className="label">የዜማ ጨዋታ · a music timeline game</span>
         <div className="row" style={{ gap: 16, alignItems: "baseline" }}>
@@ -105,8 +119,15 @@ export default function Home() {
               Start a room
             </h2>
             <p className="hint">You get a four-letter code to send your friends.</p>
-            <button className="btn" disabled={!ready} onClick={() => createRoom(name.trim())}>
-              Create room
+            <button
+              className="btn"
+              disabled={!ready}
+              onClick={() => {
+                setBusy(true);
+                createRoom(name.trim());
+              }}
+            >
+              {busy ? "Creating…" : "Create room"}
             </button>
           </div>
 
@@ -126,16 +147,19 @@ export default function Home() {
             <button
               className="btn"
               disabled={!ready || code.length !== 4}
-              onClick={() => joinRoom(code, name.trim())}
+              onClick={() => {
+                setBusy(true);
+                joinRoom(code, name.trim());
+              }}
             >
               Join
             </button>
           </div>
         </div>
 
-        {!name.trim() && <p className="hint">Enter your name above to create or join.</p>}
-        {!connected && <p className="hint">Connecting to the game server…</p>}
-        {error && <p style={{ color: "var(--red)", fontSize: "var(--t-sm)" }}>{error}</p>}
+        {!name.trim() && connected && (
+          <p className="hint">Enter your name above to create or join.</p>
+        )}
       </section>
 
       <section className="stack" style={{ gap: 12 }}>

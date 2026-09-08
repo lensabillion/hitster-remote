@@ -31,6 +31,11 @@ CLIP_SECONDS = 30
 # only stops one absent player from stalling the table.
 ANSWER_SECONDS = 90
 DEFAULT_ROUNDS = 12
+# A room is not destroyed the moment its last socket drops. Two players on the
+# same flaky connection can both blink out at once, and deleting the room there
+# would throw away a live game -- scores, timelines and all -- for a hiccup that
+# resolves in two seconds.
+EMPTY_ROOM_GRACE_MS = 15 * 60 * 1000
 
 
 @dataclass(slots=True)
@@ -63,6 +68,7 @@ class Room:
     answers: dict[str, Answer] = field(default_factory=dict)
     clip_started_ms: int = 0
     last_outcome: RoundOutcome | None = None
+    empty_since_ms: int | None = None
 
     # ---------- seating ----------
 
@@ -245,8 +251,21 @@ def get_room(code: str) -> Room | None:
 
 
 def drop_empty_rooms() -> None:
+    """Reap rooms nobody has come back to, after a grace period.
+
+    Deleting on the last disconnect looks correct and is not: a shared wifi
+    blip drops every socket at once, and the game would be gone before anyone
+    could reconnect. Players hold durable ids, so the room only has to survive
+    long enough for them to return.
+    """
+    now = now_ms()
     for code, room in list(rooms.items()):
-        if not room.connected_players():
+        if room.connected_players():
+            room.empty_since_ms = None
+            continue
+        if room.empty_since_ms is None:
+            room.empty_since_ms = now
+        elif now - room.empty_since_ms >= EMPTY_ROOM_GRACE_MS:
             del rooms[code]
 
 

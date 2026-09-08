@@ -1,11 +1,13 @@
 "use client";
 
 import { use, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import AnswerCard from "@/components/AnswerCard";
 import AudioClip from "@/components/AudioClip";
 import Timeline from "@/components/Timeline";
 import { getPlayerName } from "@/lib/identity";
 import { useRoom, type PlayerView, type RoomState } from "@/lib/room";
+import { ConnectionBanner, ErrorBanner } from "@/components/Banner";
 
 const ARTIST_POINTS = 70;
 const YEAR_POINTS = 30;
@@ -61,8 +63,11 @@ function PlayerRow({ player, state }: { player: PlayerView; state: RoomState }) 
 export default function RoomPage({ params }: { params: Promise<{ code: string }> }) {
   const { code } = use(params);
   const roomCode = code.toUpperCase();
-  const { state, audio, error, connected, playerId, joinRoom, startGame, answer, nextRound } =
-    useRoom();
+  const router = useRouter();
+  const {
+    state, audio, error, clearError, connection, connected, serverUrl,
+    playerId, joinRoom, startGame, answer, nextRound,
+  } = useRoom();
 
   // Join, and rejoin on every reconnect. Identity is durable, so the server puts
   // us back in the same seat with our score and timeline.
@@ -70,11 +75,20 @@ export default function RoomPage({ params }: { params: Promise<{ code: string }>
     if (connected) joinRoom(roomCode, getPlayerName() || "Player");
   }, [connected, roomCode, joinRoom]);
 
+  // No room state yet. Previously this said "Joining XXXX…" forever when the
+  // code was wrong, because the error toast faded after five seconds and there
+  // was no way back to the home page.
   if (!state) {
     return (
       <main className="page">
-        <p className="muted">{connected ? `Joining ${roomCode}…` : "Connecting…"}</p>
-        {error && <p style={{ color: "var(--red)" }}>{error}</p>}
+        <ConnectionBanner connection={connection} serverUrl={serverUrl} />
+        <ErrorBanner message={error} onDismiss={clearError} />
+        {connected && !error && <p className="muted">Joining {roomCode}…</p>}
+        {error && (
+          <button className="btn" style={{ alignSelf: "flex-start" }} onClick={() => router.push("/")}>
+            Back to the start
+          </button>
+        )}
       </main>
     );
   }
@@ -105,21 +119,14 @@ export default function RoomPage({ params }: { params: Promise<{ code: string }>
           <Pill tone={connected ? "good" : "bad"}>
             {connected ? "connected" : "reconnecting"}
           </Pill>
+          <button className="linkish" onClick={() => router.push("/")}>
+            Leave
+          </button>
         </div>
       </header>
 
-      {error && (
-        <div
-          className="card"
-          style={{
-            borderColor: "var(--red)",
-            background: "var(--red-wash)",
-            padding: "12px 16px",
-          }}
-        >
-          <span style={{ color: "var(--red)", fontSize: "var(--t-sm)" }}>{error}</span>
-        </div>
-      )}
+      <ConnectionBanner connection={connection} serverUrl={serverUrl} />
+      <ErrorBanner message={error} onDismiss={clearError} />
 
       {state.phase !== "lobby" && <Scoreboard state={state} />}
 

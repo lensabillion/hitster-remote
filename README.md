@@ -113,6 +113,7 @@ Full steps: [docs/DEPLOY.md](docs/DEPLOY.md).
 | [FINDINGS.md](FINDINGS.md) | What the music APIs actually do, verified against live services |
 | [Design spec](docs/project/specs/active/plan-2026-09-07-remote-group-game.md) | Why the game is shaped this way, including decisions that were later reversed |
 | [docs/DEPLOY.md](docs/DEPLOY.md) | Getting it online, and why the server cannot live on Vercel |
+| [docs/REVIEW-2026-09-08.md](docs/REVIEW-2026-09-08.md) | Page-by-page review: nine failure modes found and fixed |
 | [CLAUDE.md](CLAUDE.md) | Working notes — the things that are easy to get wrong |
 
 ## Issue tracking

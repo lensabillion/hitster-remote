@@ -160,6 +160,8 @@ async def do_reveal(room: Room) -> None:
 
 
 async def finish_game(room: Room) -> None:
+    # Otherwise the round's answer-window task outlives the game it belonged to.
+    cancel_timer(room.code)
     room.phase = Phase.OVER
     leader = room.leader()
     await sio.emit(
