@@ -28,6 +28,7 @@ export type PlayerView = {
   name: string;
   tokens: number;
   score: number;
+  titleHits: number;
   connected: boolean;
   isHost: boolean;
   timeline: TimelineCard[];
@@ -43,6 +44,7 @@ export type Outcome = {
   titleRight: boolean;
   artistGuess: string;
   titleGuess: string;
+  declined: boolean;
 };
 
 export type RoomState = {
@@ -62,7 +64,7 @@ export type RoomState = {
   myAnswer: { gap: number; artistGuess: string; titleGuess: string } | null;
   card: (TimelineCard & { addedBy: string }) | null;
   outcome: Outcome | null;
-  standings: { id: string; name: string; score: number }[];
+  standings: { id: string; name: string; score: number; titleHits: number }[];
 };
 
 export type AudioCue = {
@@ -176,6 +178,12 @@ export function useRoom() {
       emit("round:answer", { code, gap, artist, title }),
     [emit],
   );
+  /* "I don't know" — an explicit pass. Scores nothing, keeps no card, and ends
+     the turn at once instead of making everyone wait out the clock. */
+  const decline = useCallback(
+    (code: string) => emit("round:answer", { code, declined: true }),
+    [emit],
+  );
   const nextRound = useCallback(
     (code: string) => emit("round:next", { code }),
     [emit],
@@ -194,6 +202,7 @@ export function useRoom() {
     joinRoom,
     startGame,
     answer,
+    decline,
     nextRound,
   };
 }

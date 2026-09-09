@@ -45,6 +45,8 @@ class Player:
     sid: str | None = None
     tokens: int = STARTING_TOKENS
     score: int = 0
+    # Title hits score nothing, but they break ties. See standings().
+    title_hits: int = 0
     timeline: list[Card] = field(default_factory=list)
 
     @property
@@ -142,6 +144,7 @@ class Room:
         for player in self.players.values():
             player.tokens = STARTING_TOKENS
             player.score = 0
+            player.title_hits = 0
             player.timeline = []
             if seed := self.draw():
                 player.timeline = [seed]
@@ -168,7 +171,12 @@ class Room:
         return card
 
     def submit_answer(
-        self, player_id: str, gap: int, artist_guess: str, title_guess: str
+        self,
+        player_id: str,
+        gap: int,
+        artist_guess: str,
+        title_guess: str,
+        declined: bool = False,
     ) -> bool:
         """Seal the answer for this turn.
 
@@ -185,8 +193,9 @@ class Room:
         self.answers[player_id] = Answer(
             player_id=player_id,
             gap=gap,
-            artist_guess=artist_guess.strip(),
-            title_guess=title_guess.strip(),
+            artist_guess="" if declined else artist_guess.strip(),
+            title_guess="" if declined else title_guess.strip(),
+            declined=declined,
         )
         return True
 
@@ -206,6 +215,8 @@ class Room:
 
         if player := self.players.get(active_id):
             player.score += outcome.points
+            if outcome.score and outcome.score.title_right:
+                player.title_hits += 1
             if outcome.keeps_card and (answer := self.answers.get(active_id)):
                 player.timeline = insert_card(
                     player.timeline, self.current_card, answer.gap
@@ -219,9 +230,15 @@ class Room:
         return self.round_no >= self.rounds_planned or self.draw_index >= len(self.deck)
 
     def standings(self) -> list[Player]:
+        """Rank by score, then by title hits, then by cards held.
+
+        Titles are worth no points on purpose, so that naming one never feels
+        compulsory — but knowing the title as well as the singer is more
+        knowledge, and it settles a draw.
+        """
         return sorted(
             self.players.values(),
-            key=lambda p: (p.score, len(p.timeline)),
+            key=lambda p: (p.score, p.title_hits, len(p.timeline)),
             reverse=True,
         )
 
@@ -308,6 +325,7 @@ def serialize(room: Room, viewer_id: str) -> dict:
                 "name": p.name,
                 "tokens": p.tokens,
                 "score": p.score,
+                "titleHits": p.title_hits,
                 "connected": p.connected,
                 "isHost": p.id == room.host_id,
                 "timeline": [_card_json(c) for c in p.timeline],
@@ -341,6 +359,10 @@ def serialize(room: Room, viewer_id: str) -> dict:
                 "titleRight": bool(
                     room.last_outcome.score and room.last_outcome.score.title_right
                 ),
+                "declined": bool(
+                    room.last_outcome.active_player_id in room.answers
+                    and room.answers[room.last_outcome.active_player_id].declined
+                ),
                 "artistGuess": (
                     room.answers[room.last_outcome.active_player_id].artist_guess
                     if room.last_outcome.active_player_id in room.answers
@@ -356,7 +378,7 @@ def serialize(room: Room, viewer_id: str) -> dict:
             else None
         ),
         "standings": [
-            {"id": p.id, "name": p.name, "score": p.score}
+            {"id": p.id, "name": p.name, "score": p.score, "titleHits": p.title_hits}
             for p in room.standings()
         ],
     }
