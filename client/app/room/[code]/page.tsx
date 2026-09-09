@@ -32,6 +32,14 @@ function Scoreboard({ state }: { state: RoomState }) {
             {p.id === state.viewerId ? " (you)" : ""}
           </span>
           <span className="score-val">{p.score}</span>
+          {p.titleHits > 0 && (
+            <span
+              className="pill pill-gold"
+              title={`${p.titleHits} song title${p.titleHits === 1 ? "" : "s"} named — breaks a tie`}
+            >
+              ♪{p.titleHits}
+            </span>
+          )}
         </div>
       ))}
     </div>
@@ -66,7 +74,7 @@ export default function RoomPage({ params }: { params: Promise<{ code: string }>
   const router = useRouter();
   const {
     state, audio, error, clearError, connection, connected, serverUrl,
-    playerId, joinRoom, startGame, answer, nextRound,
+    playerId, joinRoom, startGame, answer, decline, nextRound,
   } = useRoom();
 
   // Join, and rejoin on every reconnect. Identity is durable, so the server puts
@@ -199,6 +207,7 @@ export default function RoomPage({ params }: { params: Promise<{ code: string }>
               onSeal={(gap, artistGuess, titleGuess) =>
                 answer(state.code, gap, artistGuess, titleGuess)
               }
+              onDecline={() => decline(state.code)}
             />
           ) : (
             /* Watching. They hear the same clip and answer on their own turn. */
@@ -248,13 +257,17 @@ export default function RoomPage({ params }: { params: Promise<{ code: string }>
                 <Pill tone={outcome.yearRight ? "good" : "bad"}>
                   year {outcome.yearRight ? `+${YEAR_POINTS}` : "0"}
                 </Pill>
-                {outcome.titleRight && <Pill tone="gold">knew the title</Pill>}
+                {outcome.titleRight && (
+                  <Pill tone="gold">knew the title · tiebreak +1</Pill>
+                )}
                 <span className="points">+{outcome.points}</span>
               </div>
               <p className="hint">
-                Said “{outcome.artistGuess || "nothing"}”
-                {outcome.titleGuess ? ` · “${outcome.titleGuess}”` : ""} ·{" "}
-                {outcome.keptCard ? "kept the card" : "lost the card"}
+                {outcome.declined
+                  ? "Passed on this one — no points, no card."
+                  : `Said “${outcome.artistGuess || "nothing"}”${
+                      outcome.titleGuess ? ` · “${outcome.titleGuess}”` : ""
+                    } · ${outcome.keptCard ? "kept the card" : "lost the card"}`}
               </p>
             </>
           )}
@@ -288,6 +301,9 @@ export default function RoomPage({ params }: { params: Promise<{ code: string }>
                   {i + 1}
                 </span>
                 <span style={{ color: "var(--ink-soft)" }}>{p.name}</span>
+                {p.titleHits > 0 && (
+                  <span className="hint">♪{p.titleHits} titles</span>
+                )}
                 <span className="score-val" style={{ marginLeft: "auto" }}>
                   {p.score}
                 </span>

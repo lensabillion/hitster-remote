@@ -17,6 +17,7 @@ export default function AnswerCard({
   artistPoints,
   yearPoints,
   onSeal,
+  onDecline,
   sealed,
   sealedAnswer,
 }: {
@@ -24,6 +25,7 @@ export default function AnswerCard({
   artistPoints: number;
   yearPoints: number;
   onSeal: (gap: number, artist: string, title: string) => void;
+  onDecline: () => void;
   sealed: boolean;
   sealedAnswer?: { gap: number; artistGuess: string; titleGuess: string } | null;
 }) {
@@ -38,11 +40,15 @@ export default function AnswerCard({
           Answer sealed
         </span>
         <p className="muted" style={{ fontSize: "var(--t-md)" }}>
-          You said{" "}
-          <strong style={{ color: "var(--ink)" }}>
-            {sealedAnswer?.artistGuess || "— nothing —"}
-          </strong>
-          {sealedAnswer?.titleGuess ? ` · “${sealedAnswer.titleGuess}”` : ""}
+          {sealedAnswer?.artistGuess ? (
+            <>
+              You said{" "}
+              <strong style={{ color: "var(--ink)" }}>{sealedAnswer.artistGuess}</strong>
+              {sealedAnswer?.titleGuess ? ` · “${sealedAnswer.titleGuess}”` : ""}
+            </>
+          ) : (
+            "You passed on this one."
+          )}
         </p>
         <p className="hint">Nothing is revealed until the answer is in.</p>
       </div>
@@ -102,14 +108,20 @@ export default function AnswerCard({
         />
       </div>
 
-      <button
-        className="btn"
-        disabled={gap === null}
-        onClick={() => onSeal(gap!, artist.trim(), title.trim())}
-        style={{ alignSelf: "flex-start" }}
-      >
-        {gap === null ? "Pick where it goes first" : "Seal my answer"}
-      </button>
+      <div className="row" style={{ gap: 12 }}>
+        <button
+          className="btn"
+          disabled={gap === null}
+          onClick={() => onSeal(gap!, artist.trim(), title.trim())}
+        >
+          {gap === null ? "Pick where it goes first" : "Seal my answer"}
+        </button>
+        {/* Always available. Passing scores zero, but it ends the turn straight
+            away rather than leaving everyone waiting on the clock. */}
+        <button className="btn-ghost" onClick={onDecline}>
+          I don’t know — pass
+        </button>
+      </div>
     </div>
   );
 }

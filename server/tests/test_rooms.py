@@ -231,3 +231,79 @@ class TestRoomRegistry:
         assert get_room(f"  {room.code}  ") is room
         assert get_room("ZZZZ") is None
         assert get_room("") is None
+
+
+class TestDeclinedAnswer:
+    """"I don't know" is a real move: zero score, no card, turn ends at once."""
+
+    def setup_method(self):
+        self.room = make_room(2)
+        self.room.start_game(deck())
+        self.subject = self.room.begin_round()
+
+    def test_declining_needs_no_placement_and_scores_nothing(self):
+        assert self.room.submit_answer("p0", 0, "", "", declined=True)
+        self.room.reveal()
+        assert self.room.players["p0"].score == 0
+        assert len(self.room.players["p0"].timeline) == 1  # no card gained
+
+    def test_declining_ends_the_turn_immediately(self):
+        self.room.submit_answer("p0", 0, "", "", declined=True)
+        assert self.room.active_answered()
+
+    def test_a_declined_answer_never_scores_even_by_accident(self):
+        # Gap 0 might well be the correct placement; declining must still be 0.
+        self.room.submit_answer("p0", 0, self.subject.artist_latin, "", declined=True)
+        out = self.room.reveal()
+        assert out.points == 0
+        assert not out.score.artist_right
+        assert not out.score.year_right
+        assert not out.keeps_card
+
+    def test_the_reveal_says_it_was_declined(self):
+        self.room.submit_answer("p0", 0, "", "", declined=True)
+        self.room.reveal()
+        assert serialize(self.room, "p1")["outcome"]["declined"] is True
+
+
+class TestTitleHitsBreakTies:
+    """Titles score nothing but settle a draw."""
+
+    def test_a_title_hit_is_tallied(self):
+        room = make_room(2)
+        room.start_game(deck())
+        subject = room.begin_round()
+        room.submit_answer("p0", 0, "", subject.title_latin)
+        room.reveal()
+        assert room.players["p0"].title_hits == 1
+
+    def test_declining_never_earns_a_title_hit(self):
+        room = make_room(2)
+        room.start_game(deck())
+        subject = room.begin_round()
+        room.submit_answer("p0", 0, "", subject.title_latin, declined=True)
+        room.reveal()
+        assert room.players["p0"].title_hits == 0
+
+    def test_equal_scores_are_broken_by_title_hits(self):
+        room = make_room(3)
+        for p in room.players.values():
+            p.score = 100
+        room.players["p1"].title_hits = 3
+        room.players["p2"].title_hits = 1
+        assert [p.id for p in room.standings()][:2] == ["p1", "p2"]
+        assert room.leader().id == "p1"
+
+    def test_title_hits_never_outrank_score(self):
+        room = make_room(2)
+        room.players["p0"].score = 200
+        room.players["p0"].title_hits = 0
+        room.players["p1"].score = 100
+        room.players["p1"].title_hits = 9
+        assert room.leader().id == "p0"
+
+    def test_title_hits_are_exposed_to_clients(self):
+        room = make_room(2)
+        room.players["p0"].title_hits = 2
+        state = serialize(room, "p0")
+        assert state["standings"][0]["titleHits"] == 2

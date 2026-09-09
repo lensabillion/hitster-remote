@@ -300,13 +300,16 @@ async def on_answer(sid, data):  # noqa: ANN001
     gap = (data or {}).get("gap")
     if player_id != room.active_player_id:
         return await fail(sid, "It is not your turn — this song belongs to someone else")
-    if not isinstance(gap, int):
+    # A declined answer needs no placement — that is the point of it.
+    if not bool((data or {}).get("declined")) and not isinstance(gap, int):
         return await fail(sid, "Pick where it goes on your timeline first")
+    gap = gap if isinstance(gap, int) else 0
 
     artist = str((data or {}).get("artist", ""))[:120]
     title = str((data or {}).get("title", ""))[:120]
+    declined = bool((data or {}).get("declined"))
 
-    if not room.submit_answer(player_id, gap, artist, title):
+    if not room.submit_answer(player_id, gap, artist, title, declined):
         return
 
     await push_state(room)

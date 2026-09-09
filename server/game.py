@@ -12,7 +12,11 @@ TOKEN_CAP = 5
 STARTING_TOKENS = 2
 
 # Knowing who sang it is the game; knowing exactly when is the tiebreaker.
-# The song title is captured and shown at the reveal but carries no points.
+#
+# The song title scores NOTHING in the running total -- deliberately, so it never
+# feels compulsory -- but a title hit is counted and breaks a tie. Someone who
+# knew the title as well as the singer has shown more, and that should settle a
+# draw rather than evaporating at the reveal.
 ARTIST_POINTS = 70
 YEAR_POINTS = 30
 MAX_ROUND_SCORE = ARTIST_POINTS + YEAR_POINTS
@@ -56,12 +60,18 @@ class Card:
 
 @dataclass(slots=True)
 class Answer:
-    """A sealed answer card. Hidden from everyone until the reveal."""
+    """A sealed answer card. Hidden from everyone until the reveal.
+
+    `declined` is an explicit "I don't know" rather than a silent timeout. It
+    scores nothing and keeps no card, but it ends the turn immediately instead
+    of making everyone wait out the clock for an answer that is not coming.
+    """
 
     player_id: str
     gap: int
     artist_guess: str = ""
     title_guess: str = ""
+    declined: bool = False
     submitted_ms: int = field(default_factory=lambda: int(time.time() * 1000))
 
 
@@ -113,6 +123,11 @@ def score_answer(answer: Answer, card: Card, timeline: list[Card]) -> AnswerScor
     transliteration -- a player should never lose points to a spelling of an
     Amharic name that has no agreed Latin form.
     """
+    if answer.declined:
+        # Passing is a real choice, not a failure to submit. Nothing is right,
+        # nothing is scored, and the round moves on.
+        return AnswerScore(False, False, False, 0)
+
     artist_right = player_artist_matches(answer.artist_guess, card.artist_latin)
     year_right = is_correct_placement(timeline, card, answer.gap)
     title_right = player_title_matches(answer.title_guess, card.title_latin)

@@ -7,8 +7,12 @@ import type { AudioCue } from "@/lib/room";
  * Nothing is streamed peer to peer: sub-second drift is invisible in a game
  * where nobody compares waveforms, and a mesh would cost far more than it buys.
  *
+ * The whole clip plays — a Deezer preview is about 30 seconds and that is all
+ * there is of it. Replay is free and unlimited; Stop is there for anyone who
+ * would rather kill the music and think.
+ *
  * Browsers refuse to start audio without a gesture, so the first round shows a
- * play button and every round after that starts on its own. */
+ * play button and later rounds start on their own. */
 
 declare global {
   interface Window {
@@ -30,13 +34,7 @@ function loadYouTubeApi(): Promise<any> {
   return ytApiPromise;
 }
 
-export default function AudioClip({
-  cue,
-  onEnded,
-}: {
-  cue: AudioCue | null;
-  onEnded?: () => void;
-}) {
+export default function AudioClip({ cue }: { cue: AudioCue | null }) {
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const ytHost = useRef<HTMLDivElement | null>(null);
   const ytPlayer = useRef<any>(null);
@@ -48,16 +46,14 @@ export default function AudioClip({
     let cancelled = false;
     setNeedsGesture(false);
 
-    const stopAt = window.setTimeout(() => {
-      stop();
-      onEnded?.();
-    }, cue.clipSeconds * 1000);
+    const endTimer = window.setTimeout(() => stop(), cue.clipSeconds * 1000);
 
     async function start() {
       if (cue!.source === "deezer" && cue!.url) {
         const el = audioRef.current;
         if (!el) return;
         el.src = cue!.url;
+        el.currentTime = 0;
         try {
           await el.play();
           if (!cancelled) setPlaying(true);
@@ -93,7 +89,7 @@ export default function AudioClip({
     start();
     return () => {
       cancelled = true;
-      window.clearTimeout(stopAt);
+      window.clearTimeout(endTimer);
       stop();
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -102,21 +98,19 @@ export default function AudioClip({
   function stop() {
     setPlaying(false);
     const el = audioRef.current;
-    if (el) {
-      el.pause();
-      el.currentTime = 0;
-    }
+    if (el) el.pause();
     try {
-      ytPlayer.current?.stopVideo?.();
+      ytPlayer.current?.pauseVideo?.();
     } catch {
       /* player may already be torn down */
     }
   }
 
-  async function playFromGesture() {
+  async function resume() {
     setNeedsGesture(false);
     try {
-      await audioRef.current?.play();
+      if (cue?.source === "deezer") await audioRef.current?.play();
+      else ytPlayer.current?.playVideo?.();
       setPlaying(true);
     } catch {
       setNeedsGesture(true);
@@ -124,18 +118,16 @@ export default function AudioClip({
   }
 
   function replay() {
-    const el = audioRef.current;
-    if (el && cue?.source === "deezer") {
-      el.currentTime = 0;
-      el.play().catch(() => setNeedsGesture(true));
-      return;
+    if (cue?.source === "deezer" && audioRef.current) {
+      audioRef.current.currentTime = 0;
+    } else {
+      try {
+        ytPlayer.current?.seekTo?.(0);
+      } catch {
+        /* not ready yet */
+      }
     }
-    try {
-      ytPlayer.current?.seekTo?.(0);
-      ytPlayer.current?.playVideo?.();
-    } catch {
-      /* nothing to replay yet */
-    }
+    resume();
   }
 
   if (!cue || cue.source === "none") {
@@ -143,12 +135,12 @@ export default function AudioClip({
   }
 
   return (
-    <div className="row" style={{ gap: 12 }}>
+    <div className="row" style={{ gap: 10 }}>
       <audio ref={audioRef} preload="auto" />
       <div ref={ytHost} aria-hidden style={{ position: "absolute", left: -9999, top: -9999 }} />
 
       {needsGesture ? (
-        <button className="btn" onClick={playFromGesture} style={{ padding: "10px 18px" }}>
+        <button className="btn" onClick={resume} style={{ padding: "10px 18px" }}>
           ▶ Play the clip
         </button>
       ) : (
@@ -158,14 +150,14 @@ export default function AudioClip({
       )}
 
       {playing && (
-        <button className="btn-ghost" onClick={() => stop()}>
+        <button className="btn-ghost" onClick={stop}>
           Stop
         </button>
       )}
       <button className="btn-ghost" onClick={replay}>
         Replay
       </button>
-      <span className="hint">free — answer whenever you like</span>
+      <span className="hint">replay is free — answer whenever you like</span>
     </div>
   );
 }
