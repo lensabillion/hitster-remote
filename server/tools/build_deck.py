@@ -28,6 +28,7 @@ from __future__ import annotations
 import argparse
 import asyncio
 import hashlib
+import json
 import re
 import sys
 from pathlib import Path
@@ -309,6 +310,64 @@ async def cmd_playlist(args: argparse.Namespace) -> int:
     return 0
 
 
+async def cmd_export(args: argparse.Namespace) -> int:
+    """Write the resolved deck to JSON so it can be shipped as data.
+
+    Curation is expensive and already done: every card here has a
+    human-confirmed year and, where one exists, a Deezer track id that was
+    verified when it was added. Re-deriving that at deploy time makes the build
+    depend on Deezer's search being healthy, and it is not always -- under
+    throttling Deezer answers queries with an empty result set rather than an
+    error, so an import silently produces a near-empty deck and the game then
+    refuses to start.
+    """
+    await db.connect()
+    cards = await db.all_cards()
+    await db.close()
+    if not cards:
+        print("Deck is empty — nothing to export.")
+        return 1
+    payload = [
+        {k: c[k] for k in (
+            "id", "year", "artist_latin", "title_latin",
+            "artist_am", "title_am", "youtube_id", "deezer_track_id", "added_by",
+        )}
+        for c in cards
+    ]
+    out = Path(args.out)
+    out.parent.mkdir(parents=True, exist_ok=True)
+    out.write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    playable = sum(1 for c in payload if c["deezer_track_id"] or c["youtube_id"])
+    print(f"Exported {len(payload)} cards to {out} ({playable} playable).")
+    return 0
+
+
+async def cmd_seed(args: argparse.Namespace) -> int:
+    """Load a resolved deck JSON into SQLite. Makes NO network calls.
+
+    This is what deployment runs. It cannot half-succeed because of someone
+    else's rate limit.
+    """
+    path = Path(args.file)
+    if not path.exists():
+        print(f"No such file: {path}")
+        return 1
+    cards = json.loads(path.read_text(encoding="utf-8"))
+    unplayable = [c for c in cards if not c.get("deezer_track_id") and not c.get("youtube_id")]
+    if unplayable:
+        for c in unplayable:
+            print(f"  ✗ no source: {c['artist_latin']} — {c['title_latin']}")
+        print(f"Refusing to seed: {len(unplayable)} card(s) have no playable source.")
+        return 1
+
+    await db.connect()
+    await db.upsert_cards(cards)
+    total = await db.card_count()
+    await db.close()
+    print(f"Seeded {len(cards)} cards. Deck now holds {total}.")
+    return 0
+
+
 async def cmd_list(_: argparse.Namespace) -> int:
     await db.connect()
     cards = await db.all_cards()
@@ -363,6 +422,14 @@ def main() -> int:
     p_pl.add_argument("url")
     p_pl.add_argument("--out", default="decks/from-playlist.tsv")
     p_pl.set_defaults(func=cmd_playlist)
+
+    p_exp = sub.add_parser("export", help="write the resolved deck to JSON")
+    p_exp.add_argument("--out", default="decks/deck.json")
+    p_exp.set_defaults(func=cmd_export)
+
+    p_seed = sub.add_parser("seed", help="load a resolved deck JSON — no network")
+    p_seed.add_argument("file", nargs="?", default="decks/deck.json")
+    p_seed.set_defaults(func=cmd_seed)
 
     sub.add_parser("list", help="show the current deck").set_defaults(func=cmd_list)
     sub.add_parser("check", help="re-probe every card's sources").set_defaults(
