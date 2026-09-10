@@ -14,10 +14,11 @@ import os
 
 import socketio
 from dotenv import load_dotenv
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
+from pydantic import BaseModel, Field
 
-from db import db
+from db import card_id, db
 from game import Card, Phase
 from rooms import (
     ANSWER_SECONDS,
@@ -29,13 +30,18 @@ from rooms import (
     rooms,
     serialize,
 )
-from sources import deezer_fresh_preview
+from sources import artist_matches, deezer_fresh_preview, extract_youtube_id
 
 load_dotenv()
 
 PORT = int(os.getenv("PORT", "3001"))
 ORIGINS = os.getenv("CORS_ORIGINS", "*")
 MIN_DECK = 6
+EARLIEST_YEAR, LATEST_YEAR = 1900, 2030
+# Optional shared secret for editing the deck. Unset means open, which matches
+# the rest of the game — there are no accounts anywhere. Set it if the URL ever
+# escapes the group.
+DECK_TOKEN = os.getenv("DECK_TOKEN", "")
 
 sio = socketio.AsyncServer(async_mode="asgi", cors_allowed_origins=ORIGINS)
 api = FastAPI()
@@ -63,6 +69,124 @@ api.router.lifespan_context = lifespan
 @api.get("/health")
 async def health() -> dict:
     return {"ok": True, "rooms": len(rooms), "cards": await db.card_count()}
+
+
+# ---------- deck editing ----------
+#
+# Every project that builds this game curates its songs by hand — Timtam ships
+# 7,239 entries in a committed YAML. The only real question is whether the
+# tooling makes it pleasant, so the deck is editable from the game itself rather
+# than only from a text file. That also lets a player on another continent add
+# the songs they actually know.
+
+
+class NewCard(BaseModel):
+    artist_latin: str = Field(min_length=1, max_length=120)
+    title_latin: str = Field(min_length=1, max_length=160)
+    year: int = Field(ge=EARLIEST_YEAR, le=LATEST_YEAR)
+    artist_am: str = Field(default="", max_length=160)
+    title_am: str = Field(default="", max_length=200)
+    youtube_url: str = Field(default="", max_length=300)
+    added_by: str = Field(default="", max_length=60)
+
+
+def _check_token(token: str | None) -> None:
+    if DECK_TOKEN and token != DECK_TOKEN:
+        raise HTTPException(status_code=403, detail="Wrong deck token")
+
+
+@api.get("/deck")
+async def deck_list() -> dict:
+    cards = await db.all_cards()
+    return {
+        "count": len(cards),
+        "cards": [
+            {
+                "id": c["id"], "year": c["year"],
+                "artistLatin": c["artist_latin"], "titleLatin": c["title_latin"],
+                "artistAm": c["artist_am"], "titleAm": c["title_am"],
+                "youtubeId": c["youtube_id"], "deezerTrackId": c["deezer_track_id"],
+                "addedBy": c["added_by"],
+            }
+            for c in cards
+        ],
+    }
+
+
+@api.get("/deck/search")
+async def deck_search(artist: str = "", title: str = "") -> dict:
+    """Look a song up on Deezer so the player does not have to hunt for a link.
+
+    Returns candidates rather than picking one: a wrong match plays a different
+    song mid-game, and only a person can tell which of these is the song they
+    meant.
+    """
+    if not artist.strip():
+        return {"candidates": [], "note": "Type an artist name first."}
+    import httpx
+
+    query = f'artist:"{artist.strip()}"'
+    if title.strip():
+        query += f' track:"{title.strip()}"'
+    try:
+        async with httpx.AsyncClient(timeout=12) as client:
+            r = await client.get(
+                "https://api.deezer.com/search", params={"q": query, "limit": 8}
+            )
+            data = r.json().get("data", [])
+    except Exception:
+        return {"candidates": [], "note": "Deezer did not answer. Add a YouTube link instead."}
+
+    out = [
+        {
+            "deezerTrackId": t["id"],
+            "artist": t["artist"]["name"],
+            "title": t["title"],
+            "album": (t.get("album") or {}).get("title", ""),
+            "preview": t.get("preview", ""),
+            "artistMatches": artist_matches(artist, t["artist"]["name"]),
+        }
+        for t in data
+        if t.get("preview")
+    ]
+    note = "" if out else (
+        "Nothing found. Deezer rate-limits in bursts and answers with an empty "
+        "list rather than an error — try again shortly, or add a YouTube link."
+    )
+    return {"candidates": out, "note": note}
+
+
+@api.post("/deck")
+async def deck_add(card: NewCard, deezer_track_id: int | None = None, token: str | None = None) -> dict:
+    _check_token(token)
+    youtube = extract_youtube_id(card.youtube_url) if card.youtube_url else None
+    if not deezer_track_id and not youtube:
+        raise HTTPException(
+            status_code=400,
+            detail="A card needs a playable source: pick a Deezer match or add a YouTube link.",
+        )
+    row = {
+        "id": card_id(card.artist_latin, card.title_latin),
+        "year": card.year,
+        "artist_latin": card.artist_latin.strip(),
+        "title_latin": card.title_latin.strip(),
+        "artist_am": card.artist_am.strip(),
+        "title_am": card.title_am.strip(),
+        "youtube_id": youtube or "",
+        "deezer_track_id": deezer_track_id,
+        "added_by": card.added_by.strip(),
+    }
+    await db.upsert_cards([row])
+    return {"ok": True, "id": row["id"], "count": await db.card_count()}
+
+
+@api.delete("/deck/{card}")
+async def deck_delete(card: str, token: str | None = None) -> dict:
+    _check_token(token)
+    removed = await db.delete_card(card)
+    if not removed:
+        raise HTTPException(status_code=404, detail="No card with that id")
+    return {"ok": True, "count": await db.card_count()}
 
 
 app = socketio.ASGIApp(sio, other_asgi_app=api)

@@ -59,6 +59,12 @@ cd server && ./.venv/bin/python -m pytest tests/ -q
 
 ## Build the deck
 
+Open **`/deck`** in the running game to add songs from a browser — search Deezer or paste
+a YouTube link, type the year, done. That is the intended way to grow the deck, and it
+works from a phone so anyone in the group can contribute.
+
+The CLI is still there for bulk work:
+
 Release years cannot be taken from an API — MusicBrainz gives three different answers for
 "Billie Jean", and Deezer and iTunes both report reissue dates. So the deck is curated by
 hand, once, offline, and committed.
