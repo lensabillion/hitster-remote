@@ -27,7 +27,6 @@ from __future__ import annotations
 
 import argparse
 import asyncio
-import hashlib
 import json
 import re
 import sys
@@ -35,7 +34,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
-from db import db  # noqa: E402
+from db import card_id, db  # noqa: E402
 from sources import (  # noqa: E402
     deezer_probe,
     extract_youtube_id,
@@ -45,10 +44,6 @@ from sources import (  # noqa: E402
 
 THIS_YEAR = 2026
 EARLIEST_YEAR = 1900
-
-
-def card_id(artist: str, title: str) -> str:
-    return hashlib.sha1(f"{artist.lower()}|{title.lower()}".encode()).hexdigest()[:12]
 
 
 def valid_year(value: str) -> int | None:

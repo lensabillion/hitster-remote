@@ -1,7 +1,7 @@
 # ዜማ (Zema) — Hitster Remote
 
 A remote music timeline game for Amharic songs. Hear a clip, guess the release year,
-place it in your timeline. First to eight correctly placed cards wins.
+place it in your timeline. Highest score after the planned rounds wins.
 
 Design contract: `docs/project/specs/active/plan-2026-09-07-remote-group-game.md`.
 Verified API behaviour and source constraints: `FINDINGS.md`.
@@ -39,8 +39,22 @@ cd server
 ./.venv/bin/python tools/build_deck.py list
 ```
 
-Seed format is tab-separated:
-`youtube_url <TAB> year <TAB> artist_latin <TAB> title_latin [<TAB> artist_am <TAB> title_am]`
+Seed format is tab-separated. Artist, title and year are enough — a YouTube URL is only
+needed for songs Deezer does not carry:
+
+`year <TAB> artist_latin <TAB> title_latin [<TAB> artist_am <TAB> title_am <TAB> youtube_url]`
+
+**Deployment seeds from `decks/deck.json`, never from a live import.** Deezer answers a
+throttled query with an empty result set rather than an error, so re-probing at build
+time silently produces a near-empty deck. Export after curating:
+
+```
+./.venv/bin/python tools/build_deck.py export   # -> decks/deck.json, commit it
+./.venv/bin/python tools/build_deck.py seed     # loads it, no network
+```
+
+Songs can also be added from the running game at `/deck`, which is how the deck is meant
+to grow — every comparable project curates by hand, and a page beats a text file.
 
 ## Architecture
 

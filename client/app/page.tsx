@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Timeline, { type Card } from "@/components/Timeline";
 import { getPlayerName, setPlayerName } from "@/lib/identity";
+import Link from "next/link";
 import { onRoomJoined, useRoom } from "@/lib/room";
 import { ConnectionBanner, ErrorBanner } from "@/components/Banner";
 
@@ -163,7 +164,12 @@ export default function Home() {
       </section>
 
       <section className="stack" style={{ gap: 12 }}>
-        <span className="label">What a turn looks like</span>
+        <div className="row" style={{ justifyContent: "space-between" }}>
+          <span className="label">What a turn looks like</span>
+          <Link href="/deck" className="linkish">
+            Edit the deck →
+          </Link>
+        </div>
         <p className="hint" style={{ maxWidth: "58ch" }}>
           Name the singer for 70 points, tap where the song belongs for 30. You can answer
           while the music is still playing, or stop it first. A year that ties a card

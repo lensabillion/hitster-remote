@@ -14,6 +14,7 @@ resolves, so it stays in memory (see rooms.py).
 
 from __future__ import annotations
 
+import hashlib
 import json
 import os
 from pathlib import Path
@@ -22,6 +23,12 @@ from typing import Any, Iterable
 import aiosqlite
 
 DB_PATH = Path(os.getenv("DB_PATH", Path(__file__).parent / "hitster.db"))
+
+
+def card_id(artist: str, title: str) -> str:
+    """Stable id from artist and title, so re-adding a song updates it in place
+    rather than creating a duplicate."""
+    return hashlib.sha1(f"{artist.lower().strip()}|{title.lower().strip()}".encode()).hexdigest()[:12]
 
 SCHEMA = """
 CREATE TABLE IF NOT EXISTS cards (
@@ -132,6 +139,11 @@ class Database:
     async def all_cards(self) -> list[dict[str, Any]]:
         cur = await self.conn.execute("SELECT * FROM cards ORDER BY year")
         return [dict(r) for r in await cur.fetchall()]
+
+    async def delete_card(self, card_id_: str) -> bool:
+        cur = await self.conn.execute("DELETE FROM cards WHERE id=?", (card_id_,))
+        await self.conn.commit()
+        return cur.rowcount > 0
 
     async def card_count(self) -> int:
         cur = await self.conn.execute("SELECT COUNT(*) AS n FROM cards")
