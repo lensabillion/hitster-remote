@@ -105,11 +105,30 @@ curl -sD - -o /dev/null -H "Origin: https://your-app.vercel.app" \
 
 ## The deck
 
-The Docker image runs the deck import at **build** time, so the 16 starter cards are baked
-in and there is no volume to manage and no Deezer lookup on a cold start. A card with no
-playable source fails the build rather than turning up broken mid-game.
+The deck ships as data: `server/decks/deck.json`, committed to the repo. Both the Docker
+image and the Render build command load it with `build_deck.py seed`, which makes **no
+network calls**, so there is no volume to manage and no Deezer lookup at build or boot. A
+card with no playable source is refused at seed time rather than turning up broken
+mid-game.
 
-To change the deck, edit `server/decks/starter-amharic.tsv` and redeploy.
+An earlier version re-ran the full import at build time, re-probing Deezer for every card.
+That made deploys depend on Deezer's search being healthy, and it is not always: under
+throttling Deezer answers with an **empty result set rather than an error**, so the import
+silently produced a near-empty deck and the server then refused to start a game. It was
+caught when a local run of that build step imported 2 of 16 cards.
+
+To change the deck, either add songs from the running game at `/deck`, or edit the deck
+with the CLI and export it:
+
+```bash
+cd server
+./.venv/bin/python tools/build_deck.py import decks/starter-amharic.tsv   # or add / playlist
+./.venv/bin/python tools/build_deck.py export                             # -> decks/deck.json
+```
+
+Commit `decks/deck.json` and redeploy. Songs added through `/deck` on a live server are
+written to that server's own database and **do not** reach `deck.json` on their own, so
+they are lost on a redeploy unless exported and committed.
 
 **The starter deck's years are unverified guesses.** They are marked as such at the top of
 the file. Fix them before the deck is fair to play with.
@@ -120,7 +139,8 @@ the file. Fix them before the deck is fair to play with.
 
 | | Survives | Why |
 |---|---|---|
-| The deck | yes | baked into the image |
+| The committed deck (`decks/deck.json`) | yes | seeded fresh on every deploy |
+| Songs added through `/deck` on the live server | **no** | written to that server's SQLite; the next deploy seeds over it |
 | Player identity | yes | a UUID in the browser's `localStorage` |
 | Score, timeline, seating | **no** | written to SQLite on the container's own disk |
 | A game in progress | **no** | live round state is in memory |

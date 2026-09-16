@@ -137,9 +137,10 @@ Every round, **every player privately places the card**, not just the active one
     HITSTER steal, but nobody has to shout.
 
 All placements are sealed until the reveal, so nothing is first-come-first-served and
-**no latency advantage exists**. This is the same mechanism as the sealed challenge
-window in [FINDINGS.md §4](../../../../FINDINGS.md), promoted from an edge case to the
-core loop.
+**no latency advantage exists**. At the time this was written, FINDINGS.md described the
+same mechanism as a "sealed challenge window" for steals; this design promoted it from an
+edge case to the core loop. That section has since been rewritten to record the reversal —
+see [FINDINGS.md §4](../../../../FINDINGS.md), "Everyone answers every round → REVERSED".
 
 Card economy stays intact: at most one card enters a timeline per round, so the game
 does not accelerate as the group grows.
