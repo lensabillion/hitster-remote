@@ -1,6 +1,6 @@
 # How ዜማ works
 
-Written 2026-09-07, against the code at that date. Every constant and behaviour below is
+Written 2026-09-07 and brought up to date on 2026-09-16, against the code at that date. Every constant and behaviour below is
 taken from the source rather than from memory; where a number appears, the file that owns
 it is named.
 
@@ -64,6 +64,17 @@ things that change several times a second and are worthless afterwards stay in m
 SQLite runs in WAL with `synchronous=NORMAL` on one shared connection. Postgres would be
 operational cost for load this will never see; SQLite reads are in-process and
 sub-millisecond, and the whole database is one file.
+
+### Rooms outlive their sockets
+
+A room is **not** deleted when its last socket drops. It survives
+`EMPTY_ROOM_GRACE_MS` — 15 minutes, in `rooms.py` — with nobody connected before
+`drop_empty_rooms()` reaps it.
+
+This fixed the worst bug found in review. The original version deleted any room with no
+connected sockets on every disconnect, so two players blinking out together — shared wifi,
+a phone changing network — deleted the room between them and lost the game in progress.
+Player ids are durable, so the room only has to outlive the outage.
 
 ### Player identity
 
@@ -143,7 +154,7 @@ early in the seat order gets an extra song.
 | `room:create` | `name` | Creates a room, returns a four-letter code |
 | `room:join` | `code`, `name` | Also the reconnect path; a known player may rejoin mid-game, a new one may not |
 | `game:start` | `code`, optional `rounds` | Host only, needs 2+ players and a deck of at least 6 |
-| `round:answer` | `code`, `gap`, `artist`, `title` | **Active player only.** One per round, final |
+| `round:answer` | `code`, `gap`, `artist`, `title`, optional `declined` | **Active player only.** One per round, final. `declined: true` is the pass button — no `gap` needed |
 | `round:next` | `code` | Host only, and only while revealing |
 
 **Server → client.**
@@ -154,6 +165,18 @@ early in the seat order gets an extra song.
 | `round:audio` | Resolved source, sent to every socket and re-sent on rejoin |
 | `game:over` | Final standings |
 | `error` | Human-readable, e.g. "It is not your turn" |
+
+**HTTP, for the deck editor.** Plain REST alongside the socket, used only by `/deck`.
+
+| Method | Path | Notes |
+|---|---|---|
+| `GET` | `/deck` | Every card |
+| `GET` | `/deck/search?artist=&title=` | Deezer candidates; each flagged if its artist does not match. Never auto-picks |
+| `POST` | `/deck` | Add or update a card. Refused without a playable source; year bounded 1900–2030 |
+| `DELETE` | `/deck/{id}` | Remove a card |
+
+`POST` and `DELETE` require `?token=` matching `DECK_TOKEN` **when that is set**. It is unset
+by default, to match the rest of the game, which has no accounts anywhere.
 
 ### Why state is fanned out per viewer
 
@@ -180,10 +203,18 @@ a watcher never receives the answerer's guess.
 |---|---|---|
 | The singer | **70** | `matching.player_artist_matches` against the card's Latin artist |
 | The year | **30** | `game.is_correct_placement` against that player's own timeline |
-| The song title | **0** | Captured, matched, and shown at the reveal — never scored |
+| The song title | **0** | Never added to the score — but counted as `title_hits`, which **breaks ties** |
 
 The halves are independent on purpose. Naming the singer but misplacing the card scores
 70, because knowing who sang it is most of what the game asks.
+
+**Standings** sort by `(score, title_hits, cards held)`. Titles score nothing, so naming one
+never feels compulsory, but knowing the title as well as the singer settles a draw.
+
+**Passing** — the "I don't know" button — is an explicit declined answer. It scores zero
+and keeps no card, but ends the turn at once instead of leaving the table waiting on the
+clock. `score_answer()` short-circuits on `declined` before any matching, so a pass can
+never score by accident, even when the placement it carried happens to be correct.
 
 ### The same-year rule
 
@@ -262,13 +293,36 @@ Release years **cannot** be taken from an API. MusicBrainz returns three differe
 for "Billie Jean"; Deezer and iTunes both report reissue dates. So every year is confirmed
 by a human, once, offline, and the deck is then a committed asset the game just reads.
 
+There are two ways to add songs.
+
+**In the game, at `/deck`.** Search Deezer or paste a YouTube link, fill artist, title,
+optional Amharic strings and the year. It works from a phone, so anyone in the group can
+contribute. This is how the deck is meant to grow — every comparable project curates by
+hand (Timtam/hitster ships 7,239 entries in a committed YAML), and a page beats a text file.
+
+**From the CLI**, for bulk work:
+
 ```bash
 cd server
-./.venv/bin/python tools/build_deck.py add            # one at a time, interactive
-./.venv/bin/python tools/build_deck.py import x.tsv   # bulk
+./.venv/bin/python tools/build_deck.py add              # one at a time, interactive
+./.venv/bin/python tools/build_deck.py import x.tsv     # bulk, from a TSV
+./.venv/bin/python tools/build_deck.py playlist <url>   # YouTube playlist -> a worksheet to fill in
 ./.venv/bin/python tools/build_deck.py list
-./.venv/bin/python tools/build_deck.py check          # re-probe every card's sources
+./.venv/bin/python tools/build_deck.py check            # re-probe every card's sources
+./.venv/bin/python tools/build_deck.py export           # -> decks/deck.json
+./.venv/bin/python tools/build_deck.py seed             # load decks/deck.json, no network
 ```
+
+**Deployment seeds from `decks/deck.json`, never from a live import.** Under throttling,
+Deezer answers queries with an empty result set rather than an error, so re-probing at
+build time silently produces a near-empty deck and the server refuses to start a game. The
+curation is already done — every card's track id was verified when it was added — so it
+ships as data.
+
+> **Songs added at `/deck` on a deployed server are not durable.** They go into that
+> server's own SQLite, and the next deploy seeds a fresh database from `deck.json`. On a
+> host that deploys on every push, that means the next merge. Export and commit anything
+> you want to keep.
 
 Seed format, tab-separated, `#` comments allowed:
 
@@ -308,5 +362,8 @@ whether a reconnecting player is put back together completely.
 - **Voice chat.** Players use WhatsApp, Discord or Meet alongside. The lobby reminds
   everyone to wear headphones, or the music echoes through their microphones.
 - **Tokens to spend.** The field exists on `Player` but nothing spends it yet.
+- **Durable deck edits on a deployed server.** `/deck` writes to the container's own
+  database, which is replaced on every deploy. Fixing this needs either a persistent disk
+  or an export path back into the repo.
 - **Pro/Expert modes.** They would need exact-year or title matching.
 - **Accounts, matchmaking, public rooms.** Private rooms among friends only.
