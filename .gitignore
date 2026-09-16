@@ -24,3 +24,7 @@ client/dist/
 *.db
 *.db-wal
 *.db-shm
+
+# Knowledge graph — regenerated locally by `graphify update .`, ~1.3 MB and
+# rewritten on every change, so committing it would bury every PR diff.
+graphify-out/

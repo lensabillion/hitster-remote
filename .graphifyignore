@@ -1,0 +1,17 @@
+# Keep the knowledge graph about the GAME, not the tooling around it.
+#
+# Without this, ~15% of the graph was agent-tool documentation — the tbd and
+# graphify skill files — so a question like "how does scoring work" could surface
+# tbd's instructions ahead of server/game.py.
+
+# Agent tooling: skills, hooks, and their generated docs.
+.claude/
+.agents/
+.codex/
+.tbd/
+AGENTS.md
+
+# Generated or vendored.
+graphify-out/
+client/package-lock.json
+client/next-env.d.ts
