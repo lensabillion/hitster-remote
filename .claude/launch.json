@@ -2,6 +2,13 @@
   "version": "0.0.1",
   "configurations": [
     {
+      "name": "zema-server",
+      "runtimeExecutable": "./.venv/bin/uvicorn",
+      "runtimeArgs": ["main:app", "--reload", "--port", "3001"],
+      "cwd": "server",
+      "port": 3001
+    },
+    {
       "name": "zema-client",
       "runtimeExecutable": "npm",
       "runtimeArgs": ["run", "dev"],

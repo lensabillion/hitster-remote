@@ -26,7 +26,6 @@ export type TimelineCard = {
 export type PlayerView = {
   id: string;
   name: string;
-  tokens: number;
   score: number;
   titleHits: number;
   connected: boolean;
@@ -47,6 +46,8 @@ export type Outcome = {
   declined: boolean;
 };
 
+/* Exactly what rooms.serialize() sends. The server withholds the current card
+ * until the reveal, so `card` and `outcome` are null while answering. */
 export type RoomState = {
   code: string;
   hostId: string;
@@ -55,13 +56,11 @@ export type RoomState = {
   roundsPlanned: number;
   activePlayerId: string | null;
   viewerId: string;
-  maxRoundScore: number;
-  clipSeconds: number;
-  isLastRound: boolean;
-  players: PlayerView[];
   isMyTurn: boolean;
-  hasAnswered: boolean;
-  myAnswer: { gap: number; artistGuess: string; titleGuess: string } | null;
+  isLastRound: boolean;
+  artistPoints: number;
+  yearPoints: number;
+  players: PlayerView[];
   card: (TimelineCard & { addedBy: string }) | null;
   outcome: Outcome | null;
   standings: { id: string; name: string; score: number; titleHits: number }[];
@@ -73,7 +72,6 @@ export type AudioCue = {
   youtubeId?: string;
   clipSeconds: number;
   roundNo: number;
-  startAt: number;
 };
 
 let socket: Socket | null = null;
@@ -188,16 +186,16 @@ export function useRoom() {
     (code: string) => emit("round:next", { code }),
     [emit],
   );
+  const clearError = useCallback(() => setError(""), []);
 
   return {
     state,
     audio,
     error,
-    clearError: () => setError(""),
+    clearError,
     connection,
     connected: connection === "online",
     serverUrl: SERVER_URL,
-    playerId: playerId.current,
     createRoom,
     joinRoom,
     startGame,

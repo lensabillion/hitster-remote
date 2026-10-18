@@ -8,13 +8,13 @@ import Link from "next/link";
 import { onRoomJoined, useRoom } from "@/lib/room";
 import { ConnectionBanner, ErrorBanner } from "@/components/Banner";
 
-/* Sample timeline. Real artists with verified catalogue entries; the years are
- * illustrative, and confirming them is exactly what the deck builder makes a
- * human do before a card is playable. */
+/* Sample timeline, taken from the starter deck so the home page never contradicts
+ * the game. The starter years are themselves still unverified -- confirming them
+ * is exactly what the deck builder makes a human do. */
 const SAMPLE: Card[] = [
   {
     id: "1",
-    year: 1972,
+    year: 1969,
     artistAm: "ሙላቱ አስታጥቄ",
     titleAm: "የከርሞ ሰው",
     artistLatin: "Mulatu Astatke",
@@ -109,6 +109,7 @@ export default function Home() {
             value={name}
             onChange={(e) => remember(e.target.value)}
             autoComplete="off"
+            maxLength={40}
           />
         </div>
 

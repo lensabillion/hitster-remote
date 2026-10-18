@@ -161,9 +161,9 @@ Five assumptions in the boxed game stop holding once players are 12,000 km apart
 five now have an implemented answer.
 
 1. **One phone, one room, one speaker.** Remotely every player is their own speaker. The
-   server broadcasts a track id and a start timestamp; each browser plays its own copy
-   from Deezer's CDN. Nothing is streamed peer to peer — sub-second drift is invisible in
-   a game where nobody compares waveforms. **Everyone receives the audio, including the
+   server resolves a fresh preview URL per round and sends it to every socket; each
+   browser plays its own copy from Deezer's CDN. Nothing is streamed peer to peer —
+   sub-second drift is invisible in a game where nobody compares waveforms. **Everyone receives the audio, including the
    players who are not answering.**
 2. **Cards on a table are public.** Every timeline renders on every screen, live.
 3. **Typing Ge'ez is not realistic.** Answers are typed in Latin letters and matched
@@ -237,7 +237,7 @@ time. The plumbing survived; the game did not.
 
 **Built and tested:** rooms and lobby, durable identity and reconnect, deck builder and
 SQLite storage, Deezer-primary audio with YouTube fallback, turn order, the answer card,
-70/30 scoring, the reveal, running scores and final standings. 106 tests.
+70/30 scoring, the reveal, running scores and final standings. 158 tests.
 
 **Not built:** tokens to spend, Pro/Expert modes, collaborative decks, reaction pings,
 deployment. The visual design is a first pass and is due a rework.

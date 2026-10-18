@@ -6,12 +6,7 @@ cards they earned and keep cards they did not.
 
 from __future__ import annotations
 
-import sys
-from pathlib import Path
-
-sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
-
-from game import (  # noqa: E402
+from game import (
     ARTIST_POINTS,
     YEAR_POINTS,
     Answer,

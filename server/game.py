@@ -1,15 +1,12 @@
-"""Pure game rules. No I/O, no state — everything here is testable in isolation."""
+"""Pure game rules. No I/O, no state -- everything here is testable in isolation."""
 
 from __future__ import annotations
 
 import time
-from dataclasses import dataclass, field
-from enum import Enum
+from dataclasses import dataclass
+from enum import StrEnum
 
 from matching import player_artist_matches, player_title_matches
-
-TOKEN_CAP = 5
-STARTING_TOKENS = 2
 
 # Knowing who sang it is the game; knowing exactly when is the tiebreaker.
 #
@@ -19,10 +16,9 @@ STARTING_TOKENS = 2
 # draw rather than evaporating at the reveal.
 ARTIST_POINTS = 70
 YEAR_POINTS = 30
-MAX_ROUND_SCORE = ARTIST_POINTS + YEAR_POINTS
 
 
-class Phase(str, Enum):
+class Phase(StrEnum):
     """Where a room is in the round cycle.
 
     There is no separate "listening" phase: the answer card is open from the
@@ -51,12 +47,6 @@ class Card:
     deezer_track_id: int | None = None
     added_by: str = ""
 
-    def display_artist(self) -> str:
-        return self.artist_am or self.artist_latin
-
-    def display_title(self) -> str:
-        return self.title_am or self.title_latin
-
 
 @dataclass(slots=True)
 class Answer:
@@ -72,7 +62,6 @@ class Answer:
     artist_guess: str = ""
     title_guess: str = ""
     declined: bool = False
-    submitted_ms: int = field(default_factory=lambda: int(time.time() * 1000))
 
 
 @dataclass(slots=True)
@@ -81,10 +70,6 @@ class AnswerScore:
     year_right: bool
     title_right: bool
     points: int
-
-    @property
-    def anything_right(self) -> bool:
-        return self.artist_right or self.year_right
 
 
 def is_correct_placement(timeline: list[Card], card: Card, gap: int) -> bool:
@@ -98,15 +83,13 @@ def is_correct_placement(timeline: list[Card], card: Card, gap: int) -> bool:
     """
     if not 0 <= gap <= len(timeline):
         return False
-    if gap > 0 and timeline[gap - 1].year > card.year:
-        return False
-    if gap < len(timeline) and card.year > timeline[gap].year:
-        return False
-    return True
+    after_left = gap == 0 or timeline[gap - 1].year <= card.year
+    before_right = gap == len(timeline) or card.year <= timeline[gap].year
+    return after_left and before_right
 
 
 def insert_card(timeline: list[Card], card: Card, gap: int) -> list[Card]:
-    return timeline[:gap] + [card] + timeline[gap:]
+    return [*timeline[:gap], card, *timeline[gap:]]
 
 
 def correct_gaps(timeline: list[Card], card: Card) -> list[int]:
@@ -172,10 +155,6 @@ def resolve_round(
 
     score = score_answer(answer, card, timelines.get(active_player_id, []))
     return RoundOutcome(active_player_id, score, score.year_right)
-
-
-def clamp_tokens(n: int) -> int:
-    return max(0, min(n, TOKEN_CAP))
 
 
 def now_ms() -> int:

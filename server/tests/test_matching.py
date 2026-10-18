@@ -1,24 +1,73 @@
-"""Tests for player-typed artist matching.
+"""Tests for name matching -- both temperaments.
 
-Amharic names reach Latin script with no agreed spelling. A player who knows
-perfectly well that Tilahun Gessesse sang a song should not lose 70 points for
-writing "Telahun Gesesse", so this matcher is deliberately generous -- but not
+Catalogue matching must be strict: a wrong Deezer id silently plays a different
+song. Player matching must be generous: Amharic names reach Latin script with no
+agreed spelling, and a player who knows perfectly well that Tilahun Gessesse
+sang a song should not lose 70 points for writing "Telahun Gesesse" -- but not
 so generous that any string matches any artist.
 """
 
 from __future__ import annotations
 
-import sys
-from pathlib import Path
-
 import pytest
 
-sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
-
-from matching import player_artist_matches, player_title_matches  # noqa: E402
+from matching import artist_matches, normalize, player_artist_matches, player_title_matches
 
 
-class TestAcceptsWhatThePlayerMeant:
+class TestNormalize:
+    def test_strips_accents_from_transliterations(self):
+        assert normalize("Erè mèla mèla") == normalize("Ere mela mela")
+
+    def test_casefolds_and_drops_punctuation(self):
+        assert normalize("Aster  AWEKE!") == "aster aweke"
+
+    def test_leaves_ethiopic_script_intact(self):
+        assert normalize("ቴዲ አፍሮ") == "ቴዲ አፍሮ"
+
+
+class TestCatalogueMatching:
+    """The bands overlap on a whole-string ratio, so these are regression tests.
+
+    "Teddy Afro" vs "Teddy Karo" scores 0.90 overall and "Mulatu Astatke" vs
+    "Mulatu Astatqe" scores 0.93 -- a single threshold cannot separate a wrong
+    artist from a transliteration variant. Word-level comparison can.
+    """
+
+    @pytest.mark.parametrize(
+        "wanted,found",
+        [
+            ("Teddy Afro", "Teddy Karo"),  # real Deezer result, different artist
+            ("Teddy Afro", "Teddy pro"),
+            ("Teddy Afro", "Hewan Gebrewold"),  # what a loose search returns
+            ("Gigi", "GIGI Rivera"),
+            ("Aster Aweke", "Aster Aweke Band"),
+            ("Betty G", "Betty Boo"),
+        ],
+    )
+    def test_rejects_wrong_artists(self, wanted, found):
+        assert not artist_matches(wanted, found)
+
+    @pytest.mark.parametrize(
+        "wanted,found",
+        [
+            ("Aster Aweke", "Aster Aweke"),
+            ("Mahmoud Ahmed", "Mahmoud Ahmed"),
+            ("Alemayehu Eshete", "Alemayehu Eshete"),
+            ("Hailu Mergia", "Hailu Mergia"),
+            ("Yehune Belay", "Yehunie Belay"),  # spelling variant
+            ("Mulatu Astatke", "Mulatu Astatqe"),  # transliteration variant
+            ("aster aweke", "Aster Aweke"),  # case only
+        ],
+    )
+    def test_accepts_the_same_artist(self, wanted, found):
+        assert artist_matches(wanted, found)
+
+    def test_empty_input_never_matches(self):
+        assert not artist_matches("", "Aster Aweke")
+        assert not artist_matches("Aster Aweke", "")
+
+
+class TestPlayerAcceptsWhatTheyMeant:
     @pytest.mark.parametrize(
         "guess",
         [
@@ -52,7 +101,7 @@ class TestAcceptsWhatThePlayerMeant:
         assert player_artist_matches("Aster-Aweke!", "Aster Aweke")
 
 
-class TestRejectsWhatThePlayerDidNotMean:
+class TestPlayerRejectsWhatTheyDidNotMean:
     @pytest.mark.parametrize(
         "guess",
         [

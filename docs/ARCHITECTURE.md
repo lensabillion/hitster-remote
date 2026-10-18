@@ -1,6 +1,6 @@
 # How ዜማ works
 
-Written 2026-09-07 and brought up to date on 2026-09-16, against the code at that date. Every constant and behaviour below is
+Written 2026-09-07 and brought up to date on 2026-10-18, against the code at that date. Every constant and behaviour below is
 taken from the source rather than from memory; where a number appears, the file that owns
 it is named.
 
@@ -33,7 +33,8 @@ Highest score at the end wins.
     AnswerCard          ◀─── room:state ────  game.py     pure rules, scoring
     AudioClip           ◀─── round:audio ───  matching.py name matching
     Timeline                                  sources.py  Deezer / YouTube lookup
-  lib/                                        db.py       SQLite (deck, identities)
+    UnsavedBanner                             deck.py     deck.json export and diff
+  lib/                                        db.py       SQLite (the deck, nothing else)
     identity.ts   durable player UUID
     room.ts       socket + typed state              │
                                                     ▼
@@ -58,12 +59,19 @@ things that change several times a second and are worthless afterwards stay in m
 
 | Lives in | What | Why |
 |---|---|---|
-| **SQLite** (`db.py`) | deck cards, player identities, room records, seating, timelines | Must outlive a dropped socket or a restart |
-| **Memory** (`rooms.py`) | current card, sealed answer, phase, timers, clip start | Changes constantly, meaningless once the round resolves |
+| **SQLite** (`db.py`) | deck cards | Must outlive a restart; re-seeded from `deck.json` on every deploy |
+| **Memory** (`rooms.py`) | rooms, seats, scores, timelines, current card, sealed answer, phase, timers | Changes constantly, meaningless once the game ends |
 
 SQLite runs in WAL with `synchronous=NORMAL` on one shared connection. Postgres would be
 operational cost for load this will never see; SQLite reads are in-process and
 sub-millisecond, and the whole database is one file.
+
+Nothing about a room is persisted, and that is a deliberate statement rather than an
+omission. An earlier version also wrote players, rooms, seats and timelines to SQLite —
+but nothing ever read them back, so a restart lost the game regardless and the tables
+were a false promise. They were removed in the October 2026 review. Restoring a game
+after a restart would need the current card and timers rebuilt too; if it ever matters,
+that is a feature to design, not a flag to flip.
 
 ### Rooms outlive their sockets
 
@@ -75,6 +83,10 @@ This fixed the worst bug found in review. The original version deleted any room 
 connected sockets on every disconnect, so two players blinking out together — shared wifi,
 a phone changing network — deleted the room between them and lost the game in progress.
 Player ids are durable, so the room only has to outlive the outage.
+
+The reaper runs every `REAP_INTERVAL_SECONDS` (60, `main.py`) as well as on every
+disconnect. Running it only on disconnects meant the grace period could expire only when
+somebody *else* left, so on a quiet server an abandoned room lived forever.
 
 ### Player identity
 
@@ -108,7 +120,7 @@ think. Gating answers behind the end of the clip made the round feel rigid.
      └─ rounds_planned rounded DOWN to a whole number of turns each
 
 2. start_round()
-     └─ draw a card, phase = answering, record clip_started_ms
+     └─ draw a card, phase = answering
      └─ resolve a FRESH Deezer preview URL (they expire in 15 minutes)
      └─ round:audio  →  EVERY connected socket, not just the answering player
      └─ room:state   →  each socket, individually filtered
@@ -122,7 +134,6 @@ think. Gating answers behind the end of the clip made the round feel rigid.
      └─ grade out of 100, add to the running score
      └─ if the placement was right, insert the card into their timeline
      └─ phase = revealing; the card is disclosed to everyone now and not before
-     └─ persist score and timeline to SQLite
 
 5. host emits round:next
      └─ advance_seat() skips disconnected players
@@ -137,8 +148,13 @@ think. Gating answers behind the end of the clip made the round feel rigid.
 | `ANSWER_SECONDS` | 90 | `rooms.py` |
 | `DEFAULT_ROUNDS` | 12 | `rooms.py` |
 | `MIN_DECK` | 6 | `main.py` |
+| `EMPTY_ROOM_GRACE_MS` | 15 min | `rooms.py` |
+| `REAP_INTERVAL_SECONDS` | 60 | `main.py` |
 | `ARTIST_POINTS` | 70 | `game.py` |
 | `YEAR_POINTS` | 30 | `game.py` |
+
+`ARTIST_POINTS` and `YEAR_POINTS` are sent in every `room:state` as `artistPoints` and
+`yearPoints`; the client renders them and never hardcodes the split.
 
 `rounds_planned` is rounded down to a multiple of the player count, so nobody sitting
 early in the seat order gets an extra song.
@@ -161,22 +177,23 @@ early in the seat order gets an extra song.
 
 | Event | Notes |
 |---|---|
-| `room:state` | The whole view, **sent per viewer** — see below |
+| `room:state` | The whole view, **sent per viewer** — see below. The `over` phase carries the final standings |
 | `round:audio` | Resolved source, sent to every socket and re-sent on rejoin |
-| `game:over` | Final standings |
 | `error` | Human-readable, e.g. "It is not your turn" |
 
 **HTTP, for the deck editor.** Plain REST alongside the socket, used only by `/deck`.
 
 | Method | Path | Notes |
 |---|---|---|
-| `GET` | `/deck` | Every card |
+| `GET` | `/deck` | Every card, plus `storage` (ephemeral or persistent) and `unsaved` — what differs from the committed `deck.json`, or null when there is no file to compare against |
+| `GET` | `/deck/export` | The live deck as a `deck.json` download, byte-identical to `build_deck.py export` |
 | `GET` | `/deck/search?artist=&title=` | Deezer candidates; each flagged if its artist does not match. Never auto-picks |
-| `POST` | `/deck` | Add or update a card. Refused without a playable source; year bounded 1900–2030 |
+| `POST` | `/deck` | Add or update a card from a JSON body. Refused without a Deezer track id or a YouTube link; year bounded 1900–this year |
 | `DELETE` | `/deck/{id}` | Remove a card |
 
 `POST` and `DELETE` require `?token=` matching `DECK_TOKEN` **when that is set**. It is unset
-by default, to match the rest of the game, which has no accounts anywhere.
+by default, to match the rest of the game, which has no accounts anywhere. The `/deck` page
+reads `?token=` from its own URL once and remembers it, so the host shares one link.
 
 ### Why state is fanned out per viewer
 
@@ -185,8 +202,11 @@ rather than broadcast once, because what each player may see differs:
 
 - the current card — artist, title **and year** — is withheld from *everyone* until the
   reveal;
-- a player is told only whether *they themselves* have answered, and gets only their own
-  answer echoed back.
+- the answer itself appears only inside the reveal's `outcome`, never before.
+
+Because the turn resolves the instant its one answer is sealed, there is no "answered,
+waiting for the others" state any more; the sealed-answer card and the `hasAnswered` /
+`myAnswer` fields that served the reversed everyone-answers design were removed.
 
 Anything in this payload is readable in devtools. A leak here would not fail loudly — it
 would silently decide who wins — so it is covered by tests that assert the subject card's
@@ -321,8 +341,9 @@ ships as data.
 
 > **Songs added at `/deck` on a deployed server are not durable.** They go into that
 > server's own SQLite, and the next deploy seeds a fresh database from `deck.json`. On a
-> host that deploys on every push, that means the next merge. Export and commit anything
-> you want to keep.
+> host that deploys on every push, that means the next merge. The page detects Render
+> and Fly (`storage_is_ephemeral()` in `main.py`), lists every song that is not yet in
+> the committed deck, and offers **Download deck.json** — commit that file to keep them.
 
 Seed format, tab-separated, `#` comments allowed:
 
@@ -341,15 +362,16 @@ carry. The shipped starter deck is 16 Amharic songs spanning 1966–2026.
 
 ## 10. Testing
 
-106 tests. `cd server && ./.venv/bin/python -m pytest tests/ -q`
+158 tests. `cd server && ./.venv/bin/python -m pytest tests/ -q`
 
 | File | Covers |
 |---|---|
 | `test_game.py` | Placement validation including every same-year edge case; round resolution; 70/30 independence |
 | `test_matching.py` | Both matchers, in both directions — what must match and what must not |
-| `test_rooms.py` | Seating, reconnect, turn order, and that no unrevealed card leaks into a payload |
-| `test_sources.py` | URL parsing, decoration stripping, catalogue matching |
-| `test_integration.py` | Real sockets against the real ASGI app: full rounds, out-of-turn refusal, reconnect, watchers receiving audio |
+| `test_rooms.py` | Seating, reconnect, turn order, the empty-room grace period, and that no unrevealed card leaks into a payload |
+| `test_sources.py` | URL parsing, and the Deezer probe against a fake API: field-scoped search, wrong artists refused, no answer vs. empty answer |
+| `test_deck.py` | The `deck.json` format: canonical order, Amharic as text, export/seed round trip, the unsaved diff, and that the committed deck is canonical and playable |
+| `test_integration.py` | Real sockets against the real ASGI app: full rounds, out-of-turn refusal, reconnect, watchers receiving audio, the answer-window timeout, and the deck editor's HTTP surface including the token gate |
 
 The integration suite exists because the bugs that actually bit during development were
 all in the wiring rather than the rules — who is told what, when a round advances, and
@@ -361,9 +383,12 @@ whether a reconnecting player is put back together completely.
 
 - **Voice chat.** Players use WhatsApp, Discord or Meet alongside. The lobby reminds
   everyone to wear headphones, or the music echoes through their microphones.
-- **Tokens to spend.** The field exists on `Player` but nothing spends it yet.
-- **Durable deck edits on a deployed server.** `/deck` writes to the container's own
-  database, which is replaced on every deploy. Fixing this needs either a persistent disk
-  or an export path back into the repo.
+- **Tokens to spend.** Hitster's token economy (skip, buy a card) is tracked as an
+  issue; nothing in the code anticipates it. A half-wired `tokens` field used to travel
+  through the player model, the schema and the wire for no reader, and was removed.
+- **A persistent disk for deck edits.** `/deck` writes to the container's own database,
+  which is replaced on every deploy. Rather than a disk, the page says what is unsaved
+  and hands over `deck.json` to commit — the repo stays the source of truth.
+- **Restoring a game after a server restart.** Rooms live in memory only.
 - **Pro/Expert modes.** They would need exact-year or title matching.
 - **Accounts, matchmaking, public rooms.** Private rooms among friends only.

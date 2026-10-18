@@ -65,7 +65,7 @@ def artist_matches(wanted: str, found: str) -> bool:
         return False
     return all(
         SequenceMatcher(None, x, y).ratio() >= ARTIST_WORD_MIN
-        for x, y in zip(a_words, b_words)
+        for x, y in zip(a_words, b_words, strict=True)
     )
 
 

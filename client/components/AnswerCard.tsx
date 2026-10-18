@@ -8,9 +8,13 @@ import Timeline, { type Card } from "@/components/Timeline";
  * Open from the moment the clip starts, so you can answer over the music or stop
  * it first. Nothing here waits for the song to finish.
  *
- * Ordered by what it is worth. The singer is 70 points so it comes first and gets
- * the autofocus; the placement is 30; the title scores nothing, so it sits last,
- * smaller, and says "optional" rather than looking compulsory. */
+ * Ordered by what it is worth. The singer is 70 points so it comes first; the
+ * placement is 30; the title scores nothing, so it sits last, smaller, and says
+ * "optional" rather than looking compulsory. Nothing autofocuses: on a phone the
+ * keyboard would cover the timeline you need to tap.
+ *
+ * The turn resolves the moment the answer is sealed, so this card is replaced by
+ * the reveal rather than by a "waiting" state. */
 
 export default function AnswerCard({
   timeline,
@@ -18,42 +22,16 @@ export default function AnswerCard({
   yearPoints,
   onSeal,
   onDecline,
-  sealed,
-  sealedAnswer,
 }: {
   timeline: Card[];
   artistPoints: number;
   yearPoints: number;
   onSeal: (gap: number, artist: string, title: string) => void;
   onDecline: () => void;
-  sealed: boolean;
-  sealedAnswer?: { gap: number; artistGuess: string; titleGuess: string } | null;
 }) {
   const [artist, setArtist] = useState("");
   const [title, setTitle] = useState("");
   const [gap, setGap] = useState<number | null>(null);
-
-  if (sealed) {
-    return (
-      <div className="hero" style={{ borderColor: "var(--green)" }}>
-        <span className="label" style={{ color: "var(--green)" }}>
-          Answer sealed
-        </span>
-        <p className="muted" style={{ fontSize: "var(--t-md)" }}>
-          {sealedAnswer?.artistGuess ? (
-            <>
-              You said{" "}
-              <strong style={{ color: "var(--ink)" }}>{sealedAnswer.artistGuess}</strong>
-              {sealedAnswer?.titleGuess ? ` · “${sealedAnswer.titleGuess}”` : ""}
-            </>
-          ) : (
-            "You passed on this one."
-          )}
-        </p>
-        <p className="hint">Nothing is revealed until the answer is in.</p>
-      </div>
-    );
-  }
 
   return (
     <div className="hero">
@@ -78,6 +56,7 @@ export default function AnswerCard({
           onChange={(e) => setArtist(e.target.value)}
           aria-label="Artist name"
           autoComplete="off"
+          maxLength={120}
         />
         <p className="hint">
           Spelling is forgiving — “Telahun Gesesse” or just “Gessesse” both count.
@@ -105,6 +84,7 @@ export default function AnswerCard({
           onChange={(e) => setTitle(e.target.value)}
           aria-label="Song title, optional"
           autoComplete="off"
+          maxLength={120}
         />
       </div>
 
@@ -112,7 +92,7 @@ export default function AnswerCard({
         <button
           className="btn"
           disabled={gap === null}
-          onClick={() => onSeal(gap!, artist.trim(), title.trim())}
+          onClick={() => gap !== null && onSeal(gap, artist.trim(), title.trim())}
         >
           {gap === null ? "Pick where it goes first" : "Seal my answer"}
         </button>

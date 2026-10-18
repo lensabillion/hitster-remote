@@ -4,6 +4,7 @@ import { useCallback, useEffect, useState } from "react";
 import Link from "next/link";
 import { SERVER_URL } from "@/lib/room";
 import { getPlayerName } from "@/lib/identity";
+import UnsavedBanner, { type Storage, type Unsaved } from "@/components/UnsavedBanner";
 
 /* The deck editor.
  *
@@ -38,6 +39,23 @@ type Candidate = {
   artistMatches: boolean;
 };
 
+const EARLIEST_YEAR = 1900;
+const LATEST_YEAR = new Date().getFullYear();
+
+/* The server may require a shared secret for edits (DECK_TOKEN). It arrives once
+ * as /deck?token=… and is remembered, so a link from the host is all it takes. */
+const TOKEN_KEY = "zema.deckToken";
+
+function rememberToken(): string {
+  try {
+    const fromUrl = new URLSearchParams(window.location.search).get("token");
+    if (fromUrl) localStorage.setItem(TOKEN_KEY, fromUrl);
+    return fromUrl ?? localStorage.getItem(TOKEN_KEY) ?? "";
+  } catch {
+    return "";
+  }
+}
+
 export default function DeckPage() {
   const [cards, setCards] = useState<Card[]>([]);
   const [artist, setArtist] = useState("");
@@ -51,29 +69,75 @@ export default function DeckPage() {
   const [note, setNote] = useState("");
   const [msg, setMsg] = useState("");
   const [busy, setBusy] = useState(false);
+  const [storage, setStorage] = useState<Storage>("persistent");
+  const [unsaved, setUnsaved] = useState<Unsaved | null>(null);
+  const [downloading, setDownloading] = useState(false);
+  const [token, setToken] = useState("");
+
+  const withToken = (path: string) =>
+    `${SERVER_URL}${path}${token ? `?token=${encodeURIComponent(token)}` : ""}`;
 
   const load = useCallback(async () => {
     try {
       const r = await fetch(`${SERVER_URL}/deck`);
+      if (!r.ok) throw new Error(String(r.status));
       const d = await r.json();
       setCards(d.cards ?? []);
+      setStorage(d.storage === "ephemeral" ? "ephemeral" : "persistent");
+      setUnsaved(d.unsaved ?? null);
     } catch {
       setMsg("Can’t reach the server — the deck can’t be loaded.");
     }
   }, []);
 
   useEffect(() => {
+    setToken(rememberToken());
     load();
   }, [load]);
+
+  function explainRefusal(status: number, detail: string | undefined) {
+    if (status === 403) {
+      setMsg(
+        "This server only lets people with the deck token edit the deck. Open the /deck?token=… link the host shared.",
+      );
+    } else {
+      setMsg(detail ?? "That was refused.");
+    }
+  }
+
+  /* Hands over the live deck in exactly the form `build_deck.py export` writes,
+     so committing it produces a diff of real changes only. */
+  async function download() {
+    setDownloading(true);
+    try {
+      const r = await fetch(`${SERVER_URL}/deck/export`);
+      if (!r.ok) throw new Error(String(r.status));
+      const blob = new Blob([await r.text()], { type: "application/json" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "deck.json";
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(url);
+      setMsg(
+        "Downloaded. Save it as server/decks/deck.json and commit it — the warning clears once that version is deployed.",
+      );
+    } catch {
+      setMsg("Couldn’t download the deck — the server didn’t answer.");
+    } finally {
+      setDownloading(false);
+    }
+  }
 
   async function search() {
     setNote("Searching…");
     setCandidates([]);
     setPicked(null);
     try {
-      const r = await fetch(
-        `${SERVER_URL}/deck/search?artist=${encodeURIComponent(artist)}&title=${encodeURIComponent(title)}`,
-      );
+      const params = new URLSearchParams({ artist, title });
+      const r = await fetch(`${SERVER_URL}/deck/search?${params}`);
       const d = await r.json();
       setCandidates(d.candidates ?? []);
       setNote(d.note ?? "");
@@ -86,8 +150,7 @@ export default function DeckPage() {
     setBusy(true);
     setMsg("");
     try {
-      const qs = picked ? `?deezer_track_id=${picked.deezerTrackId}` : "";
-      const r = await fetch(`${SERVER_URL}/deck${qs}`, {
+      const r = await fetch(withToken("/deck"), {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -97,12 +160,13 @@ export default function DeckPage() {
           title_am: titleAm.trim(),
           year: Number(year),
           youtube_url: youtube.trim(),
-          added_by: getPlayerName() || "",
+          deezer_track_id: picked?.deezerTrackId ?? null,
+          added_by: getPlayerName(),
         }),
       });
       const d = await r.json();
       if (!r.ok) {
-        setMsg(d.detail ?? "That card was refused.");
+        explainRefusal(r.status, typeof d.detail === "string" ? d.detail : undefined);
       } else {
         setMsg(`Added. The deck now holds ${d.count} cards.`);
         setArtist("");
@@ -123,13 +187,24 @@ export default function DeckPage() {
     }
   }
 
-  async function remove(id: string) {
-    await fetch(`${SERVER_URL}/deck/${id}`, { method: "DELETE" });
+  async function remove(card: Card) {
+    if (!window.confirm(`Remove “${card.artistLatin} — ${card.titleLatin}” from the deck?`)) {
+      return;
+    }
+    try {
+      const r = await fetch(withToken(`/deck/${card.id}`), { method: "DELETE" });
+      if (!r.ok) {
+        const d = await r.json().catch(() => ({}));
+        explainRefusal(r.status, typeof d.detail === "string" ? d.detail : undefined);
+      }
+    } catch {
+      setMsg("Couldn’t reach the server.");
+    }
     load();
   }
 
   const yearNum = Number(year);
-  const yearOk = Number.isInteger(yearNum) && yearNum >= 1900 && yearNum <= 2030;
+  const yearOk = Number.isInteger(yearNum) && yearNum >= EARLIEST_YEAR && yearNum <= LATEST_YEAR;
   const hasSource = Boolean(picked) || Boolean(youtube.trim());
   const canAdd = artist.trim() && title.trim() && yearOk && hasSource && !busy;
 
@@ -146,6 +221,13 @@ export default function DeckPage() {
           Back to the game
         </Link>
       </header>
+
+      <UnsavedBanner
+        storage={storage}
+        unsaved={unsaved}
+        onDownload={download}
+        downloading={downloading}
+      />
 
       <section className="hero">
         <div className="stack" style={{ gap: 4 }}>
@@ -164,6 +246,7 @@ export default function DeckPage() {
               onChange={(e) => setArtist(e.target.value)}
               placeholder="Mahmoud Ahmed"
               autoComplete="off"
+              maxLength={160}
             />
           </div>
           <div className="stack">
@@ -174,6 +257,7 @@ export default function DeckPage() {
               onChange={(e) => setTitle(e.target.value)}
               placeholder="Ere Mela Mela"
               autoComplete="off"
+              maxLength={160}
             />
           </div>
           <div className="stack">
@@ -184,6 +268,7 @@ export default function DeckPage() {
               onChange={(e) => setArtistAm(e.target.value)}
               placeholder="ማህሙድ አህመድ"
               autoComplete="off"
+              maxLength={200}
             />
           </div>
           <div className="stack">
@@ -194,6 +279,7 @@ export default function DeckPage() {
               onChange={(e) => setTitleAm(e.target.value)}
               placeholder="እሬ መላ መላ"
               autoComplete="off"
+              maxLength={200}
             />
           </div>
         </div>
@@ -268,6 +354,7 @@ export default function DeckPage() {
               onChange={(e) => setYoutube(e.target.value)}
               placeholder="https://www.youtube.com/watch?v=…"
               autoComplete="off"
+              maxLength={300}
             />
             <p className="hint">
               Needed for songs Deezer does not carry — which is most of the ones only
@@ -321,7 +408,7 @@ export default function DeckPage() {
                   ? "deezer"
                   : "youtube"}
             </span>
-            <button className="linkish" onClick={() => remove(c.id)}>
+            <button className="linkish" onClick={() => remove(c)}>
               Remove
             </button>
           </div>

@@ -128,7 +128,12 @@ cd server
 
 Commit `decks/deck.json` and redeploy. Songs added through `/deck` on a live server are
 written to that server's own database and **do not** reach `deck.json` on their own, so
-they are lost on a redeploy unless exported and committed.
+they are lost on a redeploy unless exported and committed. The `/deck` page knows this:
+on Render and Fly it lists every song that is not yet in the committed deck and offers
+**Download deck.json**, which is byte-identical to `build_deck.py export`.
+
+If the editor's URL ever leaves the group, set `DECK_TOKEN` on the server and share
+`/deck?token=<value>`; reads stay open, edits need the token.
 
 **The starter deck's years are unverified guesses.** They are marked as such at the top of
 the file. Fix them before the deck is fair to play with.
@@ -140,14 +145,15 @@ the file. Fix them before the deck is fair to play with.
 | | Survives | Why |
 |---|---|---|
 | The committed deck (`decks/deck.json`) | yes | seeded fresh on every deploy |
-| Songs added through `/deck` on the live server | **no** | written to that server's SQLite; the next deploy seeds over it |
+| Songs added through `/deck` on the live server | **no** | written to that server's SQLite; the next deploy seeds over it — download and commit them |
 | Player identity | yes | a UUID in the browser's `localStorage` |
-| Score, timeline, seating | **no** | written to SQLite on the container's own disk |
-| A game in progress | **no** | live round state is in memory |
+| Score, timeline, seating, a game in progress | **no** | every room lives in memory only |
 
 A restart mid-game ends that game. For a handful of friends playing for half an hour this
-is an acceptable trade, and it is why `min_machines_running = 1` is set on Fly. If it ever
-matters, attach a Fly volume at the SQLite path and set `DB_PATH` to it.
+is an acceptable trade, and it is why `min_machines_running = 1` is set on Fly. Nothing
+about a room is written to disk, so a volume would not change this; a Fly volume at
+`DB_PATH` (with `DECK_STORAGE=persistent`) only keeps songs added at `/deck` across
+deploys.
 
 ---
 
@@ -157,5 +163,6 @@ matters, attach a Fly volume at the SQLite path and set `DB_PATH` to it.
 - [ ] Server deployed; `/health` returns `cards: 16`
 - [ ] `NEXT_PUBLIC_SERVER_URL` set on Vercel, **and redeployed after setting it**
 - [ ] `CORS_ORIGINS` on the server set to the Vercel origin
+- [ ] Optionally `DECK_TOKEN` on the server, with `/deck?token=…` shared with the group
 - [ ] Open the site in two browsers, create a room, join with the code
 - [ ] Everyone wears headphones, or the music echoes through the call

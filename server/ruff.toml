@@ -1,0 +1,19 @@
+# Lint only. The code keeps its compact literals (field tuples, serialised dicts)
+# on purpose, so the formatter is not enforced.
+line-length = 100
+target-version = "py312"
+exclude = [".venv"]
+
+[lint]
+select = ["E", "F", "W", "I", "UP", "B", "SIM", "RUF"]
+ignore = [
+    # The en and em dashes in prompts and parsers are deliberate: YouTube titles
+    # and Amharic song names use them, and so does the prose the CLI prints.
+    "RUF001", "RUF002", "RUF003",
+]
+
+[lint.per-file-ignores]
+# Runs as a script; the sys.path shim has to come before the imports.
+"tools/build_deck.py" = ["E402"]
+# importorskip must run before the modules it guards are imported.
+"tests/test_integration.py" = ["E402"]

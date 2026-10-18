@@ -12,7 +12,7 @@ Server:
 
 ```
 cd server
-python3 -m venv .venv && ./.venv/bin/pip install -r requirements.txt
+python3 -m venv .venv && ./.venv/bin/pip install -r requirements-dev.txt
 ./.venv/bin/uvicorn main:app --reload --port 3001
 ```
 
@@ -25,6 +25,7 @@ npm run dev
 ```
 
 Tests: `cd server && ./.venv/bin/python -m pytest tests/ -q`
+Lint: `./.venv/bin/ruff check .` (server) · `npm run typecheck && npm run lint` (client)
 
 ## Deck
 
@@ -54,15 +55,21 @@ time silently produces a near-empty deck. Export after curating:
 ```
 
 Songs can also be added from the running game at `/deck`, which is how the deck is meant
-to grow — every comparable project curates by hand, and a page beats a text file.
+to grow — every comparable project curates by hand, and a page beats a text file. On a
+deployed server those songs are lost on the next deploy; the page lists what is not in
+`deck.json` yet and offers it as a download that is byte-identical to the CLI export.
 
 ## Architecture
 
 - `server/game.py` — pure rules. Placement validation, same-year rule, round
   resolution. No I/O, fully unit tested; this is the correctness core.
-- `server/db.py` — SQLite via aiosqlite, WAL. Holds only what must survive a restart:
-  deck, player identities, room seating and timelines.
-- `server/sources.py` — Deezer and YouTube lookup.
+- `server/rooms.py` — live room state, in memory only. Seating, turn order, the sealed
+  answer, and the per-viewer `serialize()`.
+- `server/deck.py` — the deck as data: stable card ids, the `deck.json` export, the
+  unsaved diff, and the year bounds.
+- `server/db.py` — SQLite via aiosqlite, WAL. Holds only the deck; a restart ends any
+  game in progress, by design.
+- `server/sources.py` — Deezer and YouTube lookup. The only module that talks to Deezer.
 - `server/tools/build_deck.py` — offline deck curation CLI.
 - `client/app/` — Next.js App Router. `client/components/Timeline.tsx` is the centrepiece.
 
@@ -102,6 +109,11 @@ ceiling that only stops an absent player stalling the table.
   not the artist, not the title. Room state is fanned out per viewer rather than
   broadcast for exactly this reason; a leak here does not fail loudly, it silently
   decides who wins.
+- **The answer timer reveals from inside itself.** When the window expires, the timer
+  task calls `do_reveal`, which calls `cancel_timer`. It must never cancel the current
+  task: the cancellation lands on the next `await`, inside `push_state`, and the reveal
+  is applied to the room but reaches no client. That stall is covered by
+  `test_an_absent_player_cannot_stall_the_table`.
 
 ## Music sources
 

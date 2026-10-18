@@ -36,9 +36,12 @@ Server:
 
 ```bash
 cd server
-python3 -m venv .venv && ./.venv/bin/pip install -r requirements.txt
+python3 -m venv .venv && ./.venv/bin/pip install -r requirements-dev.txt
 ./.venv/bin/uvicorn main:app --reload --port 3001
 ```
+
+`requirements.txt` is the runtime set the Docker image installs; `requirements-dev.txt`
+adds the test, lint and deck-tooling extras.
 
 Client:
 
@@ -51,10 +54,14 @@ npm run dev
 Open the printed URL. Enter your name once, then either create a room — you get a
 four-letter code to share — or type a friend's code and join.
 
-Tests:
+Tests and checks — the same commands CI runs:
 
 ```bash
-cd server && ./.venv/bin/python -m pytest tests/ -q
+cd server && ./.venv/bin/python -m pytest tests/ -q && ./.venv/bin/ruff check .
+```
+
+```bash
+cd client && npm run typecheck && npm run lint
 ```
 
 ## Build the deck
@@ -62,6 +69,12 @@ cd server && ./.venv/bin/python -m pytest tests/ -q
 Open **`/deck`** in the running game to add songs from a browser — search Deezer or paste
 a YouTube link, type the year, done. That is the intended way to grow the deck, and it
 works from a phone so anyone in the group can contribute.
+
+On a deployed server those songs live only in that server's database, which is thrown
+away on the next deploy. The page says exactly which songs are not yet in the committed
+deck and offers **Download deck.json**; save it as `server/decks/deck.json` and commit it.
+Set `DECK_TOKEN` on the server if the editor's URL ever leaves the group, and share
+`/deck?token=…` instead.
 
 The CLI is still there for bulk work:
 
@@ -75,6 +88,7 @@ cd server
 ./.venv/bin/python tools/build_deck.py import x.tsv   # bulk
 ./.venv/bin/python tools/build_deck.py list
 ./.venv/bin/python tools/build_deck.py check          # re-probe every card's sources
+./.venv/bin/python tools/build_deck.py export         # -> decks/deck.json, commit it
 ```
 
 Seed format is tab-separated:
@@ -119,6 +133,7 @@ Full steps: [docs/DEPLOY.md](docs/DEPLOY.md).
 | [FINDINGS.md](FINDINGS.md) | What the music APIs actually do, verified against live services |
 | [Design spec](docs/project/specs/active/plan-2026-09-07-remote-group-game.md) | Why the game is shaped this way, including decisions that were later reversed |
 | [docs/DEPLOY.md](docs/DEPLOY.md) | Getting it online, and why the server cannot live on Vercel |
+| [docs/REVIEW-2026-10-18.md](docs/REVIEW-2026-10-18.md) | Whole-codebase review: what was found, what was removed, what is still open |
 | [docs/REVIEW-2026-09-08.md](docs/REVIEW-2026-09-08.md) | Page-by-page review: nine failure modes found and fixed |
 | [CLAUDE.md](CLAUDE.md) | Working notes — the things that are easy to get wrong |
 
