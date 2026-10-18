@@ -91,6 +91,9 @@ export default function DeckPage() {
   }, []);
 
   useEffect(() => {
+    // The token comes from the page URL or browser storage, neither of which the
+    // server render can see; reading it after mount keeps the markup identical.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setToken(rememberToken());
     load();
   }, [load]);

@@ -78,6 +78,9 @@ export default function AudioClip({ cue }: { cue: AudioCue | null }) {
     const current = cue;
     if (!current || current.source === "none") return;
     let cancelled = false;
+    // A new cue withdraws the tap-to-play prompt the previous one may have left; the
+    // player set up below decides, in this same effect, whether it is needed again.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setNeedsGesture(false);
 
     const endTimer = window.setTimeout(() => stop(), current.clipSeconds * 1000);

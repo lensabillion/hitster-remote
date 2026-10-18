@@ -62,6 +62,9 @@ export default function Home() {
     return () => window.clearTimeout(t);
   }, [busy]);
 
+  // The stored name exists only in the browser. Reading it after mount keeps the
+  // server and client markup identical; that single setState is the whole effect.
+  // eslint-disable-next-line react-hooks/set-state-in-effect
   useEffect(() => setName(getPlayerName()), []);
   useEffect(() => onRoomJoined((joined) => router.push(`/room/${joined}`)), [router]);
 

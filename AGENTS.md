@@ -47,4 +47,5 @@ lifecycle, socket protocol, state split, scoring and matching.
 - The deck is data: `server/decks/deck.json` is exported by the tool and committed,
   never edited by hand.
 - Python is linted with ruff (`server/ruff.toml`); the formatter is deliberately not
-  enforced. The client is typechecked with `tsc` and linted with `next lint`.
+  enforced. The client is typechecked with `tsc` and linted with the ESLint CLI
+  (`client/eslint.config.mjs`, Next's `core-web-vitals` rules).

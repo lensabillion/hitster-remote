@@ -142,6 +142,9 @@ export function useRoom() {
     s.on("room:state", onState);
     s.on("round:audio", onAudio);
     s.on("error", onError);
+    // The socket can connect before this effect subscribes, so "connect" may have
+    // fired already and the banner has to be brought in line by hand.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     if (s.connected) setConnection("online");
 
     return () => {
