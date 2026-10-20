@@ -38,6 +38,14 @@ Then redeploy. That alone fixes the 404.
 There is no way to set this from a file — `vercel.json` cannot relocate the project root,
 so it has to be the dashboard setting (or `vercel --cwd client` from the CLI).
 
+The file is still needed for the other half of that import. The project was imported at
+the repo root, where there was no app to detect, so its framework preset is not Next.js,
+and moving the root directory does not change it. `client/vercel.json` declares
+`"framework": "nextjs"`; without it Vercel runs `next build`, then looks for a static
+`public/` output directory and fails the deployment with `STATIC_BUILD_NO_OUT_DIR`. Keep
+the file, or set **Settings → Build and Deployment → Framework Preset** to Next.js — the
+file is the better of the two because it travels with the repo.
+
 ---
 
 ## 2. Deploy the server first
