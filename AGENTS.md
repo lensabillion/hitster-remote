@@ -19,18 +19,33 @@ actions rather than telling them to run commands.
 
 ## Build & Test
 
-_Add your build and test commands here_
-
 ```bash
-# Example:
-# npm install
-# npm test
+# Server (FastAPI + Socket.IO)
+cd server
+python3 -m venv .venv && ./.venv/bin/pip install -r requirements-dev.txt
+./.venv/bin/uvicorn main:app --reload --port 3001
+./.venv/bin/python -m pytest tests/ -q
+./.venv/bin/ruff check .
+
+# Client (Next.js)
+cd client
+npm install
+npm run dev
+npm run typecheck && npm run lint && npm run build
 ```
 
 ## Architecture Overview
 
-_Add a brief overview of your project architecture_
+See [CLAUDE.md](CLAUDE.md) for the working notes and the rules that are easy to get
+wrong, and [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) for the full picture: round
+lifecycle, socket protocol, state split, scoring and matching.
 
 ## Conventions & Patterns
 
-_Add your project-specific conventions here_
+- `server/game.py` is pure rules with no I/O; keep it that way and keep it unit tested.
+- Never send an unrevealed card to any client. Room state is serialised per viewer.
+- The deck is data: `server/decks/deck.json` is exported by the tool and committed,
+  never edited by hand.
+- Python is linted with ruff (`server/ruff.toml`); the formatter is deliberately not
+  enforced. The client is typechecked with `tsc` and linted with the ESLint CLI
+  (`client/eslint.config.mjs`, Next's `core-web-vitals` rules).

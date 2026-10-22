@@ -5,7 +5,7 @@ socket id. A refresh, a tunnel, or a dropped connection therefore costs a player
 nothing: the socket is re-bound to the same seat and the timeline is still there.
 
 Everything here is in memory. It changes several times a second and is worthless
-once a round resolves; db.py holds the part that must outlive the process.
+once a round resolves; db.py holds only the deck, which must outlive the process.
 """
 
 from __future__ import annotations
@@ -15,8 +15,8 @@ import string
 from dataclasses import dataclass, field
 
 from game import (
-    MAX_ROUND_SCORE,
-    STARTING_TOKENS,
+    ARTIST_POINTS,
+    YEAR_POINTS,
     Answer,
     Card,
     Phase,
@@ -27,8 +27,8 @@ from game import (
 )
 
 CLIP_SECONDS = 30
-# A ceiling, not a pace. The round ends as soon as everyone has answered; this
-# only stops one absent player from stalling the table.
+# A ceiling, not a pace. The round ends as soon as the answer is in; this only
+# stops one absent player from stalling the table.
 ANSWER_SECONDS = 90
 DEFAULT_ROUNDS = 12
 # A room is not destroyed the moment its last socket drops. Two players on the
@@ -43,7 +43,6 @@ class Player:
     id: str
     name: str
     sid: str | None = None
-    tokens: int = STARTING_TOKENS
     score: int = 0
     # Title hits score nothing, but they break ties. See standings().
     title_hits: int = 0
@@ -68,7 +67,6 @@ class Room:
     draw_index: int = 0
     current_card: Card | None = None
     answers: dict[str, Answer] = field(default_factory=dict)
-    clip_started_ms: int = 0
     last_outcome: RoundOutcome | None = None
     empty_since_ms: int | None = None
 
@@ -142,7 +140,6 @@ class Room:
         self.rounds_planned = turns_each * seats
         self.phase = Phase.ANSWERING
         for player in self.players.values():
-            player.tokens = STARTING_TOKENS
             player.score = 0
             player.title_hits = 0
             player.timeline = []
@@ -167,7 +164,6 @@ class Room:
         self.round_no += 1
         # Answering opens with the clip, not after it.
         self.phase = Phase.ANSWERING
-        self.clip_started_ms = now_ms()
         return card
 
     def submit_answer(
@@ -233,7 +229,7 @@ class Room:
         """Rank by score, then by title hits, then by cards held.
 
         Titles are worth no points on purpose, so that naming one never feels
-        compulsory — but knowing the title as well as the singer is more
+        compulsory -- but knowing the title as well as the singer is more
         knowledge, and it settles a draw.
         """
         return sorted(
@@ -241,10 +237,6 @@ class Room:
             key=lambda p: (p.score, p.title_hits, len(p.timeline)),
             reverse=True,
         )
-
-    def leader(self) -> Player | None:
-        ranked = self.standings()
-        return ranked[0] if ranked else None
 
 
 rooms: dict[str, Room] = {}
@@ -297,6 +289,26 @@ def _card_json(card: Card) -> dict:
     }
 
 
+def _outcome_json(room: Room) -> dict | None:
+    """The resolved turn, disclosed only once the room is revealing."""
+    outcome = room.last_outcome
+    if room.phase is not Phase.REVEALING or outcome is None:
+        return None
+    score = outcome.score
+    answer = room.answers.get(outcome.active_player_id)
+    return {
+        "playerId": outcome.active_player_id,
+        "keptCard": outcome.keeps_card,
+        "points": outcome.points,
+        "artistRight": bool(score and score.artist_right),
+        "yearRight": bool(score and score.year_right),
+        "titleRight": bool(score and score.title_right),
+        "declined": bool(answer and answer.declined),
+        "artistGuess": answer.artist_guess if answer else "",
+        "titleGuess": answer.title_guess if answer else "",
+    }
+
+
 def serialize(room: Room, viewer_id: str) -> dict:
     """Room state as one player may see it.
 
@@ -306,7 +318,6 @@ def serialize(room: Room, viewer_id: str) -> dict:
     """
     revealing = room.phase is Phase.REVEALING
     card = room.current_card
-    own_answer = room.answers.get(viewer_id)
 
     return {
         "code": room.code,
@@ -316,14 +327,15 @@ def serialize(room: Room, viewer_id: str) -> dict:
         "roundsPlanned": room.rounds_planned,
         "activePlayerId": room.active_player_id,
         "viewerId": viewer_id,
-        "maxRoundScore": MAX_ROUND_SCORE,
-        "clipSeconds": CLIP_SECONDS,
+        "isMyTurn": viewer_id == room.active_player_id,
         "isLastRound": room.is_last_round(),
+        # The client renders what each half is worth; the rules own the numbers.
+        "artistPoints": ARTIST_POINTS,
+        "yearPoints": YEAR_POINTS,
         "players": [
             {
                 "id": p.id,
                 "name": p.name,
-                "tokens": p.tokens,
                 "score": p.score,
                 "titleHits": p.title_hits,
                 "connected": p.connected,
@@ -332,51 +344,8 @@ def serialize(room: Room, viewer_id: str) -> dict:
             }
             for p in (room.players[pid] for pid in room.seats if pid in room.players)
         ],
-        # Who has sealed an answer -- but never what they wrote.
-        "isMyTurn": viewer_id == room.active_player_id,
-        "hasAnswered": viewer_id in room.answers,
-        "myAnswer": (
-            {
-                "gap": own_answer.gap,
-                "artistGuess": own_answer.artist_guess,
-                "titleGuess": own_answer.title_guess,
-            }
-            if own_answer
-            else None
-        ),
         "card": _card_json(card) | {"addedBy": card.added_by} if card and revealing else None,
-        "outcome": (
-            {
-                "playerId": room.last_outcome.active_player_id,
-                "keptCard": room.last_outcome.keeps_card,
-                "points": room.last_outcome.points,
-                "artistRight": bool(
-                    room.last_outcome.score and room.last_outcome.score.artist_right
-                ),
-                "yearRight": bool(
-                    room.last_outcome.score and room.last_outcome.score.year_right
-                ),
-                "titleRight": bool(
-                    room.last_outcome.score and room.last_outcome.score.title_right
-                ),
-                "declined": bool(
-                    room.last_outcome.active_player_id in room.answers
-                    and room.answers[room.last_outcome.active_player_id].declined
-                ),
-                "artistGuess": (
-                    room.answers[room.last_outcome.active_player_id].artist_guess
-                    if room.last_outcome.active_player_id in room.answers
-                    else ""
-                ),
-                "titleGuess": (
-                    room.answers[room.last_outcome.active_player_id].title_guess
-                    if room.last_outcome.active_player_id in room.answers
-                    else ""
-                ),
-            }
-            if revealing and room.last_outcome
-            else None
-        ),
+        "outcome": _outcome_json(room),
         "standings": [
             {"id": p.id, "name": p.name, "score": p.score, "titleHits": p.title_hits}
             for p in room.standings()

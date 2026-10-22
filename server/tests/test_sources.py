@@ -1,25 +1,18 @@
-"""Tests for source helpers.
+"""Tests for the music sources.
 
-The artist matcher is the important one. A wrong Deezer id does not fail loudly
--- it silently plays a completely different song mid-game, which is worse than
-having no Deezer id at all.
+The catalogue rule is the one that matters: a Deezer track is attached to a card
+only when its artist genuinely matches. A wrong id does not fail loudly -- it
+silently plays a completely different song mid-game, which is worse than having
+no Deezer id at all. These tests drive the real HTTP code against a fake Deezer.
 """
 
 from __future__ import annotations
 
-import sys
-from pathlib import Path
-
+import httpx
 import pytest
 
-sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
-
-from sources import (  # noqa: E402
-    artist_matches,
-    extract_youtube_id,
-    normalize,
-    strip_youtube_decorations,
-)
+import sources
+from sources import deezer_fresh_preview, deezer_probe, deezer_search, extract_youtube_id
 
 
 class TestExtractYoutubeId:
@@ -39,70 +32,81 @@ class TestExtractYoutubeId:
         assert extract_youtube_id(url) == expected
 
 
-class TestNormalize:
-    def test_strips_accents_from_transliterations(self):
-        assert normalize("Erè mèla mèla") == normalize("Ere mela mela")
-
-    def test_casefolds_and_drops_punctuation(self):
-        assert normalize("Aster  AWEKE!") == "aster aweke"
-
-    def test_leaves_ethiopic_script_intact(self):
-        assert normalize("ቴዲ አፍሮ") == "ቴዲ አፍሮ"
+def track(id_: int, artist: str, title: str = "Song", preview: str = "https://cdn/p.mp3") -> dict:
+    return {"id": id_, "title": title, "artist": {"name": artist}, "preview": preview}
 
 
-class TestStripYoutubeDecorations:
-    @pytest.mark.parametrize(
-        "raw,expected",
-        [
-            (
-                "Teddy Afro - Tikur Sew (Official Video) | Ethiopian Music 2012",
-                "Teddy Afro - Tikur Sew",
-            ),
-            ("Aster Aweke - Bayne Mulu [HD]", "Aster Aweke - Bayne Mulu"),
-            ("Mahmoud Ahmed - Tezeta", "Mahmoud Ahmed - Tezeta"),
-        ],
+@pytest.fixture
+def deezer(monkeypatch):
+    """A fake api.deezer.com. Set `deezer.data` to answer /search; see requests in `deezer.seen`."""
+
+    class Fake:
+        def __init__(self) -> None:
+            self.data: list[dict] = []
+            self.status = 200
+            self.seen: list[httpx.Request] = []
+
+        def handler(self, request: httpx.Request) -> httpx.Response:
+            self.seen.append(request)
+            if request.url.path == "/search":
+                return httpx.Response(self.status, json={"data": self.data})
+            if request.url.path.startswith("/track/"):
+                return httpx.Response(self.status, json={"id": 1, "preview": "https://cdn/fresh.mp3"})
+            return httpx.Response(404)
+
+    fake = Fake()
+    monkeypatch.setattr(
+        sources, "_client", lambda: httpx.AsyncClient(transport=httpx.MockTransport(fake.handler))
     )
-    def test_stripping(self, raw, expected):
-        assert strip_youtube_decorations(raw) == expected
+    return fake
 
 
-class TestArtistMatches:
-    """The bands overlap on a whole-string ratio, so these are regression tests.
+class TestDeezerSearch:
+    async def test_uses_field_scoped_track_search(self, deezer):
+        # The whole catalogue finding in one assertion: never /search/artist.
+        await deezer_search("Teddy Afro", "Tikur Sew")
+        (request,) = deezer.seen
+        assert request.url.path == "/search"
+        assert request.url.params["q"] == 'artist:"Teddy Afro" track:"Tikur Sew"'
 
-    "Teddy Afro" vs "Teddy Karo" scores 0.90 overall and "Mulatu Astatke" vs
-    "Mulatu Astatqe" scores 0.93 -- a single threshold cannot separate a wrong
-    artist from a transliteration variant. Word-level comparison can.
-    """
+    async def test_tracks_without_a_preview_are_dropped(self, deezer):
+        deezer.data = [track(1, "Aster Aweke", preview=""), track(2, "Aster Aweke")]
+        assert [t["id"] for t in await deezer_search("Aster Aweke")] == [2]
 
-    @pytest.mark.parametrize(
-        "wanted,found",
-        [
-            ("Teddy Afro", "Teddy Karo"),      # real Deezer result, different artist
-            ("Teddy Afro", "Teddy pro"),
-            ("Teddy Afro", "Hewan Gebrewold"),  # what a loose search returns
-            ("Gigi", "GIGI Rivera"),
-            ("Aster Aweke", "Aster Aweke Band"),
-            ("Betty G", "Betty Boo"),
-        ],
-    )
-    def test_rejects_wrong_artists(self, wanted, found):
-        assert not artist_matches(wanted, found)
+    async def test_no_answer_is_none_not_an_empty_list(self, deezer):
+        # The editor tells the player to try again vs. to add a YouTube link.
+        deezer.status = 503
+        assert await deezer_search("Aster Aweke") is None
 
-    @pytest.mark.parametrize(
-        "wanted,found",
-        [
-            ("Aster Aweke", "Aster Aweke"),
-            ("Mahmoud Ahmed", "Mahmoud Ahmed"),
-            ("Alemayehu Eshete", "Alemayehu Eshete"),
-            ("Hailu Mergia", "Hailu Mergia"),
-            ("Yehune Belay", "Yehunie Belay"),      # spelling variant
-            ("Mulatu Astatke", "Mulatu Astatqe"),   # transliteration variant
-            ("aster aweke", "Aster Aweke"),         # case only
-        ],
-    )
-    def test_accepts_the_same_artist(self, wanted, found):
-        assert artist_matches(wanted, found)
+    async def test_an_empty_answer_is_an_empty_list(self, deezer):
+        assert await deezer_search("Nobody") == []
 
-    def test_empty_input_never_matches(self):
-        assert not artist_matches("", "Aster Aweke")
-        assert not artist_matches("Aster Aweke", "")
+
+class TestDeezerProbe:
+    async def test_returns_the_first_track_by_the_right_artist(self, deezer):
+        deezer.data = [track(10, "Teddy Karo"), track(11, "Teddy Afro"), track(12, "Teddy Afro")]
+        assert await deezer_probe("Teddy Afro", "Tikur Sew") == 11
+
+    async def test_refuses_a_wrong_artist_rather_than_guessing(self, deezer):
+        # Deezer's own top answer for "Teddy Afro" was "Teddy Karo". Attaching
+        # it would play the wrong song in every game, silently.
+        deezer.data = [track(10, "Teddy Karo")]
+        assert await deezer_probe("Teddy Afro", "Tikur Sew") is None
+
+    async def test_accepts_a_transliteration_variant(self, deezer):
+        deezer.data = [track(5, "Mulatu Astatqe")]
+        assert await deezer_probe("Mulatu Astatke", "Yekermo Sew") == 5
+
+    async def test_no_answer_is_no_id(self, deezer):
+        deezer.status = 500
+        assert await deezer_probe("Aster Aweke", "Gela Gela") is None
+
+
+class TestFreshPreview:
+    async def test_resolves_a_url_per_call(self, deezer):
+        assert await deezer_fresh_preview(224802) == "https://cdn/fresh.mp3"
+        assert deezer.seen[-1].url.path == "/track/224802"
+
+    async def test_failure_is_none(self, deezer):
+        deezer.status = 500
+        assert await deezer_fresh_preview(224802) is None

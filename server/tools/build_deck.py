@@ -12,8 +12,11 @@ Deezer does not carry.
 
     python tools/build_deck.py add                  # one card at a time
     python tools/build_deck.py import cards.tsv     # bulk
+    python tools/build_deck.py playlist <url>       # YouTube playlist -> worksheet
     python tools/build_deck.py list
     python tools/build_deck.py check                # re-probe sources
+    python tools/build_deck.py export               # -> decks/deck.json
+    python tools/build_deck.py seed                 # load decks/deck.json, no network
 
 Seed file is tab-separated, '#' comments allowed:
 
@@ -27,23 +30,24 @@ from __future__ import annotations
 
 import argparse
 import asyncio
-import json
 import re
 import sys
 from pathlib import Path
 
+# Runs as a script from server/, so the server modules are one directory up.
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
-from db import card_id, db  # noqa: E402
-from sources import (  # noqa: E402
-    deezer_probe,
-    extract_youtube_id,
-    strip_youtube_decorations,
-    youtube_title,
+from db import db
+from deck import (
+    EARLIEST_YEAR,
+    LATEST_YEAR,
+    card_id,
+    export_rows,
+    export_text,
+    is_playable,
+    load_deck_file,
 )
-
-THIS_YEAR = 2026
-EARLIEST_YEAR = 1900
+from sources import deezer_probe, extract_youtube_id
 
 
 def valid_year(value: str) -> int | None:
@@ -51,16 +55,7 @@ def valid_year(value: str) -> int | None:
         year = int(value)
     except (ValueError, TypeError):
         return None
-    return year if EARLIEST_YEAR <= year <= THIS_YEAR else None
-
-
-def split_artist_title(raw: str) -> tuple[str, str]:
-    cleaned = strip_youtube_decorations(raw)
-    for sep in (" - ", " – ", " — "):
-        if sep in cleaned:
-            artist, title = cleaned.split(sep, 1)
-            return artist.strip(), title.strip()
-    return "", cleaned
+    return year if EARLIEST_YEAR <= year <= LATEST_YEAR else None
 
 
 async def build_card(
@@ -128,7 +123,7 @@ async def cmd_add(args: argparse.Namespace) -> int:
             while year is None:
                 year = valid_year(input("Original release year: ").strip())
                 if year is None:
-                    print(f"  needs a year between {EARLIEST_YEAR} and {THIS_YEAR}")
+                    print(f"  needs a year between {EARLIEST_YEAR} and {LATEST_YEAR}")
 
             card = await build_card(
                 year, artist, title, artist_am, title_am, added_by=args.by
@@ -289,9 +284,10 @@ async def cmd_playlist(args: argparse.Namespace) -> int:
             "# titles carry one, so the years have to be yours. Delete any line you\n"
             "# do not want in the deck.\n"
             "#\n"
-            "# year <TAB> artist_latin <TAB> title_latin <TAB> artist_am <TAB> title_am <TAB> youtube_url\n"
+            "# year <TAB> artist_latin <TAB> title_latin <TAB> artist_am <TAB> title_am"
+            " <TAB> youtube_url\n"
         )
-        for artist, title, deezer_id, vid, note in rows:
+        for artist, title, _deezer_id, vid, note in rows:
             fh.write(
                 f"?\t{artist}\t{title}\t\t\t"
                 f"https://www.youtube.com/watch?v={vid}\t# {note}\n"
@@ -322,18 +318,12 @@ async def cmd_export(args: argparse.Namespace) -> int:
     if not cards:
         print("Deck is empty — nothing to export.")
         return 1
-    payload = [
-        {k: c[k] for k in (
-            "id", "year", "artist_latin", "title_latin",
-            "artist_am", "title_am", "youtube_id", "deezer_track_id", "added_by",
-        )}
-        for c in cards
-    ]
     out = Path(args.out)
     out.parent.mkdir(parents=True, exist_ok=True)
-    out.write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
-    playable = sum(1 for c in payload if c["deezer_track_id"] or c["youtube_id"])
-    print(f"Exported {len(payload)} cards to {out} ({playable} playable).")
+    # Same function the /deck download uses, so the two are byte-identical.
+    out.write_text(export_text(cards), encoding="utf-8")
+    playable = sum(1 for c in export_rows(cards) if is_playable(c))
+    print(f"Exported {len(cards)} cards to {out} ({playable} playable).")
     return 0
 
 
@@ -343,12 +333,11 @@ async def cmd_seed(args: argparse.Namespace) -> int:
     This is what deployment runs. It cannot half-succeed because of someone
     else's rate limit.
     """
-    path = Path(args.file)
-    if not path.exists():
-        print(f"No such file: {path}")
+    cards = load_deck_file(Path(args.file))
+    if cards is None:
+        print(f"No such file: {args.file}")
         return 1
-    cards = json.loads(path.read_text(encoding="utf-8"))
-    unplayable = [c for c in cards if not c.get("deezer_track_id") and not c.get("youtube_id")]
+    unplayable = [c for c in cards if not is_playable(c)]
     if unplayable:
         for c in unplayable:
             print(f"  ✗ no source: {c['artist_latin']} — {c['title_latin']}")

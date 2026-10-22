@@ -1,8 +1,8 @@
 /* Durable player identity.
  *
  * The server keys players by this id, never by socket id, so a refresh, a
- * tunnel, or a dropped connection re-binds the same seat with its timeline and
- * tokens intact. This is the single thing that makes the game survive an
+ * tunnel, or a dropped connection re-binds the same seat with its score and
+ * timeline intact. This is the single thing that makes the game survive an
  * unreliable connection, which is the connection it is designed for. */
 
 const ID_KEY = "zema.playerId";

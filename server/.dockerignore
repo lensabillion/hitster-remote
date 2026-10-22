@@ -6,3 +6,5 @@ __pycache__/
 *.db-shm
 tests/
 .pytest_cache/
+requirements-dev.txt
+ruff.toml

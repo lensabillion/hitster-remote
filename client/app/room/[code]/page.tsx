@@ -9,9 +9,6 @@ import { getPlayerName } from "@/lib/identity";
 import { useRoom, type PlayerView, type RoomState } from "@/lib/room";
 import { ConnectionBanner, ErrorBanner } from "@/components/Banner";
 
-const ARTIST_POINTS = 70;
-const YEAR_POINTS = 30;
-
 type Tone = "" | "gold" | "good" | "bad";
 const Pill = ({ children, tone = "" }: { children: React.ReactNode; tone?: Tone }) => (
   <span className={`pill${tone ? ` pill-${tone}` : ""}`}>{children}</span>
@@ -74,7 +71,7 @@ export default function RoomPage({ params }: { params: Promise<{ code: string }>
   const router = useRouter();
   const {
     state, audio, error, clearError, connection, connected, serverUrl,
-    playerId, joinRoom, startGame, answer, decline, nextRound,
+    joinRoom, startGame, answer, decline, nextRound,
   } = useRoom();
 
   // Join, and rejoin on every reconnect. Identity is durable, so the server puts
@@ -102,8 +99,10 @@ export default function RoomPage({ params }: { params: Promise<{ code: string }>
   }
 
   const you = state.players.find((p) => p.id === state.viewerId);
-  const isHost = state.hostId === playerId;
+  const isHost = state.hostId === state.viewerId;
   const outcome = state.outcome;
+  // The rules own these numbers; the page only renders them.
+  const { artistPoints, yearPoints } = state;
   const activeName =
     state.players.find((p) => p.id === state.activePlayerId)?.name ?? "Someone";
   const hostName = state.players.find((p) => p.isHost)?.name ?? "the host";
@@ -152,7 +151,7 @@ export default function RoomPage({ params }: { params: Promise<{ code: string }>
           </div>
           <p className="muted">
             You take turns. On your turn a song plays and you name the singer (
-            {ARTIST_POINTS} points) and place it on your timeline ({YEAR_POINTS}).
+            {artistPoints} points) and place it on your timeline ({yearPoints}).
             Everyone hears every song. Highest score wins.
           </p>
 
@@ -200,10 +199,8 @@ export default function RoomPage({ params }: { params: Promise<{ code: string }>
             <AnswerCard
               key={state.roundNo}
               timeline={you.timeline}
-              artistPoints={ARTIST_POINTS}
-              yearPoints={YEAR_POINTS}
-              sealed={state.hasAnswered}
-              sealedAnswer={state.myAnswer}
+              artistPoints={artistPoints}
+              yearPoints={yearPoints}
               onSeal={(gap, artistGuess, titleGuess) =>
                 answer(state.code, gap, artistGuess, titleGuess)
               }
@@ -252,10 +249,10 @@ export default function RoomPage({ params }: { params: Promise<{ code: string }>
                   {outcome.playerId === state.viewerId ? "You" : activeName}
                 </span>
                 <Pill tone={outcome.artistRight ? "good" : "bad"}>
-                  singer {outcome.artistRight ? `+${ARTIST_POINTS}` : "0"}
+                  singer {outcome.artistRight ? `+${artistPoints}` : "0"}
                 </Pill>
                 <Pill tone={outcome.yearRight ? "good" : "bad"}>
-                  year {outcome.yearRight ? `+${YEAR_POINTS}` : "0"}
+                  year {outcome.yearRight ? `+${yearPoints}` : "0"}
                 </Pill>
                 {outcome.titleRight && (
                   <Pill tone="gold">knew the title · tiebreak +1</Pill>

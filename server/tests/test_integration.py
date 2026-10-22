@@ -1,34 +1,41 @@
-"""End-to-end socket tests against a live server.
+"""End-to-end tests against a live server.
 
 These drive the real ASGI app over real sockets, because the bugs that matter
 here live in the wiring rather than the rules: who is told what, when a round
 advances, and whether a reconnecting player is put back together correctly.
 
-Skipped automatically unless the client extras are installed.
+Skipped automatically unless the Socket.IO client extras are installed
+(`pip install -r requirements-dev.txt`).
 """
 
 from __future__ import annotations
 
 import asyncio
 import contextlib
+import json
 import socket
-import sys
+from collections.abc import Callable
 from pathlib import Path
 
+import httpx
 import pytest
-
-sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 aiohttp = pytest.importorskip("aiohttp", reason="needs python-socketio[asyncio_client]")
 socketio = pytest.importorskip("socketio")
 
-import uvicorn  # noqa: E402
+import uvicorn
 
+import db as db_module
+import main
+import rooms as rooms_module
+import sources
+from deck import export_text
 
 # One distinctive artist across the whole harness deck, so a test can type a
 # name that is definitely right (or definitely wrong) without knowing which card
 # the shuffle dealt.
 HARNESS_ARTIST = "Kuku Sebsibe"
+HARNESS_DECK_SIZE = 12
 
 
 def free_port() -> int:
@@ -46,20 +53,13 @@ class Harness:
         self.server: uvicorn.Server | None = None
         self.task: asyncio.Task | None = None
 
-    async def __aenter__(self) -> "Harness":
-        import db as db_module
-
+    async def __aenter__(self) -> Harness:
         db_module.db.path = self.tmp_path / "test.db"
-
-        import main
-
         # Short phases keep the suite fast; the logic under test is unchanged.
         main.CLIP_SECONDS = 0.2
         main.ANSWER_SECONDS = 5
 
-        config = uvicorn.Config(
-            main.app, host="127.0.0.1", port=self.port, log_level="error"
-        )
+        config = uvicorn.Config(main.app, host="127.0.0.1", port=self.port, log_level="error")
         self.server = uvicorn.Server(config)
         self.task = asyncio.create_task(self.server.serve())
         while not self.server.started:
@@ -78,15 +78,12 @@ class Harness:
                     "deezer_track_id": None,
                     "added_by": "test",
                 }
-                for i in range(12)
+                for i in range(HARNESS_DECK_SIZE)
             ]
         )
         return self
 
     async def __aexit__(self, *_) -> None:
-        import main
-        import rooms as rooms_module
-
         for task in list(main._timers.values()):
             task.cancel()
         main._timers.clear()
@@ -102,6 +99,9 @@ class Harness:
     def url(self) -> str:
         return f"http://127.0.0.1:{self.port}"
 
+    def http(self) -> httpx.AsyncClient:
+        return httpx.AsyncClient(base_url=self.url, timeout=10)
+
 
 class Client:
     """A player. Records every room:state so tests can assert on the sequence."""
@@ -116,19 +116,19 @@ class Client:
         self.code: str | None = None
 
         @self.sio.on("room:state")
-        def _state(data):  # noqa: ANN001
+        def _state(data):
             self.states.append(data)
 
         @self.sio.on("round:audio")
-        def _audio(data):  # noqa: ANN001
+        def _audio(data):
             self.audio.append(data)
 
         @self.sio.on("room:joined")
-        def _joined(data):  # noqa: ANN001
+        def _joined(data):
             self.code = data["code"]
 
         @self.sio.on("error")
-        def _error(data):  # noqa: ANN001
+        def _error(data):
             self.errors.append(data["message"])
 
     @property
@@ -144,41 +144,47 @@ class Client:
     async def emit(self, event: str, payload: dict | None = None) -> None:
         await self.sio.emit(event, {**(payload or {}), "playerId": self.player_id})
 
-    async def wait_for(self, predicate, timeout: float = 6.0) -> dict:
+    async def wait_for(self, predicate: Callable[[dict], bool], timeout: float = 6.0) -> dict:
         deadline = asyncio.get_event_loop().time() + timeout
         while asyncio.get_event_loop().time() < deadline:
             if self.states and predicate(self.state):
                 return self.state
             await asyncio.sleep(0.05)
         raise AssertionError(
-            f"timed out; last phase="
-            f"{self.state.get('phase') if self.states else 'no state'}"
+            f"timed out; last phase={self.state.get('phase') if self.states else 'no state'}"
         )
 
 
-@pytest.mark.asyncio
+async def two_player_game(h: Harness, tag: str) -> tuple[Client, Client, str]:
+    """A host and a guest, connected, in a room, with the game started.
+
+    Round 1 belongs to the host. Returns (host, guest, room code).
+    """
+    host, guest = Client(f"host-{tag}", "Lensa"), Client(f"guest-{tag}", "Sara")
+    await host.connect(h.url)
+    await guest.connect(h.url)
+
+    await host.emit("room:create", {"name": "Lensa"})
+    await host.wait_for(lambda s: s["phase"] == "lobby")
+    code = host.state["code"]
+    await guest.emit("room:join", {"code": code, "name": "Sara"})
+    await guest.wait_for(lambda s: len(s["players"]) == 2)
+
+    await host.emit("game:start", {"code": code})
+    await host.wait_for(lambda s: s["phase"] == "answering")
+    await guest.wait_for(lambda s: s["phase"] == "answering")
+    return host, guest, code
+
+
 async def test_full_round_and_no_spontaneous_advance(tmp_path):
-    """A round resolves when everyone has placed, and then STAYS there.
+    """A round resolves when the answer is in, and then STAYS there.
 
     The round must not advance until the host asks for the next song. This is
     the regression test for a round that appeared to advance on its own during
     manual play.
     """
     async with Harness(tmp_path) as h:
-        host = Client("host-1", "Lensa")
-        guest = Client("guest-1", "Sara")
-        await host.connect(h.url)
-        await guest.connect(h.url)
-
-        await host.emit("room:create", {"name": "Lensa"})
-        await host.wait_for(lambda s: s["phase"] == "lobby")
-        code = host.state["code"]
-
-        await guest.emit("room:join", {"code": code, "name": "Sara"})
-        await guest.wait_for(lambda s: len(s["players"]) == 2)
-
-        await host.emit("game:start", {"code": code})
-        await host.wait_for(lambda s: s["phase"] == "answering")
+        host, guest, code = await two_player_game(h, "1")
         assert host.state["roundNo"] == 1
 
         # The year must not be disclosed while placing.
@@ -197,7 +203,7 @@ async def test_full_round_and_no_spontaneous_advance(tmp_path):
         assert isinstance(revealed["card"]["year"], int)
         assert revealed["roundNo"] == 1
 
-        # Hold well past ANSWER_SECONDS: nothing may advance on its own.
+        # Hold well past the clip: nothing may advance on its own.
         await asyncio.sleep(1.0)
         assert host.state["phase"] == "revealing"
         assert host.state["roundNo"] == 1, "round advanced without round:next"
@@ -210,22 +216,9 @@ async def test_full_round_and_no_spontaneous_advance(tmp_path):
         await guest.disconnect()
 
 
-@pytest.mark.asyncio
 async def test_only_the_host_may_advance(tmp_path):
     async with Harness(tmp_path) as h:
-        host = Client("host-2", "Lensa")
-        guest = Client("guest-2", "Sara")
-        await host.connect(h.url)
-        await guest.connect(h.url)
-
-        await host.emit("room:create", {"name": "Lensa"})
-        await host.wait_for(lambda s: s["phase"] == "lobby")
-        code = host.state["code"]
-        await guest.emit("room:join", {"code": code, "name": "Sara"})
-        await guest.wait_for(lambda s: len(s["players"]) == 2)
-
-        await host.emit("game:start", {"code": code})
-        await host.wait_for(lambda s: s["phase"] == "answering")
+        host, guest, code = await two_player_game(h, "2")
         await host.emit("round:answer", {"code": code, "gap": 0})
         await host.wait_for(lambda s: s["phase"] == "revealing")
 
@@ -238,42 +231,28 @@ async def test_only_the_host_may_advance(tmp_path):
         await guest.disconnect()
 
 
-@pytest.mark.asyncio
 async def test_reconnecting_player_gets_seat_timeline_and_audio(tmp_path):
     """A reconnecting player must be able to keep playing the current round.
 
-    Seat, tokens and timeline are restored -- and so is the audio cue, which is
-    what makes the round playable rather than merely visible.
+    Seat and timeline are restored -- and so is the audio cue, which is what
+    makes the round playable rather than merely visible.
     """
     async with Harness(tmp_path) as h:
-        host = Client("host-3", "Lensa")
-        guest = Client("guest-3", "Sara")
-        await host.connect(h.url)
-        await guest.connect(h.url)
+        host, guest, code = await two_player_game(h, "3")
 
-        await host.emit("room:create", {"name": "Lensa"})
-        await host.wait_for(lambda s: s["phase"] == "lobby")
-        code = host.state["code"]
-        await guest.emit("room:join", {"code": code, "name": "Sara"})
-        await guest.wait_for(lambda s: len(s["players"]) == 2)
-
-        await host.emit("game:start", {"code": code})
-        await host.wait_for(lambda s: s["phase"] == "answering")
-
-        before = next(p for p in guest.state["players"] if p["id"] == "guest-3")
+        before = next(p for p in guest.state["players"] if p["id"] == guest.player_id)
         assert len(before["timeline"]) == 1
 
         await guest.disconnect()
         await asyncio.sleep(0.3)
 
-        returning = Client("guest-3", "Sara")
+        returning = Client(guest.player_id, "Sara")
         await returning.connect(h.url)
         await returning.emit("room:join", {"code": code, "name": "Sara"})
         state = await returning.wait_for(lambda s: s["phase"] == "answering")
 
-        after = next(p for p in state["players"] if p["id"] == "guest-3")
+        after = next(p for p in state["players"] if p["id"] == guest.player_id)
         assert after["timeline"] == before["timeline"], "timeline lost on reconnect"
-        assert after["tokens"] == before["tokens"], "tokens lost on reconnect"
         assert len(state["players"]) == 2, "reconnect created a duplicate seat"
 
         # Without this the player can see the round but cannot hear the song.
@@ -283,81 +262,45 @@ async def test_reconnecting_player_gets_seat_timeline_and_audio(tmp_path):
         await returning.disconnect()
 
 
-@pytest.mark.asyncio
 async def test_year_scores_alone_when_the_artist_is_wrong(tmp_path):
     """The halves are independent: a wrong singer must not void a right year."""
     async with Harness(tmp_path) as h:
-        host, guest = Client("host-4", "Lensa"), Client("guest-4", "Sara")
-        await host.connect(h.url)
-        await guest.connect(h.url)
-        await host.emit("room:create", {"name": "Lensa"})
-        await host.wait_for(lambda s: s["phase"] == "lobby")
-        code = host.state["code"]
-        await guest.emit("room:join", {"code": code, "name": "Sara"})
-        await guest.wait_for(lambda s: len(s["players"]) == 2)
-
-        await host.emit("game:start", {"code": code})
-        await host.wait_for(lambda s: s["phase"] == "answering")
-
+        host, guest, code = await two_player_game(h, "4")
         await host.emit(
             "round:answer", {"code": code, "gap": 0, "artist": "Bob Marley", "title": ""}
         )
         revealed = await host.wait_for(lambda s: s["phase"] == "revealing")
 
         outcome = revealed["outcome"]
-        assert outcome["playerId"] == "host-4"
+        assert outcome["playerId"] == host.player_id
         assert outcome["artistRight"] is False
-        assert outcome["points"] == (30 if outcome["yearRight"] else 0)
+        assert outcome["points"] == (revealed["yearPoints"] if outcome["yearRight"] else 0)
 
         await host.disconnect()
         await guest.disconnect()
 
 
-@pytest.mark.asyncio
 async def test_artist_alone_is_worth_seventy(tmp_path):
     """Naming the singer pays even when the card is misplaced."""
     async with Harness(tmp_path) as h:
-        host, guest = Client("host-5", "Lensa"), Client("guest-5", "Sara")
-        await host.connect(h.url)
-        await guest.connect(h.url)
-        await host.emit("room:create", {"name": "Lensa"})
-        await host.wait_for(lambda s: s["phase"] == "lobby")
-        code = host.state["code"]
-        await guest.emit("room:join", {"code": code, "name": "Sara"})
-        await guest.wait_for(lambda s: len(s["players"]) == 2)
-
-        await host.emit("game:start", {"code": code})
-        await host.wait_for(lambda s: s["phase"] == "answering")
-
+        host, guest, code = await two_player_game(h, "5")
         # A surname alone, misspelled, still counts -- that is the point.
-        await host.emit(
-            "round:answer", {"code": code, "gap": 0, "artist": "Sebsibe", "title": ""}
-        )
+        await host.emit("round:answer", {"code": code, "gap": 0, "artist": "Sebsibe", "title": ""})
         revealed = await host.wait_for(lambda s: s["phase"] == "revealing")
 
         outcome = revealed["outcome"]
+        artist, year = revealed["artistPoints"], revealed["yearPoints"]
         assert outcome["artistRight"] is True, "a surname alone should score"
-        assert outcome["points"] == (100 if outcome["yearRight"] else 70)
+        assert outcome["points"] == (artist + year if outcome["yearRight"] else artist)
 
         await host.disconnect()
         await guest.disconnect()
 
 
-@pytest.mark.asyncio
 async def test_watchers_hear_the_song_and_the_turn_rotates(tmp_path):
     """Everyone hears every clip; only the player whose turn it is answers."""
     async with Harness(tmp_path) as h:
-        host, guest = Client("host-6", "Lensa"), Client("guest-6", "Sara")
-        await host.connect(h.url)
-        await guest.connect(h.url)
-        await host.emit("room:create", {"name": "Lensa"})
-        await host.wait_for(lambda s: s["phase"] == "lobby")
-        code = host.state["code"]
-        await guest.emit("room:join", {"code": code, "name": "Sara"})
-        await guest.wait_for(lambda s: len(s["players"]) == 2)
-
-        await host.emit("game:start", {"code": code})
-        await host.wait_for(lambda s: s["phase"] == "answering")
+        host, guest, code = await two_player_game(h, "6")
 
         # Round 1 belongs to the host, but BOTH players are sent the audio.
         assert host.state["isMyTurn"] is True
@@ -377,3 +320,138 @@ async def test_watchers_hear_the_song_and_the_turn_rotates(tmp_path):
 
         await host.disconnect()
         await guest.disconnect()
+
+
+async def test_an_absent_player_cannot_stall_the_table(tmp_path):
+    """The answer window is a ceiling: when it expires the round reveals itself."""
+    async with Harness(tmp_path) as h:
+        main.ANSWER_SECONDS = 0.5
+        host, guest, _ = await two_player_game(h, "7")
+        revealed = await guest.wait_for(lambda s: s["phase"] == "revealing", timeout=3)
+        assert revealed["outcome"]["points"] == 0
+        assert revealed["outcome"]["playerId"] == host.player_id
+
+        await host.disconnect()
+        await guest.disconnect()
+
+
+# ---------- the deck editor ----------
+
+
+async def test_deck_reports_unsaved_songs_and_exports_them(tmp_path, monkeypatch):
+    """A song added through /deck is flagged as unsaved, and the download holds it.
+
+    This is the whole safety net for a deployed server: its database is thrown
+    away on deploy, restart and spin-down, so the editor has to know what is not
+    yet in deck.json and hand it over in a form that can be committed as-is.
+    """
+    monkeypatch.setenv("RENDER", "true")
+    monkeypatch.delenv("DECK_STORAGE", raising=False)
+
+    async with Harness(tmp_path) as h:
+        # The committed deck is exactly what the harness seeded.
+        committed = tmp_path / "deck.json"
+        committed.write_text(export_text(await db_module.db.all_cards()), encoding="utf-8")
+        monkeypatch.setattr(main, "COMMITTED_DECK", committed)
+
+        async with h.http() as http:
+            before = (await http.get("/deck")).json()
+            assert before["storage"] == "ephemeral"
+            assert before["unsaved"] == {"added": [], "removed": [], "changed": []}
+
+            added = await http.post(
+                "/deck",
+                json={
+                    "artist_latin": "Bizunesh Bekele", "title_latin": "Tizita",
+                    "year": 1970, "deezer_track_id": 123456,
+                },
+            )
+            assert added.status_code == 200, added.text
+            new_id = added.json()["id"]
+
+            after = (await http.get("/deck")).json()
+            assert [c["id"] for c in after["unsaved"]["added"]] == [new_id]
+
+            exported = await http.get("/deck/export")
+            assert exported.status_code == 200
+            assert 'filename="deck.json"' in exported.headers["content-disposition"]
+            rows = json.loads(exported.text)
+            assert new_id in {r["id"] for r in rows}
+            assert len(rows) == HARNESS_DECK_SIZE + 1
+
+            # Committing the download clears the warning.
+            committed.write_text(exported.text, encoding="utf-8")
+            saved = (await http.get("/deck")).json()
+            assert saved["unsaved"] == {"added": [], "removed": [], "changed": []}
+
+
+async def test_deck_without_a_committed_file_reports_unknown_not_everything(tmp_path, monkeypatch):
+    """No baseline means 'can't tell', never 'every card is unsaved'."""
+    async with Harness(tmp_path) as h:
+        monkeypatch.setattr(main, "COMMITTED_DECK", tmp_path / "missing.json")
+        async with h.http() as http:
+            assert (await http.get("/deck")).json()["unsaved"] is None
+
+
+async def test_a_card_needs_a_source_and_a_real_name(tmp_path):
+    async with Harness(tmp_path) as h, h.http() as http:
+        no_source = await http.post(
+            "/deck", json={"artist_latin": "Aster Aweke", "title_latin": "Gela Gela", "year": 1991}
+        )
+        assert no_source.status_code == 400
+
+        blank = await http.post(
+            "/deck",
+            json={"artist_latin": "   ", "title_latin": "x", "year": 1991, "deezer_track_id": 1},
+        )
+        assert blank.status_code == 422
+
+
+async def test_deck_token_gates_writes_but_not_reads(tmp_path, monkeypatch):
+    """With DECK_TOKEN set, anyone can read the deck and nobody can edit it blind."""
+    monkeypatch.setattr(main, "DECK_TOKEN", "s3cret")
+    card = {
+        "artist_latin": "Aster Aweke", "title_latin": "Gela Gela",
+        "year": 1991, "deezer_track_id": 1,
+    }
+
+    async with Harness(tmp_path) as h, h.http() as http:
+        assert (await http.get("/deck")).status_code == 200
+        assert (await http.post("/deck", json=card)).status_code == 403
+        assert (await http.post("/deck?token=wrong", json=card)).status_code == 403
+
+        added = await http.post("/deck?token=s3cret", json=card)
+        assert added.status_code == 200
+        card_id = added.json()["id"]
+
+        assert (await http.delete(f"/deck/{card_id}")).status_code == 403
+        assert (await http.delete(f"/deck/{card_id}?token=s3cret")).status_code == 200
+        assert (await http.delete(f"/deck/{card_id}?token=s3cret")).status_code == 404
+
+
+async def test_deck_search_flags_a_wrong_artist_instead_of_hiding_it(tmp_path, monkeypatch):
+    """The editor shows every candidate and marks the doubtful ones; a person decides."""
+    tracks = [
+        {"id": 1, "title": "Tikur Sew", "artist": {"name": "Teddy Afro"}, "preview": "u1",
+         "album": {"title": "Tikur Sew"}},
+        {"id": 2, "title": "Something", "artist": {"name": "Teddy Karo"}, "preview": "u2"},
+        {"id": 3, "title": "No preview", "artist": {"name": "Teddy Afro"}, "preview": ""},
+    ]
+
+    def fake(request: httpx.Request) -> httpx.Response:
+        return httpx.Response(200, json={"data": tracks})
+
+    monkeypatch.setattr(
+        sources, "_client", lambda: httpx.AsyncClient(transport=httpx.MockTransport(fake))
+    )
+
+    async with Harness(tmp_path) as h, h.http() as http:
+        found = (await http.get("/deck/search", params={"artist": "Teddy Afro"})).json()
+        assert [(c["deezerTrackId"], c["artistMatches"]) for c in found["candidates"]] == [
+            (1, True),
+            (2, False),
+        ]
+        assert found["candidates"][0]["album"] == "Tikur Sew"
+        assert found["note"] == ""
+
+        assert (await http.get("/deck/search")).json()["candidates"] == []

@@ -22,15 +22,22 @@ are resolved per round and never stored.
 from __future__ import annotations
 
 import re
+from typing import Any
 
 import httpx
 
 # Matching lives in matching.py so the strict catalogue rule and the generous
 # player-input rule sit side by side and cannot drift apart.
-from matching import artist_matches, normalize, similarity  # noqa: F401
+from matching import artist_matches
 
+DEEZER_API = "https://api.deezer.com"
 YOUTUBE_ID_RE = re.compile(r"(?:v=|youtu\.be/|/embed/|/shorts/)([0-9A-Za-z_-]{11})")
 _TIMEOUT = httpx.Timeout(10.0, connect=5.0)
+
+
+def _client() -> httpx.AsyncClient:
+    """The one place an HTTP client is built, so tests can swap the transport."""
+    return httpx.AsyncClient(timeout=_TIMEOUT)
 
 
 def extract_youtube_id(url: str) -> str | None:
@@ -41,33 +48,26 @@ def extract_youtube_id(url: str) -> str | None:
     return None
 
 
-def strip_youtube_decorations(title: str) -> str:
-    """Remove '(Official Video)', '[HD]', '| Ethiopian Music 2024' and friends."""
-    title = re.sub(r"\s*[\(\[][^()\[\]]*[\)\]]", "", title)
-    title = re.split(r"\s*\|\s*", title)[0]
-    return title.strip(" -–—")
+async def deezer_search(
+    artist: str, title: str = "", limit: int = 8
+) -> list[dict[str, Any]] | None:
+    """Field-scoped track search. None when Deezer did not answer.
 
-
-async def youtube_title(video_id: str) -> dict[str, str] | None:
-    """Title and channel via oEmbed -- no API key, no quota."""
+    Only tracks with a preview come back; one with nothing to play is useless
+    here. An empty list is a real answer -- possibly a throttled one, since
+    Deezer answers a throttled query with an empty result set, not an error.
+    """
+    query = f'artist:"{artist.strip()}"'
+    if title.strip():
+        query += f' track:"{title.strip()}"'
     try:
-        async with httpx.AsyncClient(timeout=_TIMEOUT) as client:
-            r = await client.get(
-                "https://www.youtube.com/oembed",
-                params={
-                    "url": f"https://www.youtube.com/watch?v={video_id}",
-                    "format": "json",
-                },
-            )
+        async with _client() as client:
+            r = await client.get(f"{DEEZER_API}/search", params={"q": query, "limit": limit})
             r.raise_for_status()
-            data = r.json()
-            return {
-                "title": data.get("title", ""),
-                "channel": data.get("author_name", ""),
-                "thumbnail": data.get("thumbnail_url", ""),
-            }
-    except Exception:
+            tracks = r.json().get("data", [])
+    except Exception:  # a third-party API: any failure means "no answer"
         return None
+    return [t for t in tracks if t.get("preview")]
 
 
 async def deezer_probe(artist_latin: str, title_latin: str) -> int | None:
@@ -76,29 +76,18 @@ async def deezer_probe(artist_latin: str, title_latin: str) -> int | None:
     Returns None rather than a wrong track: a mis-attributed card is worse than
     no Deezer id at all, because playback would serve a different song entirely.
     """
-    query = f'artist:"{artist_latin}" track:"{title_latin}"'
-    try:
-        async with httpx.AsyncClient(timeout=_TIMEOUT) as client:
-            r = await client.get(
-                "https://api.deezer.com/search", params={"q": query, "limit": 5}
-            )
-            r.raise_for_status()
-            for track in r.json().get("data", []):
-                if not track.get("preview"):
-                    continue
-                if artist_matches(artist_latin, track["artist"]["name"]):
-                    return int(track["id"])
-    except Exception:
-        pass
+    for track in await deezer_search(artist_latin, title_latin, limit=5) or []:
+        if artist_matches(artist_latin, track["artist"]["name"]):
+            return int(track["id"])
     return None
 
 
 async def deezer_fresh_preview(track_id: int) -> str | None:
     """Resolve a playable preview URL. Valid for ~15 minutes, so call per round."""
     try:
-        async with httpx.AsyncClient(timeout=_TIMEOUT) as client:
-            r = await client.get(f"https://api.deezer.com/track/{track_id}")
+        async with _client() as client:
+            r = await client.get(f"{DEEZER_API}/track/{track_id}")
             r.raise_for_status()
             return r.json().get("preview") or None
-    except Exception:
+    except Exception:  # see deezer_search
         return None

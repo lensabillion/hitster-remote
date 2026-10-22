@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { Fragment, useState } from "react";
 
 export type Card = {
   id: string;
@@ -61,15 +61,19 @@ export default function Timeline({
     return <p className="tl-empty">No cards yet.</p>;
   }
 
+  // One slot before every card, and one after the last.
+  const slot = (i: number) =>
+    interactive ? (
+      <Gap index={i} selected={selected === i} onSelect={choose} />
+    ) : (
+      <div className="tl-spacer" aria-hidden />
+    );
+
   return (
     <div className="tl">
       {cards.map((card, i) => (
-        <div key={card.id} style={{ display: "contents" }}>
-          {interactive ? (
-            <Gap index={i} selected={selected === i} onSelect={choose} />
-          ) : (
-            <div className="tl-spacer" aria-hidden />
-          )}
+        <Fragment key={card.id}>
+          {slot(i)}
           <article className="tl-card">
             <div className="tl-year">{card.year}</div>
             <div className="stack" style={{ gap: 3 }}>
@@ -77,17 +81,9 @@ export default function Timeline({
               <div className="tl-artist am">{card.artistAm || card.artistLatin}</div>
             </div>
           </article>
-        </div>
+        </Fragment>
       ))}
-      {interactive ? (
-        <Gap
-          index={cards.length}
-          selected={selected === cards.length}
-          onSelect={choose}
-        />
-      ) : (
-        <div className="tl-spacer" aria-hidden />
-      )}
+      {slot(cards.length)}
     </div>
   );
 }

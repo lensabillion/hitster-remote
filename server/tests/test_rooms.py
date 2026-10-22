@@ -11,13 +11,18 @@ Two properties matter most here and neither fails loudly in manual play:
 from __future__ import annotations
 
 import json
-import sys
-from pathlib import Path
 
-sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
-
-from game import Card, Phase  # noqa: E402
-from rooms import Room, create_room, get_room, rooms, serialize  # noqa: E402
+import rooms as rooms_module
+from game import ARTIST_POINTS, YEAR_POINTS, Card, Phase
+from rooms import (
+    EMPTY_ROOM_GRACE_MS,
+    Room,
+    create_room,
+    drop_empty_rooms,
+    get_room,
+    rooms,
+    serialize,
+)
 
 
 def card(year: int, name: str = "c") -> Card:
@@ -156,7 +161,7 @@ class TestRoundFlow:
         subject = room.begin_round()
         room.submit_answer("p0", 0, subject.artist_latin, "")
         room.reveal()
-        assert room.players["p0"].score >= 70  # artist alone is worth 70
+        assert room.players["p0"].score >= ARTIST_POINTS
         assert room.players["p1"].score == 0  # not their turn
 
     def test_standings_rank_by_score(self):
@@ -165,7 +170,6 @@ class TestRoundFlow:
         room.players["p1"].score = 250
         room.players["p2"].score = 40
         assert [p.id for p in room.standings()] == ["p1", "p0", "p2"]
-        assert room.leader().id == "p1"
 
     def test_game_ends_after_the_planned_rounds(self):
         room = make_room(2)
@@ -209,19 +213,17 @@ class TestSerializeWithholdsTheAnswer:
         assert serialize(self.room, "p0")["isMyTurn"] is True
         assert serialize(self.room, "p1")["isMyTurn"] is False
 
-    def test_viewer_sees_only_its_own_answer_back(self):
-        self.room.submit_answer("p0", 2, "Aster Aweke", "")
-        assert serialize(self.room, "p0")["hasAnswered"] is True
-        assert serialize(self.room, "p0")["myAnswer"]["artistGuess"] == "Aster Aweke"
-        assert serialize(self.room, "p1")["hasAnswered"] is False
-        assert serialize(self.room, "p1")["myAnswer"] is None
-
     def test_the_answer_is_disclosed_to_everyone_at_the_reveal(self):
         self.room.submit_answer("p0", 0, "Aster Aweke", "")
         self.room.reveal()
         outcome = serialize(self.room, "p1")["outcome"]
         assert outcome["playerId"] == "p0"
         assert outcome["artistGuess"] == "Aster Aweke"
+
+    def test_the_rules_tell_the_client_what_each_half_is_worth(self):
+        # The client renders these rather than hardcoding 70/30 a second time.
+        state = serialize(self.room, "p0")
+        assert (state["artistPoints"], state["yearPoints"]) == (ARTIST_POINTS, YEAR_POINTS)
 
 
 class TestRoomRegistry:
@@ -231,6 +233,70 @@ class TestRoomRegistry:
         assert get_room(f"  {room.code}  ") is room
         assert get_room("ZZZZ") is None
         assert get_room("") is None
+
+
+class TestEmptyRoomsSurviveAGracePeriod:
+    """A shared wifi blip must not destroy a live game.
+
+    Deleting a room on its last disconnect looked correct and was not: two
+    players on the same connection blink out together, and the game was gone
+    before either could reconnect.
+    """
+
+    def _clock(self, monkeypatch, start: int = 1_000_000):
+        now = {"ms": start}
+        monkeypatch.setattr(rooms_module, "now_ms", lambda: now["ms"])
+        return now
+
+    def test_a_room_with_nobody_connected_survives_the_grace_period(self, monkeypatch):
+        clock = self._clock(monkeypatch)
+        room = make_room(2)
+        room.players["p0"].score = 170
+        room.detach_socket("sid0")
+        room.detach_socket("sid1")
+
+        drop_empty_rooms()
+        clock["ms"] += EMPTY_ROOM_GRACE_MS - 1
+        drop_empty_rooms()
+        assert get_room(room.code) is room
+        assert room.players["p0"].score == 170
+
+    def test_a_room_nobody_returns_to_is_reaped(self, monkeypatch):
+        clock = self._clock(monkeypatch)
+        room = make_room(2)
+        room.detach_socket("sid0")
+        room.detach_socket("sid1")
+
+        drop_empty_rooms()
+        clock["ms"] += EMPTY_ROOM_GRACE_MS
+        drop_empty_rooms()
+        assert get_room(room.code) is None
+
+    def test_a_reconnect_resets_the_clock(self, monkeypatch):
+        clock = self._clock(monkeypatch)
+        room = make_room(2)
+        room.detach_socket("sid0")
+        room.detach_socket("sid1")
+        drop_empty_rooms()
+
+        clock["ms"] += EMPTY_ROOM_GRACE_MS - 1
+        room.add_player("p1", "Player 1", "sid1-new")
+        drop_empty_rooms()
+        assert room.empty_since_ms is None
+
+        room.detach_socket("sid1-new")
+        clock["ms"] += EMPTY_ROOM_GRACE_MS - 1
+        drop_empty_rooms()
+        assert get_room(room.code) is room
+
+    def test_a_room_with_someone_connected_is_never_reaped(self, monkeypatch):
+        clock = self._clock(monkeypatch)
+        room = make_room(2)
+        room.detach_socket("sid0")
+        drop_empty_rooms()
+        clock["ms"] += EMPTY_ROOM_GRACE_MS * 10
+        drop_empty_rooms()
+        assert get_room(room.code) is room
 
 
 class TestDeclinedAnswer:
@@ -292,7 +358,6 @@ class TestTitleHitsBreakTies:
         room.players["p1"].title_hits = 3
         room.players["p2"].title_hits = 1
         assert [p.id for p in room.standings()][:2] == ["p1", "p2"]
-        assert room.leader().id == "p1"
 
     def test_title_hits_never_outrank_score(self):
         room = make_room(2)
@@ -300,7 +365,7 @@ class TestTitleHitsBreakTies:
         room.players["p0"].title_hits = 0
         room.players["p1"].score = 100
         room.players["p1"].title_hits = 9
-        assert room.leader().id == "p0"
+        assert room.standings()[0].id == "p0"
 
     def test_title_hits_are_exposed_to_clients(self):
         room = make_room(2)
