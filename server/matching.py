@@ -12,7 +12,9 @@ human typing into a text box meant this artist. Amharic names reach Latin script
 with no agreed spelling -- Tilahun/Telahun, Astatke/Astatqe, Yehune/Yehunie --
 and a player should never lose a point to a transliteration they had no way to
 guess. Surnames alone count, and so do given names, because that is how people
-actually refer to these artists.
+actually refer to these artists. The vowels are what vary most between spellings,
+so a guess that agrees with the answer once the vowels are set aside counts too:
+Makiya Bahilu is Mikaya Behailu.
 """
 
 from __future__ import annotations
@@ -29,6 +31,24 @@ ARTIST_WORD_MIN = 0.80
 PLAYER_FULL_MIN = 0.82
 PLAYER_WORD_MIN = 0.85
 PLAYER_MIN_WORD_LEN = 4
+# Player input with the vowels set aside: a skeleton this short says nothing.
+PLAYER_MIN_SKELETON_LEN = 3
+
+# Consonant spellings that reach Latin script for the same Amharic sound. The
+# placeholders are upper case so a later rule cannot re-read them (input is
+# casefolded by then). Digraphs come before their letters.
+CONSONANT_VARIANTS = (
+    ("tch", "C"),
+    ("ch", "C"),
+    ("sh", "S"),
+    ("zh", "J"),
+    ("ph", "f"),
+    ("ts", "s"),
+    ("tz", "s"),
+    ("kh", "k"),
+    ("q", "k"),
+    ("c", "k"),
+)
 
 # Words that carry no identifying weight in a band or artist name.
 STOPWORDS = {"the", "band", "group", "and", "of"}
@@ -69,12 +89,36 @@ def artist_matches(wanted: str, found: str) -> bool:
     )
 
 
+def _name_skeleton(s: str, drop_y: bool = False) -> str:
+    """A normalized name with its vowels set aside and doubled letters folded.
+
+    "makiya" and "mikaya" both become "mky"; "gessesse" and "gesese" both become
+    "gs". With `drop_y`, y goes too: it stands in for i as often as not
+    (Tsehaytu / Tsehaitu).
+    """
+    for variant, canonical in CONSONANT_VARIANTS:
+        s = s.replace(variant, canonical)
+    s = re.sub(r"[aeiouy\s]" if drop_y else r"[aeiou\s]", "", s)
+    return re.sub(r"(.)\1+", r"\1", s)
+
+
+def _skeletons_agree(a: str, b: str) -> bool:
+    """Do two normalized names agree once their vowels are set aside?"""
+    for drop_y in (False, True):
+        sa, sb = _name_skeleton(a, drop_y), _name_skeleton(b, drop_y)
+        if min(len(sa), len(sb)) >= PLAYER_MIN_SKELETON_LEN and sa == sb:
+            return True
+    return False
+
+
 def player_artist_matches(guess: str, answer: str) -> bool:
     """Generous: did the player mean this artist?
 
     Accepts, in order:
       - the whole name, however spelled ("tilahun gessesse", "Telahun Gesesse")
-      - any single distinctive name from it ("Astatke", "Mulatu", "Aster")
+      - the whole name with the vowels set aside ("Makiya Bahilu")
+      - any single distinctive name from it ("Astatke", "Mulatu", "Aster"),
+        again with the vowels set aside if need be ("Bahilu")
 
     Rejects short fragments, so "a" or "the" cannot match everything. A player
     typing one real name of a two-name artist has demonstrated they know who it
@@ -86,6 +130,10 @@ def player_artist_matches(guess: str, answer: str) -> bool:
     if guess_norm == answer_norm:
         return True
     if similarity(guess_norm, answer_norm) >= PLAYER_FULL_MIN:
+        return True
+    # The vowels are the part of a transliteration that varies most, so a guess
+    # that agrees once they are set aside counts: Makiya Bahilu is Mikaya Behailu.
+    if _skeletons_agree(guess_norm, answer_norm):
         return True
 
     answer_words = _words(answer)
@@ -102,17 +150,17 @@ def player_artist_matches(guess: str, answer: str) -> bool:
                 continue
             if SequenceMatcher(None, g, a).ratio() >= PLAYER_WORD_MIN:
                 return True
+            if _skeletons_agree(g, a):
+                return True
     return False
 
 
 def player_title_matches(guess: str, answer: str) -> bool:
-    """Same generosity, for song titles. Not scored, but shown at the reveal."""
-    if not normalize(guess) or not normalize(answer):
+    """Same generosity, for song titles. Not scored, but a tiebreak at the reveal."""
+    g, a = normalize(guess), normalize(answer)
+    if not g or not a:
         return False
-    return (
-        normalize(guess) == normalize(answer)
-        or similarity(guess, answer) >= PLAYER_FULL_MIN
-    )
+    return g == a or similarity(guess, answer) >= PLAYER_FULL_MIN or _skeletons_agree(g, a)
 
 
 # Catalogue, titles: the same song reaches Deezer under several spellings and

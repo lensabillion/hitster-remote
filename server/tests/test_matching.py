@@ -179,3 +179,42 @@ class TestCatalogueTitleMatching:
     )
     def test_rejects_a_different_song(self, wanted, found):
         assert not title_matches(wanted, found)
+
+
+class TestPlayerSpellingsOfTheSameName:
+    """The vowels of an Amharic name vary most between spellings; set them aside."""
+
+    @pytest.mark.parametrize(
+        "guess,answer",
+        [
+            ("Makiya bahilu", "Mikaya Behailu"),  # lost 70 points in play
+            ("bahilu", "Mikaya Behailu"),
+            ("Makiya", "Mikaya Behailu"),
+            ("Efrem Tamru", "Ephrem Tamiru"),
+            ("Astir Awoke", "Aster Aweke"),
+            ("Mahmud Ahmed", "Mahmoud Ahmed"),
+            ("Bezunesh", "Bizunesh Bekele"),
+            ("Tsehaitu", "Tsehaytu Beraki"),
+            ("Wondimu", "Wendimu Jira"),
+            ("Mulatu Astatqe", "Mulatu Astatke"),
+        ],
+    )
+    def test_accepts(self, guess, answer):
+        assert player_artist_matches(guess, answer)
+
+    @pytest.mark.parametrize(
+        "guess,answer",
+        [
+            ("Mahmoud Ahmed", "Mikaya Behailu"),
+            ("Abebe", "Alemayehu Eshete"),
+            ("Bekele", "Mikaya Behailu"),
+            ("mkb", "Mikaya Behailu"),  # a bare skeleton is not a name
+        ],
+    )
+    def test_still_rejects_other_names(self, guess, answer):
+        assert not player_artist_matches(guess, answer)
+
+    def test_titles_get_the_same_tolerance(self):
+        assert player_title_matches("Tizita", "Tezeta")
+        assert player_title_matches("Shemametaw", "Shemametew")
+        assert not player_title_matches("Tizita", "Ere mela mela")
