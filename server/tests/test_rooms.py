@@ -14,7 +14,7 @@ import json
 import re
 
 import rooms as rooms_module
-from game import ARTIST_POINTS, YEAR_POINTS, Card, Phase
+from game import ARTIST_POINTS, YEAR_POINTS, Card, Phase, era_of
 from rooms import (
     EMPTY_ROOM_GRACE_MS,
     Room,
@@ -392,3 +392,16 @@ class TestDiscardRound:
         card = room.begin_round()
         assert card is not None
         assert room.round_no == 1
+
+
+class TestAGameRangesAcrossTheEras:
+    def test_the_first_cards_of_a_game_come_from_six_different_eras(self):
+        room = make_room(2)
+        decades = (1970, 1980, 1990, 2000, 2010, 2020)
+        four_per_era = [card(y + i, f"e{y}n{i}") for y in decades for i in range(4)]
+        room.start_game(four_per_era, rounds=8)
+        # Two seed cards, then four rounds: six cards, one from each era.
+        seen = [era_of(p.timeline[0].year) for p in room.players.values()]
+        for _ in range(4):
+            seen.append(era_of(room.begin_round().year))
+        assert sorted(seen) == [0, 1, 2, 3, 4, 5]

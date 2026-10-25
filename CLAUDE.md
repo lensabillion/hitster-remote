@@ -118,6 +118,10 @@ ceiling that only stops an absent player stalling the table.
   cue goes to every socket, not just the answering one. Their song comes on their turn.
 - **Turns are dealt evenly.** `rounds_planned` is rounded down to a whole number of turns
   each, so nobody sitting early in the seat order gets an extra song.
+- **Rounds rotate through the eras.** `deal_across_eras` orders the shuffled deck so
+  consecutive cards cycle through the classics before 1980 and then each decade. A deck
+  thick in the 2010s still deals a 1980s song as often as a 2010s one. Do not replace it
+  with a plain shuffle.
 - **Two matchers, opposite temperaments.** `artist_matches` and `title_matches`
   (catalogue) are strict, so a wrong Deezer track is never attached.
   `player_artist_matches` (typed input) is generous, so a player is never robbed by

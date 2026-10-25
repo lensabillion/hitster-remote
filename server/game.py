@@ -2,7 +2,9 @@
 
 from __future__ import annotations
 
+import random
 import time
+from collections.abc import Sequence
 from dataclasses import dataclass
 from enum import StrEnum
 
@@ -46,6 +48,42 @@ class Card:
     youtube_id: str = ""
     deezer_track_id: int | None = None
     added_by: str = ""
+
+
+# A game should range across the decades rather than land wherever the deck is
+# thick. Cards are dealt era by era in rotation: everything before 1980 as one
+# era of classics, then each decade. A deck heavy in the 2010s still deals a
+# 1980s song as often as a 2010s one, for as long as the thin era lasts.
+ERA_STARTS = (1980, 1990, 2000, 2010, 2020)
+
+
+def era_of(year: int) -> int:
+    """Which era a year belongs to: 0 before 1980, then one per decade."""
+    return sum(1 for start in ERA_STARTS if year >= start)
+
+
+def deal_across_eras(cards: Sequence[Card], rng: random.Random | None = None) -> list[Card]:
+    """Shuffle, then order the deck so consecutive cards rotate through the eras.
+
+    Within an era the order is random, and the eras take turns in an order that
+    is reshuffled on every pass, so no era always opens the game. An era that
+    runs out drops out of the rotation. Every card is dealt exactly once.
+    """
+    shuffle = (rng or random).shuffle
+    by_era: dict[int, list[Card]] = {}
+    for card in cards:
+        by_era.setdefault(era_of(card.year), []).append(card)
+    for pile in by_era.values():
+        shuffle(pile)
+    dealt: list[Card] = []
+    while by_era:
+        eras = list(by_era)
+        shuffle(eras)
+        for era in eras:
+            dealt.append(by_era[era].pop())
+            if not by_era[era]:
+                del by_era[era]
+    return dealt
 
 
 @dataclass(slots=True)

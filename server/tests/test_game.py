@@ -6,12 +6,16 @@ cards they earned and keep cards they did not.
 
 from __future__ import annotations
 
+import random
+
 from game import (
     ARTIST_POINTS,
     YEAR_POINTS,
     Answer,
     Card,
     correct_gaps,
+    deal_across_eras,
+    era_of,
     insert_card,
     is_correct_placement,
     resolve_round,
@@ -167,3 +171,36 @@ class TestScoreAnswer:
         )
         assert score.title_right
         assert score.points == YEAR_POINTS  # empty timeline, so the gap is right
+
+
+class TestDealAcrossEras:
+    """A game should range across the decades, however lopsided the deck."""
+
+    def test_era_of_splits_at_1980_and_then_by_decade(self):
+        years = (1966, 1979, 1980, 1995, 2000, 2010, 2026)
+        assert [era_of(y) for y in years] == [0, 0, 1, 2, 3, 4, 5]
+
+    def test_every_card_is_dealt_exactly_once(self):
+        deck = [card(1960 + i, f"c{i}") for i in range(70)]
+        dealt = deal_across_eras(deck, random.Random(3))
+        assert sorted(c.id for c in dealt) == sorted(c.id for c in deck)
+
+    def test_consecutive_cards_rotate_through_the_eras(self):
+        decades = (1970, 1980, 1990, 2000, 2010, 2020)
+        deck = [card(y + i, f"{y}-{i}") for y in decades for i in range(4)]
+        for seed in range(20):
+            dealt = deal_across_eras(deck, random.Random(seed))
+            for start in range(0, 24, 6):
+                window = dealt[start : start + 6]
+                assert sorted(era_of(c.year) for c in window) == [0, 1, 2, 3, 4, 5]
+
+    def test_a_thin_era_is_dealt_as_often_as_a_thick_one_while_it_lasts(self):
+        deck = [card(2015, f"t{i}") for i in range(50)] + [card(1985, "eighties")]
+        dealt = deal_across_eras(deck, random.Random(1))
+        assert "eighties" in [c.id for c in dealt[:2]]
+        assert len(dealt) == 51
+
+    def test_no_era_always_opens_the_game(self):
+        deck = [card(y, str(y)) for y in (1975, 1985, 1995, 2005, 2015, 2025)]
+        openers = {deal_across_eras(deck, random.Random(seed))[0].year for seed in range(40)}
+        assert len(openers) > 1
