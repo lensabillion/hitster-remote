@@ -261,6 +261,34 @@ h3 {
   cursor: not-allowed;
 }
 
+/* The quiet primary: one green outline per row where a list has hundreds of
+   them, so the page does not become a wall of solid green. */
+.btn-line {
+  font: inherit;
+  font-weight: 700;
+  font-size: var(--t-sm);
+  cursor: pointer;
+  min-height: 44px;
+  padding: 8px 16px;
+  border-radius: var(--r);
+  background: var(--ground);
+  border: 1px solid var(--green);
+  color: var(--green);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: background 120ms ease;
+}
+.btn-line:hover:not(:disabled) {
+  background: var(--green-wash);
+}
+.btn-line:disabled {
+  color: var(--ink-faint);
+  border-color: var(--rule);
+  cursor: not-allowed;
+}
+
 .field {
   font: inherit;
   width: 100%;
@@ -463,6 +491,7 @@ h3 {
    so a slot is a full 44px wide. Every slot is equally valid: a year that
    ties a card already down may sit on either side of it. */
 .tl-gap {
+  font: inherit;
   width: 44px;
   min-height: 120px;
   flex-shrink: 0;
@@ -483,7 +512,9 @@ h3 {
   border-color: var(--green);
   color: var(--green);
 }
-.tl-gap-on {
+/* Outranks :hover on purpose: a tapped slot keeps hover on a touch screen. */
+.tl-gap.tl-gap-on,
+.tl-gap.tl-gap-on:hover {
   width: 72px;
   border: 1px solid var(--green);
   background: var(--green);
@@ -557,7 +588,7 @@ h3 {
 
 .grid-2 {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 16px;
 }
 
@@ -600,6 +631,7 @@ h3 {
 
 @media (max-width: 560px) {
   .page { padding: 20px 16px 64px; }
+  .grid-2 { grid-template-columns: minmax(0, 1fr); }
   .hero { padding: 20px; }
   .card { padding: 18px; }
   .deck-row { grid-template-columns: 88px minmax(0, 1fr); }

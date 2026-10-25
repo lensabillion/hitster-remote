@@ -52,7 +52,10 @@ function Scoreboard({ state }: { state: RoomState }) {
 }
 
 function PlayerRow({ player, state }: { player: PlayerView; state: RoomState }) {
-  const isActive = state.activePlayerId === player.id;
+  // The server keeps activePlayerId set before the first round and after the
+  // last, but a turn only exists while a song is being answered or revealed.
+  const hasTurn = state.phase === "answering" || state.phase === "revealing";
+  const isActive = hasTurn && state.activePlayerId === player.id;
   // At the reveal, pick out the card that just landed on the active timeline.
   // Only a kept card is on it, and the server has revealed it by then.
   const landed =
@@ -66,7 +69,7 @@ function PlayerRow({ player, state }: { player: PlayerView; state: RoomState }) 
           {player.name}
           {player.id === state.viewerId ? " (you)" : ""}
         </span>
-        {isActive && state.phase !== "lobby" && <Pill tone="accent">their turn</Pill>}
+        {isActive && <Pill tone="accent">their turn</Pill>}
         {player.isHost && <Pill>host</Pill>}
         {!player.connected && <Pill tone="bad">offline</Pill>}
         <span className="hint" style={{ marginLeft: "auto" }}>

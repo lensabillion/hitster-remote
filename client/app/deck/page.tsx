@@ -127,7 +127,7 @@ function CardRow({
       <div className="deck-row-actions">
         <span className="pill">{source}</span>
         {open ? (
-          <button className="btn" onClick={confirm} disabled={busy || yearNum === null}>
+          <button className="btn-line" onClick={confirm} disabled={busy || yearNum === null}>
             {busy ? "Saving…" : yearNum === card.year ? "Confirm" : "Fix year"}
           </button>
         ) : (
