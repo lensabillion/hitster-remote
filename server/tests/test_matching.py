@@ -11,7 +11,13 @@ from __future__ import annotations
 
 import pytest
 
-from matching import artist_matches, normalize, player_artist_matches, player_title_matches
+from matching import (
+    artist_matches,
+    normalize,
+    player_artist_matches,
+    player_title_matches,
+    title_matches,
+)
 
 
 class TestNormalize:
@@ -140,3 +146,36 @@ class TestTitleMatching:
 
     def test_blank_is_not_a_match(self):
         assert not player_title_matches("", "Tezeta")
+
+
+class TestCatalogueTitleMatching:
+    """Strict-ish: attaching a Deezer track automatically needs the title to
+    agree too, since a plain search returns the artist's other songs as well."""
+
+    @pytest.mark.parametrize(
+        "wanted,found",
+        [
+            ("Ere Mela Mela", "Erè mèla mèla"),
+            ("Tezeta", "Tezeta (Nostalgia)"),
+            ("Yekermo Sew", "Yèkèrmo Sèw"),
+            ("Tizita", "Tezeta"),
+            ("Y'shebellu", "Yshebellu"),
+            ("Darigne", "Darign (Bonus Track)"),
+            ("Anarejim", "Anarejm"),
+        ],
+    )
+    def test_accepts_spellings_and_subtitles(self, wanted, found):
+        assert title_matches(wanted, found)
+
+    @pytest.mark.parametrize(
+        "wanted,found",
+        [
+            ("Gela Gela", "Demam Gelayewa"),
+            ("Tikur Sew", "Abugida"),
+            ("Endegena", "Endetefash"),
+            ("Kabu", ""),
+            ("", "Kabu"),
+        ],
+    )
+    def test_rejects_a_different_song(self, wanted, found):
+        assert not title_matches(wanted, found)

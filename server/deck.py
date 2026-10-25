@@ -27,9 +27,14 @@ EARLIEST_YEAR = 1900
 LATEST_YEAR = date.today().year
 
 EXPORT_FIELDS = (
-    "id", "year", "artist_latin", "title_latin",
+    "id", "year", "year_confirmed", "artist_latin", "title_latin",
     "artist_am", "title_am", "youtube_id", "deezer_track_id", "added_by",
 )
+# What a field is when a row predates it (an older deck.json, a bare test row).
+FIELD_DEFAULTS: dict[str, Any] = {
+    "year_confirmed": False, "artist_am": "", "title_am": "",
+    "youtube_id": "", "deezer_track_id": None, "added_by": "",
+}
 
 
 def card_id(artist: str, title: str) -> str:
@@ -66,9 +71,15 @@ def export_rows(cards: Iterable[Mapping[str, Any]]) -> list[dict[str, Any]]:
     ties, and two cards sharing a year could otherwise swap places between
     exports and show up as a change when nothing changed.
     """
-    rows = [{k: c[k] for k in EXPORT_FIELDS} for c in cards]
+    rows = [export_row(c) for c in cards]
     rows.sort(key=lambda r: (r["year"], r["id"]))
     return rows
+
+
+def export_row(card: Mapping[str, Any]) -> dict[str, Any]:
+    row = {k: card.get(k, FIELD_DEFAULTS.get(k)) for k in EXPORT_FIELDS}
+    row["year_confirmed"] = bool(row["year_confirmed"])
+    return row
 
 
 def export_text(cards: Iterable[Mapping[str, Any]]) -> str:
@@ -90,8 +101,8 @@ def diff_decks(
     A card counts as changed when any exported field differs -- a corrected year
     is exactly the kind of edit that must not be lost.
     """
-    before = {r["id"]: {k: r.get(k) for k in EXPORT_FIELDS} for r in committed}
-    after = {r["id"]: {k: r.get(k) for k in EXPORT_FIELDS} for r in live}
+    before = {r["id"]: export_row(r) for r in committed}
+    after = {r["id"]: export_row(r) for r in live}
 
     def brief(row: Mapping[str, Any]) -> dict[str, Any]:
         return {

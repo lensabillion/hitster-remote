@@ -372,3 +372,20 @@ class TestTitleHitsBreakTies:
         room.players["p0"].title_hits = 2
         state = serialize(room, "p0")
         assert state["standings"][0]["titleHits"] == 2
+
+
+class TestDiscardRound:
+    """A drawn card that cannot be played gives its round number back."""
+
+    def test_the_round_number_is_returned_and_the_card_consumed(self):
+        room = make_room()
+        room.start_game(deck(8), rounds=4)
+        room.begin_round()
+        drawn_before = room.draw_index
+        room.discard_round()
+        assert room.round_no == 0
+        assert room.current_card is None
+        assert room.draw_index == drawn_before, "the card is not put back"
+        card = room.begin_round()
+        assert card is not None
+        assert room.round_no == 1

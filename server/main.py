@@ -32,7 +32,7 @@ from deck import (
     is_playable,
     load_deck_file,
 )
-from game import Card, Phase
+from game import Card, Phase, now_ms
 from matching import artist_matches
 from rooms import (
     ANSWER_SECONDS,
@@ -66,6 +66,11 @@ COMMITTED_DECK = Path(os.getenv("COMMITTED_DECK", Path(__file__).parent / "decks
 REAP_INTERVAL_SECONDS = 60
 # A player name is shown on every screen; cap it so a joke does not become a layout.
 MAX_NAME_LENGTH = 40
+# A round's audio is resolved once and shared. Deezer's URLs live 15 minutes;
+# a player reconnecting after this long gets a fresh one rather than a dead link.
+AUDIO_FRESH_MS = 10 * 60 * 1000
+# How many unplayable cards a round will draw past before giving up on the deck.
+MAX_SILENT_DRAWS = 5
 
 
 def storage_is_ephemeral() -> bool:
@@ -150,11 +155,23 @@ class NewCard(BaseModel):
     artist_latin: NameText
     title_latin: NameText
     year: int = Field(ge=EARLIEST_YEAR, le=LATEST_YEAR)
+    # A person typing a year into the editor has checked it; a harvest has not.
+    year_confirmed: bool = True
     artist_am: OptionalText = ""
     title_am: OptionalText = ""
     youtube_url: UrlText = ""
     deezer_track_id: int | None = None
     added_by: ByText = ""
+
+
+class CardPatch(BaseModel):
+    """An edit to a card that is already in the deck. Every field optional:
+    confirming a proposed year sends {year, year_confirmed: true}."""
+
+    year: int | None = Field(default=None, ge=EARLIEST_YEAR, le=LATEST_YEAR)
+    year_confirmed: bool | None = None
+    artist_am: OptionalText | None = None
+    title_am: OptionalText | None = None
 
 
 def _check_token(token: str | None) -> None:
@@ -168,6 +185,9 @@ async def deck_list() -> dict:
     committed = load_deck_file(COMMITTED_DECK)
     return {
         "count": len(cards),
+        # Years nobody has checked yet: harvested proposals and the starter
+        # deck's guesses. Playable, but the editor puts them first.
+        "unconfirmed": sum(1 for c in cards if not c["year_confirmed"]),
         # Songs that exist only in this server's database. On an ephemeral host
         # they disappear on the next deploy, restart, or idle spin-down, so the
         # editor has to say so rather than let them vanish quietly.
@@ -175,7 +195,7 @@ async def deck_list() -> dict:
         "unsaved": None if committed is None else diff_decks(committed, cards),
         "cards": [
             {
-                "id": c["id"], "year": c["year"],
+                "id": c["id"], "year": c["year"], "yearConfirmed": c["year_confirmed"],
                 "artistLatin": c["artist_latin"], "titleLatin": c["title_latin"],
                 "artistAm": c["artist_am"], "titleAm": c["title_am"],
                 "youtubeId": c["youtube_id"], "deezerTrackId": c["deezer_track_id"],
@@ -225,6 +245,9 @@ async def deck_search(artist: str = "", title: str = "") -> dict:
         }
         for t in tracks
     ]
+    # A plain query ranks across every artist, so the right artist's songs
+    # are not necessarily first. Doubtful candidates stay visible, below.
+    candidates.sort(key=lambda c: not c["artistMatches"])
     note = "" if candidates else (
         "Nothing found. Deezer rate-limits in bursts and answers with an empty "
         "list rather than an error -- try again shortly, or add a YouTube link."
@@ -238,6 +261,7 @@ async def deck_add(card: NewCard, token: str | None = None) -> dict:
     row = {
         "id": card_id(card.artist_latin, card.title_latin),
         "year": card.year,
+        "year_confirmed": card.year_confirmed,
         "artist_latin": card.artist_latin,
         "title_latin": card.title_latin,
         "artist_am": card.artist_am,
@@ -253,6 +277,20 @@ async def deck_add(card: NewCard, token: str | None = None) -> dict:
         )
     await db.upsert_cards([row])
     return {"ok": True, "id": row["id"], "count": await db.card_count()}
+
+
+@api.patch("/deck/{card}")
+async def deck_patch(card: str, patch: CardPatch, token: str | None = None) -> dict:
+    """Correct or confirm a card in place -- the curation loop for a harvest.
+
+    Re-adding through POST would also work, since the id is derived from the
+    artist and title, but it would need every field sent again; confirming a
+    year that is already right should be one tap.
+    """
+    _check_token(token)
+    if not await db.update_card(card, **patch.model_dump()):
+        raise HTTPException(status_code=404, detail="No card with that id")
+    return {"ok": True, "id": card}
 
 
 @api.delete("/deck/{card}")
@@ -276,16 +314,30 @@ async def audio_for(card: Card) -> dict:
     return {"source": "none", "clipSeconds": CLIP_SECONDS}
 
 
+async def resolve_audio(room: Room) -> dict:
+    """The round's audio, resolved once and shared by every socket.
+
+    One Deezer call per round rather than one per player, and everyone hears
+    the same source. A player who reconnects long after the round began gets
+    a fresh URL, because the first one is close to expiring.
+    """
+    assert room.current_card is not None
+    now = now_ms()
+    if room.current_audio is None or now - room.audio_resolved_ms > AUDIO_FRESH_MS:
+        room.current_audio = await audio_for(room.current_card)
+        room.audio_resolved_ms = now
+    return room.current_audio
+
+
 async def send_audio(room: Room, sid: str) -> None:
     """Give one socket the current round's audio.
 
     Called at round start and again whenever a player (re)joins mid-round --
     without this a reconnecting player can see the round but not hear the song.
-    Resolving fresh each time also sidesteps Deezer's 15-minute URL expiry.
     """
     if room.current_card is None or room.phase is not Phase.ANSWERING:
         return
-    cue = await audio_for(room.current_card)
+    cue = await resolve_audio(room)
     await sio.emit("round:audio", {**cue, "roundNo": room.round_no}, to=sid)
 
 
@@ -330,9 +382,21 @@ async def run_round(code: str) -> None:
 
 
 async def start_round(room: Room) -> None:
-    if room.begin_round() is None:
+    # A round with nothing to play is not a round. A card whose Deezer track
+    # has gone and that has no YouTube fallback is passed over for the next
+    # one, rather than making a player guess at silence.
+    for _ in range(MAX_SILENT_DRAWS + 1):
+        if room.begin_round() is None:
+            await finish_game(room)
+            return
+        if (await resolve_audio(room))["source"] != "none":
+            break
+        room.discard_round()
+    else:
         await finish_game(room)
         return
+
+    room.answer_deadline_ms = now_ms() + int(ANSWER_SECONDS * 1000)
     for player in room.players.values():
         if player.sid:
             await send_audio(room, player.sid)
@@ -427,8 +491,12 @@ async def on_start(sid, data):
         return await fail(sid, f"Deck needs at least {MIN_DECK} cards -- add some at /deck")
 
     rounds = data.get("rounds")
-    room.start_game([card_from_row(r) for r in rows], rounds if isinstance(rounds, int) else None)
-    await push_state(room)
+    # bool is an int in Python; "true" is not a number of rounds.
+    sane = isinstance(rounds, int) and not isinstance(rounds, bool) and rounds > 0
+    room.start_game([card_from_row(r) for r in rows], rounds if sane else None)
+    # start_round() pushes the state itself. Pushing here too sent every client
+    # an "answering" state for round 0 with no deadline, and the countdown
+    # flashed 0:00 before the real round arrived.
     await start_round(room)
 
 

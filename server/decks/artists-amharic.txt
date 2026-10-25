@@ -1,0 +1,87 @@
+# Artists to harvest from Deezer, one per line: Latin name <TAB> Amharic name.
+# The Latin spelling is the one Deezer uses, so the catalogue walk finds them.
+#
+#     python tools/build_deck.py harvest decks/artists-amharic.txt
+#
+# Golden era — the Addis sound of the 1960s and 70s
+Tilahun Gessesse	ጥላሁን ገሠሠ
+Mahmoud Ahmed	ማህሙድ አህመድ
+Alemayehu Eshete	ዓለማየሁ እሸቴ
+Bezunesh Bekele	ብዙነሽ በቀለ
+Hirut Bekele	ሂሩት በቀለ
+Muluken Melesse	ሙሉቀን መለሰ
+Ayalew Mesfin	አያሌው መስፍን
+Getachew Kassa	ጌታቸው ካሳ
+Mulatu Astatke	ሙላቱ አስታጥቄ
+Hailu Mergia	ኃይሉ መርጊያ
+Girma Beyene	ግርማ በየነ
+Getatchew Mekurya	ጌታቸው መኩሪያ
+Asnakech Worku	አስናቀች ወርቁ
+Menelik Wossenachew	ምኒልክ ወስናቸው
+Tewodros Tadesse	ቴዎድሮስ ታደሰ
+Alemu Aga	ዓለሙ አጋ
+Teshome Mitiku	ተሾመ ምትኩ
+# The 1980s and 90s
+Aster Aweke	አስቴር አወቀ
+Neway Debebe	ነዋይ ደበበ
+Ephrem Tamiru	ኤፍሬም ታምሩ
+Kuku Sebsibe	ኩኩ ሰብስቤ
+Netsanet Melesse	ነፃነት መለሰ
+Hamelmal Abate	ሐመልማል አባተ
+Tsehaye Yohannes	ፀሐዬ ዮሐንስ
+Aregahegn Worash	አረጋኸኝ ወራሽ
+Martha Ashagari	ማርታ አሻጋሪ
+Tigist Bekele	ትዕግስት በቀለ
+Bezawork Asfaw	በዛወርቅ አስፋው
+Yehunie Belay	የሁኔ በላይ
+Fikeraddis Nekatibeb	ፍቅርአዲስ ነቃጥበብ
+Shewandagne Hailu	ሸዋንዳኝ ኃይሉ
+Abinet Agonafir	አብነት አጎናፍር
+Tadesse Alemu	ታደሰ ዓለሙ
+Abonesh Adinew	አቦነሽ አድነው
+Rahel Yohannes	ራሔል ዮሐንስ
+Kassahun Taye	ካሳሁን ታዬ
+Chachi Tadesse	ቻቺ ታደሰ
+Dawit Mellesse	ዳዊት መለሰ
+# The 2000s
+Teddy Afro	ቴዲ አፍሮ
+Gigi	ጂጂ
+Gossaye Tesfaye	ጎሳዬ ተስፋዬ
+Abdu Kiar	አብዱ ኪያር
+Madingo Afework	ማዲንጎ አፈወርቅ
+Michael Belayneh	ሚካኤል በላይነህ
+Zeritu Kebede	ዘሪቱ ከበደ
+Tamrat Desta	ታምራት ደስታ
+Eyob Mekonnen	እዮብ መኮንን
+Jah Lude	ጃህ ሉድ
+Haile Roots	ኃይሌ ሩትስ
+Tsedenia Gebremarkos	ፀደንያ ገብረማርቆስ
+Abby Lakew	አቢ ላቀው
+Mesfin Bekele	መስፍን በቀለ
+Mikaya Behailu	ሚካያ በኃይሉ
+Jacky Gosee	ጃኪ ጎሲ
+Teddy Yo	ቴዲ ዮ
+Nhatty Man	ናቲ ማን
+Bisrat Surafel	ብስራት ሱራፌል
+Hana Shenkute	ሃና ሸንቁጤ
+# The 2010s and now
+Betty G	ቤቲ ጂ
+Jano Band	ጃኖ ባንድ
+Dawit Tsige	ዳዊት ጽጌ
+Rophnan	ሮፍናን
+Sami Dan	ሳሚ ዳን
+Kassmasse	ካስማሴ
+Lij Michael	ልጅ ሚካኤል
+Yared Negu	ያሬድ ነጉ
+Esubalew Yetayew	እሱባለው ይታየው
+Rahel Getu	ራሔል ጌቱ
+Hewan Gebrewold	ሔዋን ገብረወልድ
+Mahlet Gebregiorgis	ማህሌት ገብረጊዮርጊስ
+Ephrem Alemu	ኤፍሬም ዓለሙ
+Selamawit Yohannes	ሰላማዊት ዮሐንስ
+Nati Haile	ናቲ ኃይሌ
+Veronica Adane	ቬሮኒካ አዳነ
+Tariku Gankisi	ታሪኩ ጋንኪሲ
+Ziggy Zaga	ዚጊ ዛጋ
+Yohana	ዮሐና
+Abush Zeleke	አቡሽ ዘለቀ

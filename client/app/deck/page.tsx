@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { SERVER_URL } from "@/lib/room";
 import { getPlayerName } from "@/lib/identity";
@@ -16,11 +16,13 @@ import UnsavedBanner, { type Storage, type Unsaved } from "@/components/UnsavedB
  *
  * The year is typed by a person on purpose. No source reports original release
  * years reliably — not Deezer, not MusicBrainz, and not an MP3's DATE tag,
- * which describes the pressing rather than the song. */
+ * which describes the pressing rather than the song. The harvest proposes
+ * years in bulk; this page is where a person confirms them, one tap each. */
 
 type Card = {
   id: string;
   year: number;
+  yearConfirmed: boolean;
   artistLatin: string;
   titleLatin: string;
   artistAm: string;
@@ -56,6 +58,99 @@ function rememberToken(): string {
   }
 }
 
+function validYear(text: string): number | null {
+  const n = Number(text);
+  return Number.isInteger(n) && n >= EARLIEST_YEAR && n <= LATEST_YEAR ? n : null;
+}
+
+/* One card in the list. An unconfirmed year is an open question with the
+ * answer prefilled: fix it or just agree, either way one tap. A confirmed one
+ * can still be reopened. */
+function CardRow({
+  card,
+  onConfirm,
+  onRemove,
+}: {
+  card: Card;
+  onConfirm: (card: Card, year: number) => Promise<void>;
+  onRemove: (card: Card) => void;
+}) {
+  const [editing, setEditing] = useState(false);
+  const [year, setYear] = useState(String(card.year));
+  const [busy, setBusy] = useState(false);
+  const open = !card.yearConfirmed || editing;
+  const yearNum = validYear(year);
+
+  async function confirm() {
+    if (yearNum === null) return;
+    setBusy(true);
+    await onConfirm(card, yearNum);
+    setBusy(false);
+    setEditing(false);
+  }
+
+  return (
+    <div
+      className="row"
+      style={{ gap: 12, padding: "10px 0", borderTop: "1px solid var(--rule-soft)" }}
+    >
+      {open ? (
+        <input
+          className="field"
+          style={{ width: 84, padding: "8px 10px", textAlign: "center" }}
+          value={year}
+          onChange={(e) => setYear(e.target.value.replace(/[^\d]/g, "").slice(0, 4))}
+          onKeyDown={(e) => e.key === "Enter" && confirm()}
+          inputMode="numeric"
+          aria-label={`Year for ${card.artistLatin} — ${card.titleLatin}`}
+        />
+      ) : (
+        <span className="score-val" style={{ minWidth: 56 }}>
+          {card.year}
+        </span>
+      )}
+      <div className="stack" style={{ gap: 0, flex: 1, minWidth: 160 }}>
+        <span className="am" style={{ color: "var(--ink)" }}>
+          {card.artistAm || card.artistLatin} — {card.titleAm || card.titleLatin}
+        </span>
+        <span className="hint">
+          {card.artistLatin} — {card.titleLatin}
+          {card.addedBy ? ` · added by ${card.addedBy}` : ""}
+        </span>
+      </div>
+      <span className="pill">
+        {card.deezerTrackId && card.youtubeId
+          ? "deezer + youtube"
+          : card.deezerTrackId
+            ? "deezer"
+            : "youtube"}
+      </span>
+      {open ? (
+        <button
+          className="btn"
+          style={{ padding: "8px 14px", fontSize: "var(--t-sm)" }}
+          onClick={confirm}
+          disabled={busy || yearNum === null}
+        >
+          {busy ? "Saving…" : yearNum === card.year ? "Confirm" : "Fix year"}
+        </button>
+      ) : (
+        <>
+          <span className="pill pill-good" title="A person has checked this year">
+            ✓ year
+          </span>
+          <button className="linkish" onClick={() => setEditing(true)}>
+            Edit
+          </button>
+        </>
+      )}
+      <button className="linkish" onClick={() => onRemove(card)}>
+        Remove
+      </button>
+    </div>
+  );
+}
+
 export default function DeckPage() {
   const [cards, setCards] = useState<Card[]>([]);
   const [artist, setArtist] = useState("");
@@ -73,6 +168,8 @@ export default function DeckPage() {
   const [unsaved, setUnsaved] = useState<Unsaved | null>(null);
   const [downloading, setDownloading] = useState(false);
   const [token, setToken] = useState("");
+  const [filter, setFilter] = useState("");
+  const [onlyUnconfirmed, setOnlyUnconfirmed] = useState(false);
 
   const withToken = (path: string) =>
     `${SERVER_URL}${path}${token ? `?token=${encodeURIComponent(token)}` : ""}`;
@@ -190,6 +287,31 @@ export default function DeckPage() {
     }
   }
 
+  /* Confirming is one PATCH: the year the person settled on, flagged checked. */
+  async function confirm(card: Card, fixedYear: number) {
+    setMsg("");
+    try {
+      const r = await fetch(withToken(`/deck/${card.id}`), {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ year: fixedYear, year_confirmed: true }),
+      });
+      if (!r.ok) {
+        const d = await r.json().catch(() => ({}));
+        explainRefusal(r.status, typeof d.detail === "string" ? d.detail : undefined);
+        return;
+      }
+      // Patch the row in place rather than reloading: the list must not jump
+      // while someone is working down it.
+      setCards((all) =>
+        all.map((c) => (c.id === card.id ? { ...c, year: fixedYear, yearConfirmed: true } : c)),
+      );
+      load();
+    } catch {
+      setMsg("Couldn’t reach the server.");
+    }
+  }
+
   async function remove(card: Card) {
     if (!window.confirm(`Remove “${card.artistLatin} — ${card.titleLatin}” from the deck?`)) {
       return;
@@ -210,6 +332,19 @@ export default function DeckPage() {
   const yearOk = Number.isInteger(yearNum) && yearNum >= EARLIEST_YEAR && yearNum <= LATEST_YEAR;
   const hasSource = Boolean(picked) || Boolean(youtube.trim());
   const canAdd = artist.trim() && title.trim() && yearOk && hasSource && !busy;
+
+  const unconfirmedCount = cards.filter((c) => !c.yearConfirmed).length;
+  const shown = useMemo(() => {
+    const needle = filter.trim().toLowerCase();
+    return cards.filter((c) => {
+      if (onlyUnconfirmed && c.yearConfirmed) return false;
+      if (!needle) return true;
+      return [c.artistLatin, c.titleLatin, c.artistAm, c.titleAm, String(c.year)]
+        .join(" ")
+        .toLowerCase()
+        .includes(needle);
+    });
+  }, [cards, filter, onlyUnconfirmed]);
 
   return (
     <main className="page">
@@ -380,41 +515,49 @@ export default function DeckPage() {
       </section>
 
       <section className="stack">
-        <span className="label">In the deck</span>
-        {cards.length === 0 && <p className="hint">Nothing yet.</p>}
-        {cards.map((c) => (
-          <div
-            key={c.id}
-            className="row"
-            style={{
-              gap: 12,
-              padding: "10px 0",
-              borderTop: "1px solid var(--rule-soft)",
-            }}
-          >
-            <span className="score-val" style={{ minWidth: 56 }}>
-              {c.year}
-            </span>
-            <div className="stack" style={{ gap: 0, flex: 1, minWidth: 160 }}>
-              <span className="am" style={{ color: "var(--ink)" }}>
-                {c.artistAm || c.artistLatin} — {c.titleAm || c.titleLatin}
+        <div className="row" style={{ justifyContent: "space-between", gap: 12 }}>
+          <div className="row" style={{ gap: 10 }}>
+            <span className="label">In the deck</span>
+            {unconfirmedCount > 0 ? (
+              <span className="pill pill-gold">
+                {unconfirmedCount} {unconfirmedCount === 1 ? "year" : "years"} to confirm
               </span>
-              <span className="hint">
-                {c.artistLatin} — {c.titleLatin}
-                {c.addedBy ? ` · added by ${c.addedBy}` : ""}
-              </span>
-            </div>
-            <span className="pill">
-              {c.deezerTrackId && c.youtubeId
-                ? "deezer + youtube"
-                : c.deezerTrackId
-                  ? "deezer"
-                  : "youtube"}
-            </span>
-            <button className="linkish" onClick={() => remove(c)}>
-              Remove
-            </button>
+            ) : (
+              cards.length > 0 && <span className="pill pill-good">every year confirmed</span>
+            )}
           </div>
+          <div className="row" style={{ gap: 10 }}>
+            <input
+              className="field"
+              style={{ width: 220, padding: "8px 12px", fontSize: "var(--t-sm)" }}
+              value={filter}
+              onChange={(e) => setFilter(e.target.value)}
+              placeholder="Find an artist, song or year"
+              aria-label="Filter the deck"
+              autoComplete="off"
+            />
+            <label className="hint" style={{ display: "flex", gap: 6, alignItems: "center" }}>
+              <input
+                type="checkbox"
+                checked={onlyUnconfirmed}
+                onChange={(e) => setOnlyUnconfirmed(e.target.checked)}
+              />
+              needs a look
+            </label>
+          </div>
+        </div>
+        {unconfirmedCount > 0 && (
+          <p className="hint">
+            A year without a tick was proposed by the harvest or guessed, not checked.
+            The game plays it as is; confirm it, or fix it first — one tap either way.
+          </p>
+        )}
+        {cards.length === 0 && <p className="hint">Nothing yet.</p>}
+        {cards.length > 0 && shown.length === 0 && (
+          <p className="hint">Nothing matches.</p>
+        )}
+        {shown.map((c) => (
+          <CardRow key={c.id} card={c} onConfirm={confirm} onRemove={remove} />
         ))}
       </section>
     </main>

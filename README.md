@@ -66,39 +66,40 @@ cd client && npm run typecheck && npm run lint
 
 ## Build the deck
 
-Open **`/deck`** in the running game to add songs from a browser — search Deezer or paste
-a YouTube link, type the year, done. That is the intended way to grow the deck, and it
-works from a phone so anyone in the group can contribute.
+The deck ships with 320 Amharic songs across 85 artists, from Tilahun Gessesse and
+Mulatu Astatke to Rophnan and Kassmasse. Every year on it is a **proposal** until a
+person confirms it: no database reports original release dates reliably — Deezer dates
+a 1975 Mahmoud Ahmed recording to its 2004 reissue — so the game plays each card as
+proposed and `/deck` shows which years still need a look.
 
-On a deployed server those songs live only in that server's database, which is thrown
+Open **`/deck`** in the running game to curate from a browser. Unconfirmed years come
+with the year prefilled: tap **Confirm** if it is right, type the right one and tap
+**Fix year** if not. Adding a song is the same page — search Deezer or paste a YouTube
+link, type the year, done. It works from a phone, so anyone in the group can contribute
+the songs they actually know.
+
+On a deployed server those edits live only in that server's database, which is thrown
 away on the next deploy. The page says exactly which songs are not yet in the committed
 deck and offers **Download deck.json**; save it as `server/decks/deck.json` and commit it.
 Set `DECK_TOKEN` on the server if the editor's URL ever leaves the group, and share
 `/deck?token=…` instead.
 
-The CLI is still there for bulk work:
-
-Release years cannot be taken from an API — MusicBrainz gives three different answers for
-"Billie Jean", and Deezer and iTunes both report reissue dates. So the deck is curated by
-hand, once, offline, and committed.
+The CLI does the bulk work:
 
 ```bash
 cd server
-./.venv/bin/python tools/build_deck.py add            # interactive
-./.venv/bin/python tools/build_deck.py import x.tsv   # bulk
-./.venv/bin/python tools/build_deck.py list
-./.venv/bin/python tools/build_deck.py check          # re-probe every card's sources
-./.venv/bin/python tools/build_deck.py export         # -> decks/deck.json, commit it
+./.venv/bin/python tools/build_deck.py harvest decks/artists-amharic.txt   # Deezer -> worksheet
+./.venv/bin/python tools/build_deck.py import decks/harvest.tsv --by harvest  # as unconfirmed
+./.venv/bin/python tools/build_deck.py export                                  # -> decks/deck.json
 ```
 
-Seed format is tab-separated:
+`harvest` walks each artist's Deezer catalogue, keeps their most-played songs and
+proposes a year for each from the release it sits on, with a note on how far to trust
+it — a compilation or a bulk-upload date is flagged `low`, because it is the date of a
+reissue, not of the song. Add artists to `decks/artists-amharic.txt` to widen the net.
+`decks/amharic-2026-10.tsv` is the curated first harvest, with its reasoning beside each
+year.
 
-```
-year <TAB> artist_latin <TAB> title_latin [<TAB> artist_am <TAB> title_am <TAB> youtube_url]
-```
-
-Artist, title and year are enough. A YouTube URL is only needed for the minority of songs
-Deezer does not carry.
 
 ## Why not just use the Hitster app?
 

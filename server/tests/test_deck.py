@@ -34,6 +34,7 @@ def row(id_: str, year: int, **overrides) -> dict:
     base = {
         "id": id_,
         "year": year,
+        "year_confirmed": False,
         "artist_latin": f"Artist {id_}",
         "title_latin": f"Song {id_}",
         "artist_am": "",
@@ -75,6 +76,16 @@ class TestExportFormat:
         extra = row("a", 1970) | {"created_at": 123, "internal": "x"}
         (exported,) = export_rows([extra])
         assert tuple(exported) == EXPORT_FIELDS
+
+    def test_a_row_that_predates_the_flag_exports_as_unconfirmed(self):
+        # An older deck.json has no year_confirmed; nobody checked those years.
+        legacy = {k: v for k, v in row("a", 1970).items() if k != "year_confirmed"}
+        (exported,) = export_rows([legacy])
+        assert exported["year_confirmed"] is False
+
+    def test_the_flag_is_exported_as_a_bool_not_sqlite_s_integer(self):
+        (exported,) = export_rows([row("a", 1970, year_confirmed=1)])
+        assert exported["year_confirmed"] is True
 
     def test_order_is_deterministic_when_years_tie(self):
         # SQLite promises no order for ties. Without the id tiebreak, two cards
@@ -161,6 +172,10 @@ class TestDiffDecks:
         out = diff_decks([row("a", 1969)], [row("a", 1974)])
         assert [c["id"] for c in out["changed"]] == ["a"]
         assert out["changed"][0]["year"] == 1974
+
+    def test_confirming_a_year_is_a_change_worth_committing(self):
+        out = diff_decks([row("a", 1969)], [row("a", 1969, year_confirmed=True)])
+        assert [c["id"] for c in out["changed"]] == ["a"]
 
     def test_fields_outside_the_deck_do_not_count_as_changes(self):
         live = [row("a", 1970) | {"created_at": 999}]

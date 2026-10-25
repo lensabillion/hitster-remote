@@ -1,13 +1,21 @@
 "use client";
 
-import { use, useEffect } from "react";
+import { use, useEffect, useState } from "react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import AnswerCard from "@/components/AnswerCard";
 import AudioClip from "@/components/AudioClip";
+import Countdown from "@/components/Countdown";
 import Timeline from "@/components/Timeline";
 import { getPlayerName } from "@/lib/identity";
-import { useRoom, type PlayerView, type RoomState } from "@/lib/room";
+import { SERVER_URL, useRoom, type PlayerView, type RoomState } from "@/lib/room";
 import { ConnectionBanner, ErrorBanner } from "@/components/Banner";
+
+/* How many songs each player gets. Four is a half-hour game for three people;
+   the host can go shorter or longer. The server deals a whole number of
+   turns each, so this is multiplied by the seats at the table. */
+const SONGS_EACH = [2, 3, 4, 5, 6, 8];
+const DEFAULT_SONGS_EACH = 4;
 
 type Tone = "" | "gold" | "good" | "bad";
 const Pill = ({ children, tone = "" }: { children: React.ReactNode; tone?: Tone }) => (
@@ -73,12 +81,31 @@ export default function RoomPage({ params }: { params: Promise<{ code: string }>
     state, audio, error, clearError, connection, connected, serverUrl,
     joinRoom, startGame, answer, decline, nextRound,
   } = useRoom();
+  const [songsEach, setSongsEach] = useState(DEFAULT_SONGS_EACH);
+  const [deckSize, setDeckSize] = useState<number | null>(null);
 
   // Join, and rejoin on every reconnect. Identity is durable, so the server puts
   // us back in the same seat with our score and timeline.
   useEffect(() => {
     if (connected) joinRoom(roomCode, getPlayerName() || "Player");
   }, [connected, roomCode, joinRoom]);
+
+  // How many songs there are to draw from, so the lobby can say so and point
+  // at /deck when it is thin. One fetch; the deck does not change mid-lobby.
+  const inLobby = state?.phase === "lobby";
+  useEffect(() => {
+    if (!inLobby || !connected) return;
+    let cancelled = false;
+    fetch(`${SERVER_URL}/health`)
+      .then((r) => (r.ok ? r.json() : null))
+      .then((d) => {
+        if (!cancelled && d && typeof d.cards === "number") setDeckSize(d.cards);
+      })
+      .catch(() => {});
+    return () => {
+      cancelled = true;
+    };
+  }, [inLobby, connected]);
 
   // No room state yet. Previously this said "Joining XXXX…" forever when the
   // code was wrong, because the error toast faded after five seconds and there
@@ -123,6 +150,7 @@ export default function RoomPage({ params }: { params: Promise<{ code: string }>
               round {state.roundNo} / {state.roundsPlanned}
             </Pill>
           )}
+          {state.phase === "answering" && <Countdown endsAt={state.answerEndsAt} />}
           <Pill tone={connected ? "good" : "bad"}>
             {connected ? "connected" : "reconnecting"}
           </Pill>
@@ -174,27 +202,59 @@ export default function RoomPage({ params }: { params: Promise<{ code: string }>
           </p>
 
           {isHost ? (
-            <button
-              className="btn"
-              style={{ alignSelf: "flex-start" }}
-              onClick={() => startGame(state.code)}
-              disabled={connectedCount < 2}
-            >
-              {connectedCount < 2 ? "Need one more player" : "Start the game"}
-            </button>
+            <div className="stack" style={{ gap: 14 }}>
+              <div className="row" style={{ gap: 12 }}>
+                <label className="label" htmlFor="songs-each">
+                  Songs each
+                </label>
+                <div className="row" style={{ gap: 6 }} id="songs-each" role="group">
+                  {SONGS_EACH.map((n) => (
+                    <button
+                      key={n}
+                      className={`chip${n === songsEach ? " chip-on" : ""}`}
+                      onClick={() => setSongsEach(n)}
+                      aria-pressed={n === songsEach}
+                    >
+                      {n}
+                    </button>
+                  ))}
+                </div>
+                <span className="hint">
+                  {songsEach * state.players.length} songs in all
+                  {deckSize !== null && ` · ${deckSize} in the deck`}
+                </span>
+              </div>
+              <button
+                className="btn"
+                style={{ alignSelf: "flex-start" }}
+                onClick={() => startGame(state.code, songsEach * state.players.length)}
+                disabled={connectedCount < 2}
+              >
+                {connectedCount < 2 ? "Need one more player" : "Start the game"}
+              </button>
+              {deckSize !== null && deckSize < songsEach * state.players.length + 12 && (
+                <p className="hint">
+                  The deck is thin for that many rounds — <Link href="/deck" className="linkish">add songs</Link> so the same ones do not keep coming up.
+                </p>
+              )}
+            </div>
           ) : (
             <p className="hint">Waiting for {hostName} to start.</p>
           )}
         </section>
       )}
 
+      {/* The clip outlives the answer: it keeps playing through the reveal, so
+          the name lands while the song is still in the air. */}
+      {(state.phase === "answering" || state.phase === "revealing") && (
+        <div className="card" style={{ padding: "16px 20px" }}>
+          <AudioClip cue={audio} />
+        </div>
+      )}
+
       {/* ---------- answering ---------- */}
       {state.phase === "answering" && you && (
         <>
-          <div className="card" style={{ padding: "16px 20px" }}>
-            <AudioClip cue={audio} />
-          </div>
-
           {state.isMyTurn ? (
             <AnswerCard
               key={state.roundNo}

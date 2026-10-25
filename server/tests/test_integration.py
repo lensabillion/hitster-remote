@@ -36,6 +36,7 @@ from deck import export_text
 # the shuffle dealt.
 HARNESS_ARTIST = "Kuku Sebsibe"
 HARNESS_DECK_SIZE = 12
+HARNESS_YOUTUBE_ID = "ADc9JPeLYi4"
 
 
 def free_port() -> int:
@@ -74,7 +75,9 @@ class Harness:
                     "title_latin": f"Nebiyat {i}",
                     "artist_am": "አርቲስት",
                     "title_am": "ርዕስ",
-                    "youtube_id": "",
+                    # A YouTube id resolves without a network call; a card
+                    # with nothing to play is skipped, so the deck needs one.
+                    "youtube_id": HARNESS_YOUTUBE_ID,
                     "deezer_track_id": None,
                     "added_by": "test",
                 }
@@ -322,6 +325,89 @@ async def test_watchers_hear_the_song_and_the_turn_rotates(tmp_path):
         await guest.disconnect()
 
 
+async def test_the_answer_deadline_is_published_and_the_audio_shared(tmp_path):
+    """Every screen shows the same clock, and every socket gets the same cue."""
+    async with Harness(tmp_path) as h:
+        host, guest, code = await two_player_game(h, "8")
+        ends = host.state["answerEndsAt"]
+        assert isinstance(ends, int)
+        assert ends == guest.state["answerEndsAt"], "the deadline differs between players"
+        assert host.audio[-1] == guest.audio[-1], "players were sent different audio"
+        assert host.audio[-1]["source"] == "youtube"
+
+        await host.emit("round:answer", {"code": code, "gap": 0})
+        revealed = await host.wait_for(lambda s: s["phase"] == "revealing")
+        assert revealed["answerEndsAt"] is None, "no window to count down once revealed"
+
+        await host.disconnect()
+        await guest.disconnect()
+
+
+async def test_no_client_sees_a_round_zero_or_a_zero_deadline(tmp_path):
+    """Starting the game must not leak an 'answering' state before round 1."""
+    async with Harness(tmp_path) as h:
+        host, guest, _ = await two_player_game(h, "10")
+        for client in (host, guest):
+            answering = [s for s in client.states if s["phase"] == "answering"]
+            assert answering, "no answering state at all"
+            assert all(s["roundNo"] >= 1 for s in answering), "round 0 was pushed"
+            assert all(s["answerEndsAt"] for s in answering), "a zero deadline was pushed"
+        await host.disconnect()
+        await guest.disconnect()
+
+
+async def test_a_card_with_nothing_to_play_is_skipped(tmp_path, monkeypatch):
+    """A round is never silent: a card whose source has gone is passed over.
+
+    The shuffle is pinned so the deal is known: cards 0 and 1 are the seeds,
+    cards 2-6 have no source, card 7 is the first playable draw. Round 1 must
+    land on card 7 without counting the five skips as rounds.
+    """
+    monkeypatch.setattr(rooms_module.random, "shuffle", lambda deck: None)
+    async with Harness(tmp_path) as h:
+        rows = await db_module.db.all_cards()
+        for i, row in enumerate(rows):
+            row["youtube_id"] = "" if 2 <= i <= 6 else HARNESS_YOUTUBE_ID
+        await db_module.db.upsert_cards(rows)
+
+        host, guest, _ = await two_player_game(h, "9")
+        assert host.state["roundNo"] == 1
+        assert host.audio[-1]["source"] == "youtube"
+
+        await host.emit("round:answer", {"code": host.state["code"], "gap": 0})
+        revealed = await host.wait_for(lambda s: s["phase"] == "revealing")
+        assert revealed["card"]["id"] == "card7", "the silent cards were not all skipped"
+
+        await host.disconnect()
+        await guest.disconnect()
+
+
+async def test_a_deck_of_silence_ends_the_game_rather_than_looping(tmp_path, monkeypatch):
+    monkeypatch.setattr(rooms_module.random, "shuffle", lambda deck: None)
+    async with Harness(tmp_path) as h:
+        rows = await db_module.db.all_cards()
+        for i, row in enumerate(rows):
+            row["youtube_id"] = HARNESS_YOUTUBE_ID if i < 2 else ""
+        await db_module.db.upsert_cards(rows)
+
+        host, guest = Client("host-11", "Lensa"), Client("guest-11", "Sara")
+        await host.connect(h.url)
+        await guest.connect(h.url)
+        await host.emit("room:create", {"name": "Lensa"})
+        await host.wait_for(lambda s: s["phase"] == "lobby")
+        code = host.state["code"]
+        await guest.emit("room:join", {"code": code, "name": "Sara"})
+        await guest.wait_for(lambda s: len(s["players"]) == 2)
+
+        await host.emit("game:start", {"code": code})
+        ended = await host.wait_for(lambda s: s["phase"] == "over")
+        assert all(s["phase"] != "answering" for s in host.states), "a silent round was played"
+        assert ended["roundNo"] == 0
+
+        await host.disconnect()
+        await guest.disconnect()
+
+
 async def test_an_absent_player_cannot_stall_the_table(tmp_path):
     """The answer window is a ceiling: when it expires the round reveals itself."""
     async with Harness(tmp_path) as h:
@@ -455,3 +541,52 @@ async def test_deck_search_flags_a_wrong_artist_instead_of_hiding_it(tmp_path, m
         assert found["note"] == ""
 
         assert (await http.get("/deck/search")).json()["candidates"] == []
+
+
+async def test_a_harvested_year_is_confirmed_in_place(tmp_path):
+    """The curation loop: a proposed year shows as unconfirmed, one PATCH
+    settles it, and the count the editor leads with drops."""
+    async with Harness(tmp_path) as h, h.http() as http:
+        # The harness deck is unconfirmed throughout, like a fresh harvest.
+        before = (await http.get("/deck")).json()
+        assert before["unconfirmed"] == HARNESS_DECK_SIZE
+        assert all(c["yearConfirmed"] is False for c in before["cards"])
+
+        target = before["cards"][0]
+        fixed = await http.patch(
+            f"/deck/{target['id']}", json={"year": 1972, "year_confirmed": True}
+        )
+        assert fixed.status_code == 200, fixed.text
+
+        after = (await http.get("/deck")).json()
+        assert after["unconfirmed"] == HARNESS_DECK_SIZE - 1
+        card = next(c for c in after["cards"] if c["id"] == target["id"])
+        assert (card["year"], card["yearConfirmed"]) == (1972, True)
+        # Nothing else about the card moved.
+        assert card["titleLatin"] == target["titleLatin"]
+
+        assert (await http.patch("/deck/nope", json={"year_confirmed": True})).status_code == 404
+        assert (await http.patch(f"/deck/{target['id']}", json={"year": 1800})).status_code == 422
+
+
+async def test_a_year_typed_into_the_editor_counts_as_confirmed(tmp_path):
+    async with Harness(tmp_path) as h, h.http() as http:
+        added = await http.post(
+            "/deck",
+            json={"artist_latin": "Aster Aweke", "title_latin": "Kabu",
+                  "year": 1991, "deezer_track_id": 5},
+        )
+        card = next(
+            c for c in (await http.get("/deck")).json()["cards"] if c["id"] == added.json()["id"]
+        )
+        assert card["yearConfirmed"] is True
+
+
+async def test_deck_token_gates_patches_too(tmp_path, monkeypatch):
+    monkeypatch.setattr(main, "DECK_TOKEN", "s3cret")
+    async with Harness(tmp_path) as h, h.http() as http:
+        card = (await http.get("/deck")).json()["cards"][0]
+        blind = await http.patch(f"/deck/{card['id']}", json={"year_confirmed": True})
+        assert blind.status_code == 403
+        ok = await http.patch(f"/deck/{card['id']}?token=s3cret", json={"year_confirmed": True})
+        assert ok.status_code == 200
