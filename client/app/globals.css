@@ -1,12 +1,19 @@
 /* Design system.
  *
- * Palette keeps the Ethiopian manuscript reference — gold leaf, liturgical red,
- * verdigris — but on a cleaner, cooler ground than the first pass, which came
- * out muddy: too much brown behind too little contrast, so nothing led the eye.
+ * Plain white and green. A white ground, grey ink and hairline rules, and one
+ * green family doing every job an accent has: primary actions, focus, the
+ * active turn, a selected slot, a correct answer. Red exists only for the
+ * things that genuinely need a danger colour (a wrong half at the reveal, an
+ * unreachable server, changes about to be lost) and is kept quiet. No
+ * textures, washes, gradients or glows: hierarchy comes from size, weight and
+ * whitespace. Every text/background pair in the token block meets WCAG AA.
  *
  * Two families, unchanged and non-negotiable:
- *   Abyssinica SIL     display. Calligraphic Ge'ez, one weight, used at size.
- *   Noto Sans Ethiopic text and UI, variable 100-900. All hierarchy from here.
+ *   Abyssinica SIL     display. Calligraphic Ge'ez, one weight, used at size
+ *                      and only where it earns its place: the wordmark and the
+ *                      year at the reveal.
+ *   Noto Sans Ethiopic text and UI, variable 100-900. All hierarchy from here,
+ *                      headings included.
  * Both cover Ethiopic AND Latin, so an Amharic title and a Latin one sit in the
  * same face at the same apparent size. That is the whole reason for the pair.
  *
@@ -16,24 +23,25 @@
  */
 
 :root {
-  --ground: #101013;
-  --surface: #1a191e;
-  --surface-2: #232128;
-  --surface-3: #2e2b33;
-  --rule: #35323c;
-  --rule-soft: #262430;
+  --ground: #ffffff;
+  --surface: #ffffff;
+  --surface-2: #f4f6f5;
+  --surface-3: #edf0ee;
+  --rule: #d8dedb;
+  --rule-soft: #e8ecea;
+  --rule-strong: #8b9590;
 
-  --ink: #f6f2ec;
-  --ink-soft: #b0a8a3;
-  --ink-faint: #7b746f;
+  --ink: #15201a;
+  --ink-soft: #4a5550;
+  --ink-faint: #5f6a64;
 
-  --gold: #f0b440;
-  --gold-dim: #9a7326;
-  --gold-wash: rgba(240, 180, 64, 0.13);
-  --green: #5fbf97;
-  --green-wash: rgba(95, 191, 151, 0.14);
-  --red: #e4685c;
-  --red-wash: rgba(228, 104, 92, 0.14);
+  --green: #1b7a4b;
+  --green-deep: #155f3a;
+  --green-wash: #e6f3eb;
+  --green-rule: #9fd3b6;
+  --red: #b3261e;
+  --red-wash: #fcecea;
+  --red-rule: #e9aaa5;
 
   --t-xs: 0.75rem;
   --t-sm: 0.875rem;
@@ -45,10 +53,9 @@
   --t-3xl: 3.5rem;
   --t-4xl: 5rem;
 
-  --r: 10px;
-  --r-sm: 6px;
+  --r: 8px;
 
-  color-scheme: dark;
+  color-scheme: light;
 }
 
 *,
@@ -73,17 +80,15 @@ body {
   min-height: 100vh;
 }
 
-body::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  background: radial-gradient(ellipse 70% 50% at 50% -5%, var(--gold-wash), transparent 70%);
-  z-index: 0;
+h1,
+h2,
+h3 {
+  margin: 0;
 }
 
 /* ---------- type roles ---------- */
 
+/* The calligraphic face. Wordmark and reveal year only. */
 .display {
   font-family: var(--font-display), "Abyssinica SIL", var(--font-text), serif;
   font-weight: 400;
@@ -91,10 +96,18 @@ body::before {
   text-wrap: balance;
 }
 
+/* Headings. Weight and size from the text face, so they stay plain. */
+.h {
+  font-weight: 700;
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+  text-wrap: balance;
+}
+
 .label {
   font-size: var(--t-xs);
   font-weight: 700;
-  letter-spacing: 0.14em;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--ink-faint);
 }
@@ -105,15 +118,16 @@ body::before {
 }
 
 .num {
-  font-family: var(--font-display), serif;
   font-variant-numeric: tabular-nums;
 }
+
+.accent { color: var(--green); }
+.soft { color: var(--ink-soft); }
+.faint { color: var(--ink-faint); }
 
 /* ---------- layout ---------- */
 
 .page {
-  position: relative;
-  z-index: 1;
   max-width: 940px;
   margin: 0 auto;
   padding: 28px 20px 80px;
@@ -128,8 +142,8 @@ body::before {
   align-items: center;
   gap: 16px;
   flex-wrap: wrap;
-  padding-bottom: 18px;
-  border-bottom: 1px solid var(--rule-soft);
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--rule);
 }
 
 .brand {
@@ -139,13 +153,14 @@ body::before {
 }
 
 .code {
-  font-family: var(--font-display), serif;
-  font-size: var(--t-lg);
-  color: var(--gold);
-  letter-spacing: 0.22em;
-  background: var(--gold-wash);
-  padding: 2px 12px;
-  border-radius: var(--r-sm);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  font-size: var(--t-md);
+  color: var(--green);
+  letter-spacing: 0.2em;
+  background: var(--green-wash);
+  padding: 3px 8px 3px 12px;
+  border-radius: var(--r);
 }
 
 .card {
@@ -155,10 +170,10 @@ body::before {
   padding: 24px;
 }
 
-/* The one element that leads the screen. */
+/* The one element that leads the screen: same box as a card, green edge. */
 .hero {
-  background: linear-gradient(180deg, var(--surface-2), var(--surface));
-  border: 1px solid var(--gold-dim);
+  background: var(--surface);
+  border: 1px solid var(--green-rule);
   border-radius: var(--r);
   padding: 28px;
   display: flex;
@@ -192,20 +207,26 @@ body::before {
 }
 
 /* ---------- controls ---------- */
+/* Every control is at least 44px tall: this is played on a phone, one-handed. */
 
 .btn {
   font: inherit;
   font-weight: 700;
-  border: none;
+  border: 1px solid transparent;
   cursor: pointer;
-  padding: 13px 22px;
-  border-radius: var(--r-sm);
-  background: var(--gold);
-  color: #1a1206;
-  transition: filter 120ms ease;
+  min-height: 44px;
+  padding: 9px 20px;
+  border-radius: var(--r);
+  background: var(--green);
+  color: var(--ground);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: background 120ms ease;
 }
 .btn:hover:not(:disabled) {
-  filter: brightness(1.08);
+  background: var(--green-deep);
 }
 .btn:disabled {
   background: var(--surface-3);
@@ -214,31 +235,48 @@ body::before {
 }
 
 .btn-ghost {
-  background: transparent;
-  border: 1px solid var(--rule);
-  color: var(--ink-soft);
+  font: inherit;
   font-weight: 600;
-  padding: 9px 16px;
   font-size: var(--t-sm);
+  cursor: pointer;
+  min-height: 44px;
+  padding: 8px 16px;
+  border-radius: var(--r);
+  background: var(--ground);
+  border: 1px solid var(--rule-strong);
+  color: var(--ink);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: border-color 120ms ease, color 120ms ease;
 }
 .btn-ghost:hover:not(:disabled) {
-  border-color: var(--gold-dim);
-  color: var(--ink);
+  border-color: var(--green);
+  color: var(--green);
+}
+.btn-ghost:disabled {
+  color: var(--ink-faint);
+  border-color: var(--rule);
+  cursor: not-allowed;
 }
 
 .field {
   font: inherit;
   width: 100%;
+  min-height: 44px;
   background: var(--ground);
-  border: 1px solid var(--rule);
-  border-radius: var(--r-sm);
-  padding: 13px 15px;
+  border: 1px solid var(--rule-strong);
+  border-radius: var(--r);
+  padding: 9px 14px;
   color: var(--ink);
   outline: none;
   transition: border-color 120ms ease;
 }
 .field:focus {
-  border-color: var(--gold-dim);
+  border-color: var(--green);
+  outline: 2px solid var(--green);
+  outline-offset: -2px;
 }
 .field::placeholder {
   color: var(--ink-faint);
@@ -251,46 +289,99 @@ body::before {
   text-align: center;
 }
 
+/* A short field: the year in a deck row. */
+.field-year {
+  width: 88px;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+  font-weight: 700;
+}
+
 :focus-visible {
-  outline: 2px solid var(--gold);
+  outline: 2px solid var(--green);
   outline-offset: 2px;
 }
 
+/* Text buttons and links. In a row they keep the 44px target; inline in a
+   sentence (.link) they behave like an ordinary link. */
+.linkish {
+  background: none;
+  border: none;
+  color: var(--ink-soft);
+  font: inherit;
+  font-size: var(--t-sm);
+  font-weight: 600;
+  cursor: pointer;
+  min-height: 44px;
+  padding: 0 10px;
+  border-radius: var(--r);
+  display: inline-flex;
+  align-items: center;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-color: var(--rule-strong);
+}
+.linkish:hover {
+  color: var(--green);
+  text-decoration-color: var(--green);
+}
+
+.link {
+  color: var(--green);
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.link:hover {
+  color: var(--green-deep);
+}
+
 /* ---------- pills ---------- */
+/* Neutral by default. Outlined green marks what is live or still to do;
+   filled green marks a good outcome; red marks the few bad ones. */
 
 .pill {
+  display: inline-flex;
+  align-items: center;
   font-size: var(--t-xs);
   font-weight: 700;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
+  line-height: 1.4;
   padding: 4px 10px;
   border-radius: 100px;
-  background: var(--rule-soft);
-  color: var(--ink-faint);
+  border: 1px solid transparent;
+  background: var(--surface-2);
+  color: var(--ink-soft);
   white-space: nowrap;
 }
-.pill-gold { background: var(--gold-wash); color: var(--gold); }
-.pill-good { background: var(--green-wash); color: var(--green); }
-.pill-bad  { background: var(--red-wash);  color: var(--red); }
+.pill-accent { background: var(--ground); border-color: var(--green); color: var(--green); }
+.pill-good   { background: var(--green-wash); color: var(--green); }
+.pill-bad    { background: var(--red-wash); color: var(--red); }
 
-/* A small toggle in a row of them: songs-each in the lobby. */
+/* A small toggle in a row of them: songs-each in the lobby, a filter. */
 .chip {
   font: inherit;
   font-weight: 700;
   font-size: var(--t-sm);
-  min-width: 40px;
-  padding: 7px 12px;
+  min-width: 44px;
+  min-height: 44px;
+  padding: 0 14px;
   border-radius: 100px;
-  border: 1px solid var(--rule);
-  background: var(--surface);
+  border: 1px solid var(--rule-strong);
+  background: var(--ground);
   color: var(--ink-soft);
   cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: border-color 120ms ease, color 120ms ease;
 }
-.chip:hover { border-color: var(--gold-dim); color: var(--ink); }
+.chip:hover { border-color: var(--green); color: var(--green); }
 .chip-on {
-  border-color: var(--gold);
-  background: var(--gold-wash);
-  color: var(--gold);
+  border-color: var(--green);
+  background: var(--green);
+  color: var(--ground);
 }
 
 /* ---------- scoreboard ---------- */
@@ -302,19 +393,19 @@ body::before {
 }
 
 .score {
-  display: flex;
+  display: inline-flex;
   align-items: baseline;
-  gap: 9px;
-  padding: 9px 15px;
+  gap: 8px;
+  padding: 8px 14px;
   background: var(--surface);
   border: 1px solid var(--rule);
   border-radius: 100px;
 }
-.score-lead { border-color: var(--gold-dim); background: var(--gold-wash); }
-.score-you .score-name { color: var(--gold); }
+.score-lead { border-color: var(--green); background: var(--green-wash); }
+.score-you .score-name { color: var(--ink); font-weight: 700; }
 .score-name { font-size: var(--t-sm); color: var(--ink-soft); }
 .score-val {
-  font-family: var(--font-display), serif;
+  font-weight: 700;
   font-variant-numeric: tabular-nums;
   font-size: var(--t-md);
   color: var(--ink);
@@ -325,30 +416,34 @@ body::before {
 .tl {
   display: flex;
   align-items: stretch;
-  gap: 5px;
+  gap: 4px;
   overflow-x: auto;
   padding: 2px 0 10px;
   scrollbar-width: thin;
 }
 
 .tl-card {
-  width: 150px;
+  width: 140px;
   flex-shrink: 0;
   background: var(--surface);
   border: 1px solid var(--rule);
-  border-radius: var(--r-sm);
-  padding: 14px 13px;
+  border-radius: var(--r);
+  padding: 12px;
   display: flex;
   flex-direction: column;
   gap: 8px;
-  min-height: 118px;
+  min-height: 120px;
 }
+/* The card that just landed, shown at the reveal. */
+.tl-card-new { border-color: var(--green); }
+.tl-card-new .tl-year { color: var(--green); }
 
 .tl-year {
-  font-family: var(--font-display), serif;
+  font-weight: 700;
   font-variant-numeric: tabular-nums;
   font-size: var(--t-xl);
-  color: var(--gold);
+  letter-spacing: -0.01em;
+  color: var(--ink);
   line-height: 1;
 }
 
@@ -361,20 +456,23 @@ body::before {
 
 .tl-artist {
   font-size: var(--t-xs);
-  color: var(--ink-faint);
+  color: var(--ink-soft);
 }
 
-/* Insertion slots. Tap, never drag — this is played one-handed on a phone. */
+/* Insertion slots. Tap, never drag -- this is played one-handed on a phone,
+   so a slot is a full 44px wide. Every slot is equally valid: a year that
+   ties a card already down may sit on either side of it. */
 .tl-gap {
-  width: 22px;
-  min-height: 118px;
+  width: 44px;
+  min-height: 120px;
   flex-shrink: 0;
   align-self: stretch;
-  border: 1px dashed var(--rule);
-  border-radius: var(--r-sm);
-  background: transparent;
-  color: var(--ink-faint);
+  border: 1px dashed var(--rule-strong);
+  border-radius: var(--r);
+  background: var(--ground);
+  color: var(--ink-soft);
   font-size: var(--t-md);
+  font-weight: 700;
   cursor: pointer;
   display: grid;
   place-items: center;
@@ -382,19 +480,18 @@ body::before {
   padding: 0;
 }
 .tl-gap:hover {
-  border-color: var(--gold-dim);
-  color: var(--gold);
+  border-color: var(--green);
+  color: var(--green);
 }
 .tl-gap-on {
-  width: 76px;
-  border: 1px solid var(--gold);
-  background: var(--gold-wash);
-  color: var(--gold);
-  font-family: var(--font-display), serif;
+  width: 72px;
+  border: 1px solid var(--green);
+  background: var(--green);
+  color: var(--ground);
   font-size: var(--t-lg);
 }
 .tl-spacer {
-  width: 5px;
+  width: 4px;
   flex-shrink: 0;
 }
 
@@ -402,15 +499,16 @@ body::before {
   font-size: var(--t-sm);
   color: var(--ink-faint);
   padding: 8px 0;
+  margin: 0;
 }
 
 /* ---------- reveal ---------- */
 
 .reveal-year {
-  font-family: var(--font-display), serif;
+  font-family: var(--font-display), "Abyssinica SIL", var(--font-text), serif;
   font-variant-numeric: tabular-nums;
   font-size: var(--t-4xl);
-  color: var(--gold);
+  color: var(--green);
   line-height: 0.95;
 }
 
@@ -420,17 +518,19 @@ body::before {
   flex-wrap: wrap;
   align-items: center;
   padding-top: 18px;
-  border-top: 1px solid var(--rule);
+  border-top: 1px solid var(--rule-soft);
 }
 
 .points {
-  font-family: var(--font-display), serif;
+  font-weight: 700;
   font-variant-numeric: tabular-nums;
   font-size: var(--t-2xl);
-  color: var(--gold);
+  letter-spacing: -0.02em;
+  color: var(--green);
   line-height: 1;
   margin-left: auto;
 }
+.points-zero { color: var(--ink-faint); }
 
 /* ---------- player rows ---------- */
 
@@ -441,7 +541,7 @@ body::before {
   padding: 14px 0;
   border-top: 1px solid var(--rule-soft);
 }
-.player-active .tl-card { border-color: var(--gold-dim); }
+.player-active .tl-card { border-color: var(--green-rule); }
 .player-head {
   display: flex;
   align-items: center;
@@ -449,11 +549,11 @@ body::before {
   flex-wrap: wrap;
 }
 .player-name {
-  font-family: var(--font-display), serif;
+  font-weight: 700;
   font-size: var(--t-md);
   color: var(--ink);
 }
-.player-active .player-name { color: var(--gold); }
+.player-active .player-name { color: var(--green); }
 
 .grid-2 {
   display: grid;
@@ -461,11 +561,50 @@ body::before {
   gap: 16px;
 }
 
+/* ---------- deck editor rows ---------- */
+
+.deck-row {
+  display: grid;
+  grid-template-columns: 88px minmax(0, 1fr) auto;
+  gap: 8px 14px;
+  align-items: center;
+  padding: 12px 0;
+  border-top: 1px solid var(--rule-soft);
+}
+.deck-row-actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+/* A Deezer match to choose from. */
+.choice {
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  width: 100%;
+  min-height: 44px;
+  padding: 10px 14px;
+  background: var(--surface);
+  border: 1px solid var(--rule);
+  border-radius: var(--r);
+  color: var(--ink);
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.choice:hover { border-color: var(--green); }
+.choice-on { border-color: var(--green); background: var(--green-wash); }
+
 @media (max-width: 560px) {
-  .page { padding: 20px 14px 64px; }
+  .page { padding: 20px 16px 64px; }
   .hero { padding: 20px; }
   .card { padding: 18px; }
-  :root { --t-4xl: 3.5rem; --t-3xl: 2.5rem; }
+  .deck-row { grid-template-columns: 88px minmax(0, 1fr); }
+  .deck-row-actions { grid-column: 1 / -1; justify-content: flex-start; }
+  :root { --t-4xl: 3.5rem; --t-3xl: 2.5rem; --t-2xl: 2rem; }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -484,16 +623,15 @@ body::before {
   padding: 14px 18px;
   border-radius: var(--r);
   border: 1px solid var(--rule);
-  background: var(--surface);
-  color: var(--ink-soft);
+  background: var(--surface-2);
+  color: var(--ink);
   font-size: var(--t-sm);
   flex-wrap: wrap;
 }
 
 .banner-bad {
-  border-color: var(--red);
+  border-color: var(--red-rule);
   background: var(--red-wash);
-  color: var(--ink);
 }
 
 .mono {
@@ -505,15 +643,3 @@ body::before {
   border-radius: 4px;
   overflow-wrap: anywhere;
 }
-
-.linkish {
-  background: none;
-  border: none;
-  color: var(--ink-faint);
-  font: inherit;
-  font-size: var(--t-sm);
-  cursor: pointer;
-  padding: 4px 8px;
-  border-radius: var(--r-sm);
-}
-.linkish:hover { color: var(--gold); }
