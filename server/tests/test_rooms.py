@@ -11,6 +11,7 @@ Two properties matter most here and neither fails loudly in manual play:
 from __future__ import annotations
 
 import json
+import re
 
 import rooms as rooms_module
 from game import ARTIST_POINTS, YEAR_POINTS, Card, Phase
@@ -188,13 +189,15 @@ class TestSerializeWithholdsTheAnswer:
         self.subject = self.room.begin_round()
 
     def test_the_unrevealed_card_appears_nowhere_in_the_payload(self):
-        blob = json.dumps(serialize(self.room, "p0"), ensure_ascii=False)
         state = serialize(self.room, "p0")
+        blob = json.dumps(state, ensure_ascii=False)
         assert state["card"] is None
         assert state["outcome"] is None
-        assert self.subject.id not in blob
-        assert self.subject.title_latin not in blob
-        assert self.subject.artist_latin not in blob
+        # Match whole tokens, not substrings: after the shuffle the sealed card
+        # can be "SongC1" while a placed card is "SongC11", which is not a leak.
+        for secret in (self.subject.id, self.subject.title_latin, self.subject.artist_latin):
+            pattern = rf"(?<![A-Za-z0-9]){re.escape(secret)}(?![A-Za-z0-9])"
+            assert not re.search(pattern, blob), secret
 
     def test_card_is_disclosed_only_once_revealing(self):
         self.room.submit_answer("p0", 0, "", "")

@@ -150,16 +150,26 @@ Deezer is primary; YouTube is the per-card fallback. Both are keyless.
 - **A round is never silent.** A card whose sources all fail to resolve is skipped for
   the next one rather than played as "no audio".
 
-## Typography
+## Typography and palette
 
 Two families, both covering Ethiopic and Latin so bilingual lines stay on one face:
 
-- **Abyssinica SIL** — display. Calligraphic Ge'ez, single weight, used at size only.
-- **Noto Sans Ethiopic** — text and UI, variable 100–900. All hierarchy comes from here.
+- **Abyssinica SIL** — display. Calligraphic Ge'ez, single weight, used at size only,
+  and only where it earns its place: the ዜማ wordmark and the year at the reveal.
+- **Noto Sans Ethiopic** — text and UI, variable 100–900. All hierarchy comes from
+  here, headings included (`.h`).
 
-Palette is Ethiopian Orthodox manuscript illumination — gold leaf, liturgical red and
-verdigris on darkened parchment. Deliberately single-theme dark. Tokens live in
-`client/app/globals.css`; use them rather than literal colours.
+Never introduce a Latin-only family anywhere an Amharic string can appear. `.am`
+carries extra line-height because Ge'ez has more vertical detail per glyph.
+
+Palette is plain white and green, deliberately single-theme light: a white ground,
+grey ink and hairline rules, and one green family as the only accent — primary
+actions, focus rings, the active turn, a selected slot, a correct answer. Red is kept
+for the few things that need a danger colour (a wrong half at the reveal, an
+unreachable server, changes about to be lost) and stays quiet. No textures, washes,
+gradients or glows. Every text/background pair in the token block meets WCAG AA, and
+every control is at least 44px tall. Tokens live in `client/app/globals.css`; use them
+rather than literal colours.
 
 ## Issue tracking
 

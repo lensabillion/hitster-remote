@@ -17,7 +17,11 @@ import UnsavedBanner, { type Storage, type Unsaved } from "@/components/UnsavedB
  * The year is typed by a person on purpose. No source reports original release
  * years reliably — not Deezer, not MusicBrainz, and not an MP3's DATE tag,
  * which describes the pressing rather than the song. The harvest proposes
- * years in bulk; this page is where a person confirms them, one tap each. */
+ * years in bulk; this page is where a person confirms them, one tap each.
+ *
+ * So the list leads, with the unchecked years at the top, and adding a song is
+ * folded away behind one button: with a few hundred cards in the deck,
+ * confirming is the everyday job and adding is the occasional one. */
 
 type Card = {
   id: string;
@@ -80,6 +84,12 @@ function CardRow({
   const [busy, setBusy] = useState(false);
   const open = !card.yearConfirmed || editing;
   const yearNum = validYear(year);
+  const source =
+    card.deezerTrackId && card.youtubeId
+      ? "deezer + youtube"
+      : card.deezerTrackId
+        ? "deezer"
+        : "youtube";
 
   async function confirm() {
     if (yearNum === null) return;
@@ -90,14 +100,10 @@ function CardRow({
   }
 
   return (
-    <div
-      className="row"
-      style={{ gap: 12, padding: "10px 0", borderTop: "1px solid var(--rule-soft)" }}
-    >
+    <div className="deck-row">
       {open ? (
         <input
-          className="field"
-          style={{ width: 84, padding: "8px 10px", textAlign: "center" }}
+          className="field field-year"
           value={year}
           onChange={(e) => setYear(e.target.value.replace(/[^\d]/g, "").slice(0, 4))}
           onKeyDown={(e) => e.key === "Enter" && confirm()}
@@ -105,12 +111,12 @@ function CardRow({
           aria-label={`Year for ${card.artistLatin} — ${card.titleLatin}`}
         />
       ) : (
-        <span className="score-val" style={{ minWidth: 56 }}>
+        <span className="score-val" style={{ paddingLeft: 4 }}>
           {card.year}
         </span>
       )}
-      <div className="stack" style={{ gap: 0, flex: 1, minWidth: 160 }}>
-        <span className="am" style={{ color: "var(--ink)" }}>
+      <div className="stack" style={{ gap: 0, minWidth: 0 }}>
+        <span className="am">
           {card.artistAm || card.artistLatin} — {card.titleAm || card.titleLatin}
         </span>
         <span className="hint">
@@ -118,41 +124,38 @@ function CardRow({
           {card.addedBy ? ` · added by ${card.addedBy}` : ""}
         </span>
       </div>
-      <span className="pill">
-        {card.deezerTrackId && card.youtubeId
-          ? "deezer + youtube"
-          : card.deezerTrackId
-            ? "deezer"
-            : "youtube"}
-      </span>
-      {open ? (
-        <button
-          className="btn"
-          style={{ padding: "8px 14px", fontSize: "var(--t-sm)" }}
-          onClick={confirm}
-          disabled={busy || yearNum === null}
-        >
-          {busy ? "Saving…" : yearNum === card.year ? "Confirm" : "Fix year"}
-        </button>
-      ) : (
-        <>
-          <span className="pill pill-good" title="A person has checked this year">
-            ✓ year
-          </span>
-          <button className="linkish" onClick={() => setEditing(true)}>
-            Edit
+      <div className="deck-row-actions">
+        <span className="pill">{source}</span>
+        {open ? (
+          <button className="btn-line" onClick={confirm} disabled={busy || yearNum === null}>
+            {busy ? "Saving…" : yearNum === card.year ? "Confirm" : "Fix year"}
           </button>
-        </>
-      )}
-      <button className="linkish" onClick={() => onRemove(card)}>
-        Remove
-      </button>
+        ) : (
+          <>
+            <span className="pill pill-good" title="A person has checked this year">
+              ✓ year
+            </span>
+            <button className="linkish" onClick={() => setEditing(true)}>
+              Edit
+            </button>
+          </>
+        )}
+        <button className="linkish" onClick={() => onRemove(card)}>
+          Remove
+        </button>
+      </div>
     </div>
   );
 }
 
 export default function DeckPage() {
   const [cards, setCards] = useState<Card[]>([]);
+  const [loaded, setLoaded] = useState(false);
+  /* Ids that were unconfirmed when this page first saw them. They stay at the
+     top of the list after being confirmed, so the row you just tapped does not
+     jump away and the next one is right below it. A reload re-sorts. */
+  const [queue, setQueue] = useState<Set<string>>(() => new Set());
+  const [adding, setAdding] = useState(false);
   const [artist, setArtist] = useState("");
   const [title, setTitle] = useState("");
   const [artistAm, setArtistAm] = useState("");
@@ -179,9 +182,18 @@ export default function DeckPage() {
       const r = await fetch(`${SERVER_URL}/deck`);
       if (!r.ok) throw new Error(String(r.status));
       const d = await r.json();
-      setCards(d.cards ?? []);
+      const fresh: Card[] = d.cards ?? [];
+      setCards(fresh);
+      setQueue((prev) => {
+        const next = new Set(prev);
+        for (const c of fresh) if (!c.yearConfirmed) next.add(c.id);
+        return next;
+      });
       setStorage(d.storage === "ephemeral" ? "ephemeral" : "persistent");
       setUnsaved(d.unsaved ?? null);
+      setLoaded(true);
+      // An empty deck has nothing to confirm, so the form is the only job.
+      if (fresh.length === 0) setAdding(true);
     } catch {
       setMsg("Can’t reach the server — the deck can’t be loaded.");
     }
@@ -336,7 +348,7 @@ export default function DeckPage() {
   const unconfirmedCount = cards.filter((c) => !c.yearConfirmed).length;
   const shown = useMemo(() => {
     const needle = filter.trim().toLowerCase();
-    return cards.filter((c) => {
+    const matching = cards.filter((c) => {
       if (onlyUnconfirmed && c.yearConfirmed) return false;
       if (!needle) return true;
       return [c.artistLatin, c.titleLatin, c.artistAm, c.titleAm, String(c.year)]
@@ -344,7 +356,9 @@ export default function DeckPage() {
         .toLowerCase()
         .includes(needle);
     });
-  }, [cards, filter, onlyUnconfirmed]);
+    // The server sends year order; keep it, with the queue partitioned to the top.
+    return [...matching.filter((c) => queue.has(c.id)), ...matching.filter((c) => !queue.has(c.id))];
+  }, [cards, filter, onlyUnconfirmed, queue]);
 
   return (
     <main className="page">
@@ -353,7 +367,7 @@ export default function DeckPage() {
           <span className="display am" style={{ fontSize: "var(--t-xl)" }}>
             ዜማ
           </span>
-          <span className="label">the deck · {cards.length} cards</span>
+          <span className="label">the deck</span>
         </div>
         <Link href="/" className="linkish">
           Back to the game
@@ -367,198 +381,234 @@ export default function DeckPage() {
         downloading={downloading}
       />
 
-      <section className="hero">
-        <div className="stack" style={{ gap: 4 }}>
-          <span className="label">Add a song</span>
-          <h2 className="display" style={{ fontSize: "var(--t-xl)", margin: 0 }}>
-            What should everyone have to place?
-          </h2>
+      {msg && (
+        <div className="banner" role="status">
+          <span style={{ flex: 1 }}>{msg}</span>
+          <button className="linkish" onClick={() => setMsg("")}>
+            Dismiss
+          </button>
+        </div>
+      )}
+
+      <section className="stack" style={{ gap: 16 }}>
+        <div className="row" style={{ justifyContent: "space-between", gap: 12 }}>
+          <div className="stack" style={{ gap: 2 }}>
+            <span className="label">In the deck</span>
+            <h2 className="h" style={{ fontSize: "var(--t-2xl)" }}>
+              {loaded ? `${cards.length} ${cards.length === 1 ? "song" : "songs"}` : "Loading…"}
+            </h2>
+          </div>
+          <button
+            className={adding ? "btn-ghost" : "btn"}
+            onClick={() => setAdding((a) => !a)}
+            aria-expanded={adding}
+            aria-controls="add-song"
+          >
+            {adding ? "Close the form" : "Add a song"}
+          </button>
         </div>
 
-        <div className="grid-2">
-          <div className="stack">
-            <span className="label">Artist — Latin</span>
-            <input
-              className="field"
-              value={artist}
-              onChange={(e) => setArtist(e.target.value)}
-              placeholder="Mahmoud Ahmed"
-              autoComplete="off"
-              maxLength={160}
-            />
-          </div>
-          <div className="stack">
-            <span className="label">Song — Latin</span>
-            <input
-              className="field"
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
-              placeholder="Ere Mela Mela"
-              autoComplete="off"
-              maxLength={160}
-            />
-          </div>
-          <div className="stack">
-            <span className="label">Artist — አማርኛ, optional</span>
-            <input
-              className="field am"
-              value={artistAm}
-              onChange={(e) => setArtistAm(e.target.value)}
-              placeholder="ማህሙድ አህመድ"
-              autoComplete="off"
-              maxLength={200}
-            />
-          </div>
-          <div className="stack">
-            <span className="label">Song — አማርኛ, optional</span>
-            <input
-              className="field am"
-              value={titleAm}
-              onChange={(e) => setTitleAm(e.target.value)}
-              placeholder="እሬ መላ መላ"
-              autoComplete="off"
-              maxLength={200}
-            />
-          </div>
-        </div>
+        {adding && (
+          <section className="hero" id="add-song" aria-labelledby="add-heading">
+            <div className="stack" style={{ gap: 4 }}>
+              <span className="label">Add a song</span>
+              <h3 id="add-heading" className="h" style={{ fontSize: "var(--t-xl)" }}>
+                What should everyone have to place?
+              </h3>
+            </div>
 
-        <div className="stack" style={{ maxWidth: 260 }}>
-          <span className="label">Original release year</span>
-          <input
-            className="field"
-            value={year}
-            onChange={(e) => setYear(e.target.value.replace(/[^\d]/g, "").slice(0, 4))}
-            placeholder="1975"
-            inputMode="numeric"
-          />
-          <p className="hint">
-            The year it first came out — not the year of a reissue or a compilation. No
-            database gets this right, which is why you are typing it.
-          </p>
-        </div>
+            <div className="grid-2">
+              <div className="stack">
+                <label className="label" htmlFor="add-artist">
+                  Artist — Latin
+                </label>
+                <input
+                  id="add-artist"
+                  className="field"
+                  value={artist}
+                  onChange={(e) => setArtist(e.target.value)}
+                  placeholder="Mahmoud Ahmed"
+                  autoComplete="off"
+                  maxLength={160}
+                />
+              </div>
+              <div className="stack">
+                <label className="label" htmlFor="add-title">
+                  Song — Latin
+                </label>
+                <input
+                  id="add-title"
+                  className="field"
+                  value={title}
+                  onChange={(e) => setTitle(e.target.value)}
+                  placeholder="Ere Mela Mela"
+                  autoComplete="off"
+                  maxLength={160}
+                />
+              </div>
+              <div className="stack">
+                <label className="label" htmlFor="add-artist-am">
+                  Artist — አማርኛ, optional
+                </label>
+                <input
+                  id="add-artist-am"
+                  className="field am"
+                  value={artistAm}
+                  onChange={(e) => setArtistAm(e.target.value)}
+                  placeholder="ማህሙድ አህመድ"
+                  autoComplete="off"
+                  maxLength={200}
+                />
+              </div>
+              <div className="stack">
+                <label className="label" htmlFor="add-title-am">
+                  Song — አማርኛ, optional
+                </label>
+                <input
+                  id="add-title-am"
+                  className="field am"
+                  value={titleAm}
+                  onChange={(e) => setTitleAm(e.target.value)}
+                  placeholder="እሬ መላ መላ"
+                  autoComplete="off"
+                  maxLength={200}
+                />
+              </div>
+            </div>
 
-        <div className="stack">
-          <div className="row" style={{ justifyContent: "space-between" }}>
-            <span className="label">Where the audio comes from</span>
-            <button className="btn-ghost" onClick={search} disabled={!artist.trim()}>
-              Search Deezer
-            </button>
-          </div>
-
-          {note && <p className="hint">{note}</p>}
-
-          {candidates.length > 0 && (
-            <div className="stack" style={{ gap: 6 }}>
-              {candidates.map((c) => (
-                <button
-                  key={c.deezerTrackId}
-                  onClick={() => setPicked(c)}
-                  className="card"
-                  style={{
-                    textAlign: "left",
-                    padding: "10px 14px",
-                    cursor: "pointer",
-                    borderColor:
-                      picked?.deezerTrackId === c.deezerTrackId
-                        ? "var(--gold)"
-                        : "var(--rule)",
-                  }}
-                >
-                  <div className="row" style={{ gap: 8 }}>
-                    <strong style={{ color: "var(--ink)" }}>{c.artist}</strong>
-                    <span style={{ color: "var(--ink-soft)" }}>{c.title}</span>
-                    {!c.artistMatches && (
-                      <span className="pill pill-bad">different artist?</span>
-                    )}
-                    {picked?.deezerTrackId === c.deezerTrackId && (
-                      <span className="pill pill-gold">chosen</span>
-                    )}
-                  </div>
-                  <span className="hint">{c.album}</span>
-                </button>
-              ))}
+            <div className="stack" style={{ maxWidth: 260 }}>
+              <label className="label" htmlFor="add-year">
+                Original release year
+              </label>
+              <input
+                id="add-year"
+                className="field"
+                value={year}
+                onChange={(e) => setYear(e.target.value.replace(/[^\d]/g, "").slice(0, 4))}
+                placeholder="1975"
+                inputMode="numeric"
+              />
               <p className="hint">
-                Listen before choosing if you are unsure — a wrong pick plays a different
-                song mid-game and nobody will know why.
+                The year it first came out — not the year of a reissue or a compilation. No
+                database gets this right, which is why you are typing it.
               </p>
             </div>
-          )}
 
-          <div className="stack">
-            <span className="label">…or a YouTube link</span>
-            <input
-              className="field"
-              value={youtube}
-              onChange={(e) => setYoutube(e.target.value)}
-              placeholder="https://www.youtube.com/watch?v=…"
-              autoComplete="off"
-              maxLength={300}
-            />
-            <p className="hint">
-              Needed for songs Deezer does not carry — which is most of the ones only
-              found on YouTube.
-            </p>
-          </div>
-        </div>
+            <div className="stack">
+              <div className="row" style={{ justifyContent: "space-between" }}>
+                <span className="label">Where the audio comes from</span>
+                <button className="btn-ghost" onClick={search} disabled={!artist.trim()}>
+                  Search Deezer
+                </button>
+              </div>
 
-        <div className="row" style={{ gap: 12 }}>
-          <button className="btn" disabled={!canAdd} onClick={add}>
-            {busy ? "Adding…" : "Add to the deck"}
-          </button>
-          {!hasSource && (artist.trim() || title.trim()) && (
-            <span className="hint">Pick a Deezer match or paste a YouTube link.</span>
-          )}
-          {year && !yearOk && <span className="hint">Year looks wrong.</span>}
-        </div>
+              {note && <p className="hint">{note}</p>}
 
-        {msg && <p style={{ margin: 0, color: "var(--gold)" }}>{msg}</p>}
-      </section>
+              {candidates.length > 0 && (
+                <div className="stack" style={{ gap: 6 }}>
+                  {candidates.map((c) => {
+                    const chosen = picked?.deezerTrackId === c.deezerTrackId;
+                    return (
+                      <button
+                        key={c.deezerTrackId}
+                        onClick={() => setPicked(c)}
+                        className={`choice${chosen ? " choice-on" : ""}`}
+                        aria-pressed={chosen}
+                      >
+                        <span className="row" style={{ gap: 8 }}>
+                          <strong>{c.artist}</strong>
+                          <span className="soft">{c.title}</span>
+                          {!c.artistMatches && (
+                            <span className="pill pill-bad">different artist?</span>
+                          )}
+                          {chosen && <span className="pill pill-accent">chosen</span>}
+                        </span>
+                        <span className="hint">{c.album}</span>
+                      </button>
+                    );
+                  })}
+                  <p className="hint">
+                    Listen before choosing if you are unsure — a wrong pick plays a different
+                    song mid-game and nobody will know why.
+                  </p>
+                </div>
+              )}
 
-      <section className="stack">
+              <div className="stack">
+                <label className="label" htmlFor="add-youtube">
+                  …or a YouTube link
+                </label>
+                <input
+                  id="add-youtube"
+                  className="field"
+                  value={youtube}
+                  onChange={(e) => setYoutube(e.target.value)}
+                  placeholder="https://www.youtube.com/watch?v=…"
+                  autoComplete="off"
+                  maxLength={300}
+                />
+                <p className="hint">
+                  Needed for songs Deezer does not carry — which is most of the ones only
+                  found on YouTube.
+                </p>
+              </div>
+            </div>
+
+            <div className="row" style={{ gap: 12 }}>
+              <button className="btn" disabled={!canAdd} onClick={add}>
+                {busy ? "Adding…" : "Add to the deck"}
+              </button>
+              {!hasSource && (artist.trim() || title.trim()) && (
+                <span className="hint">Pick a Deezer match or paste a YouTube link.</span>
+              )}
+              {year && !yearOk && <span className="hint">Year looks wrong.</span>}
+            </div>
+          </section>
+        )}
+
         <div className="row" style={{ justifyContent: "space-between", gap: 12 }}>
           <div className="row" style={{ gap: 10 }}>
-            <span className="label">In the deck</span>
             {unconfirmedCount > 0 ? (
-              <span className="pill pill-gold">
+              <span className="pill pill-accent">
                 {unconfirmedCount} {unconfirmedCount === 1 ? "year" : "years"} to confirm
               </span>
             ) : (
               cards.length > 0 && <span className="pill pill-good">every year confirmed</span>
             )}
           </div>
-          <div className="row" style={{ gap: 10 }}>
+          <div className="row" style={{ gap: 8 }}>
             <input
               className="field"
-              style={{ width: 220, padding: "8px 12px", fontSize: "var(--t-sm)" }}
+              style={{ width: 240 }}
               value={filter}
               onChange={(e) => setFilter(e.target.value)}
               placeholder="Find an artist, song or year"
               aria-label="Filter the deck"
               autoComplete="off"
             />
-            <label className="hint" style={{ display: "flex", gap: 6, alignItems: "center" }}>
-              <input
-                type="checkbox"
-                checked={onlyUnconfirmed}
-                onChange={(e) => setOnlyUnconfirmed(e.target.checked)}
-              />
+            <button
+              className={`chip${onlyUnconfirmed ? " chip-on" : ""}`}
+              aria-pressed={onlyUnconfirmed}
+              onClick={() => setOnlyUnconfirmed((v) => !v)}
+            >
               needs a look
-            </label>
+            </button>
           </div>
         </div>
         {unconfirmedCount > 0 && (
           <p className="hint">
-            A year without a tick was proposed by the harvest or guessed, not checked.
-            The game plays it as is; confirm it, or fix it first — one tap either way.
+            A year without a tick was proposed by the harvest or guessed, not checked. The
+            game plays it as is; confirm it, or fix it first — one tap either way. Unchecked
+            years are listed first.
           </p>
         )}
-        {cards.length === 0 && <p className="hint">Nothing yet.</p>}
-        {cards.length > 0 && shown.length === 0 && (
-          <p className="hint">Nothing matches.</p>
-        )}
-        {shown.map((c) => (
-          <CardRow key={c.id} card={c} onConfirm={confirm} onRemove={remove} />
-        ))}
+        {loaded && cards.length === 0 && <p className="hint">Nothing yet.</p>}
+        {cards.length > 0 && shown.length === 0 && <p className="hint">Nothing matches.</p>}
+        <div>
+          {shown.map((c) => (
+            <CardRow key={c.id} card={c} onConfirm={confirm} onRemove={remove} />
+          ))}
+        </div>
       </section>
     </main>
   );
