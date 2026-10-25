@@ -83,10 +83,10 @@ export default function Home() {
       <header className="stack" style={{ gap: 14 }}>
         <span className="label">የዜማ ጨዋታ · a music timeline game</span>
         <div className="row" style={{ gap: 16, alignItems: "baseline" }}>
-          <h1 className="display am" style={{ fontSize: "var(--t-3xl)", margin: 0 }}>
+          <h1 className="display am" style={{ fontSize: "var(--t-3xl)" }}>
             ዜማ
           </h1>
-          <span className="display" style={{ fontSize: "var(--t-xl)", color: "var(--gold)" }}>
+          <span className="h accent" style={{ fontSize: "var(--t-xl)" }}>
             Zema
           </span>
         </div>
@@ -120,7 +120,7 @@ export default function Home() {
 
         <div className="grid-2">
           <div className="card stack" style={{ gap: 12 }}>
-            <h2 className="display" style={{ fontSize: "var(--t-lg)", margin: 0 }}>
+            <h2 className="h" style={{ fontSize: "var(--t-lg)" }}>
               Start a room
             </h2>
             <p className="hint">You get a four-letter code to send your friends.</p>
@@ -137,7 +137,7 @@ export default function Home() {
           </div>
 
           <div className="card stack" style={{ gap: 12 }}>
-            <h2 className="display" style={{ fontSize: "var(--t-lg)", margin: 0 }}>
+            <h2 className="h" style={{ fontSize: "var(--t-lg)" }}>
               Join a room
             </h2>
             <input
@@ -148,6 +148,8 @@ export default function Home() {
               onChange={(e) => setCode(e.target.value.toUpperCase())}
               aria-label="Four letter room code"
               autoComplete="off"
+              autoCapitalize="characters"
+              spellCheck={false}
             />
             <button
               className="btn"

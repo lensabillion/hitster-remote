@@ -7,7 +7,7 @@ import AnswerCard from "@/components/AnswerCard";
 import AudioClip from "@/components/AudioClip";
 import Countdown from "@/components/Countdown";
 import Timeline from "@/components/Timeline";
-import { getPlayerName } from "@/lib/identity";
+import { getPlayerName, setPlayerName } from "@/lib/identity";
 import { SERVER_URL, useRoom, type PlayerView, type RoomState } from "@/lib/room";
 import { ConnectionBanner, ErrorBanner } from "@/components/Banner";
 
@@ -17,7 +17,7 @@ import { ConnectionBanner, ErrorBanner } from "@/components/Banner";
 const SONGS_EACH = [2, 3, 4, 5, 6, 8];
 const DEFAULT_SONGS_EACH = 4;
 
-type Tone = "" | "gold" | "good" | "bad";
+type Tone = "" | "accent" | "good" | "bad";
 const Pill = ({ children, tone = "" }: { children: React.ReactNode; tone?: Tone }) => (
   <span className={`pill${tone ? ` pill-${tone}` : ""}`}>{children}</span>
 );
@@ -39,7 +39,7 @@ function Scoreboard({ state }: { state: RoomState }) {
           <span className="score-val">{p.score}</span>
           {p.titleHits > 0 && (
             <span
-              className="pill pill-gold"
+              className="pill"
               title={`${p.titleHits} song title${p.titleHits === 1 ? "" : "s"} named — breaks a tie`}
             >
               ♪{p.titleHits}
@@ -53,6 +53,12 @@ function Scoreboard({ state }: { state: RoomState }) {
 
 function PlayerRow({ player, state }: { player: PlayerView; state: RoomState }) {
   const isActive = state.activePlayerId === player.id;
+  // At the reveal, pick out the card that just landed on the active timeline.
+  // Only a kept card is on it, and the server has revealed it by then.
+  const landed =
+    state.phase === "revealing" && isActive && state.outcome?.keptCard
+      ? state.card?.id
+      : undefined;
   return (
     <div className={`player${isActive ? " player-active" : ""}`}>
       <div className="player-head">
@@ -60,7 +66,7 @@ function PlayerRow({ player, state }: { player: PlayerView; state: RoomState }) 
           {player.name}
           {player.id === state.viewerId ? " (you)" : ""}
         </span>
-        {isActive && state.phase !== "lobby" && <Pill tone="gold">their turn</Pill>}
+        {isActive && state.phase !== "lobby" && <Pill tone="accent">their turn</Pill>}
         {player.isHost && <Pill>host</Pill>}
         {!player.connected && <Pill tone="bad">offline</Pill>}
         <span className="hint" style={{ marginLeft: "auto" }}>
@@ -68,8 +74,48 @@ function PlayerRow({ player, state }: { player: PlayerView; state: RoomState }) 
           {player.timeline.length === 1 ? "card" : "cards"}
         </span>
       </div>
-      <Timeline cards={player.timeline} />
+      <Timeline cards={player.timeline} highlightId={landed} />
     </div>
+  );
+}
+
+/* Someone who followed an invite link straight here has never been asked their
+   name. Ask before joining, rather than seating them as "Player". */
+function NameGate({ code, onDone }: { code: string; onDone: (name: string) => void }) {
+  const [draft, setDraft] = useState("");
+  const ready = Boolean(draft.trim());
+  return (
+    <section className="hero" style={{ maxWidth: 480 }}>
+      <div className="stack" style={{ gap: 6 }}>
+        <span className="label">Joining room {code}</span>
+        <h2 className="h" style={{ fontSize: "var(--t-xl)" }}>
+          What should everyone call you?
+        </h2>
+      </div>
+      <form
+        className="stack"
+        onSubmit={(e) => {
+          e.preventDefault();
+          if (ready) onDone(draft.trim());
+        }}
+      >
+        <label className="label" htmlFor="gate-name">
+          Your name
+        </label>
+        <input
+          id="gate-name"
+          className="field"
+          value={draft}
+          onChange={(e) => setDraft(e.target.value)}
+          autoComplete="off"
+          maxLength={40}
+          autoFocus
+        />
+        <button className="btn" type="submit" disabled={!ready} style={{ alignSelf: "flex-start" }}>
+          Join the room
+        </button>
+      </form>
+    </section>
   );
 }
 
@@ -83,12 +129,19 @@ export default function RoomPage({ params }: { params: Promise<{ code: string }>
   } = useRoom();
   const [songsEach, setSongsEach] = useState(DEFAULT_SONGS_EACH);
   const [deckSize, setDeckSize] = useState<number | null>(null);
+  const [copied, setCopied] = useState(false);
+  // null until read after mount: the stored name exists only in the browser,
+  // so reading it during render would make server and client markup differ.
+  const [name, setName] = useState<string | null>(null);
 
-  // Join, and rejoin on every reconnect. Identity is durable, so the server puts
-  // us back in the same seat with our score and timeline.
+  // eslint-disable-next-line react-hooks/set-state-in-effect
+  useEffect(() => setName(getPlayerName()), []);
+
+  // Join once named, and rejoin on every reconnect. Identity is durable, so the
+  // server puts us back in the same seat with our score and timeline.
   useEffect(() => {
-    if (connected) joinRoom(roomCode, getPlayerName() || "Player");
-  }, [connected, roomCode, joinRoom]);
+    if (connected && name) joinRoom(roomCode, name);
+  }, [connected, roomCode, joinRoom, name]);
 
   // How many songs there are to draw from, so the lobby can say so and point
   // at /deck when it is thin. One fetch; the deck does not change mid-lobby.
@@ -106,6 +159,31 @@ export default function RoomPage({ params }: { params: Promise<{ code: string }>
       cancelled = true;
     };
   }, [inLobby, connected]);
+
+  async function copyInvite(roomCodeToShare: string) {
+    try {
+      await navigator.clipboard.writeText(`${window.location.origin}/room/${roomCodeToShare}`);
+      setCopied(true);
+      window.setTimeout(() => setCopied(false), 2000);
+    } catch {
+      /* no clipboard access: the code is on screen to read out instead */
+    }
+  }
+
+  if (name === "") {
+    return (
+      <main className="page">
+        <ConnectionBanner connection={connection} serverUrl={serverUrl} />
+        <NameGate
+          code={roomCode}
+          onDone={(chosen) => {
+            setPlayerName(chosen);
+            setName(chosen);
+          }}
+        />
+      </main>
+    );
+  }
 
   // No room state yet. Previously this said "Joining XXXX…" forever when the
   // code was wrong, because the error toast faded after five seconds and there
@@ -170,12 +248,18 @@ export default function RoomPage({ params }: { params: Promise<{ code: string }>
         <section className="hero">
           <div className="stack" style={{ gap: 6 }}>
             <span className="label">Waiting to start</span>
-            <h2 className="display" style={{ fontSize: "var(--t-2xl)", margin: 0 }}>
+            <h2 className="h" style={{ fontSize: "var(--t-2xl)" }}>
               Share the code{" "}
-              <span style={{ color: "var(--gold)", letterSpacing: "0.1em" }}>
+              <span className="accent num" style={{ letterSpacing: "0.1em" }}>
                 {state.code}
               </span>
             </h2>
+          </div>
+          <div className="row">
+            <button className="btn-ghost" onClick={() => copyInvite(state.code)}>
+              {copied ? "Copied" : "Copy invite link"}
+            </button>
+            <span className="hint">Anyone who opens it is asked their name, then seated.</span>
           </div>
           <p className="muted">
             You take turns. On your turn a song plays and you name the singer (
@@ -204,10 +288,10 @@ export default function RoomPage({ params }: { params: Promise<{ code: string }>
           {isHost ? (
             <div className="stack" style={{ gap: 14 }}>
               <div className="row" style={{ gap: 12 }}>
-                <label className="label" htmlFor="songs-each">
+                <span className="label" id="songs-each-label">
                   Songs each
-                </label>
-                <div className="row" style={{ gap: 6 }} id="songs-each" role="group">
+                </span>
+                <div className="row" style={{ gap: 6 }} role="group" aria-labelledby="songs-each-label">
                   {SONGS_EACH.map((n) => (
                     <button
                       key={n}
@@ -234,7 +318,11 @@ export default function RoomPage({ params }: { params: Promise<{ code: string }>
               </button>
               {deckSize !== null && deckSize < songsEach * state.players.length + 12 && (
                 <p className="hint">
-                  The deck is thin for that many rounds — <Link href="/deck" className="linkish">add songs</Link> so the same ones do not keep coming up.
+                  The deck is thin for that many rounds —{" "}
+                  <Link href="/deck" className="link">
+                    add songs
+                  </Link>{" "}
+                  so the same ones do not keep coming up.
                 </p>
               )}
             </div>
@@ -247,7 +335,7 @@ export default function RoomPage({ params }: { params: Promise<{ code: string }>
       {/* The clip outlives the answer: it keeps playing through the reveal, so
           the name lands while the song is still in the air. */}
       {(state.phase === "answering" || state.phase === "revealing") && (
-        <div className="card" style={{ padding: "16px 20px" }}>
+        <div className="card" style={{ padding: "12px 20px" }}>
           <AudioClip cue={audio} />
         </div>
       )}
@@ -270,9 +358,8 @@ export default function RoomPage({ params }: { params: Promise<{ code: string }>
             /* Watching. They hear the same clip and answer on their own turn. */
             <section className="hero">
               <span className="label">Listening</span>
-              <h2 className="display" style={{ fontSize: "var(--t-2xl)", margin: 0 }}>
-                <span style={{ color: "var(--gold)" }}>{activeName}</span> is naming this
-                one
+              <h2 className="h" style={{ fontSize: "var(--t-2xl)" }}>
+                <span className="accent">{activeName}</span> is naming this one
               </h2>
               <p className="muted">Follow along — your song comes on your turn.</p>
             </section>
@@ -287,13 +374,10 @@ export default function RoomPage({ params }: { params: Promise<{ code: string }>
           <div className="row" style={{ gap: 24, alignItems: "baseline" }}>
             <span className="reveal-year">{state.card.year}</span>
             <div className="stack" style={{ gap: 2 }}>
-              <span className="display am" style={{ fontSize: "var(--t-xl)" }}>
+              <span className="h am" style={{ fontSize: "var(--t-xl)" }}>
                 {state.card.artistAm || state.card.artistLatin}
               </span>
-              <span
-                className="am"
-                style={{ color: "var(--ink-soft)", fontSize: "var(--t-md)" }}
-              >
+              <span className="am soft" style={{ fontSize: "var(--t-md)" }}>
                 {state.card.titleAm || state.card.titleLatin}
               </span>
               <span className="hint">
@@ -314,10 +398,10 @@ export default function RoomPage({ params }: { params: Promise<{ code: string }>
                 <Pill tone={outcome.yearRight ? "good" : "bad"}>
                   year {outcome.yearRight ? `+${yearPoints}` : "0"}
                 </Pill>
-                {outcome.titleRight && (
-                  <Pill tone="gold">knew the title · tiebreak +1</Pill>
-                )}
-                <span className="points">+{outcome.points}</span>
+                {outcome.titleRight && <Pill tone="good">knew the title · tiebreak +1</Pill>}
+                <span className={`points${outcome.points === 0 ? " points-zero" : ""}`}>
+                  +{outcome.points}
+                </span>
               </div>
               <p className="hint">
                 {outcome.declined
@@ -329,7 +413,7 @@ export default function RoomPage({ params }: { params: Promise<{ code: string }>
             </>
           )}
 
-          {isHost && (
+          {isHost ? (
             <button
               className="btn"
               style={{ alignSelf: "flex-start" }}
@@ -337,6 +421,10 @@ export default function RoomPage({ params }: { params: Promise<{ code: string }>
             >
               {state.isLastRound ? "See the final scores" : "Next song"}
             </button>
+          ) : (
+            <p className="hint">
+              {hostName} moves the table on to the {state.isLastRound ? "final scores" : "next song"}.
+            </p>
           )}
         </section>
       )}
@@ -345,28 +433,33 @@ export default function RoomPage({ params }: { params: Promise<{ code: string }>
       {state.phase === "over" && (
         <section className="hero">
           <span className="label">Final</span>
-          <h2
-            className="display"
-            style={{ fontSize: "var(--t-3xl)", margin: 0, color: "var(--gold)" }}
-          >
+          <h2 className="h accent" style={{ fontSize: "var(--t-3xl)" }}>
             {state.standings[0]?.name} wins
           </h2>
           <div className="stack" style={{ gap: 6 }}>
             {state.standings.map((p, i) => (
               <div key={p.id} className="row" style={{ gap: 12 }}>
-                <span className="num" style={{ color: "var(--ink-faint)", width: 22 }}>
+                <span className="num faint" style={{ width: 22 }}>
                   {i + 1}
                 </span>
-                <span style={{ color: "var(--ink-soft)" }}>{p.name}</span>
-                {p.titleHits > 0 && (
-                  <span className="hint">♪{p.titleHits} titles</span>
-                )}
+                <span className={p.id === state.viewerId ? "" : "soft"}>
+                  {p.name}
+                  {p.id === state.viewerId ? " (you)" : ""}
+                </span>
+                {p.titleHits > 0 && <span className="hint">♪{p.titleHits} titles</span>}
                 <span className="score-val" style={{ marginLeft: "auto" }}>
                   {p.score}
                 </span>
               </div>
             ))}
           </div>
+          <button
+            className="btn-ghost"
+            style={{ alignSelf: "flex-start" }}
+            onClick={() => router.push("/")}
+          >
+            Back to the start
+          </button>
         </section>
       )}
 
