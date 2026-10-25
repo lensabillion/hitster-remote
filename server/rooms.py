@@ -66,6 +66,12 @@ class Room:
     deck: list[Card] = field(default_factory=list)
     draw_index: int = 0
     current_card: Card | None = None
+    # The round's audio, resolved once and sent to every socket -- including
+    # one that reconnects mid-round. Deezer URLs expire, so the time is kept.
+    current_audio: dict | None = None
+    audio_resolved_ms: int = 0
+    # When the answer window closes, so every screen can show the same clock.
+    answer_deadline_ms: int = 0
     answers: dict[str, Answer] = field(default_factory=dict)
     last_outcome: RoundOutcome | None = None
     empty_since_ms: int | None = None
@@ -159,12 +165,24 @@ class Room:
             self.phase = Phase.OVER
             return None
         self.current_card = card
+        self.current_audio = None
         self.answers = {}
         self.last_outcome = None
         self.round_no += 1
         # Answering opens with the clip, not after it.
         self.phase = Phase.ANSWERING
         return card
+
+    def discard_round(self) -> None:
+        """The drawn card cannot be played; give the round number back.
+
+        The card stays consumed -- it is not put back into the deck -- and the
+        next draw takes its place, so a round is never a silent one. Only
+        meaningful straight after begin_round(), before anyone has answered.
+        """
+        self.current_card = None
+        self.current_audio = None
+        self.round_no -= 1
 
     def submit_answer(
         self,
@@ -329,6 +347,10 @@ def serialize(room: Room, viewer_id: str) -> dict:
         "viewerId": viewer_id,
         "isMyTurn": viewer_id == room.active_player_id,
         "isLastRound": room.is_last_round(),
+        # Epoch milliseconds; null outside the answer window.
+        "answerEndsAt": (
+            room.answer_deadline_ms if room.phase is Phase.ANSWERING else None
+        ) or None,
         # The client renders what each half is worth; the rules own the numbers.
         "artistPoints": ARTIST_POINTS,
         "yearPoints": YEAR_POINTS,

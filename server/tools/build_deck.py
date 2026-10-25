@@ -13,17 +13,21 @@ Deezer does not carry.
     python tools/build_deck.py add                  # one card at a time
     python tools/build_deck.py import cards.tsv     # bulk
     python tools/build_deck.py playlist <url>       # YouTube playlist -> worksheet
+    python tools/build_deck.py harvest <artists>    # Deezer catalogue -> worksheet
     python tools/build_deck.py list
     python tools/build_deck.py check                # re-probe sources
     python tools/build_deck.py export               # -> decks/deck.json
     python tools/build_deck.py seed                 # load decks/deck.json, no network
 
-Seed file is tab-separated, '#' comments allowed:
+Seed file is tab-separated, '#' comments allowed (a '#' column ends the row):
 
-    year <TAB> artist_latin <TAB> title_latin [<TAB> artist_am <TAB> title_am <TAB> youtube_url]
+    year <TAB> artist_latin <TAB> title_latin [<TAB> artist_am <TAB> title_am
+         <TAB> youtube_url <TAB> deezer_track_id]
 
-A card with neither a Deezer match nor a YouTube URL is rejected, because it
-would be unplayable.
+When a Deezer track id is given it is taken as is -- the harvest already
+verified it -- so importing a worksheet makes no network calls. Otherwise the
+song is looked up on Deezer. A card with neither a Deezer match nor a YouTube
+URL is rejected, because it would be unplayable.
 """
 
 from __future__ import annotations
@@ -47,7 +51,14 @@ from deck import (
     is_playable,
     load_deck_file,
 )
-from sources import deezer_probe, extract_youtube_id
+from matching import normalize, title_matches
+from sources import (
+    deezer_album,
+    deezer_artist_albums,
+    deezer_artist_tracks,
+    deezer_probe,
+    extract_youtube_id,
+)
 
 
 def valid_year(value: str) -> int | None:
@@ -66,12 +77,14 @@ async def build_card(
     title_am: str = "",
     youtube_url: str = "",
     added_by: str = "",
+    deezer_track_id: int | None = None,
+    year_confirmed: bool = False,
 ) -> dict | None:
     if not artist_latin or not title_latin:
         print("  ✗ needs both an artist and a title (in Latin script)")
         return None
 
-    deezer_id = await deezer_probe(artist_latin, title_latin)
+    deezer_id = deezer_track_id or await deezer_probe(artist_latin, title_latin)
     youtube_id = extract_youtube_id(youtube_url) if youtube_url else None
 
     if not deezer_id and not youtube_id:
@@ -84,6 +97,7 @@ async def build_card(
     return {
         "id": card_id(artist_latin, title_latin),
         "year": year,
+        "year_confirmed": year_confirmed,
         "artist_latin": artist_latin,
         "title_latin": title_latin,
         "artist_am": artist_am,
@@ -103,7 +117,8 @@ def describe(card: dict) -> str:
     if card["youtube_id"]:
         sources.append("youtube")
     who = f"  ·  {card['added_by']}" if card.get("added_by") else ""
-    return f"  ✓ {card['year']}  {artist} — {title}  [{'+'.join(sources)}]{who}"
+    check = "" if card.get("year_confirmed") else "  (year unconfirmed)"
+    return f"  ✓ {card['year']}  {artist} — {title}  [{'+'.join(sources)}]{who}{check}"
 
 
 async def cmd_add(args: argparse.Namespace) -> int:
@@ -126,13 +141,15 @@ async def cmd_add(args: argparse.Namespace) -> int:
                     print(f"  needs a year between {EARLIEST_YEAR} and {LATEST_YEAR}")
 
             card = await build_card(
-                year, artist, title, artist_am, title_am, added_by=args.by
+                year, artist, title, artist_am, title_am, added_by=args.by,
+                year_confirmed=True,
             )
             if card is None:
                 url = input("  YouTube URL for this song (blank to skip): ").strip()
                 if url:
                     card = await build_card(
-                        year, artist, title, artist_am, title_am, url, args.by
+                        year, artist, title, artist_am, title_am, url, args.by,
+                        year_confirmed=True,
                     )
             if card:
                 await db.upsert_cards([card])
@@ -158,7 +175,7 @@ async def cmd_import(args: argparse.Namespace) -> int:
         line = raw.strip()
         if not line or line.startswith("#"):
             continue
-        parts = [p.strip() for p in line.split("\t")]
+        parts = split_row(line)
         if len(parts) < 3:
             print(f"  ✗ line {lineno}: need at least year, artist and title")
             failures += 1
@@ -170,9 +187,11 @@ async def cmd_import(args: argparse.Namespace) -> int:
             failures += 1
             continue
 
-        parts += [""] * (6 - len(parts))
+        parts += [""] * (7 - len(parts))
         card = await build_card(
-            year, parts[1], parts[2], parts[3], parts[4], parts[5], args.by
+            year, parts[1], parts[2], parts[3], parts[4], parts[5], args.by,
+            deezer_track_id=int(parts[6]) if parts[6].isdigit() else None,
+            year_confirmed=args.confirmed,
         )
         if card:
             cards.append(card)
@@ -301,6 +320,220 @@ async def cmd_playlist(args: argparse.Namespace) -> int:
     return 0
 
 
+
+def split_row(line: str) -> list[str]:
+    """A seed row's columns. A column starting with '#' is a comment and ends
+    the row -- the worksheets put their notes there."""
+    parts = []
+    for part in line.split("\t"):
+        part = part.strip()
+        if part.startswith("#"):
+            break
+        parts.append(part)
+    return parts
+
+
+# ---------- harvest ----------
+#
+# An artist's Deezer catalogue, narrowed to the songs worth a card, with a
+# PROPOSED year and a note on how far to trust it. Deezer's only year evidence
+# is the date of the release a track sits on, and for the golden era that is an
+# Ethiopiques reissue or a bulk upload decades after the song. So each
+# proposal says where it came from, and nothing is written to the deck until a
+# person has been through the worksheet.
+
+# A release whose title says it is a retrospective: its date is not the song's.
+COMPILATION_RE = re.compile(
+    r"(?i)\b(ethiopiques|best of|greatest|hits|collection|anthology|ballads|"
+    r"compilation|selection|vol\.?\s?\d+|volume|remaster(ed)?|tribute|classics|"
+    r"singles?|retrospective|essential|golden|treasures|live|in concert|unplugged)\b"
+)
+# A take that is not the song as released: skipped when an original exists.
+VERSION_RE = re.compile(
+    r"(?i)\b(live|remix|version|edit|instrumental|acoustic|karaoke|cover|"
+    r"slowed|sped up|dub|mix)\b"
+)
+# "Hagerae 1983": a release that carries its own year in the title.
+YEAR_IN_TITLE_RE = re.compile(r"\b(19[2-9]\d|20[0-4]\d)\b")
+# "Golden Years 1969-1975": a span, which only brackets the song's year.
+YEAR_RANGE_RE = re.compile(r"\b(19[2-9]\d|20[0-4]\d)\s*[-–]\s*(19[2-9]\d|20[0-4]\d)\b")
+# Three or more releases sharing one exact date were uploaded together; the
+# date is the upload, not any of the records.
+BULK_UPLOAD_MIN = 3
+
+# How far to trust a proposal, best first, and the one-word label it gets.
+TRUST_ORDER = ("title", "span", "release", "bulk", "compilation")
+CONFIDENCE = {
+    "title": "high", "span": "medium", "release": "medium", "bulk": "low", "compilation": "low",
+}
+
+
+def song_key(title: str) -> str:
+    """One key per song, across its versions: brackets and noise stripped."""
+    return normalize(re.sub(r"[\(\[][^()\[\]]*[\)\]]", " ", title))
+
+
+def is_alternate_version(title: str) -> bool:
+    inside = " ".join(re.findall(r"[\(\[]([^()\[\]]*)[\)\]]", title))
+    return bool(VERSION_RE.search(inside) or VERSION_RE.search(title.split(" - ")[-1]))
+
+
+def propose_year(
+    versions: list[dict], releases: dict[int, dict], bulk_dates: set[str]
+) -> tuple[int | None, str, str]:
+    """(year, confidence, evidence) for one song, from the releases it sits on.
+
+    A year named in a release title beats everything; the earliest ordinary
+    release is the usual answer; a bulk-upload date or a compilation is a
+    placeholder that a person has to replace.
+    """
+    dated: list[tuple[int, int, str]] = []
+    for track in versions:
+        release = releases.get(int(track["album"]["id"]))
+        if not release:
+            continue
+        date = release.get("release_date") or ""
+        if len(date) < 4 or not date[:4].isdigit():
+            continue
+        label = release.get("title", "")
+        if m := YEAR_RANGE_RE.search(label):
+            # The first year of the span: the song is somewhere inside it.
+            dated.append((TRUST_ORDER.index("span"), int(m.group(1)), label))
+            continue
+        if m := YEAR_IN_TITLE_RE.search(label):
+            dated.append((TRUST_ORDER.index("title"), int(m.group(1)), label))
+            continue
+        if release.get("record_type") == "compilation" or COMPILATION_RE.search(label):
+            trust = "compilation"
+        elif date in bulk_dates:
+            trust = "bulk"
+        else:
+            trust = "release"
+        dated.append((TRUST_ORDER.index(trust), int(date[:4]), label))
+    if not dated:
+        return None, "none", "no dated release"
+    dated.sort()
+    rank, year, label = dated[0]
+    trust = TRUST_ORDER[rank]
+    return year, CONFIDENCE[trust], f"{label} · {trust}"
+
+
+def read_artists(args: argparse.Namespace) -> list[tuple[str, str]]:
+    """(latin, amharic) pairs from the command line or a file of them."""
+    pairs: list[tuple[str, str]] = []
+    for item in args.artists:
+        path = Path(item)
+        if path.exists():
+            for raw in path.read_text(encoding="utf-8").splitlines():
+                parts = split_row(raw)
+                if parts and parts[0]:
+                    pairs.append((parts[0], parts[1] if len(parts) > 1 else ""))
+        else:
+            pairs.append((item, ""))
+    return pairs
+
+
+async def harvest_artist(
+    latin: str, per_artist: int, known: list[dict], max_results: int
+) -> list[dict]:
+    """The songs worth a card for one artist, most popular first."""
+    tracks = await deezer_artist_tracks(latin, max_results=max_results)
+    if not tracks:
+        return []
+
+    # Everything the artist has released, by id, for dating. Tracks that sit on
+    # releases outside the artist's own discography (a various-artists
+    # compilation) are dated with one extra lookup each.
+    artist_id = int(tracks[0]["artist"]["id"])
+    releases = {int(a["id"]): a for a in await deezer_artist_albums(artist_id)}
+    for track in tracks:
+        album_id = int(track["album"]["id"])
+        if album_id not in releases and (album := await deezer_album(album_id)):
+            releases[album_id] = album
+    date_counts: dict[str, int] = {}
+    for release in releases.values():
+        date = release.get("release_date") or ""
+        date_counts[date] = date_counts.get(date, 0) + 1
+    bulk_dates = {d for d, n in date_counts.items() if n >= BULK_UPLOAD_MIN and d}
+
+    # One entry per song, originals before live takes and remixes.
+    songs: dict[str, list[dict]] = {}
+    for track in tracks:
+        songs.setdefault(song_key(track["title"]), []).append(track)
+
+    rows = []
+    for versions in songs.values():
+        originals = [t for t in versions if not is_alternate_version(t["title"])]
+        pick_from = originals or versions
+        best = max(pick_from, key=lambda t: t.get("rank", 0))
+        title = best["title"]
+        if any(title_matches(c["title_latin"], title) for c in known):
+            continue  # already a card
+        year, confidence, evidence = propose_year(pick_from, releases, bulk_dates)
+        rows.append({
+            "year": year, "confidence": confidence, "evidence": evidence,
+            "title": title, "deezer_track_id": int(best["id"]),
+            "rank": best.get("rank", 0), "versions": len(versions),
+        })
+    rows.sort(key=lambda r: r["rank"], reverse=True)
+    return rows[:per_artist]
+
+
+async def cmd_harvest(args: argparse.Namespace) -> int:
+    """Turn artists into a worksheet of their most-played songs on Deezer.
+
+    Like `playlist`, this writes NO cards. Every year here is a proposal with
+    its evidence beside it; the confident ones still want a glance, the low
+    ones want a person who knows the music. Fix the years, delete the songs
+    nobody would recognise, then import the file.
+    """
+    artists = read_artists(args)
+    if not artists:
+        print("No artists given.")
+        return 1
+
+    await db.connect()
+    deck = await db.all_cards()
+    await db.close()
+
+    out = Path(args.out)
+    out.parent.mkdir(parents=True, exist_ok=True)
+    total, by_confidence = 0, {"high": 0, "medium": 0, "low": 0, "none": 0}
+    with out.open("w", encoding="utf-8") as fh:
+        fh.write(
+            "# Harvested from Deezer. Every YEAR here is a PROPOSAL -- the date of the\n"
+            "# release Deezer has the song on -- with its evidence in the comment:\n"
+            "#   high    the release names its own year in the title\n"
+            "#   medium  an ordinary release, or a span of years the song falls in;\n"
+            "#           right for digital-era songs, often a reissue for anything older\n"
+            "#   low     a compilation or a bulk-upload date: NOT the song's year\n"
+            "# Fix the years, delete songs nobody would recognise, then:\n"
+            f"#     python tools/build_deck.py import {out}\n"
+            "#\n"
+            "# year <TAB> artist_latin <TAB> title_latin <TAB> artist_am <TAB> title_am"
+            " <TAB> youtube_url <TAB> deezer_track_id <TAB> # confidence · evidence\n"
+        )
+        for latin, amharic in artists:
+            known = [c for c in deck if normalize(c["artist_latin"]) == normalize(latin)]
+            rows = await harvest_artist(latin, args.per_artist, known, args.max_results)
+            print(f"{latin}: {len(rows)} songs" + ("" if rows else "  (nothing on Deezer)"))
+            fh.write(f"\n# {latin}" + (f" · {amharic}" if amharic else "") + "\n")
+            for r in rows:
+                year = r["year"] if r["year"] is not None else "?"
+                by_confidence[r["confidence"]] += 1
+                total += 1
+                fh.write(
+                    f"{year}\t{latin}\t{r['title']}\t{amharic}\t\t\t{r['deezer_track_id']}"
+                    f"\t# {r['confidence']} · {r['evidence']} · rank {r['rank']}\n"
+                )
+    print(f"\nWrote {out}: {total} songs from {len(artists)} artists.")
+    print(
+        f"  years: {by_confidence['high']} high · {by_confidence['medium']} medium"
+        f" · {by_confidence['low']} low · {by_confidence['none']} undated"
+    )
+    return 0
+
+
 async def cmd_export(args: argparse.Namespace) -> int:
     """Write the resolved deck to JSON so it can be shipped as data.
 
@@ -362,7 +595,8 @@ async def cmd_list(_: argparse.Namespace) -> int:
     print(f"{len(cards)} cards\n")
     for c in cards:
         print(describe(c))
-    print(f"\nSpanning {cards[0]['year']}–{cards[-1]['year']}.")
+    unconfirmed = sum(1 for c in cards if not c["year_confirmed"])
+    print(f"\nSpanning {cards[0]['year']}–{cards[-1]['year']}. {unconfirmed} years unconfirmed.")
     return 0
 
 
@@ -398,6 +632,10 @@ def main() -> int:
     p_import = sub.add_parser("import", help="bulk import from a TSV seed file")
     p_import.add_argument("file")
     p_import.add_argument("--by", default="", help="who is adding these cards")
+    p_import.add_argument(
+        "--confirmed", action="store_true",
+        help="the years in this file have been checked by a person",
+    )
     p_import.set_defaults(func=cmd_import)
 
     p_pl = sub.add_parser(
@@ -406,6 +644,17 @@ def main() -> int:
     p_pl.add_argument("url")
     p_pl.add_argument("--out", default="decks/from-playlist.tsv")
     p_pl.set_defaults(func=cmd_playlist)
+
+    p_hv = sub.add_parser(
+        "harvest", help="turn artists' Deezer catalogues into a worksheet to fill in"
+    )
+    p_hv.add_argument("artists", nargs="+", help="artist names, or a file of them")
+    p_hv.add_argument("--per-artist", type=int, default=10, help="songs per artist")
+    p_hv.add_argument(
+        "--max-results", type=int, default=300, help="how deep to page each artist"
+    )
+    p_hv.add_argument("--out", default="decks/harvest.tsv")
+    p_hv.set_defaults(func=cmd_harvest)
 
     p_exp = sub.add_parser("export", help="write the resolved deck to JSON")
     p_exp.add_argument("--out", default="decks/deck.json")

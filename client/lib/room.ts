@@ -58,6 +58,9 @@ export type RoomState = {
   viewerId: string;
   isMyTurn: boolean;
   isLastRound: boolean;
+  /* Epoch ms when the answer window closes; null outside it. Every screen
+     counts down the same clock, watchers included. */
+  answerEndsAt: number | null;
   artistPoints: number;
   yearPoints: number;
   players: PlayerView[];
@@ -170,8 +173,11 @@ export function useRoom() {
     (code: string, name: string) => emit("room:join", { code, name }),
     [emit],
   );
+  /* `rounds` is the total number of songs; the server deals them out as a
+     whole number of turns each, so the host picks songs-per-player and the
+     page multiplies. */
   const startGame = useCallback(
-    (code: string) => emit("game:start", { code }),
+    (code: string, rounds?: number) => emit("game:start", { code, rounds }),
     [emit],
   );
   const answer = useCallback(

@@ -273,6 +273,26 @@ body::before {
 .pill-good { background: var(--green-wash); color: var(--green); }
 .pill-bad  { background: var(--red-wash);  color: var(--red); }
 
+/* A small toggle in a row of them: songs-each in the lobby. */
+.chip {
+  font: inherit;
+  font-weight: 700;
+  font-size: var(--t-sm);
+  min-width: 40px;
+  padding: 7px 12px;
+  border-radius: 100px;
+  border: 1px solid var(--rule);
+  background: var(--surface);
+  color: var(--ink-soft);
+  cursor: pointer;
+}
+.chip:hover { border-color: var(--gold-dim); color: var(--ink); }
+.chip-on {
+  border-color: var(--gold);
+  background: var(--gold-wash);
+  color: var(--gold);
+}
+
 /* ---------- scoreboard ---------- */
 
 .scores {

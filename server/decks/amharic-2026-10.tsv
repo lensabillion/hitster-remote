@@ -1,0 +1,314 @@
+# A first rich Amharic deck, curated from decks/harvest-2026-10-25.tsv and the
+# group's own playlist on 25 October 2026. Every year is a PROPOSAL: Deezer's
+# release dates where they looked original, the Ethiopiques recording spans for
+# the golden era, and plain guesses (marked) where Deezer only had a reissue.
+# They are imported UNCONFIRMED and confirmed one by one at /deck.
+#
+#     python tools/build_deck.py import decks/amharic-2026-10.tsv --by harvest
+#
+# year <TAB> artist_latin <TAB> title_latin <TAB> artist_am <TAB> title_am <TAB> youtube_url <TAB> deezer_track_id <TAB> # note
+1970	Tilahun Gessesse	Kulun Mankwalesh	ጥላሁን ገሠሠ	ኩሉን ማንኳለሽ		225070	# Ethiopiques 17; the track title itself carries '70'
+1972	Tilahun Gessesse	Sethed Seketelat	ጥላሁን ገሠሠ	ስትሄድ ስከተላት		225074	# Ethiopiques 17, early 70s
+1970	Tilahun Gessesse	Aykedashem Lebe	ጥላሁን ገሠሠ	አይከዳሽም ልቤ		225072	# Ethiopiques 17
+1974	Tilahun Gessesse	Sewoch Min Yilalu	ጥላሁን ገሠሠ	ሰዎች ምን ይላሉ		2074112647	# guess: mid 70s
+1975	Tilahun Gessesse	Alchalkum	ጥላሁን ገሠሠ	አልቻልኩም		876962702	# guess: mid 70s
+1975	Mahmoud Ahmed	Ebakesh Tareqign	ማህሙድ አህመድ	እባክሽ ታረቂኝ		224827	# Erè Mèla Mèla LP, 1975
+1973	Mahmoud Ahmed	Ambassel	ማህሙድ አህመድ	አምባሰል		224920	# Ethiopiques 6: Almaz, 1973
+1975	Mahmoud Ahmed	Atawurulegn Lela	ማህሙድ አህመድ	አታውሩልኝ ሌላ		224821	# Erè Mèla Mèla LP, 1975
+1975	Mahmoud Ahmed	Belomi Benna	ማህሙድ አህመድ	በሎሚ በና		224829	# Erè Mèla Mèla LP, 1975
+1975	Mahmoud Ahmed	Abbay Mado	ማህሙድ አህመድ	አባይ ማዶ		224819	# Erè Mèla Mèla LP, 1975
+1972	Mahmoud Ahmed	Selam Almazeye	ማህሙድ አህመድ	ሰላም አልማዜ		224776	# Golden Years 1969-75; guess 1972
+1970	Alemayehu Eshete	Telantena Zare	ዓለማየሁ እሸቴ	ትላንትና ዛሬ		225030	# Ethiopiques 9: 1969-74
+1972	Alemayehu Eshete	Yeweyn Haregitu	ዓለማየሁ እሸቴ	የወይን ሀረጊቱ		225021	# Ethiopiques 9: 1969-74
+1972	Alemayehu Eshete	Feqer Feqer New	ዓለማየሁ እሸቴ	ፍቅር ፍቅር ነው		225037	# Ethiopiques 9: 1969-74
+1969	Alemayehu Eshete	Eskegizew Bertchi	ዓለማየሁ እሸቴ	እስከጊዜው በርቺ		224849	# Swinging Addis 1969-74
+1970	Alemayehu Eshete	Hameta	ዓለማየሁ እሸቴ	ሃሜታ		224775	# Golden Years 1969-75
+1972	Alemayehu Eshete	Temar Ledje	ዓለማየሁ እሸቴ	ተማር ልጄ		219197	# More Vintage 1972-74
+1971	Alemayehu Eshete	Yeweb Dar	ዓለማየሁ እሸቴ	የወብ ዳር		225029	# Ethiopiques 9: 1969-74
+1969	Alemayehu Eshete	Addis Ababa Bete	ዓለማየሁ እሸቴ	አዲስ አበባ ቤቴ		1353846682	# the 1960s hit; Deezer has a later recording
+1972	Bezunesh Bekele	Felagote	ብዙነሽ በቀለ	ፍላጎቴ		116285840	# guess: early 70s, Deezer has only a 2012 compilation
+1970	Bezunesh Bekele	Kentu Siga	ብዙነሽ በቀለ			116285844	# guess: around 1970
+1974	Bezunesh Bekele	Yenat Wuletawa	ብዙነሽ በቀለ	የእናት ውለታዋ		116285850	# guess: mid 70s
+1976	Bezunesh Bekele	Migoten Manyawkal	ብዙነሽ በቀለ			116285868	# guess: mid 70s
+1974	Hirut Bekele	Ewnetegna Feqer	ሂሩት በቀለ	እውነተኛ ፍቅር		224965	# Ethiopiques 13: the Golden Seventies
+1972	Hirut Bekele	Almokerkum Nebere	ሂሩት በቀለ	አልሞከርኩም ነበር		224762	# Golden Years 1969-75
+1978	Hirut Bekele	Gudaye	ሂሩት በቀለ	ጉዳዬ		3472580271	# guess: late 70s
+1983	Muluken Melesse	Nanu Nanu Neyi	ሙሉቀን መለሰ	ናኑ ናኑ ነይ		4354243512	# the Nanu Nanu Ney cassette, early 80s
+1975	Muluken Melesse	Kemekem	ሙሉቀን መለሰ	ከመከም		4354243562	# guess: a 70s single
+1983	Muluken Melesse	Wedjesh Nebere	ሙሉቀን መለሰ	ወደጅሽ ነበር		4354243522	# Nanu Nanu Ney cassette
+1983	Muluken Melesse	Yeney Konjo	ሙሉቀን መለሰ	የኔ ቆንጆ		4354243582	# Nanu Nanu Ney cassette
+1978	Muluken Melesse	Wetete Marie	ሙሉቀን መለሰ	ወተቴ ማሬ		1281309982	# guess: late 70s
+1973	Ayalew Mesfin	Hasabe	አያሌው መስፍን	ሃሳቤ		224833	# Swinging Addis 1969-74
+1974	Ayalew Mesfin	Hedetch Gara Zura	አያሌው መስፍን	ሄደች ጋራ ዙራ		4960145	# Ethiopiques 24: 1969-75
+1976	Ayalew Mesfin	Gud Aderegetchegn	አያሌው መስፍን	ጉድ አደረገችኝ		498698692	# Kaifa Records single, mid 70s
+1975	Ayalew Mesfin	Qondjo Ledj Nat	አያሌው መስፍን	ቆንጆ ልጅ ናት		4960132	# Ethiopiques 24: 1969-75
+1975	Ayalew Mesfin	Gedawo	አያሌው መስፍን	ገዳዎ		224978	# guess: mid 70s
+1975	Getachew Kassa	Tizita	ጌታቸው ካሳ	ትዝታ		73785358	# his slow Tezeta, mid 70s
+1974	Getachew Kassa	Sayshi Esasalehu	ጌታቸው ካሳ	ሳይሽ እሳሳለሁ		1041409902	# guess: mid 70s
+1976	Getachew Kassa	Iwedishalehu	ጌታቸው ካሳ	እወድሻለሁ		73785356	# guess: mid 70s
+1974	Getachew Kassa	Amesegnalehu	ጌታቸው ካሳ	አመሰግናለሁ		73785367	# guess: mid 70s
+1966	Mulatu Astatke	Mascaram Setaba	ሙላቱ አስታጥቄ	መስከረም ሲጠባ		349369701	# Afro-Latin Soul, 1966
+1970	Mulatu Astatke	Munaye	ሙላቱ አስታጥቄ	ሙናዬ		224807	# Ethio Jazz 1969-74
+1970	Mulatu Astatke	Gubelye	ሙላቱ አስታጥቄ	ጉበልዬ		224808	# Ethio Jazz 1969-74
+1973	Mulatu Astatke	Dewel	ሙላቱ አስታጥቄ	ደወል		224815	# Ethio Jazz 1969-74
+1974	Mulatu Astatke	Yekatit	ሙላቱ አስታጥቄ	የካቲት		224810	# Ethio Jazz 1969-74
+1974	Mulatu Astatke	Netsanet	ሙላቱ አስታጥቄ	ነፃነት		224811	# Ethio Jazz 1969-74
+1974	Mulatu Astatke	Yegelle Tezeta	ሙላቱ አስታጥቄ	የገሌ ትዝታ		3313948541	# Ethio Jazz 1969-74
+1975	Hailu Mergia	Tezeta	ኃይሉ መርጊያ	ትዝታ		1352393722	# the Walias cassette, 1975; Deezer dates the reissue
+1977	Hailu Mergia	Yegle Nesh	ኃይሉ መርጊያ	የግሌ ነሽ		100357738	# Tche Belew LP, 1977
+1985	Hailu Mergia	Sewnetuwa	ኃይሉ መርጊያ	ሰውነቷ		67882200	# Shemonmuanaye cassette, 1985
+1985	Hailu Mergia	Laloye	ኃይሉ መርጊያ	ላሎዬ		67882201	# Shemonmuanaye cassette, 1985
+2018	Hailu Mergia	Lala Belu	ኃይሉ መርጊያ	ላላ በሉ		453331952	# Lala Belu, 2018
+2018	Hailu Mergia	Addis Nat	ኃይሉ መርጊያ	አዲስ ናት		453331922	# Lala Belu, 2018
+1970	Girma Beyene	Enken Yelelebesh	ግርማ በየነ	እንከን የለለብሽ		138744463	# Swinging Addis 1969-74
+1970	Girma Beyene	Ene Negn Bay Manesh	ግርማ በየነ	እኔ ነኝ ባይ ማነሽ		138744459	# Swinging Addis 1969-74
+1972	Girma Beyene	Ewnet Yet Lagegnesh	ግርማ በየነ	እውነት የት ላገኝሽ		3313948531	# guess: early 70s
+1969	Girma Beyene	Set Alamenem	ግርማ በየነ	ሴት አላምንም		138744475	# the 60s song; Deezer has the 2017 re-recording
+1972	Getatchew Mekurya	Shellela	ጌታቸው መኩሪያ	ሸለላ		224950	# Negus of Ethiopian Sax, recorded 1972
+1972	Getatchew Mekurya	Almaz Yeharerwa	ጌታቸው መኩሪያ	አልማዝ የሀረርዋ		224954	# Negus of Ethiopian Sax, recorded 1972
+1975	Asnakech Worku	Gelayewa	አስናቀች ወርቁ	ገላዬዋ		2552340932	# guess: 70s
+1968	Menelik Wossenachew	Tezeta	ምኒልክ ወስናቸው	ትዝታ		625925052	# his 60s Tezeta
+1975	Menelik Wossenachew	Fikir Ayarejim	ምኒልክ ወስናቸው	ፍቅር አያረጅም		2064669357	# guess: 70s
+1992	Tewodros Tadesse	Bemela Besebeb	ቴዎድሮስ ታደሰ	በመላ በሰበብ		1682041837	# guess: early 90s
+1990	Tewodros Tadesse	Fikren Ende Kelal	ቴዎድሮስ ታደሰ	ፍቅሬን እንደ ቀላል		2079628807	# guess: around 1990
+2005	Teshome Mitiku	Yegna Neger	ተሾመ ምትኩ	የኛ ነገር		1771460	# Yegna Neger, 2005
+1989	Aster Aweke	Tizita	አስቴር አወቀ	ትዝታ		11324131	# Aster, 1989
+1991	Aster Aweke	Kabu	አስቴር አወቀ	ካቡ		69159104	# Kabu, 1991
+1991	Aster Aweke	Hagerae	አስቴር አወቀ	ሀገሬ		380916341	# Deezer titles the album 'Hagerae 1983' — Ethiopian calendar, so about 1991
+2001	Aster Aweke	Sugar	አስቴር አወቀ	ስኳር		69159119	# Sugar, 2001
+2006	Aster Aweke	Fikir	አስቴር አወቀ	ፍቅር		88383717	# Fikir, 2006
+2010	Aster Aweke	Checheho	አስቴር አወቀ	ቼቼሆ		70994484	# Checheho, 2010
+2011	Aster Aweke	Yeneta	አስቴር አወቀ	የኔታ		72591567	# single, 2011
+2013	Aster Aweke	Ewedihalehu	አስቴር አወቀ	እወድሃለሁ		77203024	# Ewedihalehu, 2013
+2019	Aster Aweke	Nafkot	አስቴር አወቀ	ናፍቆት		716743492	# Ćhewa, 2019
+2021	Aster Aweke	Emiye Ethiopia	አስቴር አወቀ	እምዬ ኢትዮጵያ		1194453182	# single, 2021
+2023	Aster Aweke	Soba	አስቴር አወቀ	ሶባ		2150636367	# Soba, 2023
+1990	Neway Debebe	Yefikir Gedam	ነዋይ ደበበ	የፍቅር ገዳም		77341882	# guess: around 1990
+1988	Neway Debebe	Tey Enekebaber	ነዋይ ደበበ	ተይ እንከባበር		2867518462	# guess: late 80s
+1993	Neway Debebe	Wey Genzeb	ነዋይ ደበበ	ወይ ገንዘብ		2672331792	# guess: early 90s
+1995	Neway Debebe	Ayaya	ነዋይ ደበበ	አያያ		2733818921	# guess: mid 90s
+1990	Neway Debebe	Hageran Aleresam	ነዋይ ደበበ	ሀገሬን አልረሳም		2672331712	# guess: around 1990
+1988	Ephrem Tamiru	Mulu Gojam	ኤፍሬም ታምሩ	ሙሉ ጎጃም		78276594	# guess: late 80s; Deezer has a 2006 release
+1990	Ephrem Tamiru	Walshesa Bayne	ኤፍሬም ታምሩ			78276595	# guess: around 1990
+1992	Ephrem Tamiru	Negresh Nebere	ኤፍሬም ታምሩ	ነግሬሽ ነበረ	https://www.youtube.com/watch?v=PQ_ozPQvGWM	78276601	# from the group's playlist; guess: early 90s
+2008	Ephrem Tamiru	Balgeru	ኤፍሬም ታምሩ	ባልገሩ		77338220	# guess: late 2000s
+2015	Ephrem Tamiru	Yefikirin Kitat	ኤፍሬም ታምሩ	የፍቅርን ቅጣት		109752670	# The Reunion, 2015
+1990	Kuku Sebsibe	Anarejim	ኩኩ ሰብስቤ	አናረጅም		72051035	# guess: around 1990
+1988	Kuku Sebsibe	Welo	ኩኩ ሰብስቤ	ወሎ		2702754042	# guess: late 80s
+1992	Kuku Sebsibe	Tizita	ኩኩ ሰብስቤ	ትዝታ		2702753992	# guess: early 90s
+1998	Netsanet Melesse	Doju	ነፃነት መለሰ	ዶጁ		2166837177	# Doju, 1998
+1998	Netsanet Melesse	Shegeye	ነፃነት መለሰ	ሸጌዬ		2166837097	# Doju, 1998
+2005	Netsanet Melesse	Minew Jal	ነፃነት መለሰ	ምነው ጃል		1357110242	# Spirit of Sheba, 2005
+2016	Netsanet Melesse	Feker	ነፃነት መለሰ	ፍቅር		118958200	# Liben, 2016
+2001	Hamelmal Abate	Azenkubih	ሐመልማል አባተ	አዘንኩብህ		1068555012	# Sedet, 2001
+2005	Hamelmal Abate	Linur	ሐመልማል አባተ	ልኑር		1043559622	# Gize Mizan, 2005
+2019	Hamelmal Abate	Kumneger	ሐመልማል አባተ	ቁምነገር		749986612	# Kemsha, 2019
+2019	Hamelmal Abate	Gadissie	ሐመልማል አባተ	ጋዲሴ		749986722	# Kemsha, 2019
+1984	Tsehaye Yohannes	Be Sewlay Sew Mewded	ፀሐዬ ዮሐንስ	በሰው ላይ ሰው መውደድ		995397402	# Fenchetwa, 1984
+1996	Tsehaye Yohannes	Yalanchema	ፀሐዬ ዮሐንስ	ያላንችማ	https://www.youtube.com/watch?v=R5udIwJ--oM	1046852632	# Yalanchema, 1996; on the group's playlist
+1996	Tsehaye Yohannes	Yetnebersh	ፀሐዬ ዮሐንስ	የትነበርሽ		1046852642	# Yalanchema, 1996
+2007	Tsehaye Yohannes	Blen	ፀሐዬ ዮሐንስ	ብሌን	https://www.youtube.com/watch?v=QNLw_n_WpDw	698275492	# Sakilgne, 2007; on the group's playlist
+2007	Tsehaye Yohannes	Sakilgne	ፀሐዬ ዮሐንስ	ሳቂልኝ		698275582	# Sakilgne, 2007
+2014	Tsehaye Yohannes	Betesfa	ፀሐዬ ዮሐንስ	በተስፋ		2601580672	# Yenieta, 2014
+2001	Aregahegn Worash	Adey Ababa	አረጋኸኝ ወራሽ	አደይ አበባ		3630595312	# guess: around 2001
+1999	Aregahegn Worash	Sesete	አረጋኸኝ ወራሽ			3090401541	# guess: late 90s
+1996	Martha Ashagari	Zebnanu	ማርታ አሻጋሪ			69821122	# Child's Love, 1996
+2001	Tigist Bekele	Teretahu	ትዕግስት በቀለ	ተረታሁ		79904844	# Sakitaw, 2001
+2001	Tigist Bekele	Gella	ትዕግስት በቀለ	ገላ		79904860	# Sakitaw, 2001
+2026	Tigist Bekele	Mela	ትዕግስት በቀለ	መላ		4103200381	# Mela, 2026
+1998	Bezawork Asfaw	Bird Bird Yilegnal	በዛወርቅ አስፋው	ብርድ ብርድ ይለኛል		2818927202	# guess: late 90s
+2003	Bezawork Asfaw	Yewoyen Chimakie	በዛወርቅ አስፋው			2818927272	# guess: early 2000s
+1996	Bezawork Asfaw	Keftftwa Fitwa	በዛወርቅ አስፋው			2818927242	# guess: mid 90s
+2011	Yehunie Belay	Bizoru	የሁኔ በላይ			4265331562	# Bizoru, 2011
+2017	Yehunie Belay	Zegelila	የሁኔ በላይ	ዘገሊላ	https://www.youtube.com/watch?v=yV5-fE192og	374771841	# on the group's playlist; guess 2017
+2019	Yehunie Belay	Awoy Nuro	የሁኔ በላይ	አዋይ ኑሮ		985451432	# guess: around 2019
+2023	Yehunie Belay	Tegegnech	የሁኔ በላይ	ተገኘች		2261489827	# Tegegnech, 2023
+2006	Fikeraddis Nekatibeb	Kunama	ፍቅርአዲስ ነቃጥበብ	ኩናማ		3166274931	# guess: mid 2000s (Embi)
+2009	Fikeraddis Nekatibeb	Yekolo Temari	ፍቅርአዲስ ነቃጥበብ	የቆሎ ተማሪ		3218704381	# guess: late 2000s
+2012	Fikeraddis Nekatibeb	Enat	ፍቅርአዲስ ነቃጥበብ	እናት		3121635091	# guess: around 2012 (Misikir)
+2008	Shewandagne Hailu	Ayresat	ሸዋንዳኝ ኃይሉ	አይረሳት		2942529221	# guess: Sitotash, late 2000s
+2012	Shewandagne Hailu	Yekerebign	ሸዋንዳኝ ኃይሉ	የቀረብኝ		63055505	# Sik Alegn, 2012
+2012	Shewandagne Hailu	Eyat Eyat Yilegnal	ሸዋንዳኝ ኃይሉ	እያት እያት ይለኛል		63055500	# Sik Alegn, 2012
+2015	Abinet Agonafir	Yezarene	አብነት አጎናፍር	የዛሬን		125734990	# guess: around 2015
+2019	Abinet Agonafir	Ye Ewunet Menged	አብነት አጎናፍር	የእውነት መንገድ		683167372	# single, 2019
+2020	Abinet Agonafir	Ho Bye Metahu	አብነት አጎናፍር	ሆ ብዬ መጣሁ		1072177302	# single, 2020
+2023	Abinet Agonafir	Lene Kalesh	አብነት አጎናፍር	ለኔ ካልሽ		3605236752	# Hidden Beauty, 2023
+2012	Tadesse Alemu	Sela	ታደሰ ዓለሙ	ሰላ		1278629382	# guess: around 2012
+2012	Tadesse Alemu	Erikum	ታደሰ ዓለሙ	እሪኩም		1278629422	# guess: around 2012
+2004	Abonesh Adinew	Limitawey	አቦነሽ አድነው			942023102	# Bahilen, 2004
+2016	Abonesh Adinew	Balageru	አቦነሽ አድነው	ባላገሩ		117405134	# Balageru, 2016
+2024	Abonesh Adinew	Gojame	አቦነሽ አድነው	ጎጃሜ		2831383822	# Zarem Endamna, 2024
+2003	Rahel Yohannes	Arada	ራሔል ዮሐንስ	አራዳ		77012619	# Menelik, 2003
+2003	Rahel Yohannes	Hagere Ethiopia	ራሔል ዮሐንስ	ሀገሬ ኢትዮጵያ		77012612	# Menelik, 2003
+2009	Kassahun Taye	Megala	ካሳሁን ታዬ	መጋላ		145148606	# Ytemedal Berie, 2009
+2023	Kassahun Taye	Gonder	ካሳሁን ታዬ	ጎንደር		3000373431	# single, 2023
+1995	Dawit Mellesse	Lottery	ዳዊት መለሰ	ሎተሪ		3586238421	# Lottery, 1995
+1995	Dawit Mellesse	Yene Shega	ዳዊት መለሰ	የኔ ሸጋ		3586238491	# Lottery, 1995
+1999	Dawit Mellesse	Kunjina	ዳዊት መለሰ	ኩንጂና		3585710471	# Anchin New, 1999
+2003	Dawit Mellesse	Endet Lichal	ዳዊት መለሰ	እንዴት ልቻል		3585797121	# Andiken, 2003
+2001	Teddy Afro	Abugida	ቴዲ አፍሮ	አቡጊዳ		77214345	# Abugida, 2001
+2001	Teddy Afro	Lidjenet Alat	ቴዲ አፍሮ	ልጅነት አላት		77214346	# Abugida, 2001
+2001	Teddy Afro	Ayne Hulgeze	ቴዲ አፍሮ	አይኔ ሁልጊዜ		77214349	# Abugida, 2001
+2005	Teddy Afro	Lambadina	ቴዲ አፍሮ	ላምባዲና	https://www.youtube.com/watch?v=tazS5K2Nr7k		# Yasteseryal, 2005; Deezer only has a remix, so YouTube
+2010	Teddy Afro	Abebayewosh	ቴዲ አፍሮ	አበባየሆሽ		607730102	# guess: the 2010 new-year single
+2012	Teddy Afro	Hab Dahlak	ቴዲ አፍሮ	ሀብ ዳህላክ	https://www.youtube.com/watch?v=FDaReu_HOzE		# from the group's playlist; guess: Tikur Sew, 2012
+2015	Teddy Afro	Be 70 Dereja	ቴዲ አፍሮ	በ70 ደረጃ		607912042	# single, 2015
+2015	Teddy Afro	Korkuma Africa	ቴዲ አፍሮ	ቆርቁማ አፍሪካ		104588200	# single, 2015
+2017	Teddy Afro	Ethiopia	ቴዲ አፍሮ	ኢትዮጵያ		375746011	# Ethiopia, 2017
+2017	Teddy Afro	Sembere	ቴዲ አፍሮ	ሰምበሬ		375746021	# Ethiopia, 2017
+2017	Teddy Afro	Mar Eske Tuwaf	ቴዲ አፍሮ	ማር እስከ ጧፍ		358490681	# Ethiopia, 2017
+2017	Teddy Afro	Marakiye	ቴዲ አፍሮ	ማራኪዬ		375746101	# Ethiopia, 2017
+2026	Teddy Afro	Sememene	ቴዲ አፍሮ	ሰመመኔ		3966670961	# Etorika, 2026
+2026	Teddy Afro	Samenew	ቴዲ አፍሮ			4111150771	# Etorika, 2026
+1998	Gigi	Gera Geru	ጂጂ			9565066	# One Ethiopia, 1998
+2001	Gigi	Guramayle	ጂጂ	ጉራማይሌ		12589943	# Gigi, 2001
+2001	Gigi	Abay	ጂጂ	አባይ		12589941	# Gigi, 2001
+2001	Gigi	Zomaye	ጂጂ	ዞማዬ		12589947	# Gigi, 2001
+2001	Gigi	Adwa	ጂጂ	አድዋ		12589950	# Gigi, 2001
+2001	Gigi	Gud Fella	ጂጂ	ጉድ ፈላ		12589938	# Gigi, 2001
+2001	Gigi	Nafeken	ጂጂ			12589949	# Gigi, 2001
+2006	Gigi	Enoralehu	ጂጂ			12589993	# Gold & Wax, 2006
+2006	Gossaye Tesfaye	Enateye	ጎሳዬ ተስፋዬ	እናትዬ		614506772	# guess: mid 2000s
+2010	Gossaye Tesfaye	Tameryalesh	ጎሳዬ ተስፋዬ	ታመሪያለሽ		611477982	# Satamagne Bela, 2010
+2010	Gossaye Tesfaye	Ma Bengershe	ጎሳዬ ተስፋዬ			616050462	# guess: Evangadi, around 2010
+2019	Gossaye Tesfaye	Serk Addis	ጎሳዬ ተስፋዬ	ሰርቅ አዲስ		623766562	# Siyamish Yamegnal, 2019
+2012	Abdu Kiar	Merkato Sefere	አብዱ ኪያር	መርካቶ ሰፈሬ		1436560412	# single, 2012
+2015	Abdu Kiar	Wey Gude	አብዱ ኪያር	ወይ ጉዴ		109061964	# Tikur Anbessa, 2015
+2015	Abdu Kiar	Tikur Anbessa	አብዱ ኪያር	ጥቁር አንበሳ		109061960	# Tikur Anbessa, 2015
+2021	Abdu Kiar	Weye Weye	አብዱ ኪያር	ወዬ ወዬ		1449103792	# single, 2021
+2002	Madingo Afework	Aman New Goraw	ማዲንጎ አፈወርቅ	አማን ነው ጎራው		4344313602	# Aman New Goraw, 2002
+2005	Madingo Afework	Keteleyayen	ማዲንጎ አፈወርቅ	ከተለያየን		78289117	# Aydergem, 2005
+2005	Madingo Afework	Mognu Libe	ማዲንጎ አፈወርቅ	ሞኙ ልቤ		78289122	# Aydergem, 2005
+2005	Madingo Afework	Afar	ማዲንጎ አፈወርቅ	አፋር		78289118	# Aydergem, 2005
+2012	Madingo Afework	Akmien	ማዲንጎ አፈወርቅ			2091796387	# guess: around 2012
+2004	Michael Belayneh	Etebikeshalehu	ሚካኤል በላይነህ	እጠብቅሻለሁ		2730382891	# guess: mid 2000s
+2006	Michael Belayneh	Yefikir Mirchay	ሚካኤል በላይነህ	የፍቅር ምርጫዬ		2730382911	# guess: mid 2000s
+2008	Michael Belayneh	Tibeb New Tizita	ሚካኤል በላይነህ	ጥበብ ነው ትዝታ		2668131072	# guess: late 2000s
+2010	Michael Belayneh	Timechi Endehu	ሚካኤል በላይነህ	ትመጪ እንደሁ		2668790372	# guess: around 2010
+2018	Zeritu Kebede	Alefe Halifu	ዘሪቱ ከበደ			608836412	# single, 2018
+2023	Zeritu Kebede	Akal Lakal	ዘሪቱ ከበደ			2209428307	# Atihidibign, 2023
+2004	Tamrat Desta	Hakime Nesh	ታምራት ደስታ	ሀኪሜ ነሽ		81944264	# Anleyaym, 2004
+2004	Tamrat Desta	Anleyaym	ታምራት ደስታ	አንለያይም		81944250	# Anleyaym, 2004
+2004	Tamrat Desta	Yelben	ታምራት ደስታ	የልቤን		81944246	# Anleyaym, 2004
+2014	Tamrat Desta	Ewedshalehu	ታምራት ደስታ	እወድሻለሁ		87153111	# Keza Sefer, 2014
+2014	Tamrat Desta	Mamayie	ታምራት ደስታ	ማማዬ		87153103	# Keza Sefer, 2014
+2008	Eyob Mekonnen	Wede Enate Bet	እዮብ መኮንን	ወደ እናቴ ቤት		3965970751	# guess: late 2000s
+2012	Eyob Mekonnen	Yizebarekalu	እዮብ መኮንን	ይዘባርቃሉ	https://www.youtube.com/watch?v=DxGu_SFPZgg	3946393381	# on the group's playlist; guess: Ende Qal, 2012
+2012	Eyob Mekonnen	Man Ende Qal	እዮብ መኮንን	ማን እንደ ቃል		3946393341	# guess: Ende Qal, 2012
+2012	Eyob Mekonnen	Endetefash	እዮብ መኮንን	እንደተፋሽ		3946393401	# guess: Ende Qal, 2012
+2005	Jah Lude	Yachin Neger	ጃህ ሉድ	ያቺን ነገር		72897977	# guess: mid 2000s; Deezer dates the 2012 release
+2005	Jah Lude	Ye Irgib Amora	ጃህ ሉድ	የእርግብ አሞራ		72897984	# guess: mid 2000s
+2005	Jah Lude	Dance Dance	ጃህ ሉድ			72897974	# guess: mid 2000s
+2012	Haile Roots	Chiggae	ኃይሌ ሩትስ	ቺጌ		84392325	# Chiggae, 2012
+2012	Haile Roots	Ethiopia	ኃይሌ ሩትስ	ኢትዮጵያ		84392335	# Chiggae, 2012
+2012	Haile Roots	Melkam Yamarech	ኃይሌ ሩትስ			84392333	# Chiggae, 2012
+2020	Haile Roots	Yanchin	ኃይሌ ሩትስ	ያንቺን		1175977782	# Yetamene, 2020
+2006	Tsedenia Gebremarkos	Mengedegna	ፀደንያ ገብረማርቆስ	መንገደኛ		3855501271	# Bisetegn, 2006
+2006	Tsedenia Gebremarkos	Ewedhalehu	ፀደንያ ገብረማርቆስ	እወድሃለሁ		3855501291	# Bisetegn, 2006
+2006	Tsedenia Gebremarkos	Atalay	ፀደንያ ገብረማርቆስ	አታላይ		3855501251	# Bisetegn, 2006
+2016	Tsedenia Gebremarkos	Awkotal	ፀደንያ ገብረማርቆስ			3477087471	# Yefikir Girma, 2016
+2014	Abby Lakew	Yene Habesha	አቢ ላቀው	የኔ ሀበሻ		404493782	# the single came before the 2017 album; guess 2014
+2017	Abby Lakew	Nekogn	አቢ ላቀው	ነኮኝ		668541872	# Yene Habesha, 2017
+2017	Abby Lakew	Selam	አቢ ላቀው	ሰላም		668541862	# Yene Habesha, 2017
+2022	Abby Lakew	Gondere Wa	አቢ ላቀው	ጎንደሬዋ		1742792697	# single, 2022
+2013	Mesfin Bekele	Welelawa	መስፍን በቀለ	ወለላዋ		72105821	# Zimeta, 2013
+2013	Mesfin Bekele	Zimeta	መስፍን በቀለ	ዝምታ		72105823	# Zimeta, 2013
+2014	Mesfin Bekele	Asresh Mechew	መስፍን በቀለ			109752716	# guess: around 2014
+2020	Mesfin Bekele	Mister New	መስፍን በቀለ			1134788892	# single, 2020
+2024	Mesfin Bekele	Lamesgin	መስፍን በቀለ	ላመስግን		2832170392	# single, 2024
+2007	Mikaya Behailu	Lante Sil	ሚካያ በኃይሉ	ላንተ ስል		72051055	# Shemametew, 2007
+2007	Mikaya Behailu	Sebeb	ሚካያ በኃይሉ	ሰበብ		72051056	# Shemametew, 2007
+2007	Mikaya Behailu	Shemametew	ሚካያ በኃይሉ	ሸማመተው		72051060	# Shemametew, 2007
+2011	Jacky Gosee	Chirash	ጃኪ ጎሲ	ጭራሽ		3351027061	# guess: around 2011; Deezer dates a 2025 upload
+2013	Jacky Gosee	Sela Bey	ጃኪ ጎሲ	ሰላ በይ		3351027031	# guess: around 2013
+2022	Jacky Gosee	Debdabew	ጃኪ ጎሲ	ደብዳቤው		4347432702	# single, 2022
+2025	Jacky Gosee	Fiyameta	ጃኪ ጎሲ	ፊያሜታ		3358436431	# single, 2025
+2013	Teddy Yo	Gurage Tone	ቴዲ ዮ			68154237	# Demts Albaw Mesarya, 2013
+2017	Teddy Yo	Lo'o Lo'o	ቴዲ ዮ			471006712	# guess: around 2017
+2022	Teddy Yo	Wano	ቴዲ ዮ			1952476167	# single, 2022
+2024	Teddy Yo	Almetam	ቴዲ ዮ	አልመጣም		2864836622	# single, 2024
+2013	Nhatty Man	Fim Esat	ናቲ ማን	ፍም እሳት		69216729	# single, 2013
+2016	Nhatty Man	Amrogn	ናቲ ማን	አምሮኝ		118405936	# Man, 2016
+2016	Nhatty Man	Salayish	ናቲ ማን	ሳላይሽ		118405924	# Man, 2016
+2017	Nhatty Man	Bado	ናቲ ማን	ባዶ		438310312	# Vol. 2, 2017
+2024	Nhatty Man	Qimemun	ናቲ ማን			2667346522	# single, 2024
+2018	Bisrat Surafel	Yebet Sira	ብስራት ሱራፌል	የቤት ስራ		499823162	# Kal Bekal, 2018
+2018	Bisrat Surafel	Ethiopiawi Negn	ብስራት ሱራፌል	ኢትዮጵያዊ ነኝ		499823152	# Kal Bekal, 2018
+2022	Bisrat Surafel	Ateteyekuwat	ብስራት ሱራፌል			2791932362	# single, 2022
+2023	Bisrat Surafel	Erefi	ብስራት ሱራፌል	እረፊ		2373557235	# Malefiya, 2023
+2005	Hana Shenkute	Sintun Ayichebih	ሃና ሸንቁጤ	ስንቱን አይቼብህ		65445411	# guess: mid 2000s
+2010	Nati Haile	Beka	ናቲ ኃይሌ	በቃ		13668350	# Beka, 2010
+2015	Betty G	Manew Fitsum	ቤቲ ጂ	ማነው ፍጹም		98388206	# Manew Fitsum, 2015
+2015	Betty G	Kant Aybeltim	ቤቲ ጂ	ካንት አይበልጥም		98388220	# Manew Fitsum, 2015
+2018	Betty G	Geriye	ቤቲ ጂ	ገሪዬ		519921542	# Wegegta, 2018
+2026	Betty G	Yeselam Sew Negn	ቤቲ ጂ	የሰላም ሰው ነኝ		4260731631	# single, 2026
+2018	Jano Band	Keteraraw Mado	ጃኖ ባንድ	ከተራራው ማዶ		458259522	# Lerasih New, 2018
+2018	Jano Band	Shegiye	ጃኖ ባንድ	ሸጊዬ		458259472	# Lerasih New, 2018
+2018	Jano Band	Leba	ጃኖ ባንድ	ሌባ		458259452	# Lerasih New, 2018
+2018	Jano Band	Zew Zew	ጃኖ ባንድ	ዘው ዘው		454569332	# single, 2018
+2018	Jano Band	Hager Alegn	ጃኖ ባንድ	ሀገር አለኝ		458259552	# Lerasih New, 2018
+2016	Dawit Tsige	Betam New Emewodish	ዳዊት ጽጌ	በጣም ነው እምወድሽ		118406062	# single, 2016
+2020	Dawit Tsige	Bayew Bayew	ዳዊት ጽጌ	ባየው ባየው		846674482	# Yene Zema, 2020
+2020	Dawit Tsige	Yene Yene	ዳዊት ጽጌ	የኔ የኔ		846674442	# Yene Zema, 2020
+2020	Dawit Tsige	Yene Zema	ዳዊት ጽጌ	የኔ ዜማ		846674402	# Yene Zema, 2020
+2020	Dawit Tsige	Asmarino	ዳዊት ጽጌ	አስመሪኖ		846674462	# Yene Zema, 2020
+2018	Rophnan	Get to Work	ሮፍናን			501460352	# Reflection, 2018
+2020	Rophnan	Sekela	ሮፍናን	ሰቀላ		1820720707	# guess: Sost, 2020
+2022	Rophnan	Desse	ሮፍናን	ደሴ		1812899297	# Sidist, 2022 — corrects the starter deck's 2019
+2022	Rophnan	Haya	ሮፍናን	ሀያ		1812899327	# Sidist, 2022
+2022	Rophnan	Senaye	ሮፍናን	ሰናዬ		1812899247	# Sidist, 2022
+2022	Rophnan	Wegahta	ሮፍናን	ወጋህታ		1812899257	# Sidist, 2022
+2022	Rophnan	Bihon	ሮፍናን	ቢሆን		1812899287	# Sidist, 2022
+2024	Rophnan	Shegiye	ሮፍናን	ሸጊዬ		2673654482	# Zetegn, 2024
+2024	Rophnan	Atiyo	ሮፍናን	አቲዮ		2673655042	# Zetegn, 2024
+2016	Sami Dan	Tefa Yemileyen	ሳሚ ዳን	ጠፋ የሚለየን		123761170	# Keras Gar Negeger, 2016
+2019	Sami Dan	123	ሳሚ ዳን			669114812	# Asira Andu Getsoche, 2019
+2021	Sami Dan	Qalen	ሳሚ ዳን	ቃሌን		1481590282	# Sibet, 2021
+2021	Sami Dan	Yemechereshawa Se'at	ሳሚ ዳን	የመጨረሻዋ ሰዓት		1481590382	# Sibet, 2021
+2020	Kassmasse	Negen Letizita	ካስማሴ	ነገን ለትዝታ		1356084772	# Maleda, 2020
+2020	Kassmasse	Maleda	ካስማሴ	ማለዳ		1356084752	# Maleda, 2020
+2020	Kassmasse	Wubet	ካስማሴ	ውበት		1356084792	# Maleda, 2020
+2022	Kassmasse	Mela Mela	ካስማሴ	መላ መላ		1660832302	# Bahil | Weg, 2022
+2023	Kassmasse	Sanqa Souq	ካስማሴ			2426838465	# single, 2023
+2021	Lij Michael	Nanye	ልጅ ሚካኤል	ናንዬ		1247074642	# Atgebam Alugn, 2021
+2021	Lij Michael	Addis Ababa	ልጅ ሚካኤል	አዲስ አበባ		1247074662	# Atgebam Alugn, 2021
+2024	Lij Michael	Ayito	ልጅ ሚካኤል			2955738341	# Addis Arada, 2024
+2025	Lij Michael	Zemenay Mareye	ልጅ ሚካኤል			3413173161	# Zaray Yihun Nege, 2025
+2018	Yared Negu	Adimera	ያሬድ ነጉ	አድመራ		596143152	# single, 2018
+2018	Yared Negu	Yihen Endalay	ያሬድ ነጉ			3830919161	# guess: around 2018
+2017	Esubalew Yetayew	Mare Mare	እሱባለው ይታየው	ማሬ ማሬ		726202142	# Tertaye, 2017
+2017	Esubalew Yetayew	Godana Mulu	እሱባለው ይታየው			726202082	# Tertaye, 2017
+2017	Esubalew Yetayew	Samnat	እሱባለው ይታየው			726202132	# Tertaye, 2017
+2023	Esubalew Yetayew	Yeberesh Abeba	እሱባለው ይታየው	የበረሽ አበባ		2527847131	# single, 2023
+2019	Rahel Getu	Tilobign	ራሔል ጌቱ			732013122	# single, 2019
+2021	Rahel Getu	Kisto	ራሔል ጌቱ			1477144292	# Etemete, 2021
+2021	Rahel Getu	Etemete	ራሔል ጌቱ	እቴሜቴ		1477144322	# Etemete, 2021
+2021	Rahel Getu	Ethiopiaye	ራሔል ጌቱ	ኢትዮጵያዬ		1477144222	# Etemete, 2021
+2020	Hewan Gebrewold	Keminew	ሔዋን ገብረወልድ			999020832	# single, 2020
+2021	Hewan Gebrewold	Na Na	ሔዋን ገብረወልድ	ና ና		1251267462	# single, 2021
+2022	Hewan Gebrewold	Endene Endene	ሔዋን ገብረወልድ			1757683487	# Hewan, 2022
+2022	Hewan Gebrewold	Munaye	ሔዋን ገብረወልድ	ሙናዬ		1757683457	# Hewan, 2022
+2018	Selamawit Yohannes	Zomawa	ሰላማዊት ዮሐንስ	ዞማዋ		531261401	# single, 2018
+2023	Selamawit Yohannes	Bel Jalo	ሰላማዊት ዮሐንስ			2387412075	# single, 2023
+2021	Veronica Adane	Tewu	ቬሮኒካ አዳነ	ተው		1281395352	# single, 2021
+2023	Veronica Adane	Enaney	ቬሮኒካ አዳነ			2549499122	# single, 2023
+2024	Veronica Adane	Lemen Wey	ቬሮኒካ አዳነ			2963574091	# Meteriyaye, 2024
+2021	Tariku Gankisi	Dishtagina	ታሪኩ ጋንኪሲ	ዲሽታግና		1331179952	# single, 2021
+2022	Ziggy Zaga	Tizitana Nafkot	ዚጊ ዛጋ	ትዝታና ናፍቆት		1875712327	# single, 2022
+2023	Yohana	Gelagay	ዮሐና	ገላጋይ		2251657067	# single, 2023
+2019	Abush Zeleke	Ehem Ale	አቡሽ ዘለቀ			1853024617	# single, 2019
+2010	Henok Abebe	Honuatal	ሔኖክ አበበ	ሆኑዋታል	https://www.youtube.com/watch?v=Ke3mDPxRw8M	77583785	# from the group's playlist; guess: around 2010
+2008	Sayat Demissie	Hasabun Mesrek	ሳያት ደምሴ	ሀሳቡን ምስራቅ	https://www.youtube.com/watch?v=u7dEqIZBsvI	13603014	# from the group's playlist; guess: late 2000s
+2010	Johnnie Bass	Anchi Kalesh	ጆኒ ባስ	አንቺ ካለሽ	https://www.youtube.com/watch?v=N2emYqvIDwA		# from the group's playlist; guess: around 2010
+2012	Helen Berhe	Uzaza Aleyna	ሔለን በርሄ	ኡዛዛ አሌና	https://www.youtube.com/watch?v=8yOfFtOHL_4		# from the group's playlist; guess: around 2012
+2008	Hibist Tiruneh	Befetereh	ህብስት ጥሩነህ	በፈጠረህ	https://www.youtube.com/watch?v=m69Z2qlFPsI		# from the group's playlist; guess: late 2000s
+2010	Tadele Roba	Kefitret Yeglish	ታደለ ሮባ		https://www.youtube.com/watch?v=6C_UKhtqn80		# from the group's playlist; guess: around 2010
+2015	Haymanot Girma	Labablih	ሀይማኖት ግርማ		https://www.youtube.com/watch?v=ZLv0ym5mML4		# from the group's playlist; guess: mid 2010s
+2010	Dereje Dubale	Befikresh Tasere	ደረጀ ዱባለ	በፍቅርሽ ታስሬ	https://www.youtube.com/watch?v=yq5kVPvgyG8		# from the group's playlist; guess: around 2010
+2015	Bisrat Garedew	Salamnibet	ብስራት ጋረደው	ሳላምንበት	https://www.youtube.com/watch?v=Hpx8AnTi70U		# from the group's playlist; guess: mid 2010s
+2012	Solomon Kassa	Liqefish	ሰለሞን ካሳ		https://www.youtube.com/watch?v=Ncl7z8P_g1k		# from the group's playlist; guess: around 2012
+2018	Lelaalem Manaye	Yene Nesh	ሌላአለም ማናዬ	የእኔ ነሽ	https://www.youtube.com/watch?v=LJH3BN2CrKk		# from the group's playlist; guess: late 2010s
+2013	Mesfin Bekele	Ney Bekiremt	መስፍን በቀለ	ነይ በክረምት	https://www.youtube.com/watch?v=ZePj0oadtaw		# from the group's playlist; guess: Zimeta era, 2013
+2012	Jano Band	Darigne	ጃኖ ባንድ	ዳሪኝ		458259602	# Ertale, 2012; Deezer carries it as a bonus track on the 2018 album
+1993	Aster Aweke	Ken Bayene	አስቴር አወቀ	ቀን ባይኔ	https://www.youtube.com/watch?v=IQaCJX5owBs	69159111	# from the group's playlist; guess: early 90s
+1977	Hailu Mergia	Tche Belew	ኃይሉ መርጊያ	ጨ በለው		85516102	# Tche Belew LP with the Walias, 1977

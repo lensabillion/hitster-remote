@@ -30,20 +30,33 @@ Lint: `./.venv/bin/ruff check .` (server) · `npm run typecheck && npm run lint`
 ## Deck
 
 Release years cannot be taken from an API — MusicBrainz gives three answers for
-"Billie Jean", and Deezer and iTunes both report reissue dates. Every year is
-confirmed by a human, once, in the deck builder:
+"Billie Jean", and Deezer and iTunes both report reissue dates. So a year is only ever
+*proposed* by a machine and *confirmed* by a human, once. Every card carries
+`year_confirmed`; the game plays unconfirmed cards as they are, and `/deck` lists them
+first so a person can confirm or fix each one with one tap.
+
+Growing the deck, from broad to narrow:
 
 ```
 cd server
-./.venv/bin/python tools/build_deck.py add            # interactive
-./.venv/bin/python tools/build_deck.py import x.tsv   # bulk
+./.venv/bin/python tools/build_deck.py harvest decks/artists-amharic.txt   # Deezer -> worksheet
+./.venv/bin/python tools/build_deck.py import decks/harvest.tsv --by harvest  # unconfirmed
+./.venv/bin/python tools/build_deck.py add            # interactive, confirmed
 ./.venv/bin/python tools/build_deck.py list
 ```
 
-Seed format is tab-separated. Artist, title and year are enough — a YouTube URL is only
-needed for songs Deezer does not carry:
+`harvest` walks each artist's Deezer catalogue, keeps the most-played songs, and proposes
+a year from the release each sits on, labelled by how far to trust it: a year in the
+release title is `high`, an ordinary release `medium`, a compilation or a bulk-upload
+date `low` (it is a reissue date, not the song's). `decks/amharic-2026-10.tsv` is the
+curated result of the first harvest — 300 songs across 85 artists with the golden-era
+years corrected from the Ethiopiques spans — and `decks/harvest-2026-10-25.tsv` is the
+raw worksheet it was cut from.
 
-`year <TAB> artist_latin <TAB> title_latin [<TAB> artist_am <TAB> title_am <TAB> youtube_url]`
+Seed format is tab-separated. Artist, title and year are enough — a YouTube URL is only
+needed for songs Deezer does not carry, and a Deezer track id (column 7) skips the lookup:
+
+`year <TAB> artist_latin <TAB> title_latin [<TAB> artist_am <TAB> title_am <TAB> youtube_url <TAB> deezer_track_id]`
 
 **Deployment seeds from `decks/deck.json`, never from a live import.** Deezer answers a
 throttled query with an empty result set rather than an error, so re-probing at build
@@ -54,10 +67,11 @@ time silently produces a near-empty deck. Export after curating:
 ./.venv/bin/python tools/build_deck.py seed     # loads it, no network
 ```
 
-Songs can also be added from the running game at `/deck`, which is how the deck is meant
-to grow — every comparable project curates by hand, and a page beats a text file. On a
-deployed server those songs are lost on the next deploy; the page lists what is not in
-`deck.json` yet and offers it as a download that is byte-identical to the CLI export.
+Songs can also be added and years confirmed from the running game at `/deck`, which is
+how the deck is meant to be curated — every comparable project curates by hand, and a
+page beats a text file. On a deployed server those edits are lost on the next deploy; the
+page lists what is not in `deck.json` yet and offers it as a download that is
+byte-identical to the CLI export.
 
 ## Architecture
 
@@ -70,7 +84,8 @@ deployed server those songs are lost on the next deploy; the page lists what is 
 - `server/db.py` — SQLite via aiosqlite, WAL. Holds only the deck; a restart ends any
   game in progress, by design.
 - `server/sources.py` — Deezer and YouTube lookup. The only module that talks to Deezer.
-- `server/tools/build_deck.py` — offline deck curation CLI.
+- `server/tools/build_deck.py` — offline deck curation CLI, including the harvest and its
+  judgement about which Deezer dates to believe.
 - `client/app/` — Next.js App Router. `client/components/Timeline.tsx` is the centrepiece.
 
 ## Scoring
@@ -102,9 +117,10 @@ ceiling that only stops an absent player stalling the table.
   cue goes to every socket, not just the answering one. Their song comes on their turn.
 - **Turns are dealt evenly.** `rounds_planned` is rounded down to a whole number of turns
   each, so nobody sitting early in the seat order gets an extra song.
-- **Two matchers, opposite temperaments.** `artist_matches` (catalogue) is strict, so a
-  wrong Deezer track is never attached. `player_artist_matches` (typed input) is
-  generous, so a player is never robbed by spelling. Do not collapse them into one.
+- **Two matchers, opposite temperaments.** `artist_matches` and `title_matches`
+  (catalogue) are strict, so a wrong Deezer track is never attached.
+  `player_artist_matches` (typed input) is generous, so a player is never robbed by
+  spelling. Do not collapse them into one.
 - **Sealed until reveal.** Never send an unrevealed card to any client — not the year,
   not the artist, not the title. Room state is fanned out per viewer rather than
   broadcast for exactly this reason; a leak here does not fail loudly, it silently
@@ -119,15 +135,20 @@ ceiling that only stops an absent player stalling the table.
 
 Deezer is primary; YouTube is the per-card fallback. Both are keyless.
 
-- **Search Deezer with field-scoped track search** (`q=artist:"..." track:"..."`).
-  `/search/artist` is unreliable for Amharic names — it answers "Teddy Afro" with
-  "Teddy Karo". This single choice moves catalogue coverage from 37% to 87%.
+- **Search Deezer with a plain query** (`q=Aster Aweke Gela Gela`) and verify every
+  result. The documented field syntax (`artist:"..." track:"..."`) worked in September
+  2026 and returns nothing at all since October 2026: Deezer ignores the prefixes, so
+  `track:"Gela Gela"` matches "Moving Gelatine Plates". `/search/artist` is unreliable
+  for Amharic names — it answers "Teddy Afro" with "Teddy Karo".
 - **Amharic-script search returns nothing.** Query by Latin transliteration; carry the
   Amharic strings alongside for display.
-- **Verify the returned artist with `artist_matches`, never a raw ratio.** A wrong
-  Deezer id does not fail loudly, it silently plays a different song.
+- **Verify the returned artist with `artist_matches` and the title with
+  `title_matches`, never a raw ratio.** A plain query ranks by popularity across every
+  artist, and a wrong Deezer id does not fail loudly, it silently plays a different song.
 - **Deezer preview URLs expire 15 minutes after issue.** Store track ids; resolve a URL
-  per round and never persist one.
+  once per round, share it with every socket, and never persist one.
+- **A round is never silent.** A card whose sources all fail to resolve is skipped for
+  the next one rather than played as "no audio".
 
 ## Typography
 

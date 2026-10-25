@@ -113,3 +113,48 @@ def player_title_matches(guess: str, answer: str) -> bool:
         normalize(guess) == normalize(answer)
         or similarity(guess, answer) >= PLAYER_FULL_MIN
     )
+
+
+# Catalogue, titles: the same song reaches Deezer under several spellings and
+# with suffixes ("Tezeta (Nostalgia)", "Erè mèla mèla"), so containment counts,
+# and so does agreeing once the vowels -- the part of a transliteration that
+# varies most (Tizita / Tezeta / Tezita) -- are set aside.
+TITLE_MIN = 0.75
+TITLE_MIN_CONTAINED_LEN = 4
+TITLE_MIN_SKELETON_LEN = 3
+
+
+def _skeleton(s: str) -> str:
+    """A normalized title with its vowels removed: 'tizita' and 'tezeta' agree."""
+    return re.sub(r"[aeiou\s]", "", s)
+
+
+def _strip_brackets(s: str) -> str:
+    return re.sub(r"[\(\[][^()\[\]]*[\)\]]", " ", s)
+
+
+def title_matches(wanted: str, found: str) -> bool:
+    """Strict-ish: is `found` a version of the song titled `wanted`?
+
+    Used when attaching a Deezer track to a card automatically. Accents and
+    punctuation are ignored, a bracketed suffix on the found title is ignored
+    ("Darign (Bonus Track)"), a title contained whole in the other counts, and
+    otherwise the two must be close -- as spelled, or with the vowels set aside.
+    """
+    a = normalize(wanted)
+    if not a:
+        return False
+    for candidate in (found, _strip_brackets(found)):
+        b = normalize(candidate)
+        if not b:
+            continue
+        if a == b:
+            return True
+        if min(len(a), len(b)) >= TITLE_MIN_CONTAINED_LEN and (a in b or b in a):
+            return True
+        if SequenceMatcher(None, a, b).ratio() >= TITLE_MIN:
+            return True
+        sa, sb = _skeleton(a), _skeleton(b)
+        if min(len(sa), len(sb)) >= TITLE_MIN_SKELETON_LEN and sa == sb:
+            return True
+    return False

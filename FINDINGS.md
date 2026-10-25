@@ -105,7 +105,7 @@ Jumbo hand-curates 300 cards, and why the deck here has to be curated too.
 
 **→ `[hitster-w8fp]` Build the deck-builder CLI · `[hitster-g1dh]` Curate the deck.**
 
-### F6 — Deezer's Amharic catalogue is good, but only via the right endpoint ✅⚠️
+### F6 — Deezer's Amharic catalogue is good, but only via the right query ✅⚠️
 
 Measured across 24 major Amharic artists, counting only playable tracks whose artist
 name actually matches the one requested:
@@ -117,11 +117,22 @@ name actually matches the one requested:
 
 **The endpoint choice decides the answer.** `/search/artist` is unreliable for these
 names — it answers "Teddy Afro" with "Teddy Karo", an unrelated artist with no playable
-tracks — while field-scoped track search returns 23 playable Teddy Afro tracks. An
-earlier revision of this document used the artist endpoint, concluded contemporary
-Amharic pop was largely absent, and was wrong. Never use `/search/artist` here.
+tracks — while track search returns 23 playable Teddy Afro tracks. An earlier revision
+of this document used the artist endpoint, concluded contemporary Amharic pop was
+largely absent, and was wrong. Never use `/search/artist` here.
 
-Remaining gaps at 87%: Gigi, Munit Mesfin, Yehune Belay. These fall back to YouTube.
+**Re-verified 2026-10-25: the field syntax has stopped working.** Every field-scoped
+query — `artist:"Aster Aweke"`, `track:"Gela Gela"`, with and without `strict=on`, on
+`/search` and `/search/track` — now returns `total: 0`, while the plain query
+`Aster Aweke` returns 290 tracks. The prefixes are no longer parsed: `track:"Gela Gela"`
+matches "Moving Gelatine Plates". Measured again across 70 artists with the plain
+query: 64 return playable, correctly-attributed tracks (91%); the misses are Chachi
+Tadesse, Munit Mesfin, Bahta Gebrehiwot, Seyfu Yohannes and a handful of names Deezer
+spells differently (Bezunesh, Shewandagne). The plain query ranks across every artist
+("Teddy Afro" leads with Teddy Robb), which is why every result is verified before use.
+
+Remaining gaps fall back to YouTube. Tikur Sew, Yasteseryal and Shemendefer — Teddy
+Afro's biggest records — are not on Deezer at all.
 
 Two further constraints:
 
@@ -237,14 +248,17 @@ time. The plumbing survived; the game did not.
 
 **Built and tested:** rooms and lobby, durable identity and reconnect, deck builder and
 SQLite storage, Deezer-primary audio with YouTube fallback, turn order, the answer card,
-70/30 scoring, the reveal, running scores and final standings. 158 tests.
+70/30 scoring, the reveal, running scores and final standings, the Deezer harvest and
+in-app year confirmation. 217 tests.
 
 **Not built:** tokens to spend, Pro/Expert modes, collaborative decks, reaction pings,
 deployment. The visual design is a first pass and is due a rework.
 
-**Still needed from a human:** the starter deck's years are unverified guesses. No API
-reports original release dates reliably — that is the whole reason the deck builder
-exists — so a person has to confirm them before the deck is fair to play with.
+**Still needed from a human:** every year in the 320-card deck is a proposal — the
+Ethiopiques recording spans for the golden era, Deezer's release dates for the digital
+era, and marked guesses where Deezer only had a reissue. No API reports original release
+dates reliably — that is the whole reason the deck builder exists — so a person confirms
+them at `/deck`, one tap each, before the deck is fair to play with.
 
 ## 7. Prior art worth reading
 
@@ -272,7 +286,7 @@ built the version described here.
 | Question | Current answer |
 |---|---|
 | Does Deezer's CDN reach Ethiopia? | **Unverified — blocking.** `[hitster-ci18]` |
-| How big is the first deck? | 80–120 cards, global/Ethiopian interleaved. `[hitster-g1dh]` |
+| How big is the first deck? | 320 cards, all Amharic, 85 artists, 1966–2026; years proposed, not yet confirmed. `[hitster-g1dh]` |
 | Which modes ship first? | Original alone. Pro needs free-text matching across two languages and transliterated Amharic titles — genuinely hard. Expert is a stretch; co-op is a different game. |
 | Voice chat: build or borrow? | **Borrow.** Run WhatsApp or Meet alongside; put a headphone reminder in the lobby or the mics will echo the music at each other. WebRTC voice would cost more than the rest of the game combined. |
 
