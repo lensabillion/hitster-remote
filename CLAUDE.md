@@ -53,6 +53,15 @@ curated result of the first harvest — 300 songs across 85 artists with the gol
 years corrected from the Ethiopiques spans — and `decks/harvest-2026-10-25.tsv` is the
 raw worksheet it was cut from.
 
+`decks/amharic-1980s-1990s.tsv` is the second cut: 85 songs that lift the two thin decades
+to 50 and 72 cards. Deezer's dates are reissue dates for all of them, so every row carries
+a note saying where its year came from — the original cassette or CD on Discogs, the
+African Cassettes archive at Mainz University, a Wikipedia discography, the artist's own
+dated releases. A note that starts with `confirmed` imports that row as confirmed, so one
+worksheet carries documented years and open proposals side by side; a year converted from
+an Ethiopian-calendar cassette date is never marked confirmed. Its artist list is
+`decks/artists-1980s-1990s.txt` and its raw worksheet `decks/harvest-1980s-1990s-2026-10-25.tsv`.
+
 Seed format is tab-separated. Artist, title and year are enough — a YouTube URL is only
 needed for songs Deezer does not carry, and a Deezer track id (column 7) skips the lookup:
 

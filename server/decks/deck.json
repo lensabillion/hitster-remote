@@ -768,6 +768,78 @@
     "added_by": "harvest"
   },
   {
+    "id": "17eac85a2117",
+    "year": 1982,
+    "year_confirmed": true,
+    "artist_latin": "Kuku Sebsibe",
+    "title_latin": "Benafkoth",
+    "artist_am": "ኩኩ ሰብስቤ",
+    "title_am": "በናፍቆትህ ነው",
+    "youtube_id": "",
+    "deezer_track_id": 2412722985,
+    "added_by": "harvest"
+  },
+  {
+    "id": "2e7907c1ff9e",
+    "year": 1982,
+    "year_confirmed": true,
+    "artist_latin": "Kuku Sebsibe",
+    "title_latin": "Dene Belew",
+    "artist_am": "ኩኩ ሰብስቤ",
+    "title_am": "ደኔ በለው",
+    "youtube_id": "",
+    "deezer_track_id": 2412723005,
+    "added_by": "harvest"
+  },
+  {
+    "id": "67531e995384",
+    "year": 1982,
+    "year_confirmed": true,
+    "artist_latin": "Kuku Sebsibe",
+    "title_latin": "Hodiye Hodiye",
+    "artist_am": "ኩኩ ሰብስቤ",
+    "title_am": "ሆድዬ ሆድዬ",
+    "youtube_id": "",
+    "deezer_track_id": 2412723025,
+    "added_by": "harvest"
+  },
+  {
+    "id": "c80fd6708f26",
+    "year": 1982,
+    "year_confirmed": true,
+    "artist_latin": "Kuku Sebsibe",
+    "title_latin": "Munaye Munaye",
+    "artist_am": "ኩኩ ሰብስቤ",
+    "title_am": "ሙናዬ ሙናዬ",
+    "youtube_id": "",
+    "deezer_track_id": 2412723045,
+    "added_by": "harvest"
+  },
+  {
+    "id": "ef6fd89d0d35",
+    "year": 1982,
+    "year_confirmed": true,
+    "artist_latin": "Kuku Sebsibe",
+    "title_latin": "Fikreh Beretabegne",
+    "artist_am": "ኩኩ ሰብስቤ",
+    "title_am": "ፍቅርህ በረታብኝ",
+    "youtube_id": "",
+    "deezer_track_id": 2412723015,
+    "added_by": "harvest"
+  },
+  {
+    "id": "0d5f59bf9124",
+    "year": 1983,
+    "year_confirmed": false,
+    "artist_latin": "Tsehaye Yohannes",
+    "title_latin": "Yaze Yaze",
+    "artist_am": "ፀሐዬ ዮሐንስ",
+    "title_am": "ያዝ ያዝ",
+    "youtube_id": "",
+    "deezer_track_id": 995397352,
+    "added_by": "harvest"
+  },
+  {
     "id": "537fc2ddab74",
     "year": 1983,
     "year_confirmed": false,
@@ -804,6 +876,66 @@
     "added_by": "harvest"
   },
   {
+    "id": "93539fc6ee8f",
+    "year": 1983,
+    "year_confirmed": false,
+    "artist_latin": "Ephrem Tamiru",
+    "title_latin": "Neylgne",
+    "artist_am": "ኤፍሬም ታምሩ",
+    "title_am": "ነይልኝ",
+    "youtube_id": "",
+    "deezer_track_id": 109752666,
+    "added_by": "harvest"
+  },
+  {
+    "id": "c3e8cabcb03a",
+    "year": 1983,
+    "year_confirmed": false,
+    "artist_latin": "Ephrem Tamiru",
+    "title_latin": "Akalie",
+    "artist_am": "ኤፍሬም ታምሩ",
+    "title_am": "አካሌ",
+    "youtube_id": "",
+    "deezer_track_id": 109752684,
+    "added_by": "harvest"
+  },
+  {
+    "id": "df31013f91f9",
+    "year": 1983,
+    "year_confirmed": false,
+    "artist_latin": "Tsehaye Yohannes",
+    "title_latin": "Bechengneten New",
+    "artist_am": "ፀሐዬ ዮሐንስ",
+    "title_am": "",
+    "youtube_id": "",
+    "deezer_track_id": 995397382,
+    "added_by": "harvest"
+  },
+  {
+    "id": "f5978091a27b",
+    "year": 1983,
+    "year_confirmed": false,
+    "artist_latin": "Tsehaye Yohannes",
+    "title_latin": "Balem Lay",
+    "artist_am": "ፀሐዬ ዮሐንስ",
+    "title_am": "",
+    "youtube_id": "",
+    "deezer_track_id": 995397422,
+    "added_by": "harvest"
+  },
+  {
+    "id": "f755ced553f2",
+    "year": 1983,
+    "year_confirmed": false,
+    "artist_latin": "Tsehaye Yohannes",
+    "title_latin": "Keta Alugne",
+    "artist_am": "ፀሐዬ ዮሐንስ",
+    "title_am": "",
+    "youtube_id": "",
+    "deezer_track_id": 995397412,
+    "added_by": "harvest"
+  },
+  {
     "id": "9414d8d6a37e",
     "year": 1984,
     "year_confirmed": false,
@@ -813,6 +945,54 @@
     "title_am": "በሰው ላይ ሰው መውደድ",
     "youtube_id": "",
     "deezer_track_id": 995397402,
+    "added_by": "harvest"
+  },
+  {
+    "id": "0fdce046f0af",
+    "year": 1985,
+    "year_confirmed": true,
+    "artist_latin": "Hailu Mergia",
+    "title_latin": "Belew Beduby",
+    "artist_am": "ኃይሉ መርጊያ",
+    "title_am": "በለው በዱብዬ",
+    "youtube_id": "",
+    "deezer_track_id": 67882208,
+    "added_by": "harvest"
+  },
+  {
+    "id": "28e69ef5e488",
+    "year": 1985,
+    "year_confirmed": true,
+    "artist_latin": "Hailu Mergia",
+    "title_latin": "Shemonmuanaye",
+    "artist_am": "ኃይሉ መርጊያ",
+    "title_am": "ሸሞንሟናዬ",
+    "youtube_id": "",
+    "deezer_track_id": 67882199,
+    "added_by": "harvest"
+  },
+  {
+    "id": "430b084c7463",
+    "year": 1985,
+    "year_confirmed": true,
+    "artist_latin": "Hailu Mergia",
+    "title_latin": "Amrew Demkew",
+    "artist_am": "ኃይሉ መርጊያ",
+    "title_am": "አምረው ደምቀው",
+    "youtube_id": "",
+    "deezer_track_id": 67882204,
+    "added_by": "harvest"
+  },
+  {
+    "id": "72a6eed2798a",
+    "year": 1985,
+    "year_confirmed": false,
+    "artist_latin": "Neway Debebe",
+    "title_latin": "Yetekemet Abeba",
+    "artist_am": "ነዋይ ደበበ",
+    "title_am": "የጥቅምት አበባ",
+    "youtube_id": "",
+    "deezer_track_id": 2672331312,
     "added_by": "harvest"
   },
   {
@@ -828,6 +1008,42 @@
     "added_by": "harvest"
   },
   {
+    "id": "991160438214",
+    "year": 1985,
+    "year_confirmed": true,
+    "artist_latin": "Hailu Mergia",
+    "title_latin": "Shilela",
+    "artist_am": "ኃይሉ መርጊያ",
+    "title_am": "ሽለላ",
+    "youtube_id": "",
+    "deezer_track_id": 67882209,
+    "added_by": "harvest"
+  },
+  {
+    "id": "c548cfb83630",
+    "year": 1985,
+    "year_confirmed": false,
+    "artist_latin": "Neway Debebe",
+    "title_latin": "Enetarek",
+    "artist_am": "ነዋይ ደበበ",
+    "title_am": "እኛው እንታረቅ",
+    "youtube_id": "",
+    "deezer_track_id": 2672331372,
+    "added_by": "harvest"
+  },
+  {
+    "id": "db3c76e7cee8",
+    "year": 1985,
+    "year_confirmed": false,
+    "artist_latin": "Tewodros Tadesse",
+    "title_latin": "Lubanjaye",
+    "artist_am": "ቴዎድሮስ ታደሰ",
+    "title_am": "ሉባንጃዬ",
+    "youtube_id": "",
+    "deezer_track_id": 76956329,
+    "added_by": "harvest"
+  },
+  {
     "id": "f094bdef8908",
     "year": 1985,
     "year_confirmed": false,
@@ -840,6 +1056,54 @@
     "added_by": "harvest"
   },
   {
+    "id": "f5a96deab140",
+    "year": 1985,
+    "year_confirmed": false,
+    "artist_latin": "Neway Debebe",
+    "title_latin": "Eshet Belaw",
+    "artist_am": "ነዋይ ደበበ",
+    "title_am": "እሸት በላሁኝ",
+    "youtube_id": "",
+    "deezer_track_id": 2672331322,
+    "added_by": "harvest"
+  },
+  {
+    "id": "135ba709cf25",
+    "year": 1986,
+    "year_confirmed": false,
+    "artist_latin": "Hirut Bekele",
+    "title_latin": "Fikir New",
+    "artist_am": "ሂሩት በቀለ",
+    "title_am": "ፍቅር ነው",
+    "youtube_id": "",
+    "deezer_track_id": 3477305961,
+    "added_by": "harvest"
+  },
+  {
+    "id": "1ffc9ca45eee",
+    "year": 1986,
+    "year_confirmed": false,
+    "artist_latin": "Hirut Bekele",
+    "title_latin": "Zares Enew Metaw",
+    "artist_am": "ሂሩት በቀለ",
+    "title_am": "",
+    "youtube_id": "",
+    "deezer_track_id": 3477306041,
+    "added_by": "harvest"
+  },
+  {
+    "id": "39f893c0898b",
+    "year": 1986,
+    "year_confirmed": false,
+    "artist_latin": "Hirut Bekele",
+    "title_latin": "Nefs Neger",
+    "artist_am": "ሂሩት በቀለ",
+    "title_am": "ነፍስ ነገር",
+    "youtube_id": "",
+    "deezer_track_id": 3477305951,
+    "added_by": "harvest"
+  },
+  {
     "id": "249f95217613",
     "year": 1988,
     "year_confirmed": false,
@@ -849,6 +1113,42 @@
     "title_am": "ሙሉ ጎጃም",
     "youtube_id": "",
     "deezer_track_id": 78276594,
+    "added_by": "harvest"
+  },
+  {
+    "id": "7064302b56ee",
+    "year": 1988,
+    "year_confirmed": false,
+    "artist_latin": "Hirut Bekele",
+    "title_latin": "Yenew Tesfa",
+    "artist_am": "ሂሩት በቀለ",
+    "title_am": "የኔው ተስፋ",
+    "youtube_id": "",
+    "deezer_track_id": 3483297221,
+    "added_by": "harvest"
+  },
+  {
+    "id": "86945a29862f",
+    "year": 1988,
+    "year_confirmed": false,
+    "artist_latin": "Hirut Bekele",
+    "title_latin": "Irk Andnew",
+    "artist_am": "ሂሩት በቀለ",
+    "title_am": "",
+    "youtube_id": "",
+    "deezer_track_id": 3483297211,
+    "added_by": "harvest"
+  },
+  {
+    "id": "92448b1e5e43",
+    "year": 1988,
+    "year_confirmed": false,
+    "artist_latin": "Hirut Bekele",
+    "title_latin": "Yene Alem",
+    "artist_am": "ሂሩት በቀለ",
+    "title_am": "የኔ ዓለም",
+    "youtube_id": "",
+    "deezer_track_id": 3483297141,
     "added_by": "harvest"
   },
   {
@@ -876,6 +1176,18 @@
     "added_by": "harvest"
   },
   {
+    "id": "05b0b3f4f49d",
+    "year": 1989,
+    "year_confirmed": false,
+    "artist_latin": "Tsehaye Yohannes",
+    "title_latin": "Yesew Neger",
+    "artist_am": "ፀሐዬ ዮሐንስ",
+    "title_am": "የሰው ነገር",
+    "youtube_id": "",
+    "deezer_track_id": 1653581722,
+    "added_by": "harvest"
+  },
+  {
     "id": "333b4edd1227",
     "year": 1989,
     "year_confirmed": false,
@@ -888,6 +1200,138 @@
     "added_by": "starter"
   },
   {
+    "id": "3d6e3a498271",
+    "year": 1989,
+    "year_confirmed": true,
+    "artist_latin": "Aster Aweke",
+    "title_latin": "Selale",
+    "artist_am": "አስቴር አወቀ",
+    "title_am": "ሰላሌ",
+    "youtube_id": "",
+    "deezer_track_id": 11324137,
+    "added_by": "harvest"
+  },
+  {
+    "id": "46237e949697",
+    "year": 1989,
+    "year_confirmed": false,
+    "artist_latin": "Tewodros Tadesse",
+    "title_latin": "Ketemaw",
+    "artist_am": "ቴዎድሮስ ታደሰ",
+    "title_am": "በከተማው",
+    "youtube_id": "",
+    "deezer_track_id": 2079628827,
+    "added_by": "harvest"
+  },
+  {
+    "id": "5437b41b4c89",
+    "year": 1989,
+    "year_confirmed": false,
+    "artist_latin": "Tsehaye Yohannes",
+    "title_latin": "Fezez Yadergegnal",
+    "artist_am": "ፀሐዬ ዮሐንስ",
+    "title_am": "ፈዘዝ ያደርገኛል",
+    "youtube_id": "",
+    "deezer_track_id": 1653581702,
+    "added_by": "harvest"
+  },
+  {
+    "id": "6120a4f93303",
+    "year": 1989,
+    "year_confirmed": false,
+    "artist_latin": "Yehunie Belay",
+    "title_latin": "Ehehe",
+    "artist_am": "የሁኔ በላይ",
+    "title_am": "",
+    "youtube_id": "",
+    "deezer_track_id": 374780101,
+    "added_by": "harvest"
+  },
+  {
+    "id": "6741c50c4306",
+    "year": 1989,
+    "year_confirmed": false,
+    "artist_latin": "Yehunie Belay",
+    "title_latin": "Che Belaw",
+    "artist_am": "የሁኔ በላይ",
+    "title_am": "ቼ በለው",
+    "youtube_id": "",
+    "deezer_track_id": 374780131,
+    "added_by": "harvest"
+  },
+  {
+    "id": "6c124358ced5",
+    "year": 1989,
+    "year_confirmed": true,
+    "artist_latin": "Aster Aweke",
+    "title_latin": "Wolela",
+    "artist_am": "አስቴር አወቀ",
+    "title_am": "ወለላ",
+    "youtube_id": "",
+    "deezer_track_id": 11324136,
+    "added_by": "harvest"
+  },
+  {
+    "id": "7aee5a3984aa",
+    "year": 1989,
+    "year_confirmed": true,
+    "artist_latin": "Aster Aweke",
+    "title_latin": "Teyim",
+    "artist_am": "አስቴር አወቀ",
+    "title_am": "ጠይም",
+    "youtube_id": "",
+    "deezer_track_id": 11324132,
+    "added_by": "harvest"
+  },
+  {
+    "id": "b54695c1b998",
+    "year": 1989,
+    "year_confirmed": false,
+    "artist_latin": "Tsehaye Yohannes",
+    "title_latin": "Teze Teze Alegne",
+    "artist_am": "ፀሐዬ ዮሐንስ",
+    "title_am": "ትዝ ትዝ አለኝ",
+    "youtube_id": "",
+    "deezer_track_id": 1653581752,
+    "added_by": "harvest"
+  },
+  {
+    "id": "b887ceaf4bd8",
+    "year": 1989,
+    "year_confirmed": false,
+    "artist_latin": "Yehunie Belay",
+    "title_latin": "Yagere Lij",
+    "artist_am": "የሁኔ በላይ",
+    "title_am": "ያገሬ ልጅ",
+    "youtube_id": "",
+    "deezer_track_id": 374780061,
+    "added_by": "harvest"
+  },
+  {
+    "id": "bb1d01ce58e6",
+    "year": 1989,
+    "year_confirmed": true,
+    "artist_latin": "Aster Aweke",
+    "title_latin": "Sebebu",
+    "artist_am": "አስቴር አወቀ",
+    "title_am": "ሰበቡ",
+    "youtube_id": "",
+    "deezer_track_id": 11324129,
+    "added_by": "harvest"
+  },
+  {
+    "id": "cd24269b9c0c",
+    "year": 1989,
+    "year_confirmed": true,
+    "artist_latin": "Aster Aweke",
+    "title_latin": "Sengno",
+    "artist_am": "አስቴር አወቀ",
+    "title_am": "ሰኞ",
+    "youtube_id": "",
+    "deezer_track_id": 11324133,
+    "added_by": "harvest"
+  },
+  {
     "id": "ec553336e742",
     "year": 1989,
     "year_confirmed": false,
@@ -897,6 +1341,30 @@
     "title_am": "ትዝታ",
     "youtube_id": "",
     "deezer_track_id": 11324131,
+    "added_by": "harvest"
+  },
+  {
+    "id": "f476e5c81cbe",
+    "year": 1989,
+    "year_confirmed": false,
+    "artist_latin": "Yehunie Belay",
+    "title_latin": "Yale Guazu",
+    "artist_am": "የሁኔ በላይ",
+    "title_am": "",
+    "youtube_id": "",
+    "deezer_track_id": 374780111,
+    "added_by": "harvest"
+  },
+  {
+    "id": "f8f99a391664",
+    "year": 1989,
+    "year_confirmed": false,
+    "artist_latin": "Tsehaye Yohannes",
+    "title_latin": "Tebale Ende",
+    "artist_am": "ፀሐዬ ዮሐንስ",
+    "title_am": "",
+    "youtube_id": "",
+    "deezer_track_id": 1653581692,
     "added_by": "harvest"
   },
   {
@@ -972,6 +1440,30 @@
     "added_by": "starter"
   },
   {
+    "id": "1f6a2b923da5",
+    "year": 1991,
+    "year_confirmed": false,
+    "artist_latin": "Tsegaye Eshetu",
+    "title_latin": "Sendekalama",
+    "artist_am": "ፀጋዬ እሸቱ",
+    "title_am": "ሰንደቅ ዓላማ",
+    "youtube_id": "",
+    "deezer_track_id": 116313596,
+    "added_by": "harvest"
+  },
+  {
+    "id": "34609cc55e61",
+    "year": 1991,
+    "year_confirmed": true,
+    "artist_latin": "Aster Aweke",
+    "title_latin": "Bati",
+    "artist_am": "አስቴር አወቀ",
+    "title_am": "ባቲ",
+    "youtube_id": "",
+    "deezer_track_id": 11169918,
+    "added_by": "harvest"
+  },
+  {
     "id": "47b184b7df08",
     "year": 1991,
     "year_confirmed": false,
@@ -984,6 +1476,18 @@
     "added_by": "harvest"
   },
   {
+    "id": "6aef0edf080a",
+    "year": 1991,
+    "year_confirmed": true,
+    "artist_latin": "Aster Aweke",
+    "title_latin": "Bitchengna",
+    "artist_am": "አስቴር አወቀ",
+    "title_am": "ብቸኛ",
+    "youtube_id": "",
+    "deezer_track_id": 11169921,
+    "added_by": "harvest"
+  },
+  {
     "id": "9ae2279aeaf1",
     "year": 1991,
     "year_confirmed": false,
@@ -993,6 +1497,42 @@
     "title_am": "ሀገሬ",
     "youtube_id": "",
     "deezer_track_id": 380916341,
+    "added_by": "harvest"
+  },
+  {
+    "id": "9e199ab1c7f5",
+    "year": 1991,
+    "year_confirmed": true,
+    "artist_latin": "Aster Aweke",
+    "title_latin": "Yedi Gosh",
+    "artist_am": "አስቴር አወቀ",
+    "title_am": "የዲጎሽ",
+    "youtube_id": "",
+    "deezer_track_id": 11169914,
+    "added_by": "harvest"
+  },
+  {
+    "id": "c2334560ccba",
+    "year": 1991,
+    "year_confirmed": true,
+    "artist_latin": "Aster Aweke",
+    "title_latin": "Tchewata",
+    "artist_am": "አስቴር አወቀ",
+    "title_am": "ጨዋታ",
+    "youtube_id": "",
+    "deezer_track_id": 11169919,
+    "added_by": "harvest"
+  },
+  {
+    "id": "ecb0fbee26e7",
+    "year": 1991,
+    "year_confirmed": true,
+    "artist_latin": "Aster Aweke",
+    "title_latin": "Eyoha",
+    "artist_am": "አስቴር አወቀ",
+    "title_am": "ኢዮሃ",
+    "youtube_id": "",
+    "deezer_track_id": 11169920,
     "added_by": "harvest"
   },
   {
@@ -1020,6 +1560,42 @@
     "added_by": "harvest"
   },
   {
+    "id": "788a0718caac",
+    "year": 1992,
+    "year_confirmed": false,
+    "artist_latin": "Yehunie Belay",
+    "title_latin": "Ker Alegn",
+    "artist_am": "የሁኔ በላይ",
+    "title_am": "",
+    "youtube_id": "",
+    "deezer_track_id": 556165852,
+    "added_by": "harvest"
+  },
+  {
+    "id": "c4c09f11f4ad",
+    "year": 1992,
+    "year_confirmed": false,
+    "artist_latin": "Yehunie Belay",
+    "title_latin": "Zoma",
+    "artist_am": "የሁኔ በላይ",
+    "title_am": "ዞማ",
+    "youtube_id": "",
+    "deezer_track_id": 556165922,
+    "added_by": "harvest"
+  },
+  {
+    "id": "d297afb363cc",
+    "year": 1992,
+    "year_confirmed": false,
+    "artist_latin": "Yehunie Belay",
+    "title_latin": "Gibi Gibi",
+    "artist_am": "የሁኔ በላይ",
+    "title_am": "ግቢ ግቢ",
+    "youtube_id": "",
+    "deezer_track_id": 556165862,
+    "added_by": "harvest"
+  },
+  {
     "id": "dce30f56256d",
     "year": 1992,
     "year_confirmed": false,
@@ -1029,6 +1605,18 @@
     "title_am": "በመላ በሰበብ",
     "youtube_id": "",
     "deezer_track_id": 1682041837,
+    "added_by": "harvest"
+  },
+  {
+    "id": "75b7a2bcf045",
+    "year": 1993,
+    "year_confirmed": true,
+    "artist_latin": "Aster Aweke",
+    "title_latin": "Yene Konjo",
+    "artist_am": "አስቴር አወቀ",
+    "title_am": "የኔ ቆንጆ",
+    "youtube_id": "",
+    "deezer_track_id": 69159110,
     "added_by": "harvest"
   },
   {
@@ -1044,6 +1632,18 @@
     "added_by": "harvest"
   },
   {
+    "id": "d807983c4256",
+    "year": 1993,
+    "year_confirmed": false,
+    "artist_latin": "Ephrem Tamiru",
+    "title_latin": "Ken Sitel",
+    "artist_am": "ኤፍሬም ታምሩ",
+    "title_am": "ቀን ሲጥል",
+    "youtube_id": "",
+    "deezer_track_id": 2293414795,
+    "added_by": "harvest"
+  },
+  {
     "id": "dc0df681c17d",
     "year": 1993,
     "year_confirmed": false,
@@ -1053,6 +1653,78 @@
     "title_am": "ቀን ባይኔ",
     "youtube_id": "IQaCJX5owBs",
     "deezer_track_id": 69159111,
+    "added_by": "harvest"
+  },
+  {
+    "id": "5e21d6118268",
+    "year": 1994,
+    "year_confirmed": false,
+    "artist_latin": "Yehunie Belay",
+    "title_latin": "Alo Lulo",
+    "artist_am": "የሁኔ በላይ",
+    "title_am": "አሎ ሉሎ",
+    "youtube_id": "",
+    "deezer_track_id": 1392930312,
+    "added_by": "harvest"
+  },
+  {
+    "id": "aee3af314af5",
+    "year": 1994,
+    "year_confirmed": false,
+    "artist_latin": "Hamelmal Abate",
+    "title_latin": "Ermehin Awuta",
+    "artist_am": "ሐመልማል አባተ",
+    "title_am": "",
+    "youtube_id": "",
+    "deezer_track_id": 1201691132,
+    "added_by": "harvest"
+  },
+  {
+    "id": "b0bbf4f31540",
+    "year": 1994,
+    "year_confirmed": false,
+    "artist_latin": "Hamelmal Abate",
+    "title_latin": "Bechegna",
+    "artist_am": "ሐመልማል አባተ",
+    "title_am": "ብቸኛ",
+    "youtube_id": "",
+    "deezer_track_id": 1201691212,
+    "added_by": "harvest"
+  },
+  {
+    "id": "bdc2fc000176",
+    "year": 1994,
+    "year_confirmed": false,
+    "artist_latin": "Hamelmal Abate",
+    "title_latin": "Kalkidan",
+    "artist_am": "ሐመልማል አባተ",
+    "title_am": "ቃል ኪዳን",
+    "youtube_id": "",
+    "deezer_track_id": 1201691162,
+    "added_by": "harvest"
+  },
+  {
+    "id": "c9f2396dd1f8",
+    "year": 1994,
+    "year_confirmed": false,
+    "artist_latin": "Hamelmal Abate",
+    "title_latin": "Yaltewata Fikir",
+    "artist_am": "ሐመልማል አባተ",
+    "title_am": "ያልተዋጣ ፍቅር",
+    "youtube_id": "",
+    "deezer_track_id": 1201691152,
+    "added_by": "harvest"
+  },
+  {
+    "id": "d42dc1b55a65",
+    "year": 1994,
+    "year_confirmed": false,
+    "artist_latin": "Yehunie Belay",
+    "title_latin": "Emye Monemone",
+    "artist_am": "የሁኔ በላይ",
+    "title_am": "",
+    "youtube_id": "",
+    "deezer_track_id": 1392930332,
     "added_by": "harvest"
   },
   {
@@ -1092,6 +1764,54 @@
     "added_by": "harvest"
   },
   {
+    "id": "73f93df6215f",
+    "year": 1995,
+    "year_confirmed": false,
+    "artist_latin": "Dawit Mellesse",
+    "title_latin": "Derbabaye",
+    "artist_am": "ዳዊት መለሰ",
+    "title_am": "ደርባባዬ",
+    "youtube_id": "",
+    "deezer_track_id": 3586238441,
+    "added_by": "harvest"
+  },
+  {
+    "id": "8b0112e077d5",
+    "year": 1995,
+    "year_confirmed": false,
+    "artist_latin": "Dawit Mellesse",
+    "title_latin": "Kanchi Lela",
+    "artist_am": "ዳዊት መለሰ",
+    "title_am": "ካንቺ ሌላ",
+    "youtube_id": "",
+    "deezer_track_id": 3586238451,
+    "added_by": "harvest"
+  },
+  {
+    "id": "d1d436840a72",
+    "year": 1995,
+    "year_confirmed": false,
+    "artist_latin": "Dawit Mellesse",
+    "title_latin": "Lijnetish Alfwal",
+    "artist_am": "ዳዊት መለሰ",
+    "title_am": "ልጅነትሽ አልፏል",
+    "youtube_id": "",
+    "deezer_track_id": 3586238471,
+    "added_by": "harvest"
+  },
+  {
+    "id": "04f4c5a5ace4",
+    "year": 1996,
+    "year_confirmed": true,
+    "artist_latin": "Tsehaye Yohannes",
+    "title_latin": "Koyehu Sasibishi",
+    "artist_am": "ፀሐዬ ዮሐንስ",
+    "title_am": "ቆየሁ ሳስብሽ",
+    "youtube_id": "",
+    "deezer_track_id": 1046852712,
+    "added_by": "harvest"
+  },
+  {
     "id": "296a2244ebfa",
     "year": 1996,
     "year_confirmed": false,
@@ -1101,6 +1821,30 @@
     "title_am": "የትነበርሽ",
     "youtube_id": "",
     "deezer_track_id": 1046852642,
+    "added_by": "harvest"
+  },
+  {
+    "id": "405b21773cfa",
+    "year": 1996,
+    "year_confirmed": false,
+    "artist_latin": "Ephrem Tamiru",
+    "title_latin": "Endet Nesh Hagere",
+    "artist_am": "ኤፍሬም ታምሩ",
+    "title_am": "እንዴት ነሽ ሀገሬ",
+    "youtube_id": "",
+    "deezer_track_id": 2293414775,
+    "added_by": "harvest"
+  },
+  {
+    "id": "4aa1ec209dc1",
+    "year": 1996,
+    "year_confirmed": true,
+    "artist_latin": "Tsehaye Yohannes",
+    "title_latin": "Tikur Abebawoch",
+    "artist_am": "ፀሐዬ ዮሐንስ",
+    "title_am": "ጥቁር አበባዎች",
+    "youtube_id": "",
+    "deezer_track_id": 1046852662,
     "added_by": "harvest"
   },
   {
@@ -1128,6 +1872,30 @@
     "added_by": "harvest"
   },
   {
+    "id": "c4d4146ed3fd",
+    "year": 1996,
+    "year_confirmed": true,
+    "artist_latin": "Tsehaye Yohannes",
+    "title_latin": "Abayin Zoresh",
+    "artist_am": "ፀሐዬ ዮሐንስ",
+    "title_am": "አባይን ዞረሽ",
+    "youtube_id": "",
+    "deezer_track_id": 1046852652,
+    "added_by": "harvest"
+  },
+  {
+    "id": "e3f03912d252",
+    "year": 1996,
+    "year_confirmed": true,
+    "artist_latin": "Tsehaye Yohannes",
+    "title_latin": "Site Engidih",
+    "artist_am": "ፀሐዬ ዮሐንስ",
+    "title_am": "",
+    "youtube_id": "",
+    "deezer_track_id": 1046852682,
+    "added_by": "harvest"
+  },
+  {
     "id": "ff42504509fc",
     "year": 1996,
     "year_confirmed": false,
@@ -1137,6 +1905,102 @@
     "title_am": "",
     "youtube_id": "",
     "deezer_track_id": 69821122,
+    "added_by": "harvest"
+  },
+  {
+    "id": "182a61799bd4",
+    "year": 1997,
+    "year_confirmed": true,
+    "artist_latin": "Tewodros Tadesse",
+    "title_latin": "Girma Mogese",
+    "artist_am": "ቴዎድሮስ ታደሰ",
+    "title_am": "ግርማ ሞገስ",
+    "youtube_id": "",
+    "deezer_track_id": 69375498,
+    "added_by": "harvest"
+  },
+  {
+    "id": "3951de9f8ebf",
+    "year": 1997,
+    "year_confirmed": true,
+    "artist_latin": "Tewodros Tadesse",
+    "title_latin": "Albo",
+    "artist_am": "ቴዎድሮስ ታደሰ",
+    "title_am": "አልቦ",
+    "youtube_id": "",
+    "deezer_track_id": 69375495,
+    "added_by": "harvest"
+  },
+  {
+    "id": "4d88064c64a7",
+    "year": 1997,
+    "year_confirmed": false,
+    "artist_latin": "Mahmoud Ahmed",
+    "title_latin": "Ene Berdognal",
+    "artist_am": "ማህሙድ አህመድ",
+    "title_am": "እኔ በርዶኛል",
+    "youtube_id": "",
+    "deezer_track_id": 10715067,
+    "added_by": "harvest"
+  },
+  {
+    "id": "6e9868ff7f41",
+    "year": 1997,
+    "year_confirmed": false,
+    "artist_latin": "Mahmoud Ahmed",
+    "title_latin": "Abet",
+    "artist_am": "ማህሙድ አህመድ",
+    "title_am": "አቤት",
+    "youtube_id": "",
+    "deezer_track_id": 10715065,
+    "added_by": "harvest"
+  },
+  {
+    "id": "9e76a7d41faa",
+    "year": 1997,
+    "year_confirmed": true,
+    "artist_latin": "Tewodros Tadesse",
+    "title_latin": "Tena-Adam",
+    "artist_am": "ቴዎድሮስ ታደሰ",
+    "title_am": "ጤና አዳም",
+    "youtube_id": "",
+    "deezer_track_id": 69375494,
+    "added_by": "harvest"
+  },
+  {
+    "id": "aea9a7d28e6c",
+    "year": 1997,
+    "year_confirmed": false,
+    "artist_latin": "Mahmoud Ahmed",
+    "title_latin": "Bechayen Befiker",
+    "artist_am": "ማህሙድ አህመድ",
+    "title_am": "ብቻዬን በፍቅር",
+    "youtube_id": "",
+    "deezer_track_id": 10715066,
+    "added_by": "harvest"
+  },
+  {
+    "id": "d21ffeacfab0",
+    "year": 1997,
+    "year_confirmed": false,
+    "artist_latin": "Mahmoud Ahmed",
+    "title_latin": "Nafkot",
+    "artist_am": "ማህሙድ አህመድ",
+    "title_am": "ናፍቆት",
+    "youtube_id": "",
+    "deezer_track_id": 10715069,
+    "added_by": "harvest"
+  },
+  {
+    "id": "0ed130f6f31f",
+    "year": 1998,
+    "year_confirmed": true,
+    "artist_latin": "Gigi",
+    "title_latin": "Eske Meche",
+    "artist_am": "ጂጂ",
+    "title_am": "እስከ መቼ",
+    "youtube_id": "",
+    "deezer_track_id": 3876757801,
     "added_by": "harvest"
   },
   {
@@ -1152,6 +2016,30 @@
     "added_by": "harvest"
   },
   {
+    "id": "3860e92456f3",
+    "year": 1998,
+    "year_confirmed": true,
+    "artist_latin": "Gigi",
+    "title_latin": "Gela",
+    "artist_am": "ጂጂ",
+    "title_am": "ገላ",
+    "youtube_id": "",
+    "deezer_track_id": 3876757861,
+    "added_by": "harvest"
+  },
+  {
+    "id": "3c28b1ceb10f",
+    "year": 1998,
+    "year_confirmed": true,
+    "artist_latin": "Gigi",
+    "title_latin": "Salayew",
+    "artist_am": "ጂጂ",
+    "title_am": "ሳላየው",
+    "youtube_id": "",
+    "deezer_track_id": 3876757821,
+    "added_by": "harvest"
+  },
+  {
     "id": "4c0494180c54",
     "year": 1998,
     "year_confirmed": false,
@@ -1161,6 +2049,30 @@
     "title_am": "ብርድ ብርድ ይለኛል",
     "youtube_id": "",
     "deezer_track_id": 2818927202,
+    "added_by": "harvest"
+  },
+  {
+    "id": "516b7fe5c9cf",
+    "year": 1998,
+    "year_confirmed": true,
+    "artist_latin": "Gigi",
+    "title_latin": "Abo Shemane",
+    "artist_am": "ጂጂ",
+    "title_am": "አቦ ሸማኔ",
+    "youtube_id": "",
+    "deezer_track_id": 3876757841,
+    "added_by": "harvest"
+  },
+  {
+    "id": "53b6803fece0",
+    "year": 1998,
+    "year_confirmed": true,
+    "artist_latin": "Elias Tebabal",
+    "title_latin": "Abejehu",
+    "artist_am": "ኤልያስ ተባባል",
+    "title_am": "አበጀሁ",
+    "youtube_id": "",
+    "deezer_track_id": 3713210242,
     "added_by": "harvest"
   },
   {
@@ -1176,6 +2088,30 @@
     "added_by": "harvest"
   },
   {
+    "id": "843ffc51ca6d",
+    "year": 1998,
+    "year_confirmed": false,
+    "artist_latin": "Yehunie Belay",
+    "title_latin": "Kim Kimuwan",
+    "artist_am": "የሁኔ በላይ",
+    "title_am": "",
+    "youtube_id": "",
+    "deezer_track_id": 813206252,
+    "added_by": "harvest"
+  },
+  {
+    "id": "f5db2e54da94",
+    "year": 1998,
+    "year_confirmed": true,
+    "artist_latin": "Gigi",
+    "title_latin": "Ande Ethiopia",
+    "artist_am": "ጂጂ",
+    "title_am": "አንድ ኢትዮጵያ",
+    "youtube_id": "",
+    "deezer_track_id": 3876757791,
+    "added_by": "harvest"
+  },
+  {
     "id": "f872bfcce2b6",
     "year": 1998,
     "year_confirmed": false,
@@ -1185,6 +2121,18 @@
     "title_am": "ሸጌዬ",
     "youtube_id": "",
     "deezer_track_id": 2166837097,
+    "added_by": "harvest"
+  },
+  {
+    "id": "f8c956985b53",
+    "year": 1998,
+    "year_confirmed": false,
+    "artist_latin": "Yehunie Belay",
+    "title_latin": "Kuku Melekote",
+    "artist_am": "የሁኔ በላይ",
+    "title_am": "ኩኩ መለኮቴ",
+    "youtube_id": "",
+    "deezer_track_id": 813206232,
     "added_by": "harvest"
   },
   {
@@ -1200,6 +2148,30 @@
     "added_by": "harvest"
   },
   {
+    "id": "526cb851ecdd",
+    "year": 1999,
+    "year_confirmed": true,
+    "artist_latin": "Elias Tebabal",
+    "title_latin": "Mamaye",
+    "artist_am": "ኤልያስ ተባባል",
+    "title_am": "ማማዬ",
+    "youtube_id": "",
+    "deezer_track_id": 3323916361,
+    "added_by": "harvest"
+  },
+  {
+    "id": "60f45370f0b4",
+    "year": 1999,
+    "year_confirmed": false,
+    "artist_latin": "Dawit Mellesse",
+    "title_latin": "Bichashn",
+    "artist_am": "ዳዊት መለሰ",
+    "title_am": "ብቻሽን",
+    "youtube_id": "",
+    "deezer_track_id": 3585710451,
+    "added_by": "harvest"
+  },
+  {
     "id": "73df31ab6252",
     "year": 1999,
     "year_confirmed": false,
@@ -1209,6 +2181,54 @@
     "title_am": "",
     "youtube_id": "",
     "deezer_track_id": 3090401541,
+    "added_by": "harvest"
+  },
+  {
+    "id": "bfea0a031260",
+    "year": 1999,
+    "year_confirmed": false,
+    "artist_latin": "Dawit Mellesse",
+    "title_latin": "Keremela",
+    "artist_am": "ዳዊት መለሰ",
+    "title_am": "ከረሜላ",
+    "youtube_id": "",
+    "deezer_track_id": 3585710541,
+    "added_by": "harvest"
+  },
+  {
+    "id": "e64b9370191d",
+    "year": 1999,
+    "year_confirmed": false,
+    "artist_latin": "Dawit Mellesse",
+    "title_latin": "Diresh Kedega",
+    "artist_am": "ዳዊት መለሰ",
+    "title_am": "",
+    "youtube_id": "",
+    "deezer_track_id": 3585710531,
+    "added_by": "harvest"
+  },
+  {
+    "id": "e92afc403013",
+    "year": 1999,
+    "year_confirmed": true,
+    "artist_latin": "Elias Tebabal",
+    "title_latin": "Tewdag",
+    "artist_am": "ኤልያስ ተባባል",
+    "title_am": "ተውዳጅ",
+    "youtube_id": "",
+    "deezer_track_id": 3713210232,
+    "added_by": "harvest"
+  },
+  {
+    "id": "eb0766a32648",
+    "year": 1999,
+    "year_confirmed": false,
+    "artist_latin": "Dawit Mellesse",
+    "title_latin": "Suse Nesh",
+    "artist_am": "ዳዊት መለሰ",
+    "title_am": "ሱሴ ነሽ",
+    "youtube_id": "",
+    "deezer_track_id": 3585710521,
     "added_by": "harvest"
   },
   {

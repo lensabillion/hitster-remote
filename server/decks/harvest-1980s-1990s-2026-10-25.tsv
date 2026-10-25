@@ -1,0 +1,1179 @@
+# Harvested from Deezer. Every YEAR here is a PROPOSAL -- the date of the
+# release Deezer has the song on -- with its evidence in the comment:
+#   high    the release names its own year in the title
+#   medium  an ordinary release, or a span of years the song falls in;
+#           right for digital-era songs, often a reissue for anything older
+#   low     a compilation or a bulk-upload date: NOT the song's year
+# Fix the years, delete songs nobody would recognise, then:
+#     python tools/build_deck.py import decks/harvest-1980s-1990s-2026-10-25.tsv
+#
+# year <TAB> artist_latin <TAB> title_latin <TAB> artist_am <TAB> title_am <TAB> youtube_url <TAB> deezer_track_id <TAB> # confidence · evidence
+
+# Aster Aweke · አስቴር አወቀ
+2026	Aster Aweke	Bayne Mulu	አስቴር አወቀ			4138912021	# low · Gela Gela: Aster's Ballads #2 · compilation · rank 195404
+2026	Aster Aweke	Yeserge Tzitaw	አስቴር አወቀ			4138912031	# low · Gela Gela: Aster's Ballads #2 · compilation · rank 194387
+2026	Aster Aweke	Magignetenim Enja	አስቴር አወቀ			4138912051	# low · Gela Gela: Aster's Ballads #2 · compilation · rank 194386
+2026	Aster Aweke	Wenfit Mulu Lomie	አስቴር አወቀ			4138912041	# low · Gela Gela: Aster's Ballads #2 · compilation · rank 177560
+2026	Aster Aweke	Kehulu Asbelche	አስቴር አወቀ			4138912081	# low · Gela Gela: Aster's Ballads #2 · compilation · rank 162620
+2017	Aster Aweke	Chereka Wubetish	አስቴር አወቀ			4138912061	# low · Chereka · bulk · rank 149621
+2026	Aster Aweke	Madga Mulu Wuha	አስቴር አወቀ			4138912071	# low · Gela Gela: Aster's Ballads #2 · compilation · rank 134556
+2026	Aster Aweke	Lemedk Wey	አስቴር አወቀ			4138912101	# low · Gela Gela: Aster's Ballads #2 · compilation · rank 99701
+2010	Aster Aweke	Ameseginalehu	አስቴር አወቀ			70994485	# medium · Checheho · release · rank 98542
+2017	Aster Aweke	Ene Ketero Alegn	አስቴር አወቀ			4138912091	# low · Musica · bulk · rank 98449
+2013	Aster Aweke	Wuha Wuha	አስቴር አወቀ			77203021	# medium · Ewedihalehu · release · rank 94518
+2006	Aster Aweke	Ayzoh	አስቴር አወቀ			88383725	# medium · Fikir · release · rank 94266
+1989	Aster Aweke	Selale	አስቴር አወቀ			11324137	# medium · Aster · release · rank 81714
+2006	Aster Aweke	Netsa Negn	አስቴር አወቀ			88383721	# medium · Fikir · release · rank 76090
+2004	Aster Aweke	Besebara Folle	አስቴር አወቀ			69159105	# low · Aster's Ballads · compilation · rank 74324
+2010	Aster Aweke	Kulun	አስቴር አወቀ			70994487	# medium · Checheho · release · rank 73790
+2019	Aster Aweke	Ćhewa	አስቴር አወቀ			716743542	# medium · Ćhewa · release · rank 72694
+2010	Aster Aweke	Wishy Washy	አስቴር አወቀ			70994486	# medium · Checheho · release · rank 72452
+2006	Aster Aweke	Chal-Chal	አስቴር አወቀ			88383735	# medium · Fikir · release · rank 71249
+2006	Aster Aweke	Andd Adirgen	አስቴር አወቀ			88383719	# medium · Fikir · release · rank 70851
+1989	Aster Aweke	Sebebu	አስቴር አወቀ			11324129	# medium · Aster · release · rank 68035
+1991	Aster Aweke	Bitchengna	አስቴር አወቀ			11169921	# medium · Kabu · release · rank 67095
+2006	Aster Aweke	Yesew-sew	አስቴር አወቀ			88383731	# medium · Fikir · release · rank 66166
+2001	Aster Aweke	Lela Alayim	አስቴር አወቀ			69159122	# medium · Sugar · release · rank 65696
+2006	Aster Aweke	Sewenetae	አስቴር አወቀ			88383723	# medium · Fikir · release · rank 65166
+2006	Aster Aweke	Emyae	አስቴር አወቀ			88383727	# medium · Fikir · release · rank 64528
+2006	Aster Aweke	Yikirta	አስቴር አወቀ			88383737	# medium · Fikir · release · rank 63562
+2004	Aster Aweke	Gerado	አስቴር አወቀ			69159109	# low · Aster's Ballads · compilation · rank 55963
+2019	Aster Aweke	Widdid	አስቴር አወቀ			716743522	# medium · Ćhewa · release · rank 55177
+2004	Aster Aweke	Yene Konjo	አስቴር አወቀ			69159110	# low · Aster's Ballads · compilation · rank 55059
+1983	Aster Aweke	Melahin Nigeregn	አስቴር አወቀ			380916361	# high · Hagerae 1983 · title · rank 54475
+2023	Aster Aweke	Mine Minewa	አስቴር አወቀ			2150636397	# medium · Soba · release · rank 54197
+2023	Aster Aweke	Temeles	አስቴር አወቀ			2150636377	# medium · Soba · release · rank 53769
+2023	Aster Aweke	Yene Wedaj	አስቴር አወቀ			2150636357	# medium · Soba · release · rank 53330
+1983	Aster Aweke	Demam Gelayewa	አስቴር አወቀ			380916351	# high · Hagerae 1983 · title · rank 52668
+1983	Aster Aweke	Yeteretahulet	አስቴር አወቀ			380916381	# high · Hagerae 1983 · title · rank 47958
+2019	Aster Aweke	Efoy	አስቴር አወቀ			716743572	# medium · Ćhewa · release · rank 47420
+2023	Aster Aweke	Seqeqene	አስቴር አወቀ			2150636407	# medium · Soba · release · rank 47404
+2006	Aster Aweke	Yamral	አስቴር አወቀ			88383739	# medium · Fikir · release · rank 44663
+2004	Aster Aweke	Hoho Gela	አስቴር አወቀ			69159107	# low · Aster's Ballads · compilation · rank 42967
+
+# Neway Debebe · ነዋይ ደበበ
+2024	Neway Debebe	Hagere Nat Habte	ነዋይ ደበበ			2733818941	# low · Best of Neway Debebe Collection · compilation · rank 100000
+1985	Neway Debebe	Reggae	ነዋይ ደበበ			2672331732	# medium · 1985-1995 Collection's · span · rank 100000
+1985	Neway Debebe	Tewugne	ነዋይ ደበበ			2672331752	# medium · 1985-1995 Collection's · span · rank 100000
+1985	Neway Debebe	Yebereha Awelo Nefas	ነዋይ ደበበ			2672331762	# medium · 1985-1995 Collection's · span · rank 100000
+1985	Neway Debebe	Hulume Betebaber	ነዋይ ደበበ			2867518442	# medium · 1985-1995 Collection's, Vol. 2 · span · rank 100000
+1985	Neway Debebe	Yebelegne	ነዋይ ደበበ			2867518482	# medium · 1985-1995 Collection's, Vol. 2 · span · rank 100000
+1985	Neway Debebe	Begna Zemen	ነዋይ ደበበ			2867518452	# medium · 1985-1995 Collection's, Vol. 2 · span · rank 100000
+1985	Neway Debebe	Alekece Bekemsa	ነዋይ ደበበ			2867518472	# medium · 1985-1995 Collection's, Vol. 2 · span · rank 100000
+2007	Neway Debebe	Yetikimt Abeba	ነዋይ ደበበ			77341872	# low · Best of Neway Debebe Collection · compilation · rank 93576
+1985	Neway Debebe	Tela Yesea Leketelese	ነዋይ ደበበ			2672331782	# medium · 1985-1995 Collection's · span · rank 71022
+2007	Neway Debebe	Ye Ayne Abeba Nesh	ነዋይ ደበበ			77341871	# low · Best of Neway Debebe Collection · compilation · rank 53422
+2007	Neway Debebe	Ye-Fikir Emebet	ነዋይ ደበበ			77341877	# low · Best of Neway Debebe Collection · compilation · rank 50042
+2024	Neway Debebe	Belay	ነዋይ ደበበ			2721864362	# medium · Amen · release · rank 39467
+2007	Neway Debebe	Maebel New	ነዋይ ደበበ			77341868	# low · Best of Neway Debebe Collection · compilation · rank 37894
+2024	Neway Debebe	Alwashim	ነዋይ ደበበ			2721864392	# medium · Amen · release · rank 37599
+2007	Neway Debebe	Egnaw Enitarek	ነዋይ ደበበ			77341876	# low · Best of Neway Debebe Collection · compilation · rank 32937
+2024	Neway Debebe	Amen	ነዋይ ደበበ			2721864352	# medium · Amen · release · rank 32333
+1985	Neway Debebe	Betekedane Tazebekwat	ነዋይ ደበበ			2867518282	# medium · 1985-1995 Collection's, Vol. 2 · span · rank 31588
+2007	Neway Debebe	Yelefku Ende Hon Banchi Sefer	ነዋይ ደበበ			77341874	# low · Best of Neway Debebe Collection · compilation · rank 31019
+2007	Neway Debebe	Lalkedash Kal Alebign	ነዋይ ደበበ			77341873	# low · Best of Neway Debebe Collection · compilation · rank 30039
+1985	Neway Debebe	Yena Semuna	ነዋይ ደበበ			2672331592	# medium · 1985-1995 Collection's · span · rank 29012
+1985	Neway Debebe	Enetarek	ነዋይ ደበበ			2672331372	# medium · 1985-1995 Collection's · span · rank 27120
+2007	Neway Debebe	Yegna Loga	ነዋይ ደበበ			77341878	# low · Best of Neway Debebe Collection · compilation · rank 27109
+1985	Neway Debebe	Yegara New Fiker	ነዋይ ደበበ			2672331432	# medium · 1985-1995 Collection's · span · rank 26959
+1985	Neway Debebe	Webe Tsedal	ነዋይ ደበበ			2672331422	# medium · 1985-1995 Collection's · span · rank 26933
+2007	Neway Debebe	Siwodush Eweki	ነዋይ ደበበ			77341875	# low · Best of Neway Debebe Collection · compilation · rank 26847
+1985	Neway Debebe	Wonze Yaferase	ነዋይ ደበበ			2672331352	# medium · 1985-1995 Collection's · span · rank 26474
+1985	Neway Debebe	Feker Tawekalece	ነዋይ ደበበ			2867518302	# medium · 1985-1995 Collection's, Vol. 2 · span · rank 26395
+1985	Neway Debebe	Banchi Mender	ነዋይ ደበበ			2672331442	# medium · 1985-1995 Collection's · span · rank 26360
+1985	Neway Debebe	Keremela	ነዋይ ደበበ			2867518232	# medium · 1985-1995 Collection's, Vol. 2 · span · rank 25716
+1985	Neway Debebe	Tedeladelese Tene	ነዋይ ደበበ			2867518352	# medium · 1985-1995 Collection's, Vol. 2 · span · rank 25714
+1985	Neway Debebe	Ye Harer Lij	ነዋይ ደበበ			2867518432	# medium · 1985-1995 Collection's, Vol. 2 · span · rank 25680
+1985	Neway Debebe	Yeset Zewded Nat	ነዋይ ደበበ			2672331612	# medium · 1985-1995 Collection's · span · rank 22483
+1985	Neway Debebe	Denawan Tesenbet	ነዋይ ደበበ			2672331602	# medium · 1985-1995 Collection's · span · rank 22472
+1985	Neway Debebe	Tameche Alkerem	ነዋይ ደበበ			2672331482	# medium · 1985-1995 Collection's · span · rank 21608
+1985	Neway Debebe	Yena Loga	ነዋይ ደበበ			2672331362	# medium · 1985-1995 Collection's · span · rank 21535
+1985	Neway Debebe	Eshet Belaw	ነዋይ ደበበ			2672331322	# medium · 1985-1995 Collection's · span · rank 21534
+1985	Neway Debebe	Lalkedase Kal Alebene	ነዋይ ደበበ			2672331522	# medium · 1985-1995 Collection's · span · rank 20700
+1985	Neway Debebe	Eskemece	ነዋይ ደበበ			2672331772	# medium · 1985-1995 Collection's · span · rank 20694
+1985	Neway Debebe	Zemeta	ነዋይ ደበበ			2672331662	# medium · 1985-1995 Collection's · span · rank 19031
+
+# Ephrem Tamiru · ኤፍሬም ታምሩ
+2006	Ephrem Tamiru	Yemejemeriyay	ኤፍሬም ታምሩ			78276590	# medium · Huala Endaykocheshe (Ethiopian Contemporary Music) · release · rank 81204
+2006	Ephrem Tamiru	Kiem Alyzm Banche	ኤፍሬም ታምሩ			78276596	# medium · Huala Endaykocheshe (Ethiopian Contemporary Music) · release · rank 71522
+2006	Ephrem Tamiru	Metadel New	ኤፍሬም ታምሩ			78276600	# medium · Huala Endaykocheshe (Ethiopian Contemporary Music) · release · rank 66114
+2006	Ephrem Tamiru	Konjo Lij Neshe	ኤፍሬም ታምሩ			78276591	# medium · Huala Endaykocheshe (Ethiopian Contemporary Music) · release · rank 65052
+2006	Ephrem Tamiru	Lache Yansbshal	ኤፍሬም ታምሩ			78276599	# medium · Huala Endaykocheshe (Ethiopian Contemporary Music) · release · rank 57038
+2006	Ephrem Tamiru	Sew Meseretu	ኤፍሬም ታምሩ			78276598	# medium · Huala Endaykocheshe (Ethiopian Contemporary Music) · release · rank 57015
+2006	Ephrem Tamiru	Yelielegnen Keyet Lamta	ኤፍሬም ታምሩ			78276597	# medium · Huala Endaykocheshe (Ethiopian Contemporary Music) · release · rank 44697
+2015	Ephrem Tamiru	Akalie	ኤፍሬም ታምሩ			109752684	# medium · The Reunion · release · rank 41021
+2023	Ephrem Tamiru	Alader Tegneche	ኤፍሬም ታምሩ			2293414835	# medium · Ye'hese Ken · release · rank 38965
+2015	Ephrem Tamiru	Melkam Wleta	ኤፍሬም ታምሩ			109752676	# medium · The Reunion · release · rank 37741
+2015	Ephrem Tamiru	Neylgne	ኤፍሬም ታምሩ			109752666	# medium · The Reunion · release · rank 32113
+2006	Ephrem Tamiru	Huala Endaykocheshe	ኤፍሬም ታምሩ			78276592	# medium · Huala Endaykocheshe (Ethiopian Contemporary Music) · release · rank 26815
+2015	Ephrem Tamiru	Gedam Endegeba	ኤፍሬም ታምሩ			109752672	# medium · The Reunion · release · rank 26266
+2015	Ephrem Tamiru	Kaguwaguwazegne	ኤፍሬም ታምሩ			109752680	# medium · The Reunion · release · rank 25788
+2023	Ephrem Tamiru	Fikrachin	ኤፍሬም ታምሩ			2293414785	# medium · Ye'hese Ken · release · rank 25610
+2006	Ephrem Tamiru	Salasbew	ኤፍሬም ታምሩ			78276593	# medium · Huala Endaykocheshe (Ethiopian Contemporary Music) · release · rank 24771
+2015	Ephrem Tamiru	Meshe Dehina Ederu	ኤፍሬም ታምሩ			109752678	# medium · The Reunion · release · rank 23667
+2023	Ephrem Tamiru	Selam Libelw Ayinshn	ኤፍሬም ታምሩ			2293414815	# medium · Ye'hese Ken · release · rank 21248
+2023	Ephrem Tamiru	Astawusshalehu	ኤፍሬም ታምሩ			2293414765	# medium · Ye'hese Ken · release · rank 18472
+2023	Ephrem Tamiru	Jenberua	ኤፍሬም ታምሩ			2293414855	# medium · Ye'hese Ken · release · rank 18067
+2023	Ephrem Tamiru	Yedenget Engeda	ኤፍሬም ታምሩ			2293414825	# medium · Ye'hese Ken · release · rank 13167
+2015	Ephrem Tamiru	Endegebsu Zala	ኤፍሬም ታምሩ			109752668	# medium · The Reunion · release · rank 11884
+2023	Ephrem Tamiru	Yehese Ken Balefe	ኤፍሬም ታምሩ			2293414885	# medium · Ye'hese Ken · release · rank 8927
+2023	Ephrem Tamiru	Tadilual Akale	ኤፍሬም ታምሩ			2293414875	# medium · Ye'hese Ken · release · rank 8886
+2015	Ephrem Tamiru	Godanayie	ኤፍሬም ታምሩ			109752674	# medium · The Reunion · release · rank 7361
+2015	Ephrem Tamiru	Kir Kir Eyalegne	ኤፍሬም ታምሩ			109752686	# medium · The Reunion · release · rank 5887
+2023	Ephrem Tamiru	Ken Sitel	ኤፍሬም ታምሩ			2293414795	# medium · Ye'hese Ken · release · rank 5472
+2023	Ephrem Tamiru	Endet Nesh Hagere	ኤፍሬም ታምሩ			2293414775	# medium · Ye'hese Ken · release · rank 2219
+2015	Ephrem Tamiru	Zemamie	ኤፍሬም ታምሩ			109752682	# medium · The Reunion · release · rank 1605
+2023	Ephrem Tamiru	Erbishbish Ale	ኤፍሬም ታምሩ			2293414845	# medium · Ye'hese Ken · release · rank 1069
+2023	Ephrem Tamiru	Medhanite	ኤፍሬም ታምሩ			2293414805	# medium · Ye'hese Ken · release · rank 1027
+
+# Kuku Sebsibe · ኩኩ ሰብስቤ
+2024	Kuku Sebsibe	Kuku Sebsibe Ethiopia Ethiopia Album	ኩኩ ሰብስቤ			2599905292	# medium · Ethiopia · release · rank 100000
+2024	Kuku Sebsibe	Kuku Sebsibe Zewetr Engda Ethiopia Album	ኩኩ ሰብስቤ			2599905352	# medium · Ethiopia · release · rank 100000
+2024	Kuku Sebsibe	Kuku Sebsibe Alemsh New Ethiopia Album	ኩኩ ሰብስቤ			2599905312	# medium · Ethiopia · release · rank 100000
+2023	Kuku Sebsibe	Digisiem Fikir	ኩኩ ሰብስቤ			2523377261	# medium · Gize · release · rank 100000
+2023	Kuku Sebsibe	Tilachah Kebereta	ኩኩ ሰብስቤ			2523377321	# medium · Gize · release · rank 100000
+2024	Kuku Sebsibe	Kalubet Agere	ኩኩ ሰብስቤ			2710018912	# medium · Tinish Geze Sitegn · release · rank 100000
+2024	Kuku Sebsibe	Tdar	ኩኩ ሰብስቤ			2702753972	# medium · Tizita · release · rank 100000
+2024	Kuku Sebsibe	Hodyie	ኩኩ ሰብስቤ			2702754002	# medium · Tizita · release · rank 100000
+2023	Kuku Sebsibe	Semonun	ኩኩ ሰብስቤ			2523377361	# medium · Gize · release · rank 100000
+2024	Kuku Sebsibe	Shemonmanayie	ኩኩ ሰብስቤ			2702754012	# medium · Tizita · release · rank 100000
+2024	Kuku Sebsibe	Ambasel	ኩኩ ሰብስቤ			2702754022	# medium · Tizita · release · rank 100000
+2023	Kuku Sebsibe	Gize	ኩኩ ሰብስቤ			2523377301	# medium · Gize · release · rank 100000
+2023	Kuku Sebsibe	Yemar Welela	ኩኩ ሰብስቤ			2523377341	# medium · Gize · release · rank 100000
+2024	Kuku Sebsibe	Dege Wale Weyi	ኩኩ ሰብስቤ			2710018922	# medium · Tinish Geze Sitegn · release · rank 100000
+2024	Kuku Sebsibe	Ayinafaru	ኩኩ ሰብስቤ			2710018882	# medium · Tinish Geze Sitegn · release · rank 100000
+2024	Kuku Sebsibe	Leba Siga	ኩኩ ሰብስቤ			2710018902	# medium · Tinish Geze Sitegn · release · rank 100000
+2024	Kuku Sebsibe	Tinish Gizie Sitegne	ኩኩ ሰብስቤ			2710018862	# medium · Tinish Geze Sitegn · release · rank 100000
+2023	Kuku Sebsibe	Hede Bechama	ኩኩ ሰብስቤ			2412722995	# medium · Fikreh Beretabegne · release · rank 68314
+2023	Kuku Sebsibe	Benafkoth	ኩኩ ሰብስቤ			2412722985	# medium · Fikreh Beretabegne · release · rank 33083
+2023	Kuku Sebsibe	Fikreh Beretabegne	ኩኩ ሰብስቤ			2412723015	# medium · Fikreh Beretabegne · release · rank 31993
+2024	Kuku Sebsibe	Yenie Lebitchaw New	ኩኩ ሰብስቤ			2710018832	# medium · Tinish Geze Sitegn · release · rank 28602
+2025	Kuku Sebsibe	Bado Bet	ኩኩ ሰብስቤ			3343967681	# medium · Dejazmach · release · rank 27488
+2023	Kuku Sebsibe	Fikir Ke'ager Lij	ኩኩ ሰብስቤ			2467113035	# medium · Ajere Mewded · release · rank 27391
+2024	Kuku Sebsibe	Leman Lenigere	ኩኩ ሰብስቤ			2710018872	# medium · Tinish Geze Sitegn · release · rank 26971
+2005	Kuku Sebsibe	Brtukane	ኩኩ ሰብስቤ			72051024	# medium · Tizita · release · rank 26726
+2023	Kuku Sebsibe	Demo	ኩኩ ሰብስቤ			2467113005	# medium · Ajere Mewded · release · rank 26509
+2023	Kuku Sebsibe	Asham	ኩኩ ሰብስቤ			2535152781	# medium · Chalkubet · release · rank 26070
+2023	Kuku Sebsibe	Alem Shega	ኩኩ ሰብስቤ			2467113065	# medium · Ajere Mewded · release · rank 25663
+2023	Kuku Sebsibe	Hodiye Hodiye	ኩኩ ሰብስቤ			2412723025	# medium · Fikreh Beretabegne · release · rank 25324
+2023	Kuku Sebsibe	Agegnehu	ኩኩ ሰብስቤ			2535152771	# medium · Chalkubet · release · rank 25232
+2023	Kuku Sebsibe	Munaye Munaye	ኩኩ ሰብስቤ			2412723045	# medium · Fikreh Beretabegne · release · rank 25152
+2025	Kuku Sebsibe	Kene Lela	ኩኩ ሰብስቤ			3343967661	# medium · Dejazmach · release · rank 24887
+2025	Kuku Sebsibe	Aymelshm Wey	ኩኩ ሰብስቤ			3343967671	# medium · Dejazmach · release · rank 24835
+2025	Kuku Sebsibe	Ereg Ene	ኩኩ ሰብስቤ			3343967691	# medium · Dejazmach · release · rank 23447
+2023	Kuku Sebsibe	Dene Belew	ኩኩ ሰብስቤ			2412723005	# medium · Fikreh Beretabegne · release · rank 22447
+2023	Kuku Sebsibe	Kelben	ኩኩ ሰብስቤ			2535152811	# medium · Chalkubet · release · rank 22173
+2023	Kuku Sebsibe	Fikrehn Sink	ኩኩ ሰብስቤ			2467113085	# medium · Ajere Mewded · release · rank 22111
+2024	Kuku Sebsibe	Gelah Lemede Woy	ኩኩ ሰብስቤ			69880439	# medium · Geezze · release · rank 22044
+2024	Kuku Sebsibe	Zede	ኩኩ ሰብስቤ			69880435	# medium · Geezze · release · rank 21886
+2023	Kuku Sebsibe	Bitmetalign Maldeh	ኩኩ ሰብስቤ			2467112995	# medium · Ajere Mewded · release · rank 21502
+
+# Hamelmal Abate · ሐመልማል አባተ
+2019	Hamelmal Abate	Kelay New Tizazu	ሐመልማል አባተ			749986692	# medium · Kemsha · release · rank 101237
+2019	Hamelmal Abate	Shegoye	ሐመልማል አባተ			749986632	# medium · Kemsha · release · rank 95553
+2019	Hamelmal Abate	Wushet	ሐመልማል አባተ			749986672	# medium · Kemsha · release · rank 95548
+2019	Hamelmal Abate	Sewu Min Agebaw	ሐመልማል አባተ			749986702	# medium · Kemsha · release · rank 94130
+2019	Hamelmal Abate	Yene Bite	ሐመልማል አባተ			749986732	# medium · Kemsha · release · rank 85180
+2019	Hamelmal Abate	Rasen Negn	ሐመልማል አባተ			749986652	# medium · Kemsha · release · rank 84437
+2019	Hamelmal Abate	Demo Meshe	ሐመልማል አባተ			749986712	# medium · Kemsha · release · rank 70758
+1994	Hamelmal Abate	Bechegna	ሐመልማል አባተ			1201691212	# medium · Ermehin Awuta · release · rank 64032
+2019	Hamelmal Abate	Say Mado	ሐመልማል አባተ			749986682	# medium · Kemsha · release · rank 61658
+2019	Hamelmal Abate	Minjar (Hageru Sileka)	ሐመልማል አባተ			749986602	# medium · Kemsha · release · rank 60356
+2019	Hamelmal Abate	Tew Semagn	ሐመልማል አባተ			749986662	# medium · Kemsha · release · rank 58073
+2019	Hamelmal Abate	Andande	ሐመልማል አባተ			749986622	# medium · Kemsha · release · rank 58073
+2001	Hamelmal Abate	Sedet	ሐመልማል አባተ			1068554972	# medium · Sedet · release · rank 58071
+1994	Hamelmal Abate	Kalkidan	ሐመልማል አባተ			1201691162	# medium · Ermehin Awuta · release · rank 57965
+2005	Hamelmal Abate	Tirulgn	ሐመልማል አባተ			1043559552	# medium · Gize Mizan · release · rank 54827
+2013	Hamelmal Abate	Yenie New	ሐመልማል አባተ			1043669382	# medium · Yadelal · release · rank 54551
+2019	Hamelmal Abate	Enetarek	ሐመልማል አባተ			749986642	# medium · Kemsha · release · rank 54546
+1994	Hamelmal Abate	Yaltewata Fikir	ሐመልማል አባተ			1201691152	# medium · Ermehin Awuta · release · rank 54533
+2013	Hamelmal Abate	Ewedhalehu	ሐመልማል አባተ			1043669372	# medium · Yadelal · release · rank 50738
+2001	Hamelmal Abate	Temesgen	ሐመልማል አባተ			1068555072	# medium · Sedet · release · rank 47662
+2005	Hamelmal Abate	Wanemite	ሐመልማል አባተ			1043559582	# medium · Gize Mizan · release · rank 40586
+2013	Hamelmal Abate	Mulu	ሐመልማል አባተ			1043669432	# medium · Yadelal · release · rank 40448
+2001	Hamelmal Abate	Bematebih Tsina	ሐመልማል አባተ			1068555002	# medium · Sedet · release · rank 40174
+2001	Hamelmal Abate	Wey Sikay	ሐመልማል አባተ			1068554992	# medium · Sedet · release · rank 39099
+2001	Hamelmal Abate	Metwadid Ustube	ሐመልማል አባተ			1068555062	# medium · Sedet · release · rank 37528
+2001	Hamelmal Abate	Yidagengne Yaye	ሐመልማል አባተ			1068554982	# medium · Sedet · release · rank 33846
+2001	Hamelmal Abate	Serge	ሐመልማል አባተ			1068555052	# medium · Sedet · release · rank 31664
+2013	Hamelmal Abate	Besemua Eyemale	ሐመልማል አባተ			1043669462	# medium · Yadelal · release · rank 31554
+1994	Hamelmal Abate	Ermehin Awuta	ሐመልማል አባተ			1201691132	# medium · Ermehin Awuta · release · rank 31043
+2013	Hamelmal Abate	Harer	ሐመልማል አባተ			1043669472	# medium · Yadelal · release · rank 28002
+2013	Hamelmal Abate	Jenenu	ሐመልማል አባተ			1043669442	# medium · Yadelal · release · rank 26730
+2005	Hamelmal Abate	Yazo Enba	ሐመልማል አባተ			1043559592	# medium · Gize Mizan · release · rank 26586
+2013	Hamelmal Abate	Wesen Ahun	ሐመልማል አባተ			1043669482	# medium · Yadelal · release · rank 26529
+2005	Hamelmal Abate	Kir Yelegnal	ሐመልማል አባተ			1043559532	# medium · Gize Mizan · release · rank 26035
+2005	Hamelmal Abate	Lene Kaleh	ሐመልማል አባተ			1043559632	# medium · Gize Mizan · release · rank 25804
+2001	Hamelmal Abate	Keyanew	ሐመልማል አባተ			1068555042	# medium · Sedet · release · rank 25345
+2005	Hamelmal Abate	Gize Mizan	ሐመልማል አባተ			1043559642	# medium · Gize Mizan · release · rank 25100
+2018	Hamelmal Abate	Zelesegna	ሐመልማል አባተ			554873962	# medium · Zelesegna · release · rank 24860
+2005	Hamelmal Abate	Meleyet	ሐመልማል አባተ			1043559572	# medium · Gize Mizan · release · rank 22218
+2013	Hamelmal Abate	Bayaschilegne	ሐመልማል አባተ			1043669452	# medium · Yadelal · release · rank 21921
+
+# Tsehaye Yohannes · ፀሐዬ ዮሐንስ
+2007	Tsehaye Yohannes	Bya	ፀሐዬ ዮሐንስ			4345966212	# medium · SAKILGNE · release · rank 100000
+2007	Tsehaye Yohannes	Yewahlibe	ፀሐዬ ዮሐንስ			4345966542	# medium · SAKILGNE · release · rank 100000
+2007	Tsehaye Yohannes	Ande Beygne	ፀሐዬ ዮሐንስ			698275542	# medium · Sakilgne · release · rank 48339
+2007	Tsehaye Yohannes	Nemetaye (Tigrinya)	ፀሐዬ ዮሐንስ			698275572	# medium · Sakilgne · release · rank 31994
+2014	Tsehaye Yohannes	Lemastawes	ፀሐዬ ዮሐንስ			2601580712	# medium · Yenieta · release · rank 29561
+2001	Tsehaye Yohannes	Nefse	ፀሐዬ ዮሐንስ			1048722342	# medium · Letinish · release · rank 26988
+2001	Tsehaye Yohannes	Min Yiwetagne Neber	ፀሐዬ ዮሐንስ			1048722372	# medium · Letinish · release · rank 26510
+1989	Tsehaye Yohannes	Teze Teze Alegne	ፀሐዬ ዮሐንስ			1653581752	# medium · Tebale Ende · release · rank 25974
+1989	Tsehaye Yohannes	Yesew Neger	ፀሐዬ ዮሐንስ			1653581722	# medium · Tebale Ende · release · rank 25886
+1989	Tsehaye Yohannes	Tebale Ende	ፀሐዬ ዮሐንስ			1653581692	# medium · Tebale Ende · release · rank 25643
+1989	Tsehaye Yohannes	Zehytemen (Tigrinya)	ፀሐዬ ዮሐንስ			1653581762	# medium · Tebale Ende · release · rank 25587
+2014	Tsehaye Yohannes	Hilina	ፀሐዬ ዮሐንስ			2601580802	# medium · Yenieta · release · rank 25197
+2014	Tsehaye Yohannes	Shewit	ፀሐዬ ዮሐንስ			2601580772	# medium · Yenieta · release · rank 25196
+1984	Tsehaye Yohannes	Bechengneten New	ፀሐዬ ዮሐንስ			995397382	# medium · Fenchetwa (ፍንጭቷ) · release · rank 25099
+2014	Tsehaye Yohannes	Kebena	ፀሐዬ ዮሐንስ			2601580682	# medium · Yenieta · release · rank 25018
+2001	Tsehaye Yohannes	Yamelake Sera	ፀሐዬ ዮሐንስ			1048722442	# medium · Letinish · release · rank 24915
+1996	Tsehaye Yohannes	Site Engidih	ፀሐዬ ዮሐንስ			1046852682	# medium · Yalanchema · release · rank 24849
+2014	Tsehaye Yohannes	Bietie	ፀሐዬ ዮሐንስ			2601580782	# medium · Yenieta · release · rank 23479
+2014	Tsehaye Yohannes	Kunjina	ፀሐዬ ዮሐንስ			2601580692	# medium · Yenieta · release · rank 23384
+1984	Tsehaye Yohannes	Yaze Yaze	ፀሐዬ ዮሐንስ			995397352	# medium · Fenchetwa (ፍንጭቷ) · release · rank 22300
+2001	Tsehaye Yohannes	Yetezeta Esrenga	ፀሐዬ ዮሐንስ			1048722462	# medium · Letinish · release · rank 22048
+1996	Tsehaye Yohannes	Embaba Fikrena	ፀሐዬ ዮሐንስ			1046852702	# medium · Yalanchema · release · rank 21869
+1996	Tsehaye Yohannes	Tikur Abebawoch	ፀሐዬ ዮሐንስ			1046852662	# medium · Yalanchema · release · rank 21650
+2007	Tsehaye Yohannes	Man Lebelsh	ፀሐዬ ዮሐንስ			698275552	# medium · Sakilgne · release · rank 21552
+2001	Tsehaye Yohannes	Lela	ፀሐዬ ዮሐንስ			1048722352	# medium · Letinish · release · rank 21430
+1989	Tsehaye Yohannes	Zemeta	ፀሐዬ ዮሐንስ			1653581782	# medium · Tebale Ende · release · rank 21346
+1996	Tsehaye Yohannes	Koyehu Sasibishi	ፀሐዬ ዮሐንስ			1046852712	# medium · Yalanchema · release · rank 21242
+2001	Tsehaye Yohannes	Fikri	ፀሐዬ ዮሐንስ			1048722402	# medium · Letinish · release · rank 21080
+2014	Tsehaye Yohannes	Tiru Ken	ፀሐዬ ዮሐንስ			2601580732	# medium · Yenieta · release · rank 20502
+2022	Tsehaye Yohannes	Aznesh Alysh	ፀሐዬ ዮሐንስ			1684631567	# medium · Aznesh Alysh · release · rank 19885
+1984	Tsehaye Yohannes	Keta Alugne	ፀሐዬ ዮሐንስ			995397412	# medium · Fenchetwa (ፍንጭቷ) · release · rank 18777
+1989	Tsehaye Yohannes	Fezez Yadergegnal	ፀሐዬ ዮሐንስ			1653581702	# medium · Tebale Ende · release · rank 18239
+2007	Tsehaye Yohannes	Mata Mata	ፀሐዬ ዮሐንስ			698275562	# medium · Sakilgne · release · rank 18109
+2014	Tsehaye Yohannes	Esiebho	ፀሐዬ ዮሐንስ			2601580822	# medium · Yenieta · release · rank 18096
+1996	Tsehaye Yohannes	Abayin Zoresh	ፀሐዬ ዮሐንስ			1046852652	# medium · Yalanchema · release · rank 16027
+2007	Tsehaye Yohannes	Becha Ney Enji	ፀሐዬ ዮሐንስ			698275522	# medium · Sakilgne · release · rank 15905
+2001	Tsehaye Yohannes	Letinish	ፀሐዬ ዮሐንስ			1048722322	# medium · Letinish · release · rank 15631
+1984	Tsehaye Yohannes	Balem Lay	ፀሐዬ ዮሐንስ			995397422	# medium · Fenchetwa (ፍንጭቷ) · release · rank 15311
+2007	Tsehaye Yohannes	Gomen Betena	ፀሐዬ ዮሐንስ			698275472	# medium · Sakilgne · release · rank 12909
+2007	Tsehaye Yohannes	Beanew Bey (Wolayta)	ፀሐዬ ዮሐንስ			698275502	# medium · Sakilgne · release · rank 11872
+
+# Netsanet Melesse · ነፃነት መለሰ
+2005	Netsanet Melesse	Dodge	ነፃነት መለሰ			1357110282	# medium · Spirit Of Sheba · release · rank 36161
+2005	Netsanet Melesse	Lezilezihema	ነፃነት መለሰ			1357110232	# medium · Spirit Of Sheba · release · rank 32694
+2016	Netsanet Melesse	Amoniale	ነፃነት መለሰ			118958218	# medium · Liben · release · rank 26927
+1998	Netsanet Melesse	Netsanet Melesse - Leben Wesedew	ነፃነት መለሰ			2166837127	# medium · Doju · release · rank 26521
+2016	Netsanet Melesse	Eruqe	ነፃነት መለሰ			118958208	# medium · Liben · release · rank 25271
+2016	Netsanet Melesse	Bay Bay	ነፃነት መለሰ			118958222	# medium · Liben · release · rank 24988
+2016	Netsanet Melesse	Fikre Belegn	ነፃነት መለሰ			118958198	# medium · Liben · release · rank 22482
+2016	Netsanet Melesse	Atidewulilign	ነፃነት መለሰ			118958194	# medium · Liben · release · rank 22420
+2016	Netsanet Melesse	Shamasari	ነፃነት መለሰ			118958206	# medium · Liben · release · rank 22159
+2005	Netsanet Melesse	Anteye	ነፃነት መለሰ			1357110312	# medium · Spirit Of Sheba · release · rank 21873
+2016	Netsanet Melesse	Laferede Ayemachem	ነፃነት መለሰ			118958202	# medium · Liben · release · rank 20124
+2016	Netsanet Melesse	Lela Lela	ነፃነት መለሰ			118958210	# medium · Liben · release · rank 18829
+2005	Netsanet Melesse	Zibadie	ነፃነት መለሰ			1357110222	# medium · Spirit Of Sheba · release · rank 18477
+2016	Netsanet Melesse	Liben	ነፃነት መለሰ			118958214	# medium · Liben · release · rank 13762
+1998	Netsanet Melesse	Netsanet Melesse - Medhanite	ነፃነት መለሰ			2166837167	# medium · Doju · release · rank 13743
+1998	Netsanet Melesse	Netsanet Melesse - Hulun Tiche	ነፃነት መለሰ			2166837187	# medium · Doju · release · rank 13741
+1998	Netsanet Melesse	Netsanet Melesse - Ende Min Beye	ነፃነት መለሰ			2166837157	# medium · Doju · release · rank 13740
+1998	Netsanet Melesse	Netsanet Melesse- Ende Hamele Tsehay	ነፃነት መለሰ			2166837147	# medium · Doju · release · rank 13357
+2005	Netsanet Melesse	Tizita	ነፃነት መለሰ			1357110302	# medium · Spirit Of Sheba · release · rank 11853
+2005	Netsanet Melesse	Eyenamaye	ነፃነት መለሰ			1357110292	# medium · Spirit Of Sheba · release · rank 10229
+2016	Netsanet Melesse	Amata Meherate	ነፃነት መለሰ			118958212	# medium · Liben · release · rank 7916
+1998	Netsanet Melesse	Netsanet Melesse - Aynafar	ነፃነት መለሰ			2166837137	# medium · Doju · release · rank 7795
+2005	Netsanet Melesse	Yelew Wekesa	ነፃነት መለሰ			1357110252	# medium · Spirit Of Sheba · release · rank 7791
+2016	Netsanet Melesse	Tamane Eneji	ነፃነት መለሰ			118958220	# medium · Liben · release · rank 7787
+2016	Netsanet Melesse	Karamelaye	ነፃነት መለሰ			118958196	# medium · Liben · release · rank 6882
+2005	Netsanet Melesse	Yalesenebiete	ነፃነት መለሰ			1357110272	# medium · Spirit Of Sheba · release · rank 5998
+2016	Netsanet Melesse	Mushirit Ethiopia	ነፃነት መለሰ			118958216	# medium · Liben · release · rank 2470
+1998	Netsanet Melesse	Netsanet Melesse -Tizita	ነፃነት መለሰ			2166837117	# medium · Doju · release · rank 2227
+1998	Netsanet Melesse	Netsanet Melese - Yetal Liju	ነፃነት መለሰ			2166837207	# medium · Doju · release · rank 2001
+2016	Netsanet Melesse	Nega Lelaqane	ነፃነት መለሰ			118958204	# medium · Liben · release · rank 1457
+
+# Tigist Bekele · ትዕግስት በቀለ
+2026	Tigist Bekele	Tizbit	ትዕግስት በቀለ			4103200411	# medium · Mela · release · rank 100000
+2026	Tigist Bekele	Yakermo Sew	ትዕግስት በቀለ			4103200401	# medium · Mela · release · rank 100000
+2026	Tigist Bekele	Abet Abet	ትዕግስት በቀለ			4103200371	# medium · Mela · release · rank 100000
+2026	Tigist Bekele	Meskerme	ትዕግስት በቀለ			4103200391	# medium · Mela · release · rank 58279
+2001	Tigist Bekele	Tequadeskut	ትዕግስት በቀለ			79904852	# medium · Sakitaw (Ethiopian Contemporary Music · release · rank 25208
+2001	Tigist Bekele	Gash Abera Molla	ትዕግስት በቀለ			79904848	# medium · Sakitaw (Ethiopian Contemporary Music · release · rank 21898
+2001	Tigist Bekele	Ayihalehu	ትዕግስት በቀለ			79904864	# medium · Sakitaw (Ethiopian Contemporary Music · release · rank 19915
+2001	Tigist Bekele	Sakitaw	ትዕግስት በቀለ			79904846	# medium · Sakitaw (Ethiopian Contemporary Music · release · rank 18617
+2001	Tigist Bekele	Langano	ትዕግስት በቀለ			79904850	# medium · Sakitaw (Ethiopian Contemporary Music · release · rank 18614
+2001	Tigist Bekele	Le'egru Wuha Yimuklet	ትዕግስት በቀለ			79904856	# medium · Sakitaw (Ethiopian Contemporary Music · release · rank 9105
+2001	Tigist Bekele	Ewnetegna	ትዕግስት በቀለ			79904858	# medium · Sakitaw (Ethiopian Contemporary Music · release · rank 6879
+2001	Tigist Bekele	Bederaw Ketema	ትዕግስት በቀለ			79904854	# medium · Sakitaw (Ethiopian Contemporary Music · release · rank 1362
+2026	Tigist Bekele	Shegye	ትዕግስት በቀለ			4103200361	# medium · Mela · release · rank 784
+
+# Abonesh Adinew · አቦነሽ አድነው
+2024	Abonesh Adinew	Abader	አቦነሽ አድነው			2831383752	# medium · Zarem Endamna · release · rank 26980
+2004	Abonesh Adinew	Keffa	አቦነሽ አድነው			942023022	# medium · Bahilen · release · rank 25057
+2024	Abonesh Adinew	Alkerim	አቦነሽ አድነው			2831383762	# medium · Zarem Endamna · release · rank 23587
+2016	Abonesh Adinew	Gashe Wolalomo	አቦነሽ አድነው			117405136	# medium · Balageru · release · rank 22262
+2016	Abonesh Adinew	Betena Guragea	አቦነሽ አድነው			117405144	# medium · Balageru · release · rank 21658
+2024	Abonesh Adinew	Yarada Lij Feker	አቦነሽ አድነው			2831383782	# medium · Zarem Endamna · release · rank 21402
+2024	Abonesh Adinew	Zarem Endamna	አቦነሽ አድነው			2831383742	# medium · Zarem Endamna · release · rank 18284
+2024	Abonesh Adinew	Zem Alelem	አቦነሽ አድነው			2831383832	# medium · Zarem Endamna · release · rank 16810
+2024	Abonesh Adinew	Malemeni	አቦነሽ አድነው			2831383842	# medium · Zarem Endamna · release · rank 15625
+2016	Abonesh Adinew	Lela Nuw	አቦነሽ አድነው			117405152	# medium · Balageru · release · rank 15310
+2016	Abonesh Adinew	Wube Wube	አቦነሽ አድነው			117405148	# medium · Balageru · release · rank 13664
+2016	Abonesh Adinew	Anitemamenim	አቦነሽ አድነው			117405140	# medium · Balageru · release · rank 12651
+2024	Abonesh Adinew	Kasayen Atahut	አቦነሽ አድነው			2831383802	# medium · Zarem Endamna · release · rank 11036
+2016	Abonesh Adinew	Harar Dire Dawa	አቦነሽ አድነው			117405150	# medium · Balageru · release · rank 8982
+2016	Abonesh Adinew	Fikir Yizognal	አቦነሽ አድነው			117405138	# medium · Balageru · release · rank 7805
+2016	Abonesh Adinew	Woy Ethiopia	አቦነሽ አድነው			117405142	# medium · Balageru · release · rank 6893
+2016	Abonesh Adinew	Saltorachew	አቦነሽ አድነው			117405146	# medium · Balageru · release · rank 6892
+2024	Abonesh Adinew	Yebolale	አቦነሽ አድነው			2831383792	# medium · Zarem Endamna · release · rank 6519
+2024	Abonesh Adinew	Abakagn	አቦነሽ አድነው			2831383812	# medium · Zarem Endamna · release · rank 4370
+2024	Abonesh Adinew	Gude Fella	አቦነሽ አድነው			2831383862	# medium · Zarem Endamna · release · rank 3097
+2024	Abonesh Adinew	Care Yehun	አቦነሽ አድነው			2831383772	# medium · Zarem Endamna · release · rank 2219
+2024	Abonesh Adinew	Awde Amet	አቦነሽ አድነው			2831383852	# medium · Zarem Endamna · release · rank 319
+
+# Fikeraddis Nekatibeb · ፍቅርአዲስ ነቃጥበብ
+2024	Fikeraddis Nekatibeb	Sfelghi Metah	ፍቅርአዲስ ነቃጥበብ			3121635031	# medium · Misikir · release · rank 100000
+2024	Fikeraddis Nekatibeb	Basha Welde	ፍቅርአዲስ ነቃጥበብ			3121635121	# medium · Misikir · release · rank 100000
+2024	Fikeraddis Nekatibeb	Zoma	ፍቅርአዲስ ነቃጥበብ			3121635021	# medium · Misikir · release · rank 100000
+2025	Fikeraddis Nekatibeb	Setegn	ፍቅርአዲስ ነቃጥበብ			3166274911	# medium · Embi · release · rank 100000
+2025	Fikeraddis Nekatibeb	Yemechew	ፍቅርአዲስ ነቃጥበብ			3166274971	# medium · Embi · release · rank 100000
+2025	Fikeraddis Nekatibeb	Nedaw	ፍቅርአዲስ ነቃጥበብ			3166274991	# medium · Embi · release · rank 100000
+2025	Fikeraddis Nekatibeb	Eda	ፍቅርአዲስ ነቃጥበብ			3218704461	# medium · Yekolo Temari · release · rank 100000
+2024	Fikeraddis Nekatibeb	Ybelegne	ፍቅርአዲስ ነቃጥበብ			3121635111	# medium · Misikir · release · rank 100000
+2025	Fikeraddis Nekatibeb	Godanaw	ፍቅርአዲስ ነቃጥበብ			3166274961	# medium · Embi · release · rank 100000
+2015	Fikeraddis Nekatibeb	Almotim	ፍቅርአዲስ ነቃጥበብ			3121635011	# medium · Misikir · release · rank 100000
+2025	Fikeraddis Nekatibeb	Yakematelegnal	ፍቅርአዲስ ነቃጥበብ			3218704371	# medium · Yekolo Temari · release · rank 100000
+2024	Fikeraddis Nekatibeb	Addis Ababa	ፍቅርአዲስ ነቃጥበብ			3121635101	# medium · Misikir · release · rank 100000
+2025	Fikeraddis Nekatibeb	Eyew Sela	ፍቅርአዲስ ነቃጥበብ			3218704431	# medium · Yekolo Temari · release · rank 100000
+2025	Fikeraddis Nekatibeb	Ere Babajalew	ፍቅርአዲስ ነቃጥበብ			3218704441	# medium · Yekolo Temari · release · rank 100000
+2025	Fikeraddis Nekatibeb	Amarebeh Alu	ፍቅርአዲስ ነቃጥበብ			3218704471	# medium · Yekolo Temari · release · rank 100000
+2025	Fikeraddis Nekatibeb	Ahun Na	ፍቅርአዲስ ነቃጥበብ			3218704481	# medium · Yekolo Temari · release · rank 100000
+2024	Fikeraddis Nekatibeb	Misikir	ፍቅርአዲስ ነቃጥበብ			3121635041	# medium · Misikir · release · rank 70712
+2004	Fikeraddis Nekatibeb	Mergan Yzo	ፍቅርአዲስ ነቃጥበብ			85444450	# medium · Leul Aswededegn (Ethiopian Contemporary Music) · release · rank 48144
+2004	Fikeraddis Nekatibeb	And Swe	ፍቅርአዲስ ነቃጥበብ			85444454	# medium · Leul Aswededegn (Ethiopian Contemporary Music) · release · rank 40942
+2004	Fikeraddis Nekatibeb	Tesmagn Terunba	ፍቅርአዲስ ነቃጥበብ			85444452	# medium · Leul Aswededegn (Ethiopian Contemporary Music) · release · rank 33094
+2023	Fikeraddis Nekatibeb	Liben Lasmelesew	ፍቅርአዲስ ነቃጥበብ			2475049141	# medium · Atrsagn · release · rank 29805
+2025	Fikeraddis Nekatibeb	Ejeg	ፍቅርአዲስ ነቃጥበብ			3166274951	# medium · Embi · release · rank 29364
+2025	Fikeraddis Nekatibeb	Temeles	ፍቅርአዲስ ነቃጥበብ			3166274901	# medium · Embi · release · rank 26861
+2004	Fikeraddis Nekatibeb	Sbebu	ፍቅርአዲስ ነቃጥበብ			85444456	# medium · Leul Aswededegn (Ethiopian Contemporary Music) · release · rank 26521
+2023	Fikeraddis Nekatibeb	Algebagnm	ፍቅርአዲስ ነቃጥበብ			2475049091	# medium · Atrsagn · release · rank 26518
+2024	Fikeraddis Nekatibeb	Bante Lay	ፍቅርአዲስ ነቃጥበብ			3121635061	# medium · Misikir · release · rank 26266
+2004	Fikeraddis Nekatibeb	Leul Aswededegn	ፍቅርአዲስ ነቃጥበብ			3211075171	# medium · Leul Aswededegn (Ethiopian Contemporary Music) · release · rank 26165
+2004	Fikeraddis Nekatibeb	Bagerachn	ፍቅርአዲስ ነቃጥበብ			85444442	# medium · Leul Aswededegn (Ethiopian Contemporary Music) · release · rank 26050
+2024	Fikeraddis Nekatibeb	Bemedinaw	ፍቅርአዲስ ነቃጥበብ			3121635071	# medium · Misikir · release · rank 25927
+2025	Fikeraddis Nekatibeb	Selemlem	ፍቅርአዲስ ነቃጥበብ			3526333481	# medium · Dehna Sew · release · rank 25209
+2025	Fikeraddis Nekatibeb	Sheliy	ፍቅርአዲስ ነቃጥበብ			3526333391	# medium · Dehna Sew · release · rank 24927
+2025	Fikeraddis Nekatibeb	Yehabesha Lejoch	ፍቅርአዲስ ነቃጥበብ			3166274921	# medium · Embi · release · rank 23647
+2024	Fikeraddis Nekatibeb	Atrak	ፍቅርአዲስ ነቃጥበብ			3121635081	# medium · Misikir · release · rank 22916
+2025	Fikeraddis Nekatibeb	Zarem Atirsagn	ፍቅርአዲስ ነቃጥበብ			3526333471	# medium · Dehna Sew · release · rank 21806
+2024	Fikeraddis Nekatibeb	Belewbelew	ፍቅርአዲስ ነቃጥበብ			3121635001	# medium · Misikir · release · rank 21756
+2004	Fikeraddis Nekatibeb	Yanekal	ፍቅርአዲስ ነቃጥበብ			85444446	# medium · Leul Aswededegn (Ethiopian Contemporary Music) · release · rank 21010
+2004	Fikeraddis Nekatibeb	Behagerachin	ፍቅርአዲስ ነቃጥበብ			3211075141	# medium · Leul Aswededegn (Ethiopian Contemporary Music) · release · rank 20406
+2025	Fikeraddis Nekatibeb	Selam Leki	ፍቅርአዲስ ነቃጥበብ			3526333501	# medium · Dehna Sew · release · rank 20273
+2025	Fikeraddis Nekatibeb	Sewyiew	ፍቅርአዲስ ነቃጥበብ			3526333511	# medium · Dehna Sew · release · rank 17907
+2025	Fikeraddis Nekatibeb	Ohaya	ፍቅርአዲስ ነቃጥበብ			3166274981	# medium · Embi · release · rank 15838
+
+# Martha Ashagari · ማርታ አሻጋሪ
+2007	Martha Ashagari	Tew Enji, Martha Ashagari	ማርታ አሻጋሪ			65445413	# low · The Ethiopian Millennium Collection - Dance · compilation · rank 10110
+
+# Tadesse Alemu · ታደሰ ዓለሙ
+2012	Tadesse Alemu	Awdamet	ታደሰ ዓለሙ			1278629412	# medium · Tadesse Alemu · release · rank 19226
+2012	Tadesse Alemu	Goje Melegnaw	ታደሰ ዓለሙ			1278629372	# medium · Tadesse Alemu · release · rank 18239
+2012	Tadesse Alemu	Musheroch Mare Mare	ታደሰ ዓለሙ			1278629432	# medium · Tadesse Alemu · release · rank 13053
+2012	Tadesse Alemu	Almaz Min Eda New	ታደሰ ዓለሙ			1278629392	# medium · Tadesse Alemu · release · rank 2624
+2012	Tadesse Alemu	Arada	ታደሰ ዓለሙ			1278629402	# medium · Tadesse Alemu · release · rank 2486
+
+# Aregahegn Worash · አረጋኸኝ ወራሽ
+2024	Aregahegn Worash	Teshegnelat Lebe	አረጋኸኝ ወራሽ			3106907741	# medium · Yene Adar · release · rank 100000
+2025	Aregahegn Worash	Aykortim	አረጋኸኝ ወራሽ			3166517791	# medium · Lematetaye · release · rank 100000
+2024	Aregahegn Worash	Eshi Beye	አረጋኸኝ ወራሽ			3090402331	# medium · Tetay · release · rank 100000
+2024	Aregahegn Worash	Endat Lewetaw	አረጋኸኝ ወራሽ			3113065601	# low · Lemoker · bulk · rank 100000
+2024	Aregahegn Worash	Weletash	አረጋኸኝ ወራሽ			3090402321	# medium · Tetay · release · rank 100000
+2025	Aregahegn Worash	Hememye	አረጋኸኝ ወራሽ			3630595342	# medium · Adey Ababa · release · rank 100000
+2024	Aregahegn Worash	Besewenetesh	አረጋኸኝ ወራሽ			3090401501	# medium · Zelel Zelel · release · rank 100000
+2024	Aregahegn Worash	Abroadege Nana	አረጋኸኝ ወራሽ			3090402351	# medium · Tetay · release · rank 100000
+2024	Aregahegn Worash	Zelel Zelel	አረጋኸኝ ወራሽ			3090401581	# medium · Zelel Zelel · release · rank 100000
+2024	Aregahegn Worash	Fikere Mela Beyegne	አረጋኸኝ ወራሽ			3113065561	# low · Lemoker · bulk · rank 100000
+2025	Aregahegn Worash	Ersalign Hode	አረጋኸኝ ወራሽ			3630595322	# medium · Adey Ababa · release · rank 100000
+2024	Aregahegn Worash	Kalkidanachen	አረጋኸኝ ወራሽ			3090402341	# medium · Tetay · release · rank 100000
+2024	Aregahegn Worash	Endezebete	አረጋኸኝ ወራሽ			3113065631	# low · Lemoker · bulk · rank 100000
+2025	Aregahegn Worash	Beteseb Kegeba	አረጋኸኝ ወራሽ			3166517771	# medium · Lematetaye · release · rank 100000
+2025	Aregahegn Worash	Tages	አረጋኸኝ ወራሽ			3630595382	# medium · Adey Ababa · release · rank 100000
+2024	Aregahegn Worash	Zare Enefetawe	አረጋኸኝ ወራሽ			3113065611	# low · Lemoker · bulk · rank 100000
+2025	Aregahegn Worash	Eshururu	አረጋኸኝ ወራሽ			3630595332	# medium · Adey Ababa · release · rank 100000
+2024	Aregahegn Worash	Mela Mela	አረጋኸኝ ወራሽ			3090401531	# medium · Zelel Zelel · release · rank 100000
+2025	Aregahegn Worash	Endanchi Alhon Alegn	አረጋኸኝ ወራሽ			3166517781	# medium · Lematetaye · release · rank 100000
+2024	Aregahegn Worash	Sew Binore	አረጋኸኝ ወራሽ			3113065591	# low · Lemoker · bulk · rank 100000
+2025	Aregahegn Worash	Endet Senbiteshal	አረጋኸኝ ወራሽ			3166517761	# medium · Lematetaye · release · rank 100000
+2025	Aregahegn Worash	Kelal	አረጋኸኝ ወራሽ			3630595372	# medium · Adey Ababa · release · rank 100000
+2024	Aregahegn Worash	Setebekesh Wuy	አረጋኸኝ ወራሽ			3090402401	# medium · Tetay · release · rank 100000
+2024	Aregahegn Worash	Edil Etaye	አረጋኸኝ ወራሽ			3113065581	# low · Lemoker · bulk · rank 100000
+2024	Aregahegn Worash	Zenbel Ehode	አረጋኸኝ ወራሽ			3106907731	# medium · Yene Adar · release · rank 100000
+2025	Aregahegn Worash	Gelel Bel Mewdede	አረጋኸኝ ወራሽ			3166517741	# medium · Lematetaye · release · rank 100000
+2024	Aregahegn Worash	Embi Bel	አረጋኸኝ ወራሽ			3106907901	# medium · Yene Amel Ande Newe · release · rank 100000
+2024	Aregahegn Worash	Yameral	አረጋኸኝ ወራሽ			3106907871	# medium · Yene Amel Ande Newe · release · rank 100000
+2024	Aregahegn Worash	Yashamal	አረጋኸኝ ወራሽ			3106907911	# medium · Yene Amel Ande Newe · release · rank 100000
+2025	Aregahegn Worash	Sebeb Feteresh Alu	አረጋኸኝ ወራሽ			3630595362	# medium · Adey Ababa · release · rank 100000
+2025	Aregahegn Worash	Yezemen Enkokelsh	አረጋኸኝ ወራሽ			3723046122	# medium · Yezemen Enkokelsh · release · rank 100000
+2024	Aregahegn Worash	Leagere Weleta	አረጋኸኝ ወራሽ			3106907801	# medium · Yene Adar · release · rank 100000
+2024	Aregahegn Worash	Lene Endanchi Yelem	አረጋኸኝ ወራሽ			3090402361	# medium · Tetay · release · rank 100000
+2025	Aregahegn Worash	Yene Lefat	አረጋኸኝ ወራሽ			3630595402	# medium · Adey Ababa · release · rank 100000
+2025	Aregahegn Worash	Wai Wai Simae	አረጋኸኝ ወራሽ			3166517731	# medium · Lematetaye · release · rank 100000
+2024	Aregahegn Worash	Bemewedede	አረጋኸኝ ወራሽ			3090401591	# medium · Zelel Zelel · release · rank 100000
+2025	Aregahegn Worash	Mafkeren Lawrsish	አረጋኸኝ ወራሽ			3166517721	# medium · Lematetaye · release · rank 100000
+2024	Aregahegn Worash	Nafekot Yalefal	አረጋኸኝ ወራሽ			3106907841	# medium · Yene Amel Ande Newe · release · rank 100000
+2024	Aregahegn Worash	Tizitash	አረጋኸኝ ወራሽ			3090401551	# medium · Zelel Zelel · release · rank 100000
+2024	Aregahegn Worash	Hememtegnash	አረጋኸኝ ወራሽ			3090401571	# medium · Zelel Zelel · release · rank 100000
+
+# Tsegaye Eshetu · ፀጋዬ እሸቱ
+2025	Tsegaye Eshetu	Esti Abrulign	ፀጋዬ እሸቱ			3454734241	# medium · Esti Abrulign · release · rank 100000
+2013	Tsegaye Eshetu	Dosiew	ፀጋዬ እሸቱ			116313622	# low · Best of Tsegaye Eshetu · compilation · rank 87348
+2013	Tsegaye Eshetu	Yaye Ale	ፀጋዬ እሸቱ			116313610	# low · Best of Tsegaye Eshetu · compilation · rank 42226
+2013	Tsegaye Eshetu	Yeayn Abeba	ፀጋዬ እሸቱ			116313616	# low · Best of Tsegaye Eshetu · compilation · rank 38116
+2011	Tsegaye Eshetu	Ateshguwatem Woy	ፀጋዬ እሸቱ			13603085	# medium · Wedding Songs · release · rank 31636
+2013	Tsegaye Eshetu	Sew Yale Sew	ፀጋዬ እሸቱ			116313602	# low · Best of Tsegaye Eshetu · compilation · rank 31452
+2011	Tsegaye Eshetu	Musheraye	ፀጋዬ እሸቱ			13603083	# medium · Wedding Songs · release · rank 31439
+2011	Tsegaye Eshetu	Asheweyna	ፀጋዬ እሸቱ			13603079	# medium · Wedding Songs · release · rank 30620
+2013	Tsegaye Eshetu	Teguazi Baynie Lay	ፀጋዬ እሸቱ			116313620	# low · Best of Tsegaye Eshetu · compilation · rank 26229
+2013	Tsegaye Eshetu	Alasgedidshem	ፀጋዬ እሸቱ			116313614	# low · Best of Tsegaye Eshetu · compilation · rank 26203
+2002	Tsegaye Eshetu	Muna	ፀጋዬ እሸቱ			13603082	# medium · Nigat · release · rank 25988
+2002	Tsegaye Eshetu	Timechignalesh	ፀጋዬ እሸቱ			73696659	# medium · Nigat · release · rank 25862
+2011	Tsegaye Eshetu	Hail Loga	ፀጋዬ እሸቱ			13603086	# medium · Wedding Songs · release · rank 25791
+2002	Tsegaye Eshetu	Ya Zemen	ፀጋዬ እሸቱ			13603081	# medium · Nigat · release · rank 22030
+2013	Tsegaye Eshetu	Sendekalama	ፀጋዬ እሸቱ			116313596	# low · Best of Tsegaye Eshetu · compilation · rank 21692
+2002	Tsegaye Eshetu	Nigat	ፀጋዬ እሸቱ			73696658	# medium · Nigat · release · rank 21673
+2002	Tsegaye Eshetu	Bonus Track	ፀጋዬ እሸቱ			73696661	# medium · Nigat · release · rank 21623
+2013	Tsegaye Eshetu	Gelglegne	ፀጋዬ እሸቱ			116313618	# low · Best of Tsegaye Eshetu · compilation · rank 21476
+2011	Tsegaye Eshetu	Yebete Zemedu	ፀጋዬ እሸቱ			13603084	# medium · Wedding Songs · release · rank 21176
+2013	Tsegaye Eshetu	Lesergua Teterahu	ፀጋዬ እሸቱ			116313608	# low · Best of Tsegaye Eshetu · compilation · rank 19406
+2002	Tsegaye Eshetu	Asertu Tizazat	ፀጋዬ እሸቱ			73696653	# medium · Nigat · release · rank 18760
+2002	Tsegaye Eshetu	Tedesetsh	ፀጋዬ እሸቱ			73696652	# medium · Nigat · release · rank 18357
+2013	Tsegaye Eshetu	Ehiedalehu Harer	ፀጋዬ እሸቱ			116313604	# low · Best of Tsegaye Eshetu · compilation · rank 17907
+2013	Tsegaye Eshetu	Galel Bey	ፀጋዬ እሸቱ			116313612	# low · Best of Tsegaye Eshetu · compilation · rank 16710
+2002	Tsegaye Eshetu	Man Anchin Yiketelal	ፀጋዬ እሸቱ			73696657	# medium · Nigat · release · rank 6881
+2013	Tsegaye Eshetu	Abay Negadie	ፀጋዬ እሸቱ			116313600	# low · Best of Tsegaye Eshetu · compilation · rank 3096
+2002	Tsegaye Eshetu	Tetsenalegn	ፀጋዬ እሸቱ			73696654	# medium · Nigat · release · rank 2766
+2002	Tsegaye Eshetu	Kijet	ፀጋዬ እሸቱ			73696656	# medium · Nigat · release · rank 2763
+2011	Tsegaye Eshetu	Zare New	ፀጋዬ እሸቱ			13603080	# medium · Wedding Songs · release · rank 2488
+2013	Tsegaye Eshetu	Tekelekele Alu	ፀጋዬ እሸቱ			116313598	# low · Best of Tsegaye Eshetu · compilation · rank 2220
+2002	Tsegaye Eshetu	Azaj	ፀጋዬ እሸቱ			73696651	# medium · Nigat · release · rank 1459
+2013	Tsegaye Eshetu	Zemnanit	ፀጋዬ እሸቱ			116313606	# low · Best of Tsegaye Eshetu · compilation · rank 805
+
+# Bezawork Asfaw · በዛወርቅ አስፋው
+2024	Bezawork Asfaw	Batah New Kegone	በዛወርቅ አስፋው			2818927192	# low · Fiker Yegara New · bulk · rank 21510
+2024	Bezawork Asfaw	Sasbeh Adralewfalc	በዛወርቅ አስፋው			2818927262	# low · Fiker Yegara New · bulk · rank 11604
+2024	Bezawork Asfaw	Akal Mewded	በዛወርቅ አስፋው			2818927182	# low · Fiker Yegara New · bulk · rank 8441
+2024	Bezawork Asfaw	Kante Ketro	በዛወርቅ አስፋው			2818927232	# low · Fiker Yegara New · bulk · rank 6900
+2024	Bezawork Asfaw	Fikir Yegara Newfalc	በዛወርቅ አስፋው			2818927222	# low · Fiker Yegara New · bulk · rank 2766
+2024	Bezawork Asfaw	Leman Hije Lawra	በዛወርቅ አስፋው			2818927252	# low · Fiker Yegara New · bulk · rank 1620
+2024	Bezawork Asfaw	Eski Lingoraded	በዛወርቅ አስፋው			2818927212	# low · Fiker Yegara New · bulk · rank 964
+
+# Yehunie Belay · የሁኔ በላይ
+2026	Yehunie Belay	ZOMAYE	የሁኔ በላይ			4247217131	# medium · ZOMAYE · release · rank 100000
+2026	Yehunie Belay	ETIE ADO	የሁኔ በላይ			4247217171	# medium · ZOMAYE · release · rank 100000
+2026	Yehunie Belay	MELA ALEW	የሁኔ በላይ			4247217091	# medium · ZOMAYE · release · rank 100000
+2026	Yehunie Belay	ENIES BAGERIE	የሁኔ በላይ			4247217101	# medium · ZOMAYE · release · rank 100000
+2026	Yehunie Belay	AGEGNESHIGN	የሁኔ በላይ			4247217151	# medium · ZOMAYE · release · rank 100000
+2026	Yehunie Belay	ENJALGN	የሁኔ በላይ			4247217121	# medium · ZOMAYE · release · rank 100000
+2026	Yehunie Belay	TEY ZEW ZEW	የሁኔ በላይ			4247217161	# medium · ZOMAYE · release · rank 100000
+2026	Yehunie Belay	ENIE HOY	የሁኔ በላይ			4247217141	# medium · ZOMAYE · release · rank 100000
+2000	Yehunie Belay	Wa Sintu	የሁኔ በላይ			1258700922	# medium · Bi Bi Kefilaw Sir · release · rank 36351
+1989	Yehunie Belay	Ehehe	የሁኔ በላይ			374780101	# medium · Yagere Lij · release · rank 30358
+2008	Yehunie Belay	Min Alebish	የሁኔ በላይ			371599771	# medium · Zengena · release · rank 27891
+2003	Yehunie Belay	Del Edel	የሁኔ በላይ			374771891	# medium · Zegelila · release · rank 27079
+2003	Yehunie Belay	Enanit	የሁኔ በላይ			374771881	# medium · Zegelila · release · rank 27043
+2008	Yehunie Belay	Emeye Ethiopia	የሁኔ በላይ			371599791	# medium · Zengena · release · rank 26951
+2014	Yehunie Belay	Guzara	የሁኔ በላይ			371120621	# medium · Guzara · release · rank 26896
+2014	Yehunie Belay	Siyamer Chewataw	የሁኔ በላይ			371120671	# medium · Guzara · release · rank 26783
+2006	Yehunie Belay	Monedaleye	የሁኔ በላይ			1258624832	# low · Yehunie Belay Classics · compilation · rank 26679
+2008	Yehunie Belay	Lingerish	የሁኔ በላይ			371599681	# medium · Zengena · release · rank 26277
+1998	Yehunie Belay	Kim Kimuwan	የሁኔ በላይ			813206252	# medium · Kuku Melekote · release · rank 26194
+2000	Yehunie Belay	Yadenkushal	የሁኔ በላይ			1258700882	# medium · Bi Bi Kefilaw Sir · release · rank 25833
+2014	Yehunie Belay	Hay Mulo	የሁኔ በላይ			371120681	# medium · Guzara · release · rank 25730
+1998	Yehunie Belay	Zemenmana	የሁኔ በላይ			813206242	# medium · Kuku Melekote · release · rank 25298
+2019	Yehunie Belay	Embe Bel Belay	የሁኔ በላይ			814133122	# low · Embe Bel Belay · bulk · rank 25226
+2003	Yehunie Belay	Emeyu	የሁኔ በላይ			374771901	# medium · Zegelila · release · rank 25132
+2021	Yehunie Belay	Dem Dem	የሁኔ በላይ			1258571642	# medium · Dem Dem · release · rank 25103
+1994	Yehunie Belay	Emye Monemone	የሁኔ በላይ			1392930332	# medium · Alo Lulo · release · rank 24967
+2003	Yehunie Belay	Ney Ney	የሁኔ በላይ			374771861	# medium · Zegelila · release · rank 24885
+1992	Yehunie Belay	Ker Alegn	የሁኔ በላይ			556165852	# medium · Gibi Gibi · release · rank 24876
+2008	Yehunie Belay	Yalem	የሁኔ በላይ			371599701	# medium · Zengena · release · rank 24479
+2018	Yehunie Belay	Selamesh Yibza	የሁኔ በላይ			564115872	# medium · Selamesh Yibza · release · rank 22747
+2017	Yehunie Belay	Adegnegn ETE	የሁኔ በላይ			556166012	# medium · Gibi Gibi · release · rank 22500
+1992	Yehunie Belay	Zoma	የሁኔ በላይ			556165922	# medium · Gibi Gibi · release · rank 22500
+1989	Yehunie Belay	Yale Guazu	የሁኔ በላይ			374780111	# medium · Yagere Lij · release · rank 22500
+1989	Yehunie Belay	Guzeguze	የሁኔ በላይ			374780081	# medium · Yagere Lij · release · rank 22500
+1992	Yehunie Belay	Abesheye	የሁኔ በላይ			556165932	# medium · Gibi Gibi · release · rank 22500
+2017	Yehunie Belay	Sanamonamunew	የሁኔ በላይ			556166002	# medium · Gibi Gibi · release · rank 22500
+2017	Yehunie Belay	Mondalle	የሁኔ በላይ			556165992	# medium · Gibi Gibi · release · rank 22500
+2003	Yehunie Belay	Wole Belu	የሁኔ በላይ			374771871	# medium · Zegelila · release · rank 22307
+2008	Yehunie Belay	Meleyet	የሁኔ በላይ			371599761	# medium · Zengena · release · rank 22213
+1994	Yehunie Belay	Alo Lulo	የሁኔ በላይ			1392930312	# medium · Alo Lulo · release · rank 22034
+
+# Tewodros Tadesse · ቴዎድሮስ ታደሰ
+2025	Tewodros Tadesse	Shega	ቴዎድሮስ ታደሰ			3366640851	# medium · Ethiopia · release · rank 100000
+2025	Tewodros Tadesse	Setebekesh Wuy	ቴዎድሮስ ታደሰ			3366640921	# medium · Ethiopia · release · rank 100000
+2025	Tewodros Tadesse	Yaregal	ቴዎድሮስ ታደሰ			3366640891	# medium · Ethiopia · release · rank 100000
+2025	Tewodros Tadesse	Ereman Nebere	ቴዎድሮስ ታደሰ			3366640901	# medium · Ethiopia · release · rank 100000
+2021	Tewodros Tadesse	Kerehugn Tekije	ቴዎድሮስ ታደሰ			2079628817	# low · The Ethiopian Classic, Vol. 5 · compilation · rank 71068
+2021	Tewodros Tadesse	Ketemaw	ቴዎድሮስ ታደሰ			2079628827	# low · The Ethiopian Classic, Vol. 5 · compilation · rank 69053
+2021	Tewodros Tadesse	Tifategnaw Gela	ቴዎድሮስ ታደሰ			2079628897	# low · The Ethiopian Classic, Vol. 5 · compilation · rank 62318
+2025	Tewodros Tadesse	Mewded Eda	ቴዎድሮስ ታደሰ			3366640701	# medium · Ethiopia · release · rank 53513
+2021	Tewodros Tadesse	Yigermal	ቴዎድሮስ ታደሰ			2079628977	# low · The Ethiopian Classic, Vol. 5 · compilation · rank 53512
+2022	Tewodros Tadesse	Ayeqerm Andsew	ቴዎድሮስ ታደሰ			1682041857	# medium · Emeye Ethiopia · release · rank 53348
+2021	Tewodros Tadesse	Yawatashal Wey	ቴዎድሮስ ታደሰ			2079628937	# low · The Ethiopian Classic, Vol. 5 · compilation · rank 51626
+2021	Tewodros Tadesse	Eyekorekorgn	ቴዎድሮስ ታደሰ			2079628787	# low · The Ethiopian Classic, Vol. 5 · compilation · rank 51227
+2021	Tewodros Tadesse	Atibabi Sileyish	ቴዎድሮስ ታደሰ			2079628967	# low · The Ethiopian Classic, Vol. 5 · compilation · rank 50437
+2021	Tewodros Tadesse	Lefkir Neber	ቴዎድሮስ ታደሰ			2079628847	# low · The Ethiopian Classic, Vol. 5 · compilation · rank 49678
+2021	Tewodros Tadesse	Tsigereda	ቴዎድሮስ ታደሰ			2079628917	# low · The Ethiopian Classic, Vol. 5 · compilation · rank 49192
+2021	Tewodros Tadesse	Kishet	ቴዎድሮስ ታደሰ			2079628837	# low · The Ethiopian Classic, Vol. 5 · compilation · rank 48422
+1997	Tewodros Tadesse	Zimita	ቴዎድሮስ ታደሰ			69375491	# medium · Zimita · release · rank 41534
+2021	Tewodros Tadesse	Tsome Diguwa	ቴዎድሮስ ታደሰ			2079628927	# low · The Ethiopian Classic, Vol. 5 · compilation · rank 40470
+1997	Tewodros Tadesse	Girma Mogese	ቴዎድሮስ ታደሰ			69375498	# medium · Zimita · release · rank 33170
+2022	Tewodros Tadesse	Bemewadedachin	ቴዎድሮስ ታደሰ			1682041847	# medium · Emeye Ethiopia · release · rank 32769
+2021	Tewodros Tadesse	Mewadedachin	ቴዎድሮስ ታደሰ			2079628867	# low · The Ethiopian Classic, Vol. 5 · compilation · rank 32690
+1999	Tewodros Tadesse	Main Titles	ቴዎድሮስ ታደሰ			967645	# medium · Endurance · release · rank 31024
+2022	Tewodros Tadesse	Tey Tey Eyalikushe	ቴዎድሮስ ታደሰ			1682041907	# medium · Emeye Ethiopia · release · rank 30263
+2025	Tewodros Tadesse	Menew Bene Lay	ቴዎድሮስ ታደሰ			3366640961	# medium · Ethiopia · release · rank 27604
+2025	Tewodros Tadesse	Emawayish silish	ቴዎድሮስ ታደሰ			3366640591	# medium · Ethiopia · release · rank 27120
+2025	Tewodros Tadesse	Min Alush	ቴዎድሮስ ታደሰ			3366640631	# medium · Ethiopia · release · rank 27116
+2025	Tewodros Tadesse	Anchi Lij	ቴዎድሮስ ታደሰ			3366640681	# medium · Ethiopia · release · rank 27024
+2025	Tewodros Tadesse	Minew Mewudeden	ቴዎድሮስ ታደሰ			3366640711	# medium · Ethiopia · release · rank 27019
+2025	Tewodros Tadesse	Neger	ቴዎድሮስ ታደሰ			3366640721	# medium · Ethiopia · release · rank 27018
+2013	Tewodros Tadesse	Bemewadedashen	ቴዎድሮስ ታደሰ			76956328	# medium · Yesterday & Today · release · rank 26995
+2021	Tewodros Tadesse	Melegna	ቴዎድሮስ ታደሰ			2079628857	# low · The Ethiopian Classic, Vol. 5 · compilation · rank 26544
+2013	Tewodros Tadesse	Sadulaye	ቴዎድሮስ ታደሰ			76956325	# medium · Yesterday & Today · release · rank 26118
+2013	Tewodros Tadesse	Ametawe	ቴዎድሮስ ታደሰ			76956334	# medium · Yesterday & Today · release · rank 25931
+2013	Tewodros Tadesse	Lubanjaye	ቴዎድሮስ ታደሰ			76956329	# medium · Yesterday & Today · release · rank 25763
+2021	Tewodros Tadesse	Demo Be Ayne Metash	ቴዎድሮስ ታደሰ			2079628777	# low · The Ethiopian Classic, Vol. 5 · compilation · rank 25536
+2022	Tewodros Tadesse	Sew Mamen	ቴዎድሮስ ታደሰ			1682041897	# medium · Emeye Ethiopia · release · rank 24884
+1997	Tewodros Tadesse	Albo	ቴዎድሮስ ታደሰ			69375495	# medium · Zimita · release · rank 23856
+2013	Tewodros Tadesse	Menewezares	ቴዎድሮስ ታደሰ			76956330	# medium · Yesterday & Today · release · rank 23258
+2025	Tewodros Tadesse	Fikrun Aynfegen	ቴዎድሮስ ታደሰ			3366640571	# medium · Ethiopia · release · rank 22225
+2021	Tewodros Tadesse	Tiru Mignot	ቴዎድሮስ ታደሰ			2079628907	# low · The Ethiopian Classic, Vol. 5 · compilation · rank 21912
+
+# Dawit Mellesse · ዳዊት መለሰ
+2003	Dawit Mellesse	Konjo Bager	ዳዊት መለሰ			3585797141	# medium · Andiken · release · rank 62281
+2003	Dawit Mellesse	Ferejign	ዳዊት መለሰ			3585797181	# medium · Andiken · release · rank 34761
+2003	Dawit Mellesse	Wetatwan Lij	ዳዊት መለሰ			3585797171	# medium · Andiken · release · rank 30941
+2003	Dawit Mellesse	Nefs Nesh	ዳዊት መለሰ			3585797161	# medium · Andiken · release · rank 26377
+1999	Dawit Mellesse	Diresh Kedega	ዳዊት መለሰ			3585710531	# medium · Anchin New · release · rank 25683
+1999	Dawit Mellesse	Bichashn	ዳዊት መለሰ			3585710451	# medium · Anchin New · release · rank 21972
+1995	Dawit Mellesse	Kanchi Lela	ዳዊት መለሰ			3586238451	# medium · Lottery · release · rank 21912
+1999	Dawit Mellesse	Alchalkum	ዳዊት መለሰ			3456242941	# medium · Anchin New · release · rank 21772
+2003	Dawit Mellesse	Astawsishalehu	ዳዊት መለሰ			3585797211	# medium · Andiken · release · rank 21163
+1995	Dawit Mellesse	Derbabaye	ዳዊት መለሰ			3586238441	# medium · Lottery · release · rank 21126
+2003	Dawit Mellesse	Ehil Wesh	ዳዊት መለሰ			3585797101	# medium · Andiken · release · rank 18349
+1999	Dawit Mellesse	Keremela	ዳዊት መለሰ			3585710541	# medium · Anchin New · release · rank 17780
+2003	Dawit Mellesse	Yaken Yemetana	ዳዊት መለሰ			3585797151	# medium · Andiken · release · rank 17531
+2003	Dawit Mellesse	Min Yilishal	ዳዊት መለሰ			3585797191	# medium · Andiken · release · rank 16036
+1999	Dawit Mellesse	Yagere Lij	ዳዊት መለሰ			3585710481	# medium · Anchin New · release · rank 13717
+1999	Dawit Mellesse	Suse Nesh	ዳዊት መለሰ			3585710521	# medium · Anchin New · release · rank 11874
+1999	Dawit Mellesse	Min Yishalegnal	ዳዊት መለሰ			3585710501	# medium · Anchin New · release · rank 11835
+1995	Dawit Mellesse	Lijnetish Alfwal	ዳዊት መለሰ			3586238471	# medium · Lottery · release · rank 11668
+2025	Dawit Mellesse	Set Alamnm	ዳዊት መለሰ			3430192861	# medium · Set Alamnm · release · rank 11558
+1999	Dawit Mellesse	Anchin New	ዳዊት መለሰ			3585710461	# medium · Anchin New · release · rank 8952
+1995	Dawit Mellesse	Atemekibet	ዳዊት መለሰ			3586238501	# medium · Lottery · release · rank 8925
+2003	Dawit Mellesse	Laltelash Kal Alegn	ዳዊት መለሰ			3585797111	# medium · Andiken · release · rank 8532
+1995	Dawit Mellesse	Anchiw Direshilgn	ዳዊት መለሰ			3586238461	# medium · Lottery · release · rank 3428
+1999	Dawit Mellesse	Ayisemashim	ዳዊት መለሰ			3585710491	# medium · Anchin New · release · rank 3069
+1999	Dawit Mellesse	Rabew Aynen	ዳዊት መለሰ			3585710511	# medium · Anchin New · release · rank 2973
+1995	Dawit Mellesse	Mannew	ዳዊት መለሰ			3586238431	# medium · Lottery · release · rank 2758
+1995	Dawit Mellesse	Atinkugn	ዳዊት መለሰ			3586238411	# medium · Lottery · release · rank 2488
+1995	Dawit Mellesse	ye-mishit kokeb	ዳዊት መለሰ			3586238481	# medium · Lottery · release · rank 2488
+2003	Dawit Mellesse	Andiken	ዳዊት መለሰ			3585797131	# medium · Andiken · release · rank 1803
+2003	Dawit Mellesse	Ejen Setehu	ዳዊት መለሰ			3585797221	# medium · Andiken · release · rank 1796
+1995	Dawit Mellesse	Sally	ዳዊት መለሰ			3586238511	# medium · Lottery · release · rank 1643
+2003	Dawit Mellesse	Maldesh	ዳዊት መለሰ			3585797201	# medium · Andiken · release · rank 1068
+
+# Abebe Teka · አበበ ተካ
+
+# Yeshimebet Dubale · የሺመቤት ዱባለ
+2025	Yeshimebet Dubale	Yewalekebet	የሺመቤት ዱባለ			3657865582	# medium · Yewalekebet · release · rank 26184
+
+# Shambel Belayneh · ሻምበል በላይነህ
+2026	Shambel Belayneh	Wollo	ሻምበል በላይነህ			4042055231	# medium · Wollo · release · rank 24964
+2007	Shambel Belayneh	Kalem Alamnew, Shambel Belayneh	ሻምበል በላይነህ			65445389	# low · The Ethiopian Millennium Collection - Traditional · compilation · rank 22215
+2007	Shambel Belayneh	Endënnesh Endënnesh, Shambel Belayneh	ሻምበል በላይነህ			65445394	# low · The Ethiopian Millennium Collection - Traditional · compilation · rank 19975
+2007	Shambel Belayneh	Arheebu, Shambel Belayneh	ሻምበል በላይነህ			65445398	# low · The Ethiopian Millennium Collection - Traditional · compilation · rank 18624
+
+# Teshome Wolde · ተሾመ ወልዴ
+2007	Teshome Wolde	Ye-Shewa Alemena, Teshome Wolde	ተሾመ ወልዴ			65445401	# low · The Ethiopian Millennium Collection - Dance · compilation · rank 25355
+1982	Teshome Wolde	Teahome wolde -mejemeriya mawek	ተሾመ ወልዴ			3410359111	# medium · Teshome wolde-mejemeriya mawek · release · rank 3458
+
+# Elias Tebabal · ኤልያስ ተባባል
+2025	Elias Tebabal	Mamaye	ኤልያስ ተባባል			3323916361	# medium · Mamaye · release · rank 48130
+2025	Elias Tebabal	Abejehu	ኤልያስ ተባባል			3713210242	# medium · Ethiopia · release · rank 22022
+2025	Elias Tebabal	Tewdag	ኤልያስ ተባባል			3713210232	# medium · Ethiopia · release · rank 6987
+2026	Elias Tebabal	Selanche	ኤልያስ ተባባል			3787278822	# medium · Gonder · release · rank 1456
+2025	Elias Tebabal	Qribign	ኤልያስ ተባባል			3713210322	# medium · Ethiopia · release · rank 966
+
+# Solomon Tekalign · ሰለሞን ተካልኝ
+
+# Fantahun Shewankochew · ፋንታሁን ሸዋንቆጨው
+1998	Fantahun Shewankochew	Kiraren Bikagnew	ፋንታሁን ሸዋንቆጨው			10392671	# medium · Ethiopie, chants d'amour / Ethiopia, Love Songs · release · rank 30915
+1998	Fantahun Shewankochew	Sewnetua	ፋንታሁን ሸዋንቆጨው			10392674	# medium · Ethiopie, chants d'amour / Ethiopia, Love Songs · release · rank 21387
+1998	Fantahun Shewankochew	Bati	ፋንታሁን ሸዋንቆጨው			10392665	# medium · Ethiopie, chants d'amour / Ethiopia, Love Songs · release · rank 21134
+1998	Fantahun Shewankochew	Yeberutma	ፋንታሁን ሸዋንቆጨው			10392666	# medium · Ethiopie, chants d'amour / Ethiopia, Love Songs · release · rank 18371
+1998	Fantahun Shewankochew	Yene Neh Woy	ፋንታሁን ሸዋንቆጨው			10392676	# medium · Ethiopie, chants d'amour / Ethiopia, Love Songs · release · rank 14625
+1998	Fantahun Shewankochew	Ambassal	ፋንታሁን ሸዋንቆጨው			10392673	# medium · Ethiopie, chants d'amour / Ethiopia, Love Songs · release · rank 8935
+
+# Zeleke Gessesse · ዘለቀ ገሠሠ
+
+# Alemtsehay Wodajo · ዓለምፀሐይ ወዳጆ
+
+# Teshome Assegid · ተሾመ አሰግድ
+
+# Bitsat Seyoum · ብፅዓት ስዩም
+1995	Bitsat Seyoum	Bati	ብፅዓት ስዩም			1857084967	# medium · Azmaris Urbains d'Éthiopie · release · rank 33397
+2023	Bitsat Seyoum	Enisebaseb	ብፅዓት ስዩም			2340619385	# medium · Adera Lijen · release · rank 27140
+1995	Bitsat Seyoum	Abeba Abeba	ብፅዓት ስዩም			1857084977	# medium · Azmaris Urbains d'Éthiopie · release · rank 27079
+1995	Bitsat Seyoum	Enegenagnalen (Live)	ብፅዓት ስዩም			1857085037	# medium · Azmaris Urbains d'Éthiopie · release · rank 25189
+
+# Genet Masresha · ገነት ማስረሻ
+2010	Genet Masresha	Gojam Yimechew	ገነት ማስረሻ			542839612	# medium · Korahu Chis Albaw · release · rank 69954
+2025	Genet Masresha	Lib Wulk	ገነት ማስረሻ			3654663652	# medium · Lib Wulk · release · rank 32047
+2010	Genet Masresha	Shewa (Minjar)	ገነት ማስረሻ			542839692	# medium · Korahu Chis Albaw · release · rank 29395
+2025	Genet Masresha	Gojjam	ገነት ማስረሻ			3654663632	# medium · Lib Wulk · release · rank 21219
+2010	Genet Masresha	Gerado (Wello)	ገነት ማስረሻ			542839702	# medium · Korahu Chis Albaw · release · rank 9999
+2025	Genet Masresha	Ambassel	ገነት ማስረሻ			3654663582	# medium · Lib Wulk · release · rank 9017
+2025	Genet Masresha	Babajalew	ገነት ማስረሻ			3654663552	# medium · Lib Wulk · release · rank 7744
+
+# Mohammed Tawil · መሐመድ ጣዊል
+
+# Gossaye Tesfaye · ጎሳዬ ተስፋዬ
+2018	Gossaye Tesfaye	Endete Argoshale	ጎሳዬ ተስፋዬ			616050452	# low · Evangadi · bulk · rank 128915
+2018	Gossaye Tesfaye	Kurat	ጎሳዬ ተስፋዬ			616050362	# low · Evangadi · bulk · rank 120821
+2018	Gossaye Tesfaye	Yelamba Kuraz Kire	ጎሳዬ ተስፋዬ			609721732	# low · Single Collections · compilation · rank 92939
+2018	Gossaye Tesfaye	Yane Leje Eyalen	ጎሳዬ ተስፋዬ			616050412	# low · Evangadi · bulk · rank 90323
+2019	Gossaye Tesfaye	Ke Ehud Eske Ehud	ጎሳዬ ተስፋዬ			623766512	# medium · Siyamish Yamegnal · release · rank 89214
+2018	Gossaye Tesfaye	Endet Yezelkal	ጎሳዬ ተስፋዬ			616050372	# low · Evangadi · bulk · rank 88921
+2019	Gossaye Tesfaye	Libuan Alfo	ጎሳዬ ተስፋዬ			623766612	# medium · Siyamish Yamegnal · release · rank 64561
+2018	Gossaye Tesfaye	Dire Dire	ጎሳዬ ተስፋዬ			609721782	# low · Single Collections · compilation · rank 64394
+2010	Gossaye Tesfaye	Satamehagn Bila	ጎሳዬ ተስፋዬ			611478002	# medium · Satamagne Bela · release · rank 57239
+2018	Gossaye Tesfaye	Chaw Chaw	ጎሳዬ ተስፋዬ			616050432	# low · Evangadi · bulk · rank 54719
+2018	Gossaye Tesfaye	Evangadi	ጎሳዬ ተስፋዬ			616050392	# low · Evangadi · bulk · rank 53798
+2018	Gossaye Tesfaye	Yeged Sew	ጎሳዬ ተስፋዬ			609721762	# low · Single Collections · compilation · rank 53210
+2018	Gossaye Tesfaye	Sentune Ayehute	ጎሳዬ ተስፋዬ			616050482	# low · Evangadi · bulk · rank 42401
+2018	Gossaye Tesfaye	Abay Weyes Vegas	ጎሳዬ ተስፋዬ			609721822	# low · Single Collections · compilation · rank 42384
+2018	Gossaye Tesfaye	Sentune Chalku	ጎሳዬ ተስፋዬ			616050422	# low · Evangadi · bulk · rank 39523
+2018	Gossaye Tesfaye	Ewedihalew Bila	ጎሳዬ ተስፋዬ			614506802	# low · Satamagne Bela · bulk · rank 39468
+2019	Gossaye Tesfaye	Teregagash Woy	ጎሳዬ ተስፋዬ			623766542	# medium · Siyamish Yamegnal · release · rank 33199
+2019	Gossaye Tesfaye	Wub Alem	ጎሳዬ ተስፋዬ			623766622	# medium · Siyamish Yamegnal · release · rank 33190
+2010	Gossaye Tesfaye	Sew Telamdo	ጎሳዬ ተስፋዬ			611478112	# medium · Satamagne Bela · release · rank 32905
+2019	Gossaye Tesfaye	Yitayegnal	ጎሳዬ ተስፋዬ			623766642	# medium · Siyamish Yamegnal · release · rank 32584
+2019	Gossaye Tesfaye	Siyamish Yamegnal	ጎሳዬ ተስፋዬ			623766592	# medium · Siyamish Yamegnal · release · rank 32540
+2018	Gossaye Tesfaye	Alekaye	ጎሳዬ ተስፋዬ			609721742	# low · Single Collections · compilation · rank 31081
+2018	Gossaye Tesfaye	Adera	ጎሳዬ ተስፋዬ			609721802	# low · Single Collections · compilation · rank 30837
+2010	Gossaye Tesfaye	Koya Babo	ጎሳዬ ተስፋዬ			611477992	# medium · Satamagne Bela · release · rank 27165
+2018	Gossaye Tesfaye	Sene	ጎሳዬ ተስፋዬ			609721752	# low · Single Collections · compilation · rank 26905
+2018	Gossaye Tesfaye	Letanashwa Lisga	ጎሳዬ ተስፋዬ			609721842	# low · Single Collections · compilation · rank 26900
+2003	Gossaye Tesfaye	Yezelalemenesh	ጎሳዬ ተስፋዬ			432726412	# high · Best Singles of 2003 (Nahom Favorite, Vol. 3) · title · rank 26174
+2018	Gossaye Tesfaye	Min Adergalehu	ጎሳዬ ተስፋዬ			614506842	# low · Satamagne Bela · bulk · rank 25967
+2010	Gossaye Tesfaye	Wib Nat	ጎሳዬ ተስፋዬ			611478032	# medium · Satamagne Bela · release · rank 25787
+2019	Gossaye Tesfaye	Selam Yisten	ጎሳዬ ተስፋዬ			623766522	# medium · Siyamish Yamegnal · release · rank 25786
+2010	Gossaye Tesfaye	Tuxedo	ጎሳዬ ተስፋዬ			611478082	# medium · Satamagne Bela · release · rank 25782
+2019	Gossaye Tesfaye	Dagna Dagna	ጎሳዬ ተስፋዬ			623766552	# medium · Siyamish Yamegnal · release · rank 25778
+2010	Gossaye Tesfaye	Akoyat	ጎሳዬ ተስፋዬ			611478062	# medium · Satamagne Bela · release · rank 25736
+2019	Gossaye Tesfaye	Chir Kalew Bota	ጎሳዬ ተስፋዬ			623766572	# medium · Siyamish Yamegnal · release · rank 25225
+2010	Gossaye Tesfaye	Konjiye	ጎሳዬ ተስፋዬ			611478042	# medium · Satamagne Bela · release · rank 22461
+2018	Gossaye Tesfaye	Woin Yastefese	ጎሳዬ ተስፋዬ			609721772	# low · Single Collections · compilation · rank 21892
+2018	Gossaye Tesfaye	Wegen Tesebseb	ጎሳዬ ተስፋዬ			609721792	# low · Single Collections · compilation · rank 21820
+2018	Gossaye Tesfaye	Yene Neger	ጎሳዬ ተስፋዬ			614506762	# low · Satamagne Bela · bulk · rank 21790
+2019	Gossaye Tesfaye	Lagegnish Ande	ጎሳዬ ተስፋዬ			623766502	# medium · Siyamish Yamegnal · release · rank 21524
+2018	Gossaye Tesfaye	Fitret Ende Kelale	ጎሳዬ ተስፋዬ			609721832	# low · Single Collections · compilation · rank 21385
+
+# Abdu Kiar · አብዱ ኪያር
+2015	Abdu Kiar	Yene Mar	አብዱ ኪያር			4194422372	# medium · Tikur Anbessa · release · rank 100000
+2015	Abdu Kiar	Altelashim	አብዱ ኪያር			109061966	# medium · Tikur Anbessa · release · rank 94306
+2015	Abdu Kiar	Zemen	አብዱ ኪያር			109061976	# medium · Tikur Anbessa · release · rank 76516
+2015	Abdu Kiar	Dagnaw	አብዱ ኪያር			109061962	# medium · Tikur Anbessa · release · rank 76516
+2015	Abdu Kiar	Jiwa Jiwe	አብዱ ኪያር			109061970	# medium · Tikur Anbessa · release · rank 55029
+2024	Abdu Kiar	Bye bye	አብዱ ኪያር			2885014972	# medium · Papapa · release · rank 54992
+2012	Abdu Kiar	Mata Mata	አብዱ ኪያር			1436560472	# medium · Merkato Sefere · release · rank 50423
+2015	Abdu Kiar	Des Yilal	አብዱ ኪያር			109061958	# medium · Tikur Anbessa · release · rank 44150
+2012	Abdu Kiar	Zoro Zoro Adam	አብዱ ኪያር			1436560442	# medium · Merkato Sefere · release · rank 43219
+2024	Abdu Kiar	Min tyake alew	አብዱ ኪያር			2885014872	# medium · Papapa · release · rank 42746
+2024	Abdu Kiar	Gelemele	አብዱ ኪያር			2885014882	# medium · Papapa · release · rank 39974
+2015	Abdu Kiar	Melkam Ametbal	አብዱ ኪያር			109061978	# medium · Tikur Anbessa · release · rank 33078
+2024	Abdu Kiar	Ayzoh	አብዱ ኪያር			2885014852	# medium · Papapa · release · rank 33076
+2012	Abdu Kiar	Alfual	አብዱ ኪያር			1436560492	# medium · Merkato Sefere · release · rank 31436
+2015	Abdu Kiar	Altenetatelnm	አብዱ ኪያር			109061972	# medium · Tikur Anbessa · release · rank 31199
+2015	Abdu Kiar	Endet New Miresaw	አብዱ ኪያር			109061974	# medium · Tikur Anbessa · release · rank 31192
+2012	Abdu Kiar	Min Yilenal	አብዱ ኪያር			1436560432	# medium · Merkato Sefere · release · rank 30796
+2012	Abdu Kiar	Deegeet	አብዱ ኪያር			1436560462	# medium · Merkato Sefere · release · rank 26587
+2024	Abdu Kiar	Papapa	አብዱ ኪያር			2885014892	# medium · Papapa · release · rank 22124
+2024	Abdu Kiar	Endemnesh	አብዱ ኪያር			2885014862	# medium · Papapa · release · rank 21894
+2024	Abdu Kiar	Boobooye	አብዱ ኪያር			2885014922	# medium · Papapa · release · rank 21780
+2018	Abdu Kiar	Befiqrish Meyazen	አብዱ ኪያር			549586822	# low · Evangadi Production, Vol 1 · compilation · rank 21505
+2012	Abdu Kiar	And Alegn	አብዱ ኪያር			1436560422	# medium · Merkato Sefere · release · rank 18571
+2021	Abdu Kiar	Yewebdar	አብዱ ኪያር			1241160102	# medium · Yewebdar · release · rank 17936
+2024	Abdu Kiar	Sewyew	አብዱ ኪያር			2885014902	# medium · Papapa · release · rank 17813
+2012	Abdu Kiar	Lucy	አብዱ ኪያር			1436560482	# medium · Merkato Sefere · release · rank 15761
+2024	Abdu Kiar	Lelada	አብዱ ኪያር			2885014912	# medium · Papapa · release · rank 15310
+2012	Abdu Kiar	Manim Aytamenim	አብዱ ኪያር			1436560452	# medium · Merkato Sefere · release · rank 15280
+2012	Abdu Kiar	Let Teken	አብዱ ኪያር			1436560512	# medium · Merkato Sefere · release · rank 10168
+2012	Abdu Kiar	Yetal Yetal	አብዱ ኪያር			1436560502	# medium · Merkato Sefere · release · rank 7827
+2021	Abdu Kiar	Addis Ababa	አብዱ ኪያር			1441376082	# medium · Addis Ababa · release · rank 7761
+2024	Abdu Kiar	Min ybalal	አብዱ ኪያር			2885014932	# medium · Papapa · release · rank 6985
+2024	Abdu Kiar	Na beyignina	አብዱ ኪያር			2885014952	# medium · Papapa · release · rank 6955
+2024	Abdu Kiar	Wez wez	አብዱ ኪያር			2885014962	# medium · Papapa · release · rank 1460
+2024	Abdu Kiar	Andande	አብዱ ኪያር			2885014942	# medium · Papapa · release · rank 787
+
+# Gigi · ጂጂ
+2025	Gigi	Милый парень	ጂጂ			3418885181	# medium · Милый парень · release · rank 102413
+2025	Gigi	Tidal Wave	ጂጂ			3274432631	# medium · Waves of it · release · rank 96880
+2025	Gigi	Make Up	ጂጂ			3521615951	# medium · Make Up · release · rank 95669
+1998	Gigi	Ande Ethiopia (One Ethiopia)	ጂጂ			3876757791	# medium · One Ethiopia · release · rank 88757
+2023	Gigi	Margarita	ጂጂ			2766461061	# medium · Margarita · release · rank 87947
+2002	Gigi	Damainya... Cinta	ጂጂ			13248125	# low · The Best Of Gigi · compilation · rank 87800
+2001	Gigi	Bale Washintu	ጂጂ			12589942	# medium · Gigi · release · rank 85774
+2009	Gigi	Salam	ጂጂ			12589986	# medium · Gold & Wax · release · rank 83507
+2007	Gigi	Nakal	ጂጂ			13341389	# medium · Peace, Love And Respect · release · rank 79867
+2001	Gigi	Tew Ante Sew	ጂጂ			12589940	# medium · Gigi · release · rank 78745
+1998	Gigi	Gela (Body)	ጂጂ			3876757861	# medium · One Ethiopia · release · rank 75196
+2019	Gigi	My Facebook	ጂጂ			1599345432	# medium · GIGI · release · rank 72443
+2007	Gigi	11 Januari	ጂጂ			13341390	# medium · Peace, Love And Respect · release · rank 69237
+2002	Gigi	Bumi Meringis	ጂጂ			13248130	# low · The Best Of Gigi · compilation · rank 66200
+2001	Gigi	Mengedegna	ጂጂ			12511855	# medium · Gigi · release · rank 62018
+2001	Gigi	Sew Argen	ጂጂ			12589944	# medium · Gigi · release · rank 59437
+2024	Gigi	J.O.M.M.	ጂጂ			2362785805	# low · J.O.M.M. · bulk · rank 53413
+2004	Gigi	Dilema (Album Version)	ጂጂ			13269506	# medium · OST. Brownies · release · rank 52779
+2001	Gigi	Kahn	ጂጂ			12589946	# medium · Gigi · release · rank 51450
+2010	Gigi	The Hundredth Time	ጂጂ			102618062	# medium · The Hundredth Time b/w Some Second Best · release · rank 51396
+2006	Gigi	Kepastian Yang Ku Tunggu (Album Version)	ጂጂ			13320595	# medium · Next Chapter · release · rank 50527
+2010	Gigi	No, My Heart Will Go On (Chorus)	ጂጂ			13544477	# medium · Maintenant · release · rank 44962
+2009	Gigi	Utopia	ጂጂ			12589990	# medium · Gold & Wax · release · rank 42066
+2022	Gigi	Backstage	ጂጂ			1868555447	# medium · Backstage · release · rank 41816
+2001	Gigi	Abet Wubet	ጂጂ			12511859	# medium · Gigi · release · rank 41800
+2025	Gigi	LMK	ጂጂ			3560900351	# medium · Between Us · release · rank 40524
+2009	Gigi	Gomelaleye	ጂጂ			12589987	# medium · Gold & Wax · release · rank 39818
+2009	Gigi	Anten	ጂጂ			12589984	# medium · Gold & Wax · release · rank 39408
+2026	Gigi	Le monde à l'envers	ጂጂ			3835900551	# medium · Le monde à l'envers · release · rank 38059
+1998	Gigi	Terbang (Album Version)	ጂጂ			13263120	# medium · Kilas Balik · release · rank 33854
+2025	Gigi	Hold On	ጂጂ			3560900391	# medium · Between Us · release · rank 33119
+1998	Gigi	Until When?	ጂጂ			9565063	# medium · One Ethiopia · release · rank 33094
+2025	Gigi	Diamonds Dancing	ጂጂ			3141831611	# medium · Diamonds Dancing · release · rank 32742
+2022	Gigi	Toxic	ጂጂ			1958800077	# medium · Toxic · release · rank 31799
+2025	Gigi	Where You At	ጂጂ			3560900341	# medium · Between Us · release · rank 31494
+2009	Gigi	Semena-Worck	ጂጂ			12589983	# medium · Gold & Wax · release · rank 31010
+1998	Gigi	Abo Shemane (Cheetah)	ጂጂ			3876757841	# medium · One Ethiopia · release · rank 30035
+2018	Gigi	Day Ones	ጂጂ			558077502	# medium · Day Ones · release · rank 26527
+2007	Gigi	Kembalilah Kasih	ጂጂ			13341398	# medium · Peace, Love And Respect · release · rank 26078
+2019	Gigi	Ya.. Ya.. Ya..	ጂጂ			1599345462	# medium · GIGI · release · rank 25582
+
+# Mahmoud Ahmed · ማህሙድ አህመድ
+1997	Mahmoud Ahmed	Yèshèga Lidj Nègèr	ማህሙድ አህመድ			1857192647	# low · Live In Paris · compilation · rank 160000
+1975	Mahmoud Ahmed	Sameraye	ማህሙድ አህመድ			224824	# medium · Ethiopiques, Vol. 7: Erè mèla mèla 1975-1978 · span · rank 147687
+1975	Mahmoud Ahmed	Fetsum denq ledj nesh	ማህሙድ አህመድ			224826	# medium · Ethiopiques, Vol. 7: Erè mèla mèla 1975-1978 · span · rank 141767
+1997	Mahmoud Ahmed	Kulun	ማህሙድ አህመድ			1857192717	# low · Live In Paris · compilation · rank 130768
+1997	Mahmoud Ahmed	Ene Berdogñal (I'm All Alone)	ማህሙድ አህመድ			10715067	# medium · Soul Of Addis · release · rank 124565
+1969	Mahmoud Ahmed	Yeqer mèmèkatesh	ማህሙድ አህመድ			224709	# medium · Ethiopiques, Vol. 1: Golden Years of Modern Ethiopian Music 1969-1975 · span · rank 122528
+1997	Mahmoud Ahmed	Yasèlamé Lalo	ማህሙድ አህመድ			1857192657	# low · Live In Paris · compilation · rank 114414
+1969	Mahmoud Ahmed	Kulun mankwalesh	ማህሙድ አህመድ			224758	# medium · Ethiopiques, Vol. 3: Golden Years 1969-1975 · span · rank 106227
+2020	Mahmoud Ahmed	الف ميل	ማህሙድ አህመድ			2221661937	# medium · الف ميل · release · rank 100000
+1974	Mahmoud Ahmed	Ney denun tesesh	ማህሙድ አህመድ			224985	# high · Ethiopiques, Vol. 19: Alèmyé 1974 (1974) · title · rank 99282
+1969	Mahmoud Ahmed	Gizié dègu nègèr	ማህሙድ አህመድ			224708	# medium · Ethiopiques, Vol. 1: Golden Years of Modern Ethiopian Music 1969-1975 · span · rank 98433
+1975	Mahmoud Ahmed	Asheweyna	ማህሙድ አህመድ			224828	# medium · Ethiopiques, Vol. 7: Erè mèla mèla 1975-1978 · span · rank 98280
+1975	Mahmoud Ahmed	Bemen sebeb letlash	ማህሙድ አህመድ			224818	# medium · Ethiopiques, Vol. 7: Erè mèla mèla 1975-1978 · span · rank 96190
+2026	Mahmoud Ahmed	Aynotché Tèrabu	ማህሙድ አህመድ			4031274431	# medium · Ethiopian Rare Groove: Rare Funky Songs from Ethiopia · release · rank 93989
+2003	Mahmoud Ahmed	Engedaye Nesh	ማህሙድ አህመድ			69851061	# low · The Best of... Tizita Vol. 1 · compilation · rank 89758
+1975	Mahmoud Ahmed	Metche new	ማህሙድ አህመድ			224817	# medium · Ethiopiques, Vol. 7: Erè mèla mèla 1975-1978 · span · rank 83224
+1980	Mahmoud Ahmed	Aynoché Tèrabu	ማህሙድ አህመድ			1503535872	# medium · Birtukane · release · rank 78297
+2017	Mahmoud Ahmed	Mar Teb Yelal Kafesh	ማህሙድ አህመድ			372616541	# medium · Wanted Afrobeat: From Diggers to Music Lovers · release · rank 78101
+1975	Mahmoud Ahmed	Embwa belew	ማህሙድ አህመድ			224820	# medium · Ethiopiques, Vol. 7: Erè mèla mèla 1975-1978 · span · rank 77025
+1974	Mahmoud Ahmed	Antchi enen wededjign	ማህሙድ አህመድ			224987	# high · Ethiopiques, Vol. 19: Alèmyé 1974 (1974) · title · rank 75666
+1980	Mahmoud Ahmed	Birtukane	ማህሙድ አህመድ			1503535892	# medium · Birtukane · release · rank 75587
+1973	Mahmoud Ahmed	Yasdestal	ማህሙድ አህመድ			224926	# high · Ethiopiques, Vol. 6: Almaz 1973 · title · rank 73429
+1980	Mahmoud Ahmed	Endet Nesh	ማህሙድ አህመድ			1503535912	# medium · Birtukane · release · rank 73408
+1975	Mahmoud Ahmed	Ohoho gedama	ማህሙድ አህመድ			224822	# medium · Ethiopiques, Vol. 7: Erè mèla mèla 1975-1978 · span · rank 72310
+1980	Mahmoud Ahmed	Tew Limed Gelaye	ማህሙድ አህመድ			1503536022	# medium · Birtukane · release · rank 71611
+1973	Mahmoud Ahmed	Almaz men eda new	ማህሙድ አህመድ			224916	# high · Ethiopiques, Vol. 6: Almaz 1973 · title · rank 69826
+1980	Mahmoud Ahmed	Alwekshim	ማህሙድ አህመድ			1503535832	# medium · Birtukane · release · rank 66854
+2003	Mahmoud Ahmed	Gichamue	ማህሙድ አህመድ			83489762	# low · The Best of... Tizita Vol. 2 · compilation · rank 66610
+1980	Mahmoud Ahmed	Enchi Liben	ማህሙድ አህመድ			1503535902	# medium · Birtukane · release · rank 66605
+1980	Mahmoud Ahmed	Ye Dire Lij Nat	ማህሙድ አህመድ			1503536062	# medium · Birtukane · release · rank 66142
+1980	Mahmoud Ahmed	Anchiye	ማህሙድ አህመድ			1503535852	# medium · Birtukane · release · rank 65367
+2004	Mahmoud Ahmed	Yetbarek	ማህሙድ አህመድ			84056087	# medium · Yetbarek: Contemporary Ethiopian Music · release · rank 64915
+2004	Mahmoud Ahmed	Mushiraye	ማህሙድ አህመድ			84056101	# medium · Yetbarek: Contemporary Ethiopian Music · release · rank 64381
+1974	Mahmoud Ahmed	Eyew demamu	ማህሙድ አህመድ			224984	# high · Ethiopiques, Vol. 19: Alèmyé 1974 (1974) · title · rank 63891
+1972	Mahmoud Ahmed	Enqu messay	ማህሙድ አህመድ			6995131	# medium · Ethiopiques, Vol. 26: Mahmoud Ahmed 1972-1974 (1972-1974) · span · rank 63810
+1980	Mahmoud Ahmed	Lale Lale	ማህሙድ አህመድ			1503535992	# medium · Birtukane · release · rank 63484
+1980	Mahmoud Ahmed	Yababilal	ማህሙድ አህመድ			1503536042	# medium · Birtukane · release · rank 63481
+1972	Mahmoud Ahmed	Tchela atbey	ማህሙድ አህመድ			6995132	# medium · Ethiopiques, Vol. 26: Mahmoud Ahmed 1972-1974 (1972-1974) · span · rank 62574
+1980	Mahmoud Ahmed	Tekebresh Yenorshiw	ማህሙድ አህመድ			1503536012	# medium · Birtukane · release · rank 62014
+1980	Mahmoud Ahmed	Ashkaro	ማህሙድ አህመድ			1503535862	# medium · Birtukane · release · rank 61841
+
+# Tilahun Gessesse · ጥላሁን ገሠሠ
+2024	Tilahun Gessesse	Teyim Nat	ጥላሁን ገሠሠ			876963052	# low · Hulum Behager New · bulk · rank 133955
+2024	Tilahun Gessesse	Yager Lij	ጥላሁን ገሠሠ			2809269022	# medium · Enkokelesh · release · rank 100000
+2024	Tilahun Gessesse	Yetwled Hageruan	ጥላሁን ገሠሠ			2809517752	# medium · Mandolen · release · rank 100000
+2024	Tilahun Gessesse	Gubel	ጥላሁን ገሠሠ			2810033192	# low · Yichi Nat Chewata · bulk · rank 100000
+2024	Tilahun Gessesse	Anuseyada	ጥላሁን ገሠሠ			2810033152	# low · Yichi Nat Chewata · bulk · rank 100000
+2024	Tilahun Gessesse	Ayenishen Ayche	ጥላሁን ገሠሠ			2810033232	# low · Yichi Nat Chewata · bulk · rank 100000
+2024	Tilahun Gessesse	Shega	ጥላሁን ገሠሠ			2810033222	# low · Yichi Nat Chewata · bulk · rank 100000
+2004	Tilahun Gessesse	Tchuheten Betsemu	ጥላሁን ገሠሠ			225071	# low · Ethiopiques, Vol. 17: Tlahoun Gèssèssè · compilation · rank 98697
+2004	Tilahun Gessesse	Selamtaye Yedres	ጥላሁን ገሠሠ			225075	# low · Ethiopiques, Vol. 17: Tlahoun Gèssèssè · compilation · rank 66010
+2004	Tilahun Gessesse	Yene Felagote	ጥላሁን ገሠሠ			225069	# low · Ethiopiques, Vol. 17: Tlahoun Gèssèssè · compilation · rank 64891
+1969	Tilahun Gessesse	Yewnet messosso metch yeneqanegal	ጥላሁን ገሠሠ			224767	# medium · Ethiopiques, Vol. 3: Golden Years 1969-1975 · span · rank 61756
+2021	Tilahun Gessesse	Kifu Ayinkash	ጥላሁን ገሠሠ			2066114577	# low · The Ethiopian Classic, Vol. 3 · compilation · rank 58895
+2004	Tilahun Gessesse	Tezalegn Yetentu	ጥላሁን ገሠሠ			225073	# low · Ethiopiques, Vol. 17: Tlahoun Gèssèssè · compilation · rank 54006
+1985	Tilahun Gessesse	Engudaye Nesh	ጥላሁን ገሠሠ			876962782	# low · Tilahun Gessesse Collection · compilation · rank 53156
+1985	Tilahun Gessesse	Fikir Lebichaye	ጥላሁን ገሠሠ			876962822	# low · Tilahun Gessesse Collection · compilation · rank 50528
+2021	Tilahun Gessesse	Akam Feyuma	ጥላሁን ገሠሠ			2066114407	# low · The Ethiopian Classic, Vol. 3 · compilation · rank 43943
+2024	Tilahun Gessesse	Ene Alamaregnm	ጥላሁን ገሠሠ			2809703392	# low · Andand Negeroch · bulk · rank 40121
+1985	Tilahun Gessesse	Min Tadergiwalesh	ጥላሁን ገሠሠ			876962952	# low · Tilahun Gessesse Collection · compilation · rank 39898
+1985	Tilahun Gessesse	Yehiwote Hiwot	ጥላሁን ገሠሠ			876963102	# low · Tilahun Gessesse Collection · compilation · rank 38715
+2023	Tilahun Gessesse	Akal Aynishin	ጥላሁን ገሠሠ			876962682	# low · Etu Gela · bulk · rank 32171
+2021	Tilahun Gessesse	Monalizaye Nesh	ጥላሁን ገሠሠ			2074112617	# low · The Ethiopian Classic Vol. 4 · compilation · rank 31232
+1985	Tilahun Gessesse	Sitileyign	ጥላሁን ገሠሠ			876963032	# low · Tilahun Gessesse Collection · compilation · rank 29931
+2024	Tilahun Gessesse	Amelkach Tata	ጥላሁን ገሠሠ			2809703322	# low · Andand Negeroch · bulk · rank 28754
+2024	Tilahun Gessesse	Andand Negeroch	ጥላሁን ገሠሠ			2809703332	# low · Andand Negeroch · bulk · rank 27602
+1980	Tilahun Gessesse	Min Taregiwalesh	ጥላሁን ገሠሠ			1344058542	# medium · Etu Gela · release · rank 27031
+2024	Tilahun Gessesse	Akase Akana	ጥላሁን ገሠሠ			2809268932	# medium · Enkokelesh · release · rank 26873
+1985	Tilahun Gessesse	Bitisemign Simi	ጥላሁን ገሠሠ			876962752	# low · Tilahun Gessesse Collection · compilation · rank 26738
+1985	Tilahun Gessesse	Enkirdad	ጥላሁን ገሠሠ			876962792	# low · Tilahun Gessesse Collection · compilation · rank 26690
+1985	Tilahun Gessesse	Yetelash Yitela	ጥላሁን ገሠሠ			876963122	# low · Tilahun Gessesse Collection · compilation · rank 26652
+2020	Tilahun Gessesse	Aynamayitu	ጥላሁን ገሠሠ			1044423522	# medium · Hulume Behager New · release · rank 26650
+1985	Tilahun Gessesse	Kifu Aynkash	ጥላሁን ገሠሠ			876962892	# low · Tilahun Gessesse Collection · compilation · rank 26634
+2024	Tilahun Gessesse	Ye Abay Mado Gubel	ጥላሁን ገሠሠ			2809269012	# medium · Enkokelesh · release · rank 26409
+2021	Tilahun Gessesse	Tilahun Gessesse - Amsalu	ጥላሁን ገሠሠ			2074112547	# low · The Ethiopian Classic Vol. 4 · compilation · rank 26408
+2020	Tilahun Gessesse	Kereche Satasredan	ጥላሁን ገሠሠ			1044423632	# medium · Hulume Behager New · release · rank 26352
+1980	Tilahun Gessesse	Selam Lehulachin	ጥላሁን ገሠሠ			1344058572	# medium · Etu Gela · release · rank 26229
+1985	Tilahun Gessesse	Ho Ho	ጥላሁን ገሠሠ			876962852	# low · Tilahun Gessesse Collection · compilation · rank 26172
+1990	Tilahun Gessesse	Ewedish Neber	ጥላሁን ገሠሠ			991119702	# low · Tilahun Gessesse Collections, Vol. 2 · compilation · rank 26095
+1985	Tilahun Gessesse	Min Neber	ጥላሁን ገሠሠ			876963142	# low · Tilahun Gessesse Collection · compilation · rank 26091
+2020	Tilahun Gessesse	Akam Neguma	ጥላሁን ገሠሠ			1044423562	# medium · Hulume Behager New · release · rank 26023
+1990	Tilahun Gessesse	Tinfashe Tekertso	ጥላሁን ገሠሠ			991119822	# low · Tilahun Gessesse Collections, Vol. 2 · compilation · rank 26007
+
+# Alemayehu Eshete · ዓለማየሁ እሸቴ
+2017	Alemayehu Eshete	Alteleyeshegnem	ዓለማየሁ እሸቴ			366039361	# medium · Alteleyeshegnem · release · rank 235591
+1969	Alemayehu Eshete	Mekeyershin salawq	ዓለማየሁ እሸቴ			225025	# medium · Ethiopiques, Vol. 9: Alèmayèhu Eshèté 1969-1974 · span · rank 141402
+2004	Alemayehu Eshete	Teredtchewalehu	ዓለማየሁ እሸቴ			224872	# low · Ethiopiques, Vol. 10: Ethiopian Blues & Ballads · compilation · rank 118802
+1969	Alemayehu Eshete	Yesew bet yesew new	ዓለማየሁ እሸቴ			225024	# medium · Ethiopiques, Vol. 9: Alèmayèhu Eshèté 1969-1974 · span · rank 99922
+1969	Alemayehu Eshete	Tchero adari negn	ዓለማየሁ እሸቴ			224834	# medium · Ethiopiques, Vol. 8: Swinging Addis 1969-1974 · span · rank 99043
+1972	Alemayehu Eshete	Nèy-Nèy wèlèba	ዓለማየሁ እሸቴ			219193	# medium · Ethiopiques, Vol. 22 : More Vintage 1972-1974 (More Vintage!) · span · rank 93319
+2009	Alemayehu Eshete	Temeles	ዓለማየሁ እሸቴ			4954004	# low · Best of Ethiopiques - Golden Years of Ethiopian Music (L'âge d'or de la musique éthiopienne) · compilation · rank 93143
+1969	Alemayehu Eshete	Gizew honeshenna	ዓለማየሁ እሸቴ			225038	# medium · Ethiopiques, Vol. 9: Alèmayèhu Eshèté 1969-1974 · span · rank 84088
+1969	Alemayehu Eshete	Nefas endaygeban	ዓለማየሁ እሸቴ			225035	# medium · Ethiopiques, Vol. 9: Alèmayèhu Eshèté 1969-1974 · span · rank 84084
+1969	Alemayehu Eshete	Tedesteshal wey ?	ዓለማየሁ እሸቴ			225032	# medium · Ethiopiques, Vol. 9: Alèmayèhu Eshèté 1969-1974 · span · rank 80233
+1969	Alemayehu Eshete	Honey Baby	ዓለማየሁ እሸቴ			625924942	# medium · Ethiopiques, Vol. 8: Swinging Addis 1969-1974 · span · rank 78651
+1969	Alemayehu Eshete	Eruq yaleshew	ዓለማየሁ እሸቴ			225027	# medium · Ethiopiques, Vol. 9: Alèmayèhu Eshèté 1969-1974 · span · rank 78036
+1969	Alemayehu Eshete	Betchayen tegodahu	ዓለማየሁ እሸቴ			224835	# medium · Ethiopiques, Vol. 8: Swinging Addis 1969-1974 · span · rank 76048
+1969	Alemayehu Eshete	Qondjit	ዓለማየሁ እሸቴ			225022	# medium · Ethiopiques, Vol. 9: Alèmayèhu Eshèté 1969-1974 · span · rank 75128
+1972	Alemayehu Eshete	Kènoru lèbetchahé	ዓለማየሁ እሸቴ			219209	# medium · Ethiopiques, Vol. 22 : More Vintage 1972-1974 (More Vintage!) · span · rank 74763
+1969	Alemayehu Eshete	Ete hoy	ዓለማየሁ እሸቴ			224774	# medium · Ethiopiques, Vol. 3: Golden Years 1969-1975 · span · rank 74688
+1969	Alemayehu Eshete	Temhert bete	ዓለማየሁ እሸቴ			225034	# medium · Ethiopiques, Vol. 9: Alèmayèhu Eshèté 1969-1974 · span · rank 70236
+2024	Alemayehu Eshete	Ayalqem Tedénqo	ዓለማየሁ እሸቴ			2727877681	# medium · Winter In The Blood (Original Soundtrack) · release · rank 68909
+1972	Alemayehu Eshete	Tènagèri	ዓለማየሁ እሸቴ			219199	# medium · Ethiopiques, Vol. 22 : More Vintage 1972-1974 (More Vintage!) · span · rank 68831
+2018	Alemayehu Eshete	Mekeyershene Salawke	ዓለማየሁ እሸቴ			625924902	# medium · Ernesto Chahoud Presents Taitu: Soul-Fuelled Stompers from 1960s / 1970s Ethiopia · release · rank 68088
+1969	Alemayehu Eshete	Tey gedyeleshem	ዓለማየሁ እሸቴ			224760	# medium · Ethiopiques, Vol. 3: Golden Years 1969-1975 · span · rank 64828
+1969	Alemayehu Eshete	Memar memeramer	ዓለማየሁ እሸቴ			225031	# medium · Ethiopiques, Vol. 9: Alèmayèhu Eshèté 1969-1974 · span · rank 62350
+1969	Alemayehu Eshete	Afer yemegneshal	ዓለማየሁ እሸቴ			224848	# medium · Ethiopiques, Vol. 8: Swinging Addis 1969-1974 · span · rank 59833
+2004	Alemayehu Eshete	Man yehon telleq sew	ዓለማየሁ እሸቴ			224878	# low · Ethiopiques, Vol. 10: Ethiopian Blues & Ballads · compilation · rank 58242
+1969	Alemayehu Eshete	Heywete abatey new	ዓለማየሁ እሸቴ			225039	# medium · Ethiopiques, Vol. 9: Alèmayèhu Eshèté 1969-1974 · span · rank 55660
+1969	Alemayehu Eshete	Leb tatefaletch	ዓለማየሁ እሸቴ			225036	# medium · Ethiopiques, Vol. 9: Alèmayèhu Eshèté 1969-1974 · span · rank 54075
+1969	Alemayehu Eshete	Denyew deneba	ዓለማየሁ እሸቴ			225033	# medium · Ethiopiques, Vol. 9: Alèmayèhu Eshèté 1969-1974 · span · rank 53272
+1969	Alemayehu Eshete	Shegitu mare	ዓለማየሁ እሸቴ			225028	# medium · Ethiopiques, Vol. 9: Alèmayèhu Eshèté 1969-1974 · span · rank 49831
+2004	Alemayehu Eshete	Wededku afqerkush	ዓለማየሁ እሸቴ			224967	# low · Ethiopiques, Vol. 13: The Golden Seventies (Ethiopian Groove) · compilation · rank 44298
+1969	Alemayehu Eshete	Timarkyalesh	ዓለማየሁ እሸቴ			225041	# medium · Ethiopiques, Vol. 9: Alèmayèhu Eshèté 1969-1974 · span · rank 41719
+1972	Alemayehu Eshete	Hodé fèra	ዓለማየሁ እሸቴ			219201	# medium · Ethiopiques, Vol. 22 : More Vintage 1972-1974 (More Vintage!) · span · rank 39120
+1969	Alemayehu Eshete	Yelben betayiw	ዓለማየሁ እሸቴ			225023	# medium · Ethiopiques, Vol. 9: Alèmayèhu Eshèté 1969-1974 · span · rank 37663
+1972	Alemayehu Eshete	Yeqer aynèssa	ዓለማየሁ እሸቴ			219196	# medium · Ethiopiques, Vol. 22 : More Vintage 1972-1974 (More Vintage!) · span · rank 37420
+1972	Alemayehu Eshete	Yètentu feqratchen	ዓለማየሁ እሸቴ			219200	# medium · Ethiopiques, Vol. 22 : More Vintage 1972-1974 (More Vintage!) · span · rank 37102
+1969	Alemayehu Eshete	Qotchegn messassate	ዓለማየሁ እሸቴ			225026	# medium · Ethiopiques, Vol. 9: Alèmayèhu Eshèté 1969-1974 · span · rank 33749
+2018	Alemayehu Eshete	Gizew Honeshyna	ዓለማየሁ እሸቴ			625925002	# medium · Ernesto Chahoud Presents Taitu: Soul-Fuelled Stompers from 1960s / 1970s Ethiopia · release · rank 32721
+1969	Alemayehu Eshete	Ya tara	ዓለማየሁ እሸቴ			225040	# medium · Ethiopiques, Vol. 9: Alèmayèhu Eshèté 1969-1974 · span · rank 31302
+1972	Alemayehu Eshete	Abèba mèssèlètch	ዓለማየሁ እሸቴ			219202	# medium · Ethiopiques, Vol. 22 : More Vintage 1972-1974 (More Vintage!) · span · rank 31100
+1972	Alemayehu Eshete	Wededku Afekerku	ዓለማየሁ እሸቴ			854621572	# medium · Addis Ababa · release · rank 30784
+1972	Alemayehu Eshete	Yèmaynèga lélit	ዓለማየሁ እሸቴ			219205	# medium · Ethiopiques, Vol. 22 : More Vintage 1972-1974 (More Vintage!) · span · rank 30271
+
+# Hirut Bekele · ሂሩት በቀለ
+2025	Hirut Bekele	Sew Alkalehu	ሂሩት በቀለ			3474440171	# medium · Hirut Bekele - ሂሩት በቀለ · release · rank 100000
+2025	Hirut Bekele	Enen Yenem Etcha	ሂሩት በቀለ			3474440141	# medium · Hirut Bekele - ሂሩት በቀለ · release · rank 100000
+2025	Hirut Bekele	Fiker Jemer	ሂሩት በቀለ			3474440111	# medium · Hirut Bekele - ሂሩት በቀለ · release · rank 100000
+2025	Hirut Bekele	Yizhew Azoraleu	ሂሩት በቀለ			3472580211	# medium · Hirut Bekele ሂሩት በቀለ · release · rank 100000
+2025	Hirut Bekele	Yikerta	ሂሩት በቀለ			3472580221	# medium · Hirut Bekele ሂሩት በቀለ · release · rank 100000
+2025	Hirut Bekele	Menoriyaw Chegeregn	ሂሩት በቀለ			3474440121	# medium · Hirut Bekele - ሂሩት በቀለ · release · rank 100000
+2025	Hirut Bekele	Gum Gum	ሂሩት በቀለ			3474440151	# medium · Hirut Bekele - ሂሩት በቀለ · release · rank 100000
+2025	Hirut Bekele	Ayaschilegn	ሂሩት በቀለ			3472580231	# medium · Hirut Bekele ሂሩት በቀለ · release · rank 100000
+2025	Hirut Bekele	Fiker New Kelebu	ሂሩት በቀለ			3474440181	# medium · Hirut Bekele - ሂሩት በቀለ · release · rank 100000
+2025	Hirut Bekele	Mot Baynor	ሂሩት በቀለ			3474440161	# medium · Hirut Bekele - ሂሩት በቀለ · release · rank 100000
+2025	Hirut Bekele	Hode Shefetbign	ሂሩት በቀለ			3472580251	# medium · Hirut Bekele ሂሩት በቀለ · release · rank 100000
+2025	Hirut Bekele	Yawekhut Ehun New	ሂሩት በቀለ			3472580241	# medium · Hirut Bekele ሂሩት በቀለ · release · rank 100000
+2025	Hirut Bekele	Shita Honeh Qoyegn	ሂሩት በቀለ			3474440081	# medium · Hirut Bekele - ሂሩት በቀለ · release · rank 100000
+2025	Hirut Bekele	Engedaye Neh	ሂሩት በቀለ			3472580191	# medium · Hirut Bekele ሂሩት በቀለ · release · rank 100000
+2025	Hirut Bekele	Libe Feseselet	ሂሩት በቀለ			3472580261	# medium · Hirut Bekele ሂሩት በቀለ · release · rank 100000
+2025	Hirut Bekele	Endawekew Gebaign	ሂሩት በቀለ			3474440091	# medium · Hirut Bekele - ሂሩት በቀለ · release · rank 100000
+2025	Hirut Bekele	Minew Akale	ሂሩት በቀለ			3472580201	# medium · Hirut Bekele ሂሩት በቀለ · release · rank 100000
+2025	Hirut Bekele	Mela Mela	ሂሩት በቀለ			3474440101	# medium · Hirut Bekele - ሂሩት በቀለ · release · rank 100000
+2025	Hirut Bekele	Guro Wesheba	ሂሩት በቀለ			3474440131	# medium · Hirut Bekele - ሂሩት በቀለ · release · rank 100000
+1973	Hirut Bekele	Shegiye	ሂሩት በቀለ			3483297161	# high · HIrut Bekele - ሂሩት በቀለ 1973 · title · rank 100000
+1980	Hirut Bekele	Tizita	ሂሩት በቀለ			3483297201	# high · Hirut Bekele ሂሩት በቀለ 1980 · title · rank 100000
+1980	Hirut Bekele	Yene Alem	ሂሩት በቀለ			3483297141	# high · Hirut Bekele ሂሩት በቀለ 1980 · title · rank 100000
+1980	Hirut Bekele	Yenew Tesfa	ሂሩት በቀለ			3483297221	# high · Hirut Bekele ሂሩት በቀለ 1980 · title · rank 100000
+1980	Hirut Bekele	Begofereh	ሂሩት በቀለ			3483297171	# high · Hirut Bekele ሂሩት በቀለ 1980 · title · rank 100000
+1980	Hirut Bekele	Irk Andnew	ሂሩት በቀለ			3483297211	# high · Hirut Bekele ሂሩት በቀለ 1980 · title · rank 100000
+1978	Hirut Bekele	Zares Enew Metaw	ሂሩት በቀለ			3477306041	# high · Hirut Bekele 10th 1978 ሂሩት በቀለ ፲ኛ · title · rank 100000
+1978	Hirut Bekele	04 Simhin Awsegn	ሂሩት በቀለ			3477305981	# high · Hirut Bekele 10th 1978 ሂሩት በቀለ ፲ኛ · title · rank 100000
+1978	Hirut Bekele	Keayne Wul Iyale	ሂሩት በቀለ			3477305971	# high · Hirut Bekele 10th 1978 ሂሩት በቀለ ፲ኛ · title · rank 100000
+1978	Hirut Bekele	Akebetun	ሂሩት በቀለ			3477306021	# high · Hirut Bekele 10th 1978 ሂሩት በቀለ ፲ኛ · title · rank 100000
+1978	Hirut Bekele	Libe Abro	ሂሩት በቀለ			3477306001	# high · Hirut Bekele 10th 1978 ሂሩት በቀለ ፲ኛ · title · rank 100000
+1971	Hirut Bekele	Mitaw Bangeteh	ሂሩት በቀለ			3488110321	# high · Hirut Bekele ሂሩት በቀለ ምርጥ ዘፈኖች 1971 · title · rank 100000
+1971	Hirut Bekele	Tedegeme	ሂሩት በቀለ			3488110361	# high · Hirut Bekele ሂሩት በቀለ ምርጥ ዘፈኖች 1971 · title · rank 100000
+1978	Hirut Bekele	Fikir New	ሂሩት በቀለ			3477305961	# high · Hirut Bekele 10th 1978 ሂሩት በቀለ ፲ኛ · title · rank 100000
+1971	Hirut Bekele	Beseqeqen	ሂሩት በቀለ			3488110331	# high · Hirut Bekele ሂሩት በቀለ ምርጥ ዘፈኖች 1971 · title · rank 100000
+1971	Hirut Bekele	Salazen Alqerem	ሂሩት በቀለ			3488110351	# high · Hirut Bekele ሂሩት በቀለ ምርጥ ዘፈኖች 1971 · title · rank 100000
+1971	Hirut Bekele	Alresahim	ሂሩት በቀለ			3488110391	# high · Hirut Bekele ሂሩት በቀለ ምርጥ ዘፈኖች 1971 · title · rank 100000
+1978	Hirut Bekele	Nefs Neger	ሂሩት በቀለ			3477305951	# high · Hirut Bekele 10th 1978 ሂሩት በቀለ ፲ኛ · title · rank 100000
+1971	Hirut Bekele	Awey Lijinetu	ሂሩት በቀለ			3488110411	# high · Hirut Bekele ሂሩት በቀለ ምርጥ ዘፈኖች 1971 · title · rank 100000
+1971	Hirut Bekele	Alqoretelegnem	ሂሩት በቀለ			3488110381	# high · Hirut Bekele ሂሩት በቀለ ምርጥ ዘፈኖች 1971 · title · rank 100000
+1971	Hirut Bekele	Gubil Wub Aynama	ሂሩት በቀለ			3488110371	# high · Hirut Bekele ሂሩት በቀለ ምርጥ ዘፈኖች 1971 · title · rank 100000
+
+# Bezunesh Bekele · ብዙነሽ በቀለ
+2012	Bezunesh Bekele	Sintun Ayehu Bante	ብዙነሽ በቀለ			116285842	# low · Bezunesh Bekele Greatest Hits (Ethiopian Contemporary Oldies Music · compilation · rank 27031
+2012	Bezunesh Bekele	Feker Kesekesegn	ብዙነሽ በቀለ			116285852	# low · Bezunesh Bekele Greatest Hits (Ethiopian Contemporary Oldies Music · compilation · rank 25489
+2012	Bezunesh Bekele	Simkin Slanesaw	ብዙነሽ በቀለ			116285860	# low · Bezunesh Bekele Greatest Hits (Ethiopian Contemporary Oldies Music · compilation · rank 25375
+2012	Bezunesh Bekele	Yefeker Wogagen	ብዙነሽ በቀለ			116285856	# low · Bezunesh Bekele Greatest Hits (Ethiopian Contemporary Oldies Music · compilation · rank 21534
+2012	Bezunesh Bekele	Yamaymot Gabitcha	ብዙነሽ በቀለ			116285848	# low · Bezunesh Bekele Greatest Hits (Ethiopian Contemporary Oldies Music · compilation · rank 21043
+2012	Bezunesh Bekele	Ayasayegn Chinkuru	ብዙነሽ በቀለ			116285862	# low · Bezunesh Bekele Greatest Hits (Ethiopian Contemporary Oldies Music · compilation · rank 21032
+2012	Bezunesh Bekele	Ferenj Ager Sathed	ብዙነሽ በቀለ			116285866	# low · Bezunesh Bekele Greatest Hits (Ethiopian Contemporary Oldies Music · compilation · rank 15598
+2012	Bezunesh Bekele	Kal Kidan	ብዙነሽ በቀለ			116285846	# low · Bezunesh Bekele Greatest Hits (Ethiopian Contemporary Oldies Music · compilation · rank 10328
+2012	Bezunesh Bekele	Aha Gedawo	ብዙነሽ በቀለ			116285854	# low · Bezunesh Bekele Greatest Hits (Ethiopian Contemporary Oldies Music · compilation · rank 10129
+2012	Bezunesh Bekele	Yeakaleh Armanegn	ብዙነሽ በቀለ			116285864	# low · Bezunesh Bekele Greatest Hits (Ethiopian Contemporary Oldies Music · compilation · rank 6952
+2012	Bezunesh Bekele	Beber Ayegezam	ብዙነሽ በቀለ			116285858	# low · Bezunesh Bekele Greatest Hits (Ethiopian Contemporary Oldies Music · compilation · rank 6950
+
+# Getachew Kassa · ጌታቸው ካሳ
+2012	Getachew Kassa	Liwesdshe Andken	ጌታቸው ካሳ			73785363	# low · Best of Getachew Kassa (Ethiopian Contemporary Oldies Music) · compilation · rank 30301
+2012	Getachew Kassa	Yekereme Fikir	ጌታቸው ካሳ			73785362	# low · Best of Getachew Kassa (Ethiopian Contemporary Oldies Music) · compilation · rank 26258
+2012	Getachew Kassa	Tiz-Balegne Gizie	ጌታቸው ካሳ			73785360	# low · Best of Getachew Kassa (Ethiopian Contemporary Oldies Music) · compilation · rank 25824
+2012	Getachew Kassa	Webetim Yiregfal	ጌታቸው ካሳ			73785359	# low · Best of Getachew Kassa (Ethiopian Contemporary Oldies Music) · compilation · rank 23389
+2012	Getachew Kassa	Hagerien Atinquat	ጌታቸው ካሳ			73785361	# low · Best of Getachew Kassa (Ethiopian Contemporary Oldies Music) · compilation · rank 21984
+2012	Getachew Kassa	Inde Hager Ayhonim	ጌታቸው ካሳ			73785365	# low · Best of Getachew Kassa (Ethiopian Contemporary Oldies Music) · compilation · rank 21624
+2012	Getachew Kassa	Atitifi Kegonie	ጌታቸው ካሳ			73785364	# low · Best of Getachew Kassa (Ethiopian Contemporary Oldies Music) · compilation · rank 8983
+2012	Getachew Kassa	Birtukan Neshe Lomi	ጌታቸው ካሳ			73785366	# low · Best of Getachew Kassa (Ethiopian Contemporary Oldies Music) · compilation · rank 7005
+2012	Getachew Kassa	Addis Ababa	ጌታቸው ካሳ			73785357	# low · Best of Getachew Kassa (Ethiopian Contemporary Oldies Music) · compilation · rank 5429
+
+# Muluken Melesse · ሙሉቀን መለሰ
+2025	Muluken Melesse	Bergit Agegnesh Woy	ሙሉቀን መለሰ			3331113491	# medium · Tezeta · release · rank 111611
+1985	Muluken Melesse	Fiker Naw	ሙሉቀን መለሰ			4354243632	# medium · Nanu Nanu Neyi · release · rank 100000
+1985	Muluken Melesse	Bemaematebua Lidagne	ሙሉቀን መለሰ			4354243592	# medium · Nanu Nanu Neyi · release · rank 100000
+1985	Muluken Melesse	Nafekotey	ሙሉቀን መለሰ			4354243552	# medium · Nanu Nanu Neyi · release · rank 100000
+1985	Muluken Melesse	Minew Hody Baba	ሙሉቀን መለሰ			4354243602	# medium · Nanu Nanu Neyi · release · rank 100000
+1985	Muluken Melesse	Enes Emamaye	ሙሉቀን መለሰ			4354243622	# medium · Nanu Nanu Neyi · release · rank 100000
+1985	Muluken Melesse	Bati	ሙሉቀን መለሰ			4354243612	# medium · Nanu Nanu Neyi · release · rank 100000
+1985	Muluken Melesse	Aynuma	ሙሉቀን መለሰ			4354243532	# medium · Nanu Nanu Neyi · release · rank 100000
+1985	Muluken Melesse	Yeregem	ሙሉቀን መለሰ			4354243672	# medium · Nanu Nanu Neyi · release · rank 100000
+1985	Muluken Melesse	Gedamay	ሙሉቀን መለሰ			4354243572	# medium · Nanu Nanu Neyi · release · rank 100000
+1985	Muluken Melesse	Tekelekey Bawaji	ሙሉቀን መለሰ			4354243652	# medium · Nanu Nanu Neyi · release · rank 100000
+1985	Muluken Melesse	Tinant Zare Aydelem	ሙሉቀን መለሰ			4354243662	# medium · Nanu Nanu Neyi · release · rank 100000
+1985	Muluken Melesse	Miseker Eyaye	ሙሉቀን መለሰ			4354243642	# medium · Nanu Nanu Neyi · release · rank 100000
+1985	Muluken Melesse	Embua Bey Lamitu	ሙሉቀን መለሰ			4354243542	# medium · Nanu Nanu Neyi · release · rank 100000
+2025	Muluken Melesse	Agerewa Wassa Megena	ሙሉቀን መለሰ			3331113421	# medium · Tezeta · release · rank 68114
+2025	Muluken Melesse	KESET ESWA BETCHA	ሙሉቀን መለሰ			3622596772	# low · Ethiopiques 31 · compilation · rank 56115
+2025	Muluken Melesse	HEDETCH ALU	ሙሉቀን መለሰ			3622596882	# low · Ethiopiques 31 · compilation · rank 51969
+2003	Muluken Melesse	Minew Kerefede	ሙሉቀን መለሰ			69707099	# low · The Best of Muluken Vol. 1 · compilation · rank 47404
+2025	Muluken Melesse	BENE MOT	ሙሉቀን መለሰ			3622596822	# low · Ethiopiques 31 · compilation · rank 41537
+2025	Muluken Melesse	YEMENDJAR SHEGGA	ሙሉቀን መለሰ			3622596812	# low · Ethiopiques 31 · compilation · rank 40607
+2025	Muluken Melesse	DJEMEREGN	ሙሉቀን መለሰ			3622596792	# low · Ethiopiques 31 · compilation · rank 40417
+2025	Muluken Melesse	TEZETA	ሙሉቀን መለሰ			3622596862	# medium · Tezeta · release · rank 39392
+2025	Muluken Melesse	Beretukani	ሙሉቀን መለሰ			3331113461	# medium · Tezeta · release · rank 37986
+2025	Muluken Melesse	MEWEDEDSHEN BETAWQIW	ሙሉቀን መለሰ			3622596842	# low · Ethiopiques 31 · compilation · rank 32712
+2025	Muluken Melesse	GUBEL QEZEBA	ሙሉቀን መለሰ			3622596802	# low · Ethiopiques 31 · compilation · rank 32212
+2025	Muluken Melesse	BAYESH DES YELEGNAL	ሙሉቀን መለሰ			3622596852	# low · Ethiopiques 31 · compilation · rank 32209
+2025	Muluken Melesse	ENBAYEN TEREGIW	ሙሉቀን መለሰ			3622596872	# low · Ethiopiques 31 · compilation · rank 30029
+2025	Muluken Melesse	ALAGEGNEHWATEM	ሙሉቀን መለሰ			3622596762	# low · Ethiopiques 31 · compilation · rank 28473
+2003	Muluken Melesse	Hode New Telate	ሙሉቀን መለሰ			69707101	# low · The Best of Muluken Vol. 1 · compilation · rank 26822
+1998	Muluken Melesse	Tegodahu Benafkot	ሙሉቀን መለሰ			1281309892	# low · Muluken Melesse, Vol. 1 · compilation · rank 26607
+1998	Muluken Melesse	Fikir Jemeregn	ሙሉቀን መለሰ			1281309922	# low · Muluken Melesse, Vol. 1 · compilation · rank 26175
+1998	Muluken Melesse	Ete Endet Nesh Gedawo	ሙሉቀን መለሰ			1281309952	# low · Muluken Melesse, Vol. 1 · compilation · rank 25699
+2025	Muluken Melesse	Enes Tesaseche	ሙሉቀን መለሰ			3331113401	# medium · Tezeta · release · rank 25300
+2025	Muluken Melesse	Anech Akorashew	ሙሉቀን መለሰ			3331113361	# medium · Tezeta · release · rank 25174
+2025	Muluken Melesse	WOUB ABEBA	ሙሉቀን መለሰ			3622596832	# low · Ethiopiques 31 · compilation · rank 25076
+2025	Muluken Melesse	HELM HONESH ATEQRI	ሙሉቀን መለሰ			3622596782	# low · Ethiopiques 31 · compilation · rank 23354
+2025	Muluken Melesse	Mewededen Wededkut	ሙሉቀን መለሰ			3331113471	# medium · Tezeta · release · rank 22477
+2003	Muluken Melesse	Gelayewa	ሙሉቀን መለሰ			69707104	# low · The Best of Muluken Vol. 1 · compilation · rank 18613
+1998	Muluken Melesse	Akal Gela	ሙሉቀን መለሰ			1281309992	# low · Muluken Melesse, Vol. 1 · compilation · rank 18329
+1998	Muluken Melesse	Lebo Ney	ሙሉቀን መለሰ			1281309902	# low · Muluken Melesse, Vol. 1 · compilation · rank 17745
+
+# Teshome Mitiku · ተሾመ ምትኩ
+2006	Teshome Mitiku	Ballad of Amariah	ተሾመ ምትኩ			11988999	# medium · Topia's Deluge · release · rank 55672
+2005	Teshome Mitiku	Photoyen Ayechew	ተሾመ ምትኩ			1771467	# medium · Yegna Neger · release · rank 38586
+2005	Teshome Mitiku	Ethiopiawe Net	ተሾመ ምትኩ			1771456	# medium · Yegna Neger · release · rank 37035
+2005	Teshome Mitiku	Susegnash	ተሾመ ምትኩ			1771462	# medium · Yegna Neger · release · rank 32279
+2006	Teshome Mitiku	Leader-less People	ተሾመ ምትኩ			11989000	# medium · Topia's Deluge · release · rank 30999
+2005	Teshome Mitiku	Gabechachen	ተሾመ ምትኩ			1771474	# medium · Yegna Neger · release · rank 25199
+2006	Teshome Mitiku	Lies	ተሾመ ምትኩ			11988998	# medium · Topia's Deluge · release · rank 25083
+2005	Teshome Mitiku	Tariku Bacheru	ተሾመ ምትኩ			1771478	# medium · Yegna Neger · release · rank 22380
+2006	Teshome Mitiku	Song for Alem	ተሾመ ምትኩ			11988997	# medium · Topia's Deluge · release · rank 22145
+2005	Teshome Mitiku	Betachen Andnew	ተሾመ ምትኩ			1771465	# medium · Yegna Neger · release · rank 21725
+2006	Teshome Mitiku	Song of Songs	ተሾመ ምትኩ			11988994	# medium · Topia's Deluge · release · rank 20943
+2005	Teshome Mitiku	Wahuye	ተሾመ ምትኩ			1771480	# medium · Yegna Neger · release · rank 15230
+2009	Teshome Mitiku	Bati	ተሾመ ምትኩ			76876022	# medium · Zemen ( Ethiopian Contemporary Music · release · rank 11281
+2006	Teshome Mitiku	Why	ተሾመ ምትኩ			11989002	# medium · Topia's Deluge · release · rank 10795
+2006	Teshome Mitiku	Far Away But Near	ተሾመ ምትኩ			11989001	# medium · Topia's Deluge · release · rank 8886
+2006	Teshome Mitiku	Hallelujah	ተሾመ ምትኩ			11988996	# medium · Topia's Deluge · release · rank 3832
+2005	Teshome Mitiku	Che Belew	ተሾመ ምትኩ			1771470	# medium · Yegna Neger · release · rank 2223
+2005	Teshome Mitiku	Semot Ataleksu	ተሾመ ምትኩ			1771477	# medium · Yegna Neger · release · rank 1188
+2006	Teshome Mitiku	Topia's Deluge	ተሾመ ምትኩ			11988992	# medium · Topia's Deluge · release · rank 352
+2006	Teshome Mitiku	Ambati	ተሾመ ምትኩ			11988991	# medium · Topia's Deluge · release · rank 348
+
+# Ali Birra · አሊ ቢራ
+2024	Ali Birra	Nin Deema (feat. Magi Harun)	አሊ ቢራ			3072403701	# medium · Nin Deema (feat. Magi Harun) · release · rank 10290
+2025	Ali Birra	Dirree	አሊ ቢራ			3796919692	# medium · Dirree · release · rank 7803
+
+# Ayalew Mesfin · አያሌው መስፍን
+2020	Ayalew Mesfin	Lèné Antchi Bitcha Nèsh	አያሌው መስፍን			1088760482	# low · Wegene (My Countryman) · bulk · rank 62767
+2026	Ayalew Mesfin	Terèdjew Nèbèr	አያሌው መስፍን			4105628971	# low · Heavenly Ethiopiques (The Best Of The Ethiopiques Series) · compilation · rank 47449
+2020	Ayalew Mesfin	Ayish Ayishina (I See And I See You)	አያሌው መስፍን			1054625082	# low · Tewedije Limut (Let Me Die Loved) · bulk · rank 31837
+2020	Ayalew Mesfin	Megen Anchi Hoye (Your Amazing Self)	አያሌው መስፍን			1054625092	# low · Mot Aykerim (You Can’t Cheat Death) · bulk · rank 30083
+2020	Ayalew Mesfin	Wegene (My Countryman)	አያሌው መስፍን			1088760422	# low · Wegene (My Countryman) · bulk · rank 29264
+2020	Ayalew Mesfin	Gora Weshebaye (The Mountain Hero)	አያሌው መስፍን			1054625062	# low · Tewedije Limut (Let Me Die Loved) · bulk · rank 27125
+2020	Ayalew Mesfin	Tezetash Rekik (Memories of You)	አያሌው መስፍን			1054625292	# low · Good Adergechegn (Blindsided By Love) · bulk · rank 27097
+2020	Ayalew Mesfin	Weyolachew (I’m Warning You)	አያሌው መስፍን			1054625112	# low · Mot Aykerim (You Can’t Cheat Death) · bulk · rank 27008
+2020	Ayalew Mesfin	Endet Liyesh (How Can I See You)	አያሌው መስፍን			1054625302	# low · Good Adergechegn (Blindsided By Love) · bulk · rank 26971
+2020	Ayalew Mesfin	Gubeleye (Gorgeous Girl)	አያሌው መስፍን			1054625362	# low · Good Adergechegn (Blindsided By Love) · bulk · rank 26904
+2020	Ayalew Mesfin	Endetnesh Belulegn (Ask How She’s Doing)	አያሌው መስፍን			1088760452	# low · Wegene (My Countryman) · bulk · rank 26724
+2020	Ayalew Mesfin	Wubalem (Stunning)	አያሌው መስፍን			1088760472	# low · Wegene (My Countryman) · bulk · rank 26508
+2008	Ayalew Mesfin	Ahun New Tiz Yalegne	አያሌው መስፍን			116307488	# medium · The Legends · release · rank 26493
+2018	Ayalew Mesfin	Liba Menta Hone	አያሌው መስፍን			449679372	# medium · Liba Menta Hone · release · rank 26389
+2020	Ayalew Mesfin	Yewefe Ber Abeba (Like a Beautiful Bird)	አያሌው መስፍን			1054625342	# low · Good Adergechegn (Blindsided By Love) · bulk · rank 26366
+2020	Ayalew Mesfin	Ambassel (Ambassel)	አያሌው መስፍን			1088760432	# low · Wegene (My Countryman) · bulk · rank 25606
+2020	Ayalew Mesfin	Tereterkush Betam (I Suspect You Are Unfaithful)	አያሌው መስፍን			1054625472	# low · Che Belew (March Forward) · bulk · rank 25275
+2004	Ayalew Mesfin	Feqer aydelem wey	አያሌው መስፍን			224974	# low · Ethiopiques, Vol. 13: The Golden Seventies (Ethiopian Groove) · compilation · rank 22231
+2020	Ayalew Mesfin	Shuferu (The Driver)	አያሌው መስፍን			1054625042	# low · Tewedije Limut (Let Me Die Loved) · bulk · rank 21546
+2020	Ayalew Mesfin	Tizitash Zewetir (Your Memories Always)	አያሌው መስፍን			1088760462	# low · Wegene (My Countryman) · bulk · rank 21319
+2020	Ayalew Mesfin	Ewedish Neber (I Used To Love You)	አያሌው መስፍን			1054625282	# low · Good Adergechegn (Blindsided By Love) · bulk · rank 18935
+2020	Ayalew Mesfin	Yesew Neger (Amazed By Humanity)	አያሌው መስፍን			1054625492	# low · Che Belew (March Forward) · bulk · rank 18428
+2020	Ayalew Mesfin	Tewedije Limut (Let Me Die Loved)	አያሌው መስፍን			1054625022	# low · Tewedije Limut (Let Me Die Loved) · bulk · rank 15989
+2020	Ayalew Mesfin	Mot Aykerim (You Can’t Cheat Death) (Alternate Take)	አያሌው መስፍን			1054625102	# low · Mot Aykerim (You Can’t Cheat Death) · bulk · rank 15751
+2020	Ayalew Mesfin	Turi Turi Nafa (Lies And More Lies)	አያሌው መስፍን			1054625152	# low · Mot Aykerim (You Can’t Cheat Death) · bulk · rank 15244
+2020	Ayalew Mesfin	Wubeet (Beautiful)	አያሌው መስፍን			1054625332	# low · Good Adergechegn (Blindsided By Love) · bulk · rank 15240
+2020	Ayalew Mesfin	Libe Dil Temeta (My Heart Is Conquered)	አያሌው መስፍን			1054625052	# low · Tewedije Limut (Let Me Die Loved) · bulk · rank 13723
+2020	Ayalew Mesfin	Zebeder (Mesmerizing)	አያሌው መስፍን			1054625542	# low · Che Belew (March Forward) · bulk · rank 13249
+2020	Ayalew Mesfin	Yetembelel-Loga (Tall And Graceful)	አያሌው መስፍን			1054625512	# low · Che Belew (March Forward) · bulk · rank 11712
+2020	Ayalew Mesfin	Yedilu Shema (Victory Torch)	አያሌው መስፍን			1054625142	# low · Mot Aykerim (You Can’t Cheat Death) · bulk · rank 11699
+2020	Ayalew Mesfin	Ekul Teramedu (Walk As One)	አያሌው መስፍን			1054625312	# low · Good Adergechegn (Blindsided By Love) · bulk · rank 10287
+2020	Ayalew Mesfin	Konjo Lidge Nat (She’s A Beautiful Girl)	አያሌው መስፍን			1054625502	# low · Che Belew (March Forward) · bulk · rank 10065
+2020	Ayalew Mesfin	Che Belew (March Forward)	አያሌው መስፍን			1054625522	# low · Che Belew (March Forward) · bulk · rank 10047
+2020	Ayalew Mesfin	Anchi Yefikir Taot (You Are Love)	አያሌው መስፍን			1054625072	# low · Tewedije Limut (Let Me Die Loved) · bulk · rank 9196
+2020	Ayalew Mesfin	Erikew Sihedu (When Distance Arises)	አያሌው መስፍን			1054625122	# low · Mot Aykerim (You Can’t Cheat Death) · bulk · rank 7516
+2020	Ayalew Mesfin	Ho Bilo Hede (He Went Marching)	አያሌው መስፍን			1054625532	# low · Che Belew (March Forward) · bulk · rank 5290
+2008	Ayalew Mesfin	Mesikerem Sayiteba	አያሌው መስፍን			116307504	# medium · The Legends · release · rank 2474
+2018	Ayalew Mesfin	Rehab (My Hunger)	አያሌው መስፍን			472057452	# medium · Hasabe · release · rank 1797
+2020	Ayalew Mesfin	Yetizitash Simet (The Feelings Of Your Memory)	አያሌው መስፍን			1054625132	# low · Mot Aykerim (You Can’t Cheat Death) · bulk · rank 1090
+2020	Ayalew Mesfin	Menèw Bèqèrèbegn	አያሌው መስፍን			1088760492	# low · Wegene (My Countryman) · bulk · rank 1068
+
+# Menelik Wossenachew · ምኒልክ ወስናቸው
+1978	Menelik Wossenachew	Nefs Nat	ምኒልክ ወስናቸው			2080136447	# low · Nefs Nat · bulk · rank 32134
+2023	Menelik Wossenachew	Bemelekt Ayhonim	ምኒልክ ወስናቸው			2496163641	# medium · Yedem Godana · release · rank 25482
+2023	Menelik Wossenachew	Hedech	ምኒልክ ወስናቸው			2496163661	# medium · Yedem Godana · release · rank 25458
+1978	Menelik Wossenachew	Mekaberene Liyew	ምኒልክ ወስናቸው			2099674757	# low · Mekaberene Liyew · bulk · rank 18886
+2022	Menelik Wossenachew	Yeayne Tesfa	ምኒልክ ወስናቸው			2080136437	# medium · Yeayne Tesfa · release · rank 15953
+2023	Menelik Wossenachew	Kuri Gid Yelem.falc	ምኒልክ ወስናቸው			2534025011	# medium · Tizta Ayarejim · release · rank 10164
+2023	Menelik Wossenachew	Deresh Beqsbet	ምኒልክ ወስናቸው			2534024981	# medium · Tizta Ayarejim · release · rank 10063
+2023	Menelik Wossenachew	Neylign	ምኒልክ ወስናቸው			2534025021	# medium · Tizta Ayarejim · release · rank 10014
+2022	Menelik Wossenachew	Eshet Leweret	ምኒልክ ወስናቸው			2064669347	# medium · Eshet Leweret · release · rank 8988
+1978	Menelik Wossenachew	Yedem Godana	ምኒልክ ወስናቸው			2080173277	# low · Yedem Godana · bulk · rank 8787
+1978	Menelik Wossenachew	Enjori	ምኒልክ ወስናቸው			2083377117	# low · Enjori · bulk · rank 7762
+2022	Menelik Wossenachew	Etitu Beredegne	ምኒልክ ወስናቸው			2083377107	# medium · Etitu Beredegne · release · rank 7762
+1975	Menelik Wossenachew	Gash Jembere	ምኒልክ ወስናቸው			2064280797	# medium · Gash Jembere · release · rank 6979
+2023	Menelik Wossenachew	Fikir Bedebdabe	ምኒልክ ወስናቸው			2534025001	# medium · Tizta Ayarejim · release · rank 6979
+2023	Menelik Wossenachew	Fikir Beasterguami	ምኒልክ ወስናቸው			2534024991	# medium · Tizta Ayarejim · release · rank 6880
+
+# Asnakech Worku · አስናቀች ወርቁ
+2023	Asnakech Worku	Mela'mela	አስናቀች ወርቁ			2309789935	# medium · Gubelye · release · rank 100000
+2023	Asnakech Worku	Techegerkugne Woy Zendro	አስናቀች ወርቁ			2309789925	# medium · Gubelye · release · rank 100000
+2023	Asnakech Worku	Yewolo Tizita	አስናቀች ወርቁ			2309789955	# medium · Gubelye · release · rank 100000
+2023	Asnakech Worku	Sela Belegn	አስናቀች ወርቁ			2552340942	# medium · Tizita. · release · rank 100000
+2018	Asnakech Worku	Kand Yerega Deg New	አስናቀች ወርቁ			564069292	# medium · Asnakech · release · rank 60378
+2018	Asnakech Worku	Sak Bleh Askegn	አስናቀች ወርቁ			564069272	# medium · Asnakech · release · rank 42997
+2000	Asnakech Worku	Indihim Aragegn (Live)	አስናቀች ወርቁ			425897232	# low · Wogeni - Live in Europe · compilation · rank 26751
+2023	Asnakech Worku	Dymanie	አስናቀች ወርቁ			2552340922	# medium · Tizita. · release · rank 26253
+2018	Asnakech Worku	Abyotegnaw Jegna	አስናቀች ወርቁ			564069282	# medium · Asnakech · release · rank 26076
+2018	Asnakech Worku	Jinyew	አስናቀች ወርቁ			564069212	# medium · Asnakech · release · rank 25994
+2018	Asnakech Worku	Tew Begize Giba	አስናቀች ወርቁ			564069262	# medium · Asnakech · release · rank 25783
+2023	Asnakech Worku	Yisemashal Wey	አስናቀች ወርቁ			2552340962	# medium · Tizita. · release · rank 25101
+2018	Asnakech Worku	Tche Belew	አስናቀች ወርቁ			564069222	# medium · Asnakech · release · rank 25097
+2023	Asnakech Worku	Wogene	አስናቀች ወርቁ			2309789945	# medium · Gubelye · release · rank 24481
+2023	Asnakech Worku	Arada	አስናቀች ወርቁ			2309789865	# medium · Gubelye · release · rank 21955
+2000	Asnakech Worku	Gibi Belegn (Live)	አስናቀች ወርቁ			425897222	# low · Wogeni - Live in Europe · compilation · rank 21041
+2023	Asnakech Worku	Afkresh Neber	አስናቀች ወርቁ			2552340882	# medium · Tizita. · release · rank 20952
+2011	Asnakech Worku	Mengedegnaw Libe	አስናቀች ወርቁ			2030264237	# low · The Ethiopian Classic, Vol. 2 · compilation · rank 20382
+2023	Asnakech Worku	Abet Abet	አስናቀች ወርቁ			2552340872	# medium · Gubelye · release · rank 19210
+2018	Asnakech Worku	Mingizem Yene New	አስናቀች ወርቁ			564069252	# medium · Asnakech · release · rank 18448
+2011	Asnakech Worku	Tizita	አስናቀች ወርቁ			2552340952	# medium · Music From · release · rank 17880
+2000	Asnakech Worku	Ende Jerusalem (Live)	አስናቀች ወርቁ			425897172	# low · Wogeni - Live in Europe · compilation · rank 15240
+2023	Asnakech Worku	Alber Endamora	አስናቀች ወርቁ			2309789855	# medium · Gubelye · release · rank 13562
+2000	Asnakech Worku	Bati Bati (Live)	አስናቀች ወርቁ			425897202	# low · Wogeni - Live in Europe · compilation · rank 13277
+2023	Asnakech Worku	Meyaz Ena Metew	አስናቀች ወርቁ			2309789905	# medium · Gubelye · release · rank 12170
+2023	Asnakech Worku	And Dehena Neger	አስናቀች ወርቁ			2552340902	# medium · Tizita. · release · rank 12161
+2000	Asnakech Worku	Tizita, Ehe Lebel (Live)	አስናቀች ወርቁ			425897192	# low · Wogeni - Live in Europe · compilation · rank 11433
+2023	Asnakech Worku	Eh'libel	አስናቀች ወርቁ			2309789885	# medium · Gubelye · release · rank 9026
+2000	Asnakech Worku	Selebel (Live)	አስናቀች ወርቁ			425897242	# low · Wogeni - Live in Europe · compilation · rank 8805
+2023	Asnakech Worku	Sabye	አስናቀች ወርቁ			2309789915	# medium · Gubelye · release · rank 5472
+2023	Asnakech Worku	Bati	አስናቀች ወርቁ			2552340912	# medium · Tizita. · release · rank 5163
+2018	Asnakech Worku	Awkew Beneber	አስናቀች ወርቁ			564069232	# medium · Asnakech · release · rank 3445
+2018	Asnakech Worku	Baynelay Yidal	አስናቀች ወርቁ			564069242	# medium · Asnakech · release · rank 3099
+2023	Asnakech Worku	Gubelye	አስናቀች ወርቁ			2309789895	# medium · Gubelye · release · rank 2234
+2000	Asnakech Worku	Ambassel (Live)	አስናቀች ወርቁ			425897182	# low · Wogeni - Live in Europe · compilation · rank 2105
+2023	Asnakech Worku	Ayneh Yishalegnal	አስናቀች ወርቁ			2309789875	# medium · Gubelye · release · rank 2008
+2000	Asnakech Worku	Wogeni (Live)	አስናቀች ወርቁ			425897212	# low · Wogeni - Live in Europe · compilation · rank 1360
+2023	Asnakech Worku	Anchi Lij	አስናቀች ወርቁ			2552340892	# medium · Tizita. · release · rank 1182
+2018	Asnakech Worku	Mech Alkugn Lela Sew	አስናቀች ወርቁ			564069302	# medium · Asnakech · release · rank 112
+
+# Bahta Gebrehiwot · ባህታ ገብረሕይወት
+
+# Tamrat Molla · ታምራት ሞላ
+
+# Hailu Mergia · ኃይሉ መርጊያ
+2021	Hailu Mergia	Zengadyw Derekou	ኃይሉ መርጊያ			1352393742	# medium · Tezeta · release · rank 166301
+2021	Hailu Mergia	Endegena	ኃይሉ መርጊያ			1352393732	# medium · Tezeta · release · rank 163642
+2021	Hailu Mergia	Ou-Ou-Ta	ኃይሉ መርጊያ			1352393792	# medium · Tezeta · release · rank 138902
+2013	Hailu Mergia	Shemonmuanaye	ኃይሉ መርጊያ			67882199	# medium · Hailu Mergia & His Classical Instrument: Shemonmuanaye · release · rank 128371
+2013	Hailu Mergia	Amrew Demkew	ኃይሉ መርጊያ			67882204	# medium · Hailu Mergia & His Classical Instrument: Shemonmuanaye · release · rank 124075
+2018	Hailu Mergia	Gum Gum	ኃይሉ መርጊያ			453331932	# medium · Lala Belu · release · rank 121660
+2013	Hailu Mergia	Shilela	ኃይሉ መርጊያ			67882209	# medium · Hailu Mergia & His Classical Instrument: Shemonmuanaye · release · rank 117707
+2021	Hailu Mergia	Mestirawi Debdabe	ኃይሉ መርጊያ			1352393782	# medium · Tezeta · release · rank 117561
+2021	Hailu Mergia	Gumegum	ኃይሉ መርጊያ			1352393752	# medium · Tezeta · release · rank 106360
+2021	Hailu Mergia	Atmetalegnem Woi	ኃይሉ መርጊያ			1352393772	# medium · Tezeta · release · rank 105825
+2018	Hailu Mergia	Anchihoye Lene	ኃይሉ መርጊያ			453331942	# medium · Lala Belu · release · rank 102473
+2013	Hailu Mergia	Wegene	ኃይሉ መርጊያ			67882202	# medium · Hailu Mergia & His Classical Instrument: Shemonmuanaye · release · rank 99092
+2021	Hailu Mergia	Aya Belew Belew	ኃይሉ መርጊያ			1352393802	# medium · Tezeta · release · rank 91955
+2013	Hailu Mergia	Belew Beduby	ኃይሉ መርጊያ			67882208	# medium · Hailu Mergia & His Classical Instrument: Shemonmuanaye · release · rank 89199
+2021	Hailu Mergia	Nefas New Zemedie	ኃይሉ መርጊያ			1352393762	# medium · Tezeta · release · rank 78829
+2020	Hailu Mergia	Bayne Lay Yihedal	ኃይሉ መርጊያ			848343882	# medium · Yene Mircha · release · rank 69128
+2020	Hailu Mergia	Shemendefer	ኃይሉ መርጊያ			848343912	# medium · Yene Mircha · release · rank 65677
+2020	Hailu Mergia	Yene Mircha	ኃይሉ መርጊያ			848343872	# medium · Yene Mircha · release · rank 65676
+2013	Hailu Mergia	Hari Meru Meru	ኃይሉ መርጊያ			67882203	# medium · Hailu Mergia & His Classical Instrument: Shemonmuanaye · release · rank 53137
+2013	Hailu Mergia	Ambasel	ኃይሉ መርጊያ			67882206	# medium · Hailu Mergia & His Classical Instrument: Shemonmuanaye · release · rank 50614
+2023	Hailu Mergia	Yetewat Hilm (Live)	ኃይሉ መርጊያ			2389978695	# low · Pioneer Works Swing (Live) (Standard) · compilation · rank 47891
+2013	Hailu Mergia	Anchin Alay Alegn	ኃይሉ መርጊያ			67882205	# medium · Hailu Mergia & His Classical Instrument: Shemonmuanaye · release · rank 47177
+2020	Hailu Mergia	Abichu Nega Nega	ኃይሉ መርጊያ			848343892	# medium · Yene Mircha · release · rank 47132
+2013	Hailu Mergia	Hebo Lale	ኃይሉ መርጊያ			67882207	# medium · Hailu Mergia & His Classical Instrument: Shemonmuanaye · release · rank 37509
+2020	Hailu Mergia	Yene Abeba	ኃይሉ መርጊያ			848343902	# medium · Yene Mircha · release · rank 36237
+2020	Hailu Mergia	Semen Ena Debub	ኃይሉ መርጊያ			848343862	# medium · Yene Mircha · release · rank 31340
+2020	Hailu Mergia	Dibik Fikir	ኃይሉ መርጊያ			933492582	# medium · Dibik Fikir · release · rank 31309
+2023	Hailu Mergia	Monalisa Nesh (Live)	ኃይሉ መርጊያ			2389978645	# low · Pioneer Works Swing (Live) (Standard) · compilation · rank 26273
+2015	Hailu Mergia	Hailu	ኃይሉ መርጊያ			100357736	# medium · Hailu / Yegle Nesh · release · rank 18698
+2013	Hailu Mergia	Prins Thomas Diskomiks	ኃይሉ መርጊያ			70750936	# medium · Hailu Mergia Remixes · release · rank 11569
+
+# Roha Band · ሮሃ ባንድ
+
+# Walias Band · ዋሊያስ ባንድ
+
+# Ethio Stars · ኢትዮ ስታርስ
+
+# Dahlak Band · ዳህላክ ባንድ
+
+# Elias Negash · ኤልያስ ነጋሽ
+2012	Elias Negash	I Dare You	ኤልያስ ነጋሽ			72612279	# medium · Jazzed Up · release · rank 59162
+2012	Elias Negash	No Women No Cry	ኤልያስ ነጋሽ			72612280	# medium · Jazzed Up · release · rank 40863
+1997	Elias Negash	Ere Mein Yishalegneal	ኤልያስ ነጋሽ			8870226	# medium · Love · release · rank 31367
+2012	Elias Negash	Perfect Ten	ኤልያስ ነጋሽ			72612274	# medium · Jazzed Up · release · rank 25975
+1997	Elias Negash	Bertukane/Shegitu	ኤልያስ ነጋሽ			8870229	# medium · Love · release · rank 25459
+2012	Elias Negash	Harlem Nocturne	ኤልያስ ነጋሽ			72612284	# medium · Jazzed Up · release · rank 25200
+1997	Elias Negash	Tizeta	ኤልያስ ነጋሽ			8870230	# medium · Love · release · rank 21049
+2007	Elias Negash	Song For My Father	ኤልያስ ነጋሽ			8870829	# medium · Feel Like Dancin' · release · rank 20884
+2015	Elias Negash	Muziqawi Silt	ኤልያስ ነጋሽ			97186564	# low · Muziqawi Silt · bulk · rank 18443
+2016	Elias Negash	Yekermo Sew (Man of Experience and Wisdom)	ኤልያስ ነጋሽ			133686384	# low · Yekermo Sew (Man of Experiance and Wisdom) · bulk · rank 16036
+2016	Elias Negash	Sitihed Siketelat (Persistence)	ኤልያስ ነጋሽ			94088512	# low · Best of Elias Negash · compilation · rank 15897
+1997	Elias Negash	Meskerem	ኤልያስ ነጋሽ			8870225	# medium · Love · release · rank 15812
+2016	Elias Negash	Harambe (Let's Pull Together)	ኤልያስ ነጋሽ			94088508	# low · Best of Elias Negash · compilation · rank 10040
+2012	Elias Negash	I Lied to You	ኤልያስ ነጋሽ			72612275	# medium · Jazzed Up · release · rank 3458
+2013	Elias Negash	Miss Ethiopia (Ene Negn Bay Manesh)	ኤልያስ ነጋሽ			76602778	# low · Miss Ethiopia (Ene Negn Bay Manesh) · bulk · rank 3067
+2005	Elias Negash	Heart On Fire	ኤልያስ ነጋሽ			8870623	# medium · Peace · release · rank 26
+
+# Abegaz Kibrework Shiota · አበጋዝ ክብረወርቅ ሺዎታ
