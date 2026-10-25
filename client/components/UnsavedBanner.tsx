@@ -72,7 +72,7 @@ export default function UnsavedBanner({
     >
       <div className="stack" style={{ gap: 10, flex: 1, minWidth: 240 }}>
         <div className="row">
-          <span className={`pill ${ephemeral ? "pill-bad" : "pill-gold"}`}>
+          <span className={`pill ${ephemeral ? "pill-bad" : "pill-accent"}`}>
             {total} unsaved {one ? "change" : "changes"}
           </span>
         </div>

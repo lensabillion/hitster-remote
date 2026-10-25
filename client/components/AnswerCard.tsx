@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Timeline, { type Card } from "@/components/Timeline";
 
-/* The answer card — the thing that leads the screen on your turn.
+/* The answer card -- the thing that leads the screen on your turn.
  *
  * Open from the moment the clip starts, so you can answer over the music or stop
  * it first. Nothing here waits for the song to finish.
@@ -34,27 +34,27 @@ export default function AnswerCard({
   const [gap, setGap] = useState<number | null>(null);
 
   return (
-    <div className="hero">
+    <section className="hero" aria-labelledby="answer-heading">
       <div className="stack" style={{ gap: 4 }}>
-        <span className="label" style={{ color: "var(--gold)" }}>
-          Your turn
-        </span>
-        <h2 className="display" style={{ fontSize: "var(--t-xl)", margin: 0 }}>
+        <span className="label accent">Your turn</span>
+        <h2 id="answer-heading" className="h" style={{ fontSize: "var(--t-xl)" }}>
           Who sang it, and when?
         </h2>
       </div>
 
       <div className="stack">
         <div className="row" style={{ justifyContent: "space-between" }}>
-          <span className="label">1 · The singer</span>
-          <span className="pill pill-gold">{artistPoints} points</span>
+          <label className="label" htmlFor="answer-artist">
+            1 · The singer
+          </label>
+          <span className="pill">{artistPoints} points</span>
         </div>
         <input
+          id="answer-artist"
           className="field"
           placeholder="Artist name, in Latin letters"
           value={artist}
           onChange={(e) => setArtist(e.target.value)}
-          aria-label="Artist name"
           autoComplete="off"
           maxLength={120}
         />
@@ -66,7 +66,7 @@ export default function AnswerCard({
       <div className="stack">
         <div className="row" style={{ justifyContent: "space-between" }}>
           <span className="label">2 · Where it goes</span>
-          <span className="pill pill-gold">{yearPoints} points</span>
+          <span className="pill">{yearPoints} points</span>
         </div>
         <Timeline cards={timeline} interactive onPlace={setGap} />
         <p className="hint">
@@ -75,14 +75,15 @@ export default function AnswerCard({
       </div>
 
       <div className="stack">
-        <span className="label">3 · Song title — optional, not scored</span>
+        <label className="label" htmlFor="answer-title">
+          3 · Song title — optional, not scored
+        </label>
         <input
+          id="answer-title"
           className="field"
-          style={{ fontSize: "var(--t-sm)", padding: "10px 14px" }}
           placeholder="If you know it"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
-          aria-label="Song title, optional"
           autoComplete="off"
           maxLength={120}
         />
@@ -102,6 +103,6 @@ export default function AnswerCard({
           I don’t know — pass
         </button>
       </div>
-    </div>
+    </section>
   );
 }

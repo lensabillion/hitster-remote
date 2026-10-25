@@ -14,10 +14,12 @@ export type Card = {
 /* The timeline: a scrolling rail of cards with tappable slots between them.
  *
  * Placement is by tapping a gap, never by dragging. A drag target is fiddly on a
- * phone and this is played one-handed while on a call.
+ * phone and this is played one-handed while on a call, so every gap is a full
+ * 44px wide. Every gap is equally valid, and the rail must never suggest
+ * otherwise: a year that ties a card already down may sit on either side of it.
  *
  * The year is the largest thing on a card because the year is what the round is
- * about. Amharic title next, Latin artist last and small — enough to recognise a
+ * about. Amharic title next, Latin artist last and small -- enough to recognise a
  * card at a glance without turning it into a paragraph. */
 
 function Gap({
@@ -45,10 +47,13 @@ export default function Timeline({
   cards,
   interactive = false,
   onPlace,
+  highlightId,
 }: {
   cards: Card[];
   interactive?: boolean;
   onPlace?: (gap: number) => void;
+  /* The card that just landed, picked out at the reveal. */
+  highlightId?: string;
 }) {
   const [selected, setSelected] = useState<number | null>(null);
 
@@ -74,7 +79,7 @@ export default function Timeline({
       {cards.map((card, i) => (
         <Fragment key={card.id}>
           {slot(i)}
-          <article className="tl-card">
+          <article className={`tl-card${card.id === highlightId ? " tl-card-new" : ""}`}>
             <div className="tl-year">{card.year}</div>
             <div className="stack" style={{ gap: 3 }}>
               <div className="tl-title am">{card.titleAm || card.titleLatin}</div>

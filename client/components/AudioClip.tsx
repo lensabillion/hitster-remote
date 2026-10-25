@@ -171,7 +171,7 @@ export default function AudioClip({ cue }: { cue: AudioCue | null }) {
           ▶ Play the clip
         </button>
       ) : (
-        <span className={`pill ${playing ? "pill-gold" : ""}`}>
+        <span className={`pill${playing ? " pill-accent" : ""}`}>
           {playing ? "♪ playing" : "clip ended"}
         </span>
       )}
