@@ -88,6 +88,12 @@ h3 {
 
 /* ---------- type roles ---------- */
 
+/* Nothing on the page is heavier than semibold; hierarchy comes from size. */
+strong,
+b {
+  font-weight: 600;
+}
+
 /* The calligraphic face. Wordmark and reveal year only. */
 .display {
   font-family: var(--font-display), "Abyssinica SIL", var(--font-text), serif;
@@ -98,7 +104,7 @@ h3 {
 
 /* Headings. Weight and size from the text face, so they stay plain. */
 .h {
-  font-weight: 700;
+  font-weight: 500;
   line-height: 1.25;
   letter-spacing: -0.01em;
   text-wrap: balance;
@@ -106,7 +112,7 @@ h3 {
 
 .label {
   font-size: var(--t-xs);
-  font-weight: 700;
+  font-weight: 600;
   letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--ink-faint);
@@ -165,7 +171,7 @@ h3 {
 }
 
 .code {
-  font-weight: 700;
+  font-weight: 600;
   font-variant-numeric: tabular-nums;
   font-size: var(--t-md);
   color: var(--green);
@@ -223,7 +229,7 @@ h3 {
 
 .btn {
   font: inherit;
-  font-weight: 700;
+  font-weight: 600;
   border: 1px solid transparent;
   cursor: pointer;
   min-height: 44px;
@@ -248,7 +254,7 @@ h3 {
 
 .btn-ghost {
   font: inherit;
-  font-weight: 600;
+  font-weight: 500;
   font-size: var(--t-sm);
   cursor: pointer;
   min-height: 44px;
@@ -277,7 +283,7 @@ h3 {
    them, so the page does not become a wall of solid green. */
 .btn-line {
   font: inherit;
-  font-weight: 700;
+  font-weight: 600;
   font-size: var(--t-sm);
   cursor: pointer;
   min-height: 44px;
@@ -334,7 +340,7 @@ h3 {
   width: 88px;
   text-align: center;
   font-variant-numeric: tabular-nums;
-  font-weight: 700;
+  font-weight: 600;
 }
 
 :focus-visible {
@@ -350,7 +356,7 @@ h3 {
   color: var(--ink-soft);
   font: inherit;
   font-size: var(--t-sm);
-  font-weight: 600;
+  font-weight: 500;
   cursor: pointer;
   min-height: 44px;
   padding: 0 10px;
@@ -368,7 +374,7 @@ h3 {
 
 .link {
   color: var(--green);
-  font-weight: 600;
+  font-weight: 500;
   text-decoration: underline;
   text-underline-offset: 3px;
 }
@@ -384,7 +390,7 @@ h3 {
   display: inline-flex;
   align-items: center;
   font-size: var(--t-xs);
-  font-weight: 700;
+  font-weight: 600;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   line-height: 1.4;
@@ -402,7 +408,7 @@ h3 {
 /* A small toggle in a row of them: songs-each in the lobby, a filter. */
 .chip {
   font: inherit;
-  font-weight: 700;
+  font-weight: 600;
   font-size: var(--t-sm);
   min-width: 44px;
   min-height: 44px;
@@ -442,10 +448,10 @@ h3 {
   border-radius: 100px;
 }
 .score-lead { border-color: var(--green); background: var(--green-wash); }
-.score-you .score-name { color: var(--ink); font-weight: 700; }
+.score-you .score-name { color: var(--ink); font-weight: 600; }
 .score-name { font-size: var(--t-sm); color: var(--ink-soft); }
 .score-val {
-  font-weight: 700;
+  font-weight: 600;
   font-variant-numeric: tabular-nums;
   font-size: var(--t-md);
   color: var(--ink);
@@ -479,7 +485,7 @@ h3 {
 .tl-card-new .tl-year { color: var(--green); }
 
 .tl-year {
-  font-weight: 700;
+  font-weight: 600;
   font-variant-numeric: tabular-nums;
   font-size: var(--t-xl);
   letter-spacing: -0.01em;
@@ -489,7 +495,7 @@ h3 {
 
 .tl-title {
   font-size: var(--t-sm);
-  font-weight: 600;
+  font-weight: 500;
   color: var(--ink);
   line-height: 1.5;
 }
@@ -513,7 +519,7 @@ h3 {
   background: var(--ground);
   color: var(--ink-soft);
   font-size: var(--t-md);
-  font-weight: 700;
+  font-weight: 600;
   cursor: pointer;
   display: grid;
   place-items: center;
@@ -565,7 +571,7 @@ h3 {
 }
 
 .points {
-  font-weight: 700;
+  font-weight: 600;
   font-variant-numeric: tabular-nums;
   font-size: var(--t-2xl);
   letter-spacing: -0.02em;
@@ -592,7 +598,7 @@ h3 {
   flex-wrap: wrap;
 }
 .player-name {
-  font-weight: 700;
+  font-weight: 600;
   font-size: var(--t-md);
   color: var(--ink);
 }
@@ -688,28 +694,27 @@ h3 {
   overflow-wrap: anywhere;
 }
 
-/* ---------- how a turn goes (landing) ---------- */
+/* ---------- the rules, on the landing page ---------- */
 
-.steps {
+.rules {
   list-style: none;
   margin: 0;
   padding: 0;
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  font-size: var(--t-md);
+  max-width: 58ch;
+}
+
+.rules li {
+  display: flex;
+  align-items: flex-start;
   gap: 12px;
 }
 
-.step {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  padding: 16px;
-  background: var(--surface);
-  border: 1px solid var(--rule);
-  border-radius: var(--r);
-}
-
 .step-no {
+  flex: none;
   width: 28px;
   height: 28px;
   border-radius: 50%;
@@ -718,11 +723,6 @@ h3 {
   justify-content: center;
   background: var(--green-wash);
   color: var(--green);
-  font-weight: 700;
+  font-weight: 600;
   font-size: var(--t-sm);
-}
-
-/* Later than the grid rule above on purpose: same specificity, last one wins. */
-@media (max-width: 560px) {
-  .steps { grid-template-columns: minmax(0, 1fr); }
 }

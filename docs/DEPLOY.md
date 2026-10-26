@@ -1,4 +1,4 @@
-# Deploying ሸክላ
+# Deploying እስቲ
 
 Two pieces, two hosts. That split is not a preference — it is forced by how the game
 works.
