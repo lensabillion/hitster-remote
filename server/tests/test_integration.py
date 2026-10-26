@@ -359,11 +359,11 @@ async def test_no_client_sees_a_round_zero_or_a_zero_deadline(tmp_path):
 async def test_a_card_with_nothing_to_play_is_skipped(tmp_path, monkeypatch):
     """A round is never silent: a card whose source has gone is passed over.
 
-    The shuffle is pinned so the deal is known: cards 0 and 1 are the seeds,
+    The deal is pinned to deck order so it is known: cards 0 and 1 are the seeds,
     cards 2-6 have no source, card 7 is the first playable draw. Round 1 must
     land on card 7 without counting the five skips as rounds.
     """
-    monkeypatch.setattr(rooms_module.random, "shuffle", lambda deck: None)
+    monkeypatch.setattr(rooms_module, "deal_across_eras", list)  # deal in deck order
     async with Harness(tmp_path) as h:
         rows = await db_module.db.all_cards()
         for i, row in enumerate(rows):
@@ -383,7 +383,7 @@ async def test_a_card_with_nothing_to_play_is_skipped(tmp_path, monkeypatch):
 
 
 async def test_a_deck_of_silence_ends_the_game_rather_than_looping(tmp_path, monkeypatch):
-    monkeypatch.setattr(rooms_module.random, "shuffle", lambda deck: None)
+    monkeypatch.setattr(rooms_module, "deal_across_eras", list)  # deal in deck order
     async with Harness(tmp_path) as h:
         rows = await db_module.db.all_cards()
         for i, row in enumerate(rows):

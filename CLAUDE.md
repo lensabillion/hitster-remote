@@ -106,8 +106,9 @@ Each round is graded out of 100 and the two halves are independent:
 
 - **70 — the singer.** Typed into the answer card in Latin letters. Matching is
   deliberately generous (`matching.player_artist_matches`): a surname alone counts, so
-  does a plausible misspelling. Amharic names have no agreed Latin spelling, so a player
-  must never lose points to a transliteration they had no way to guess.
+  does a plausible misspelling, and the vowels are set aside before comparing, so Makiya
+  Bahilu is Mikaya Behailu. Amharic names have no agreed Latin spelling, so a player must
+  never lose points to a transliteration they had no way to guess.
 - **30 — the year.** Earned by placing the card correctly on your own timeline, not by
   typing a year. Relative order is the forgiving part of the game and it stays that way.
 - **0 — the song title.** Captured and shown at the reveal, never scored.
@@ -129,6 +130,10 @@ ceiling that only stops an absent player stalling the table.
   cue goes to every socket, not just the answering one. Their song comes on their turn.
 - **Turns are dealt evenly.** `rounds_planned` is rounded down to a whole number of turns
   each, so nobody sitting early in the seat order gets an extra song.
+- **Rounds rotate through the eras.** `deal_across_eras` orders the shuffled deck so
+  consecutive cards cycle through the classics before 1980 and then each decade. A deck
+  thick in the 2010s still deals a 1980s song as often as a 2010s one. Do not replace it
+  with a plain shuffle.
 - **Two matchers, opposite temperaments.** `artist_matches` and `title_matches`
   (catalogue) are strict, so a wrong Deezer track is never attached.
   `player_artist_matches` (typed input) is generous, so a player is never robbed by

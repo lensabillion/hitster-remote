@@ -21,6 +21,7 @@ from game import (
     Card,
     Phase,
     RoundOutcome,
+    deal_across_eras,
     insert_card,
     now_ms,
     resolve_round,
@@ -131,8 +132,7 @@ class Room:
     # ---------- round flow ----------
 
     def start_game(self, deck: list[Card], rounds: int | None = None) -> None:
-        self.deck = list(deck)
-        random.shuffle(self.deck)
+        self.deck = deal_across_eras(deck)
         self.draw_index = 0
         self.round_no = 0
         self.active_seat = 0
