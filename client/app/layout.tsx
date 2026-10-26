@@ -19,9 +19,9 @@ const text = Noto_Sans_Ethiopic({
 });
 
 export const metadata: Metadata = {
-  title: "ዜማ · Zema",
+  title: "ሸክላ · Shekla",
   description:
-    "A remote music timeline game for Amharic songs. Hear a song, guess the year, build your timeline.",
+    "Who sang it, and when? Amharic songs, your timeline, your friends. Name the singer, place the song, and remember better than everyone at the table.",
 };
 
 export default function RootLayout({

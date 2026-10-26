@@ -1,4 +1,4 @@
-# ዜማ · Zema
+# ሸክላ · Shekla
 
 A remote music game for Amharic songs, played across continents. Take turns: a clip
 plays, you name the singer and place the song on your timeline. Everyone hears every

@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Timeline, { type Card } from "@/components/Timeline";
+import Logo from "@/components/Logo";
 import { getPlayerName, setPlayerName } from "@/lib/identity";
 import Link from "next/link";
 import { onRoomJoined, useRoom } from "@/lib/room";
@@ -80,20 +81,20 @@ export default function Home() {
       <ConnectionBanner connection={connection} serverUrl={serverUrl} />
       <ErrorBanner message={error} onDismiss={clearError} />
 
-      <header className="stack" style={{ gap: 14 }}>
-        <span className="label">የዜማ ጨዋታ · a music timeline game</span>
-        <div className="row" style={{ gap: 16, alignItems: "baseline" }}>
-          <h1 className="display am" style={{ fontSize: "var(--t-3xl)" }}>
-            ዜማ
-          </h1>
-          <span className="h accent" style={{ fontSize: "var(--t-xl)" }}>
-            Zema
-          </span>
+      <header className="stack" style={{ gap: 20 }}>
+        <Logo />
+        <div className="stack" style={{ gap: 4 }}>
+          <p className="display am" style={{ fontSize: "var(--t-2xl)", margin: 0 }}>
+            ማን ዘፈነው?
+          </p>
+          <h2 className="h" style={{ fontSize: "var(--t-xl)" }}>
+            Who sang it? And when?
+          </h2>
         </div>
         <p className="muted" style={{ fontSize: "var(--t-md)" }}>
-          Take turns. On your turn a song plays: name the singer, and slot it into your
-          timeline. Everyone hears every song, so you are always listening — even when it
-          is not your go.
+          A song comes on and the table goes quiet. Name the singer, then slot the song
+          into your timeline: before this one, after that one. Your friends hear every
+          note, watch you sweat, and wait for their turn to do better.
         </p>
       </header>
 
@@ -169,17 +170,42 @@ export default function Home() {
         )}
       </section>
 
-      <section className="stack" style={{ gap: 12 }}>
+      <section className="stack" style={{ gap: 14 }}>
         <div className="row" style={{ justifyContent: "space-between" }}>
-          <span className="label">What a turn looks like</span>
+          <span className="label">How a turn goes</span>
           <Link href="/deck" className="linkish">
             Edit the deck →
           </Link>
         </div>
+        <ol className="steps">
+          <li className="step">
+            <span className="step-no num">1</span>
+            <strong>The song plays.</strong>
+            <span className="hint">
+              Everyone hears it. Only you answer, and you can answer while it is still
+              playing.
+            </span>
+          </li>
+          <li className="step">
+            <span className="step-no num">2</span>
+            <strong>Name the singer.</strong>
+            <span className="hint">
+              70 points. Spelling does not count against you; we know how many ways there
+              are to write Tilahun.
+            </span>
+          </li>
+          <li className="step">
+            <span className="step-no num">3</span>
+            <strong>Place it.</strong>
+            <span className="hint">
+              Before 1992? After 2008? 30 points if the order holds, and a tie can sit on
+              either side.
+            </span>
+          </li>
+        </ol>
         <p className="hint" style={{ maxWidth: "58ch" }}>
-          Name the singer for 70 points, tap where the song belongs for 30. You can answer
-          while the music is still playing, or stop it first. A year that ties a card
-          already down may sit on either side of it.
+          A handful of songs each, from the golden era to this year. Highest total wins,
+          and knowing the title settles a draw.
         </p>
         <Timeline cards={SAMPLE} interactive />
       </section>

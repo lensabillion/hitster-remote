@@ -5,6 +5,7 @@ import Link from "next/link";
 import { SERVER_URL } from "@/lib/room";
 import { getPlayerName } from "@/lib/identity";
 import UnsavedBanner, { type Storage, type Unsaved } from "@/components/UnsavedBanner";
+import Logo from "@/components/Logo";
 
 /* The deck editor.
  *
@@ -364,9 +365,7 @@ export default function DeckPage() {
     <main className="page">
       <header className="topbar">
         <div className="brand">
-          <span className="display am" style={{ fontSize: "var(--t-xl)" }}>
-            ዜማ
-          </span>
+          <Logo compact />
           <span className="label">the deck</span>
         </div>
         <Link href="/" className="linkish">
