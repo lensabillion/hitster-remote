@@ -3,7 +3,8 @@
 A remote music timeline game for Amharic songs. Hear a clip, guess the release year,
 place it in your timeline. Highest score after the planned rounds wins. The name is
 እስቲ, *isti*, "go on, then" — the word that opens a dare, as in እስቲ ማን ዘፈነው? — and
-the logo is a quaver whose flag curls into a question mark: who? when? The mark is a
+the logo is a quaver whose flag curls into a question mark: who? when? It has engraving
+proportions — heavy head, thin stem, a flag that swells and tapers to a point — and is a
 generated outline (`client/design/mark.py`); rerun the script rather than nudging points,
 and paste its output into `client/components/Logo.tsx` and, in the heavier cut,
 `client/app/icon.svg`.
