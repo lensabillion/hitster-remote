@@ -147,8 +147,8 @@ export default function RoomPage({ params }: { params: Promise<{ code: string }>
     if (connected && name) joinRoom(roomCode, name);
   }, [connected, roomCode, joinRoom, name]);
 
-  // How many songs there are to draw from, so the lobby can say so and point
-  // at /deck when it is thin. One fetch; the deck does not change mid-lobby.
+  // How many songs there are to draw from, so the lobby can point at /deck when
+  // it is thin. One fetch; the deck does not change mid-lobby.
   const inLobby = state?.phase === "lobby";
   useEffect(() => {
     if (!inLobby || !connected) return;
@@ -248,45 +248,26 @@ export default function RoomPage({ params }: { params: Promise<{ code: string }>
       {/* ---------- lobby ---------- */}
       {state.phase === "lobby" && (
         <section className="hero">
-          <div className="stack" style={{ gap: 6 }}>
-            <span className="label">Waiting to start</span>
+          <div className="row" style={{ justifyContent: "space-between", gap: 16 }}>
             <h2 className="h" style={{ fontSize: "var(--t-2xl)" }}>
               Share the code{" "}
               <span className="accent num" style={{ letterSpacing: "0.1em" }}>
                 {state.code}
               </span>
             </h2>
-          </div>
-          <div className="row">
             <button className="btn-ghost" onClick={() => copyInvite(state.code)}>
               {copied ? "Copied" : "Copy invite link"}
             </button>
-            <span className="hint">Anyone who opens it is asked their name, then seated.</span>
-          </div>
-          <p className="muted">
-            One song at a time, one player on the spot. {artistPoints} points for naming
-            the singer, {yearPoints} for putting the song in the right place on your
-            timeline. Everyone hears every song, so keep listening when it is not your
-            turn. The next one might be.
-          </p>
-
-          <div className="stack">
-            <span className="label">{connectedCount} in the room</span>
-            <div className="row">
-              {state.players.map((p) => (
-                <span key={p.id} className="score">
-                  <span className="score-name">{p.name}</span>
-                  {p.isHost && <Pill>host</Pill>}
-                  {!p.connected && <Pill tone="bad">offline</Pill>}
-                </span>
-              ))}
-            </div>
           </div>
 
-          <p className="hint">
-            Wear headphones if you are on a call together, or the music echoes through
-            everyone&apos;s microphone.
-          </p>
+          <div className="row">
+            {state.players.map((p) => (
+              <span key={p.id} className="score">
+                <span className="score-name">{p.name}</span>
+                {!p.connected && <Pill tone="bad">offline</Pill>}
+              </span>
+            ))}
+          </div>
 
           {isHost ? (
             <div className="stack" style={{ gap: 14 }}>
@@ -306,10 +287,6 @@ export default function RoomPage({ params }: { params: Promise<{ code: string }>
                     </button>
                   ))}
                 </div>
-                <span className="hint">
-                  {songsEach * state.players.length} songs in all
-                  {deckSize !== null && ` · ${deckSize} in the deck`}
-                </span>
               </div>
               <button
                 className="btn"
@@ -321,11 +298,10 @@ export default function RoomPage({ params }: { params: Promise<{ code: string }>
               </button>
               {deckSize !== null && deckSize < songsEach * state.players.length + 12 && (
                 <p className="hint">
-                  The deck is thin for that many rounds —{" "}
+                  Not many songs for that many rounds.{" "}
                   <Link href="/deck" className="link">
-                    add songs
-                  </Link>{" "}
-                  so the same ones do not keep coming up.
+                    Add some
+                  </Link>
                 </p>
               )}
             </div>
