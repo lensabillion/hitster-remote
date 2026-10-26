@@ -688,28 +688,27 @@ h3 {
   overflow-wrap: anywhere;
 }
 
-/* ---------- how a turn goes (landing) ---------- */
+/* ---------- the rules, on the landing page ---------- */
 
-.steps {
+.rules {
   list-style: none;
   margin: 0;
   padding: 0;
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  font-size: var(--t-md);
+  max-width: 58ch;
+}
+
+.rules li {
+  display: flex;
+  align-items: flex-start;
   gap: 12px;
 }
 
-.step {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  padding: 16px;
-  background: var(--surface);
-  border: 1px solid var(--rule);
-  border-radius: var(--r);
-}
-
 .step-no {
+  flex: none;
   width: 28px;
   height: 28px;
   border-radius: 50%;
@@ -720,9 +719,4 @@ h3 {
   color: var(--green);
   font-weight: 700;
   font-size: var(--t-sm);
-}
-
-/* Later than the grid rule above on purpose: same specificity, last one wins. */
-@media (max-width: 560px) {
-  .steps { grid-template-columns: minmax(0, 1fr); }
 }

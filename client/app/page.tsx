@@ -85,17 +85,41 @@ export default function Home() {
         <Logo />
         <div className="stack" style={{ gap: 4 }}>
           <p className="display am" style={{ fontSize: "var(--t-2xl)", margin: 0 }}>
-            ማን ዘፈነው?
+            ማን? መቼ?
           </p>
           <h2 className="h" style={{ fontSize: "var(--t-xl)" }}>
-            Who sang it? And when?
+            Who? When?
           </h2>
         </div>
-        <p className="muted" style={{ fontSize: "var(--t-md)" }}>
-          A song comes on and the table goes quiet. Name the singer, then slot the song
-          into your timeline: before this one, after that one. Your friends hear every
-          note, watch you sweat, and wait for their turn to do better.
-        </p>
+        <ol className="rules">
+          <li>
+            <span className="step-no num">1</span>
+            <span>
+              <strong>Name the singer.</strong> <span className="soft">70 points.</span>
+            </span>
+          </li>
+          <li>
+            <span className="step-no num">2</span>
+            <span>
+              <strong>Slot the song into your timeline.</strong>{" "}
+              <span className="soft">30 points if it lands in the right place.</span>
+            </span>
+          </li>
+          <li>
+            <span className="step-no num">3</span>
+            <span>
+              <strong>Know the title?</strong>{" "}
+              <span className="soft">That is a plus: it breaks a tie.</span>
+            </span>
+          </li>
+          <li>
+            <span className="step-no num">4</span>
+            <span>
+              <strong>Highest total wins.</strong>{" "}
+              <span className="soft">Everyone hears every song; one of you answers it.</span>
+            </span>
+          </li>
+        </ol>
       </header>
 
       {/* One name field, above both actions. It used to live inside the "create"
@@ -170,43 +194,13 @@ export default function Home() {
         )}
       </section>
 
-      <section className="stack" style={{ gap: 14 }}>
+      <section className="stack" style={{ gap: 12 }}>
         <div className="row" style={{ justifyContent: "space-between" }}>
-          <span className="label">How a turn goes</span>
+          <span className="label">Your timeline, four songs in</span>
           <Link href="/deck" className="linkish">
             Edit the deck →
           </Link>
         </div>
-        <ol className="steps">
-          <li className="step">
-            <span className="step-no num">1</span>
-            <strong>The song plays.</strong>
-            <span className="hint">
-              Everyone hears it. Only you answer, and you can answer while it is still
-              playing.
-            </span>
-          </li>
-          <li className="step">
-            <span className="step-no num">2</span>
-            <strong>Name the singer.</strong>
-            <span className="hint">
-              70 points. Spelling does not count against you; we know how many ways there
-              are to write Tilahun.
-            </span>
-          </li>
-          <li className="step">
-            <span className="step-no num">3</span>
-            <strong>Place it.</strong>
-            <span className="hint">
-              Before 1992? After 2008? 30 points if the order holds, and a tie can sit on
-              either side.
-            </span>
-          </li>
-        </ol>
-        <p className="hint" style={{ maxWidth: "58ch" }}>
-          A handful of songs each, from the golden era to this year. Highest total wins,
-          and knowing the title settles a draw.
-        </p>
         <Timeline cards={SAMPLE} interactive />
       </section>
     </main>
