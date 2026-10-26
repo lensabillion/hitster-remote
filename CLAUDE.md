@@ -169,8 +169,7 @@ Deezer is primary; YouTube is the per-card fallback. Both are keyless.
 Two families, both covering Ethiopic and Latin so bilingual lines stay on one face:
 
 - **Abyssinica SIL** — display. Calligraphic Ge'ez, single weight, used at size only,
-  and only where it earns its place: the እስቲ wordmark, the question on the landing
-  page, and the year at the reveal.
+  and only where it earns its place: the እስቲ wordmark and the year at the reveal.
 - **Noto Sans Ethiopic** — text and UI, variable 100–900. All hierarchy comes from
   here, headings included (`.h`).
 

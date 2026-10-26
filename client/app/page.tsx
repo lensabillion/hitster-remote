@@ -83,14 +83,9 @@ export default function Home() {
 
       <header className="stack" style={{ gap: 20 }}>
         <Logo />
-        <div className="stack" style={{ gap: 4 }}>
-          <p className="display am" style={{ fontSize: "var(--t-2xl)", margin: 0 }}>
-            ማን? መቼ?
-          </p>
-          <h2 className="h" style={{ fontSize: "var(--t-xl)" }}>
-            Who? When?
-          </h2>
-        </div>
+        <h2 className="h" style={{ fontSize: "var(--t-2xl)" }}>
+          Who? When?
+        </h2>
         <ol className="rules">
           <li>
             <span className="step-no num">1</span>
