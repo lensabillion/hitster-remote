@@ -1,24 +1,23 @@
-# Starter deck — Amharic songs.
+# Starter deck: the sixteen Amharic songs the game was first built with, in September
+# 2026. Their years were written down unverified then. On 26 October 2026 each was checked
+# against a documented release, and the note beside it says where the year comes from; a
+# note that starts with "confirmed" imports its row as confirmed. Deezer track ids were
+# added so that importing this file needs no network.
 #
-# ⚠ THE YEARS BELOW ARE UNVERIFIED. They are my best effort so the game is
-# playable today, not researched facts. No API reports original release dates
-# reliably, which is why this file exists at all: a human has to confirm every
-# year before these cards are fair to play with. Lensa — please correct these.
-#
-# year <TAB> artist_latin <TAB> title_latin <TAB> artist_am <TAB> title_am <TAB> youtube_url
-1969	Mulatu Astatke	Yekermo Sew	ሙላቱ አስታጥቄ	የከርሞ ሰው
-1972	Mulatu Astatke	Tezeta	ሙላቱ አስታጥቄ	ትዝታ
-1975	Mahmoud Ahmed	Ere Mela Mela	ማህሙድ አህመድ	እሬ መላ መላ
-1974	Mahmoud Ahmed	Tezeta	ማህሙድ አህመድ	ትዝታ
-1969	Alemayehu Eshete	Tashamanaletch	ዓለማየሁ እሸቴ	ታሻማናለች
-1970	Girma Beyene	Muziqawi Silt	ግርማ በየነ	ሙዚቃዊ ስልት
-1977	Hailu Mergia	Yefkir Engurguro	ኃይሉ መርጊያ	የፍቅር እንጉርጉሮ
-1966	Tilahun Gessesse	Hulum Behager New	ጥላሁን ገሠሠ	ሁሉም በሀገር ነው
-1989	Aster Aweke	Y'shebellu	አስቴር አወቀ	ይሸበሉ
-1991	Aster Aweke	Gela Gela	አስቴር አወቀ	ገላ ገላ
-2022	Teddy Afro	Naet	ቴዲ አፍሮ	ናዕት	https://www.youtube.com/watch?v=1hMVeENjVew
-2026	Teddy Afro	Das Tal	ቴዲ አፍሮ	ዳስ ጣል	https://www.youtube.com/watch?v=ADc9JPeLYi4
-2013	Zeritu Kebede	Yane	ዘሪቱ ከበደ	ያኔ
-2019	Rophnan	Desse	ሮፍናን	ደሴ
-2016	Dawit Tsige	Andegna New Fikir	ዳዊት ጽጌ	አንደኛ ነው ፍቅር
-2018	Abby Lakew	Messay	አቢ ላቀው	መሳይ
+# year <TAB> artist_latin <TAB> title_latin <TAB> artist_am <TAB> title_am <TAB> youtube_url <TAB> deezer_track_id <TAB> # note
+1969	Mulatu Astatke	Yekermo Sew	ሙላቱ አስታጥቄ	የከርሞ ሰው		224802	# confirmed · Amha single AE 190 (Mote Adeladayou / Yekermo Saw), 1969 (Discogs 4948090); the Éthiopiques 4 booklet dates it 1969.
+1972	Mulatu Astatke	Tezeta	ሙላቱ አስታጥቄ	ትዝታ		224805	# confirmed · Amha LP Ethiopian Modern Instrumentals Hits (AELP 10), June 1972, per the Éthiopiques 4 booklet (Discogs 2055359).
+1975	Mahmoud Ahmed	Ere Mela Mela	ማህሙድ አህመድ	እሬ መላ መላ		224816	# confirmed · Kaifa Records 1975: single KF 22 and the LP LPKF 20 (Discogs 5273500, 5198041); the Éthiopiques 7 reissue dates the Kaifa tracks 1975.
+1975	Mahmoud Ahmed	Tezeta	ማህሙድ አህመድ	ትዝታ		224830	# confirmed · Kaifa single KF 24 and the LP LPKF 20, 1975 (Discogs 5273055, 5198041); Éthiopiques 7: Kaifa 1975. Was 1974.
+1976	Alemayehu Eshete	Tashamanaletch	ዓለማየሁ እሸቴ	ታሻማናለች		224964	# confirmed · Kaifa Records single KF 37 (Tashamanalech / Wube Alem), 1976 (Discogs 8249950), inside the 1973–77 span of Éthiopiques 13. Was 1969.
+1977	Girma Beyene	Muziqawi Silt	ግርማ በየነ	ሙዚቃዊ ስልት		138744461	# confirmed · Girma Beyene's instrumental; its earliest known release is the Walias Band's, on Tche Belew, Kaifa LPKF 45, 1977 (Discogs 5217597), also on Éthiopiques 13. Was 1970. Deezer plays his 2017 recording with Akalé Wubé.
+2018	Hailu Mergia	Yefkir Engurguro	ኃይሉ መርጊያ	የፍቅር እንጉርጉሮ		3205449451	# confirmed · Yekfir Engurguro closes Lala Belu, Awesome Tapes From Africa, released 9 March 2018 (Discogs 11616930; Deezer); not on Shemonmuanaye, Tche Belew, Tezeta or Wede Harer Guzo. Was 1977. Deezer plays it from a 2020 DJ mix.
+1980	Tilahun Gessesse	Hulum Behager New	ጥላሁን ገሠሠ	ሁሉም በሀገር ነው		1044423452	# was 1966: Mirkuzz on YouTube dates it Megabit 1972 E.C. (March 1980), lyrics Ayele Mamo, Walias Band, published by Kokeb Music Shop; not among his 1960s-70s singles on Discogs. A 1980s-era cassette song, not a 1960s one. Ethiopian-calendar date from one curator.
+1989	Aster Aweke	Y'shebellu	አስቴር አወቀ	ይሸበሉ		11324134	# confirmed · Aster LP, Triple Earth 1989 (Columbia 1990), Discogs master 430076.
+1979	Aster Aweke	Gela Gela	አስቴር አወቀ	ገላ ገላ		4138912011	# was 1991: track B1 of her Kaifa cassette ቁጥር 5 with Shebele Band (Tango Music Shop; Discogs master 2896930; Mainz 'Hode telemenegn'), one of the five Ali Tango cassettes made before she left for the US in 1981 (Wikipedia). No year on the cover; 1979 is an estimate within 1977-81.
+2022	Teddy Afro	Naet	ቴዲ አፍሮ	ናዕት	https://www.youtube.com/watch?v=1hMVeENjVew	1801325657	# confirmed · Deezer single Na'et 2022-06-23; Teddy Afro's YouTube channel uploaded 'Naet (Eyamemew No. 2) - New! Official Single 2022' with lyrics on 2022-06-21.
+2026	Teddy Afro	Das Tal	ቴዲ አፍሮ	ዳስ ጣል	https://www.youtube.com/watch?v=ADc9JPeLYi4	3966670921	# confirmed · Deezer album Etorika 2026-04-17; official lyrics video 'Das Tal (Ansaw) | Track 1' on Teddy Afro's YouTube channel uploaded 2026-04-16.
+2005	Zeritu Kebede	Yane	ዘሪቱ ከበደ	ያኔ		2209428387	# confirmed · Was 2013. English Wikipedia says Zeritu's debut album Zeritu came out in September 2005 and names Yane on it; iTunes dates the same 12-track album 2005-12-29; YouTube uploads from 2009. Deezer's Atihidibign (2023-03-22) is that album re-uploaded.
+2022	Rophnan	Desse	ሮፍናን	ደሴ		1812899297	# confirmed · Deezer album Sidist (VI) (Universal Music Africa) 2022-07-10; official visualizer on Rophnan's YouTube channel uploaded the same day, 2022-07-10. Keeps the earlier correction of the starter deck's 2019.
+2016	Dawit Tsige	Andegna New Fikir	ዳዊት ጽጌ	አንደኛ ነው ፍቅር		118406052	# confirmed · Deezer album Betam New Emiwodish (Zefens) 2016-02-02; the album's title track had its Hope Music Ethiopia official video uploaded 2016-03-23. No 2016 upload of this track itself was found.
+2020	Abby Lakew	Messay	አቢ ላቀው	መሳይ		1087051822	# confirmed · Was 2018. Deezer single Messay (Independent) 2020-09-26; official video on Abby Lakew's channel uploaded 2020-09-10; English Wikipedia says Lakew released "Messay" on 10 September 2020.
