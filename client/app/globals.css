@@ -727,7 +727,7 @@ b {
   font-size: var(--t-sm);
 }
 
-/* ---------- the arrival, on the landing page ---------- */
+/* ---------- the arrival: the home page, and a shared link's name form ---------- */
 /* The only choreography in the game (components/Arrival.tsx): a crowd of grey ears
    turns toward the mark as it appears, clears for the name, and "Listen." gives way
    to the question, in about two and a half seconds. Resting styles are the final

@@ -4,6 +4,7 @@ import { use, useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import AnswerCard from "@/components/AnswerCard";
+import Arrival from "@/components/Arrival";
 import Logo from "@/components/Logo";
 import AudioClip from "@/components/AudioClip";
 import Countdown from "@/components/Countdown";
@@ -174,10 +175,14 @@ export default function RoomPage({ params }: { params: Promise<{ code: string }>
     }
   }
 
+  // Someone opening a shared link for the first time. This is their front door,
+  // so it gets the same arrival as the home page; a returning player has a name
+  // stored and goes straight to the table without waiting through it.
   if (name === "") {
     return (
-      <main className="page">
+      <main className="page" style={{ gap: 40, paddingTop: 56 }}>
         <ConnectionBanner connection={connection} serverUrl={serverUrl} />
+        <Arrival />
         <NameGate
           code={roomCode}
           onDone={(chosen) => {

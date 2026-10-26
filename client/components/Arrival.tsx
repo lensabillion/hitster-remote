@@ -1,4 +1,5 @@
-/* The landing page's arrival, played once as the page opens.
+/* The arrival: what a newcomer sees first, played once as the page opens. It
+ * heads the home page and the name form that a shared room link opens.
  *
  * A crowd of ears is listening to nothing in particular. As the song starts, each
  * one turns toward the place the mark is about to appear; the mark arrives where
