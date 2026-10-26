@@ -27,8 +27,9 @@ export function Mark({ size = 28, title, className }: MarkProps) {
 }
 
 /* The name. እስቲ (isti) is "go on, then": the word that opens a dare, as in
- * እስቲ ማን ዘፈነው? -- go on, who sang it? The Ge'ez sits on the display face, the
- * Latin beside it on the text face. `compact` is the topbar form. */
+ * እስቲ ማን ዘፈነው? -- go on, who sang it? The wordmark is the Ge'ez alone on the
+ * display face; the Latin lives only in the mark's accessible name and the
+ * page title. `compact` is the topbar form. */
 export default function Logo({ compact = false }: { compact?: boolean }) {
   if (compact) {
     return (
@@ -46,9 +47,6 @@ export default function Logo({ compact = false }: { compact?: boolean }) {
       <h1 className="display am" style={{ fontSize: "var(--t-3xl)" }}>
         እስቲ
       </h1>
-      <span className="h accent" style={{ fontSize: "var(--t-xl)" }}>
-        Isti
-      </span>
     </div>
   );
 }
