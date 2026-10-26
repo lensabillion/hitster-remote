@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Timeline, { type Card } from "@/components/Timeline";
-import Logo from "@/components/Logo";
+import Arrival from "@/components/Arrival";
 import { getPlayerName, setPlayerName } from "@/lib/identity";
 import Link from "next/link";
 import { onRoomJoined, useRoom } from "@/lib/room";
@@ -82,10 +82,7 @@ export default function Home() {
       <ErrorBanner message={error} onDismiss={clearError} />
 
       <header className="stack" style={{ gap: 20 }}>
-        <Logo />
-        <h2 className="h" style={{ fontSize: "var(--t-2xl)" }}>
-          Who? When?
-        </h2>
+        <Arrival />
         <ol className="rules">
           <li>
             <span className="step-no num">1</span>

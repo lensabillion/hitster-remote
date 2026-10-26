@@ -186,6 +186,11 @@ gradients or glows. Every text/background pair in the token block meets WCAG AA,
 every control is at least 44px tall. Tokens live in `client/app/globals.css`; use them
 rather than literal colours.
 
+Motion is spent in one place: the landing header's arrival (`client/components/Arrival.tsx`).
+A crowd of grey ears turns toward the mark as it appears, clears for the name, and
+"Listen." gives way to "Who? When?". It is pure CSS, and every element's resting style is
+its final frame, so reduced motion shows the plain header and nothing on the page waits.
+
 ## Issue tracking
 
 `tbd ready` for unblocked work, `tbd show <id>` for detail. Beads live on the
