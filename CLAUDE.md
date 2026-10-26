@@ -1,10 +1,12 @@
-# ሸክላ (Shekla) — Hitster Remote
+# እስቲ (Isti) — Hitster Remote
 
 A remote music timeline game for Amharic songs. Hear a clip, guess the release year,
 place it in your timeline. Highest score after the planned rounds wins. The name is
-ሸክላ, *shekla*, the Amharic word for a record — the one you put on — and the logo is
-one, with a point on a groove for the moment being placed (`client/components/Logo.tsx`,
-mirrored in `client/app/icon.svg`).
+እስቲ, *isti*, "go on, then" — the word that opens a dare, as in እስቲ ማን ዘፈነው? — and
+the logo is a quaver whose flag curls into a question mark: who? when? The mark is a
+generated outline (`client/design/mark.py`); rerun the script rather than nudging points,
+and paste its output into `client/components/Logo.tsx` and, in the heavier cut,
+`client/app/icon.svg`.
 
 Design contract: `docs/project/specs/active/plan-2026-09-07-remote-group-game.md`.
 Verified API behaviour and source constraints: `FINDINGS.md`.
@@ -167,7 +169,7 @@ Deezer is primary; YouTube is the per-card fallback. Both are keyless.
 Two families, both covering Ethiopic and Latin so bilingual lines stay on one face:
 
 - **Abyssinica SIL** — display. Calligraphic Ge'ez, single weight, used at size only,
-  and only where it earns its place: the ሸክላ wordmark, the question on the landing
+  and only where it earns its place: the እስቲ wordmark, the question on the landing
   page, and the year at the reveal.
 - **Noto Sans Ethiopic** — text and UI, variable 100–900. All hierarchy comes from
   here, headings included (`.h`).

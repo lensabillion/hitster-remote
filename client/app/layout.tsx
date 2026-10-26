@@ -19,7 +19,7 @@ const text = Noto_Sans_Ethiopic({
 });
 
 export const metadata: Metadata = {
-  title: "ሸክላ · Shekla",
+  title: "እስቲ · Isti",
   description:
     "Who sang it, and when? Amharic songs, your timeline, your friends. Name the singer, place the song, and remember better than everyone at the table.",
 };
