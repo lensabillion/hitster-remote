@@ -726,3 +726,124 @@ b {
   font-weight: 600;
   font-size: var(--t-sm);
 }
+
+/* ---------- the arrival: the home page, and a shared link's name form ---------- */
+/* The only choreography in the game (components/Arrival.tsx): a crowd of grey ears
+   turns toward the mark as it appears, clears for the name, and "Listen." gives way
+   to the question, in about two and a half seconds. Resting styles are the final
+   frame and every animation fills backwards, so with reduced motion, or once it
+   has played, the header is exactly the plain header. */
+
+.arrival {
+  position: relative;
+}
+/* Above the crowd, which comes first in the markup. */
+.arrival > :not(.ears) {
+  position: relative;
+}
+
+.ears {
+  position: absolute;
+  inset: -40px 0 -24px;
+  overflow: hidden;
+  pointer-events: none;
+  visibility: hidden;
+  animation: ears-on 2000ms step-end both;
+}
+
+.ear {
+  --r1: var(--r1-wide);
+  position: absolute;
+  left: var(--x);
+  top: calc(var(--y) + 40px);
+  width: 34px;
+  height: 34px;
+  margin: -17px 0 0 -17px;
+  color: var(--rule-strong);
+  opacity: 0;
+  rotate: var(--r1);
+  scale: var(--s1) 1;
+  animation:
+    ear-turn 450ms cubic-bezier(0.33, 1, 0.68, 1) var(--at) both,
+    ear-crowd 2000ms linear both;
+}
+.ear svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.ear path {
+  vector-effect: non-scaling-stroke;
+}
+
+.arrival .logo-lg > svg {
+  animation: arrive-mark 400ms cubic-bezier(0.33, 1, 0.68, 1) 1150ms both;
+}
+.arrival .logo-lg > h1 {
+  animation: arrive-name 450ms cubic-bezier(0.33, 1, 0.68, 1) 1750ms both;
+}
+
+/* "Listen." and the question share one cell, so the line never jumps. */
+.arrival-line {
+  display: grid;
+}
+.arrival-line > span {
+  grid-area: 1 / 1;
+}
+.arrival-listen {
+  opacity: 0;
+  animation: arrive-listen 2300ms linear both;
+}
+.arrival-who {
+  animation: arrive-who 400ms cubic-bezier(0.33, 1, 0.68, 1) 2100ms both;
+}
+
+@keyframes ears-on {
+  from { visibility: visible; }
+  to { visibility: hidden; }
+}
+@keyframes ear-turn {
+  from { rotate: var(--r0); scale: var(--s0) 1; }
+  to { rotate: var(--r1); scale: var(--s1) 1; }
+}
+@keyframes ear-crowd {
+  0% { opacity: 0; translate: 0 0; }
+  10% { opacity: 1; }
+  77.5% { opacity: 1; translate: 0 0; animation-timing-function: cubic-bezier(0.33, 1, 0.68, 1); }
+  100% { opacity: 0; translate: var(--ux) var(--uy); }
+}
+@keyframes arrive-mark {
+  from { opacity: 0; scale: 0.6; }
+}
+@keyframes arrive-name {
+  from { opacity: 0; translate: -8px 0; }
+}
+@keyframes arrive-who {
+  from { opacity: 0; translate: 0 6px; }
+}
+@keyframes arrive-listen {
+  0%, 10.9% { opacity: 0; }
+  21.7%, 84.8% { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+@media (min-width: 561px) {
+  .ear-off-wide { display: none; }
+}
+@media (max-width: 560px) {
+  .ear { --r1: var(--r1-narrow); }
+  .ear-off-narrow { display: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .arrival,
+  .arrival * {
+    animation: none !important;
+  }
+}
