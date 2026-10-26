@@ -148,8 +148,20 @@ h3 {
 
 .brand {
   display: flex;
-  align-items: baseline;
+  align-items: center;
   gap: 12px;
+}
+
+/* The wordmark: the record mark, the Ge'ez name, the Latin name. */
+.logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.logo-lg {
+  gap: 16px;
+  flex-wrap: wrap;
 }
 
 .code {
@@ -674,4 +686,43 @@ h3 {
   padding: 1px 6px;
   border-radius: 4px;
   overflow-wrap: anywhere;
+}
+
+/* ---------- how a turn goes (landing) ---------- */
+
+.steps {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.step {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 16px;
+  background: var(--surface);
+  border: 1px solid var(--rule);
+  border-radius: var(--r);
+}
+
+.step-no {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--green-wash);
+  color: var(--green);
+  font-weight: 700;
+  font-size: var(--t-sm);
+}
+
+/* Later than the grid rule above on purpose: same specificity, last one wins. */
+@media (max-width: 560px) {
+  .steps { grid-template-columns: minmax(0, 1fr); }
 }

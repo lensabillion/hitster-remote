@@ -645,7 +645,7 @@ async def cmd_check(_: argparse.Namespace) -> int:
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(description="Build the Zema deck.")
+    parser = argparse.ArgumentParser(description="Build the Shekla deck.")
     sub = parser.add_subparsers(dest="command", required=True)
 
     p_add = sub.add_parser("add", help="add cards interactively")

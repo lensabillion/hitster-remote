@@ -4,6 +4,7 @@ import { use, useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import AnswerCard from "@/components/AnswerCard";
+import Logo from "@/components/Logo";
 import AudioClip from "@/components/AudioClip";
 import Countdown from "@/components/Countdown";
 import Timeline from "@/components/Timeline";
@@ -220,9 +221,7 @@ export default function RoomPage({ params }: { params: Promise<{ code: string }>
     <main className="page">
       <header className="topbar">
         <div className="brand">
-          <span className="display am" style={{ fontSize: "var(--t-xl)" }}>
-            ዜማ
-          </span>
+          <Logo compact />
           <span className="code">{state.code}</span>
         </div>
         <div className="row">
@@ -265,9 +264,10 @@ export default function RoomPage({ params }: { params: Promise<{ code: string }>
             <span className="hint">Anyone who opens it is asked their name, then seated.</span>
           </div>
           <p className="muted">
-            You take turns. On your turn a song plays and you name the singer (
-            {artistPoints} points) and place it on your timeline ({yearPoints}).
-            Everyone hears every song. Highest score wins.
+            One song at a time, one player on the spot. {artistPoints} points for naming
+            the singer, {yearPoints} for putting the song in the right place on your
+            timeline. Everyone hears every song, so keep listening when it is not your
+            turn. The next one might be.
           </p>
 
           <div className="stack">
@@ -362,9 +362,9 @@ export default function RoomPage({ params }: { params: Promise<{ code: string }>
             <section className="hero">
               <span className="label">Listening</span>
               <h2 className="h" style={{ fontSize: "var(--t-2xl)" }}>
-                <span className="accent">{activeName}</span> is naming this one
+                <span className="accent">{activeName}</span> is on the spot
               </h2>
-              <p className="muted">Follow along — your song comes on your turn.</p>
+              <p className="muted">Play along in your head. Your song is coming.</p>
             </section>
           )}
         </>

@@ -14,6 +14,13 @@
       "runtimeArgs": ["run", "dev"],
       "cwd": "client",
       "port": 3000
+    },
+    {
+      "name": "zema-client-3010",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": ["next", "dev", "-p", "3010"],
+      "cwd": "client",
+      "port": 3010
     }
   ]
 }

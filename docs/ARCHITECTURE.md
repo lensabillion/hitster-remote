@@ -1,4 +1,4 @@
-# How ዜማ works
+# How ሸክላ works
 
 Written 2026-09-07 and brought up to date on 2026-10-18, against the code at that date. Every constant and behaviour below is
 taken from the source rather than from memory; where a number appears, the file that owns
