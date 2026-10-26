@@ -85,6 +85,18 @@ page beats a text file. On a deployed server those edits are lost on the next de
 page lists what is not in `deck.json` yet and offers it as a download that is
 byte-identical to the CLI export.
 
+Where a year came from is written down beside it. The three curated worksheets,
+`decks/starter-amharic.tsv`, `decks/amharic-2026-10.tsv` and
+`decks/amharic-1980s-1990s.tsv`, carry a `#` note on every row naming the source of its
+year: the Éthiopiques booklets as transcribed on Discogs and the original Amha, Kaifa and
+Philips records for the 1960s and 70s; cassette covers in the African Cassettes archive at
+Mainz University and on Discogs for the 1980s and 90s, where an Ethiopian-calendar year is
+converted but never confirmed; and for anything after 2000 Deezer's own date set beside a
+second, independent source, usually the official video's upload date or a dated
+discography. A note that starts with `confirmed` imports its row as confirmed, so the
+worksheets and `deck.json` agree; a year that could not be sourced says so in its note
+and stays unconfirmed for `/deck`.
+
 ## Architecture
 
 - `server/game.py` — pure rules. Placement validation, same-year rule, round

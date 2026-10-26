@@ -1,314 +1,321 @@
-# A first rich Amharic deck, curated from decks/harvest-2026-10-25.tsv and the
-# group's own playlist on 25 October 2026. Every year is a PROPOSAL: Deezer's
-# release dates where they looked original, the Ethiopiques recording spans for
-# the golden era, and plain guesses (marked) where Deezer only had a reissue.
-# They are imported UNCONFIRMED and confirmed one by one at /deck.
+# A first rich Amharic deck, curated from decks/harvest-2026-10-25.tsv and the group's
+# own playlist on 25 October 2026. The years were proposals then: Deezer's dates where
+# they looked original, the Ethiopiques spans for the golden era, and marked guesses.
+#
+# On 26 October 2026 every year was checked against the sources its note names: the
+# Ethiopiques booklets as transcribed on Discogs, the original Amha, Kaifa and Philips
+# 45s and LPs on Discogs, the African Cassettes archive at Mainz University, Wikipedia
+# and artist discographies, and for recent songs the official video's upload date set
+# beside Deezer's own date. A note that starts with "confirmed" imports its row as
+# confirmed; every other note says what is still missing, and "was 1970" records the
+# year it replaced. Deezer track ids are given wherever the deck has one, so the import
+# only asks Deezer about the eleven songs that play from YouTube.
 #
 #     python tools/build_deck.py import decks/amharic-2026-10.tsv --by harvest
 #
 # year <TAB> artist_latin <TAB> title_latin <TAB> artist_am <TAB> title_am <TAB> youtube_url <TAB> deezer_track_id <TAB> # note
-1970	Tilahun Gessesse	Kulun Mankwalesh	ጥላሁን ገሠሠ	ኩሉን ማንኳለሽ		225070	# Ethiopiques 17; the track title itself carries '70'
-1972	Tilahun Gessesse	Sethed Seketelat	ጥላሁን ገሠሠ	ስትሄድ ስከተላት		225074	# Ethiopiques 17, early 70s
-1970	Tilahun Gessesse	Aykedashem Lebe	ጥላሁን ገሠሠ	አይከዳሽም ልቤ		225072	# Ethiopiques 17
-1974	Tilahun Gessesse	Sewoch Min Yilalu	ጥላሁን ገሠሠ	ሰዎች ምን ይላሉ		2074112647	# guess: mid 70s
-1975	Tilahun Gessesse	Alchalkum	ጥላሁን ገሠሠ	አልቻልኩም		876962702	# guess: mid 70s
-1975	Mahmoud Ahmed	Ebakesh Tareqign	ማህሙድ አህመድ	እባክሽ ታረቂኝ		224827	# Erè Mèla Mèla LP, 1975
-1973	Mahmoud Ahmed	Ambassel	ማህሙድ አህመድ	አምባሰል		224920	# Ethiopiques 6: Almaz, 1973
-1975	Mahmoud Ahmed	Atawurulegn Lela	ማህሙድ አህመድ	አታውሩልኝ ሌላ		224821	# Erè Mèla Mèla LP, 1975
-1975	Mahmoud Ahmed	Belomi Benna	ማህሙድ አህመድ	በሎሚ በና		224829	# Erè Mèla Mèla LP, 1975
-1975	Mahmoud Ahmed	Abbay Mado	ማህሙድ አህመድ	አባይ ማዶ		224819	# Erè Mèla Mèla LP, 1975
-1972	Mahmoud Ahmed	Selam Almazeye	ማህሙድ አህመድ	ሰላም አልማዜ		224776	# Golden Years 1969-75; guess 1972
-1970	Alemayehu Eshete	Telantena Zare	ዓለማየሁ እሸቴ	ትላንትና ዛሬ		225030	# Ethiopiques 9: 1969-74
-1972	Alemayehu Eshete	Yeweyn Haregitu	ዓለማየሁ እሸቴ	የወይን ሀረጊቱ		225021	# Ethiopiques 9: 1969-74
-1972	Alemayehu Eshete	Feqer Feqer New	ዓለማየሁ እሸቴ	ፍቅር ፍቅር ነው		225037	# Ethiopiques 9: 1969-74
-1969	Alemayehu Eshete	Eskegizew Bertchi	ዓለማየሁ እሸቴ	እስከጊዜው በርቺ		224849	# Swinging Addis 1969-74
-1970	Alemayehu Eshete	Hameta	ዓለማየሁ እሸቴ	ሃሜታ		224775	# Golden Years 1969-75
-1972	Alemayehu Eshete	Temar Ledje	ዓለማየሁ እሸቴ	ተማር ልጄ		219197	# More Vintage 1972-74
-1971	Alemayehu Eshete	Yeweb Dar	ዓለማየሁ እሸቴ	የወብ ዳር		225029	# Ethiopiques 9: 1969-74
-1969	Alemayehu Eshete	Addis Ababa Bete	ዓለማየሁ እሸቴ	አዲስ አበባ ቤቴ		1353846682	# the 1960s hit; Deezer has a later recording
-1972	Bezunesh Bekele	Felagote	ብዙነሽ በቀለ	ፍላጎቴ		116285840	# guess: early 70s, Deezer has only a 2012 compilation
-1970	Bezunesh Bekele	Kentu Siga	ብዙነሽ በቀለ			116285844	# guess: around 1970
-1974	Bezunesh Bekele	Yenat Wuletawa	ብዙነሽ በቀለ	የእናት ውለታዋ		116285850	# guess: mid 70s
-1976	Bezunesh Bekele	Migoten Manyawkal	ብዙነሽ በቀለ			116285868	# guess: mid 70s
-1974	Hirut Bekele	Ewnetegna Feqer	ሂሩት በቀለ	እውነተኛ ፍቅር		224965	# Ethiopiques 13: the Golden Seventies
-1972	Hirut Bekele	Almokerkum Nebere	ሂሩት በቀለ	አልሞከርኩም ነበር		224762	# Golden Years 1969-75
-1978	Hirut Bekele	Gudaye	ሂሩት በቀለ	ጉዳዬ		3472580271	# guess: late 70s
-1983	Muluken Melesse	Nanu Nanu Neyi	ሙሉቀን መለሰ	ናኑ ናኑ ነይ		4354243512	# the Nanu Nanu Ney cassette, early 80s
-1975	Muluken Melesse	Kemekem	ሙሉቀን መለሰ	ከመከም		4354243562	# guess: a 70s single
-1983	Muluken Melesse	Wedjesh Nebere	ሙሉቀን መለሰ	ወደጅሽ ነበር		4354243522	# Nanu Nanu Ney cassette
-1983	Muluken Melesse	Yeney Konjo	ሙሉቀን መለሰ	የኔ ቆንጆ		4354243582	# Nanu Nanu Ney cassette
-1978	Muluken Melesse	Wetete Marie	ሙሉቀን መለሰ	ወተቴ ማሬ		1281309982	# guess: late 70s
-1973	Ayalew Mesfin	Hasabe	አያሌው መስፍን	ሃሳቤ		224833	# Swinging Addis 1969-74
-1974	Ayalew Mesfin	Hedetch Gara Zura	አያሌው መስፍን	ሄደች ጋራ ዙራ		4960145	# Ethiopiques 24: 1969-75
-1976	Ayalew Mesfin	Gud Aderegetchegn	አያሌው መስፍን	ጉድ አደረገችኝ		498698692	# Kaifa Records single, mid 70s
-1975	Ayalew Mesfin	Qondjo Ledj Nat	አያሌው መስፍን	ቆንጆ ልጅ ናት		4960132	# Ethiopiques 24: 1969-75
-1975	Ayalew Mesfin	Gedawo	አያሌው መስፍን	ገዳዎ		224978	# guess: mid 70s
-1975	Getachew Kassa	Tizita	ጌታቸው ካሳ	ትዝታ		73785358	# his slow Tezeta, mid 70s
-1974	Getachew Kassa	Sayshi Esasalehu	ጌታቸው ካሳ	ሳይሽ እሳሳለሁ		1041409902	# guess: mid 70s
-1976	Getachew Kassa	Iwedishalehu	ጌታቸው ካሳ	እወድሻለሁ		73785356	# guess: mid 70s
-1974	Getachew Kassa	Amesegnalehu	ጌታቸው ካሳ	አመሰግናለሁ		73785367	# guess: mid 70s
-1966	Mulatu Astatke	Mascaram Setaba	ሙላቱ አስታጥቄ	መስከረም ሲጠባ		349369701	# Afro-Latin Soul, 1966
-1970	Mulatu Astatke	Munaye	ሙላቱ አስታጥቄ	ሙናዬ		224807	# Ethio Jazz 1969-74
-1970	Mulatu Astatke	Gubelye	ሙላቱ አስታጥቄ	ጉበልዬ		224808	# Ethio Jazz 1969-74
-1973	Mulatu Astatke	Dewel	ሙላቱ አስታጥቄ	ደወል		224815	# Ethio Jazz 1969-74
-1974	Mulatu Astatke	Yekatit	ሙላቱ አስታጥቄ	የካቲት		224810	# Ethio Jazz 1969-74
-1974	Mulatu Astatke	Netsanet	ሙላቱ አስታጥቄ	ነፃነት		224811	# Ethio Jazz 1969-74
-1974	Mulatu Astatke	Yegelle Tezeta	ሙላቱ አስታጥቄ	የገሌ ትዝታ		3313948541	# Ethio Jazz 1969-74
-1975	Hailu Mergia	Tezeta	ኃይሉ መርጊያ	ትዝታ		1352393722	# the Walias cassette, 1975; Deezer dates the reissue
-1977	Hailu Mergia	Yegle Nesh	ኃይሉ መርጊያ	የግሌ ነሽ		100357738	# Tche Belew LP, 1977
-1985	Hailu Mergia	Sewnetuwa	ኃይሉ መርጊያ	ሰውነቷ		67882200	# Shemonmuanaye cassette, 1985
-1985	Hailu Mergia	Laloye	ኃይሉ መርጊያ	ላሎዬ		67882201	# Shemonmuanaye cassette, 1985
-2018	Hailu Mergia	Lala Belu	ኃይሉ መርጊያ	ላላ በሉ		453331952	# Lala Belu, 2018
-2018	Hailu Mergia	Addis Nat	ኃይሉ መርጊያ	አዲስ ናት		453331922	# Lala Belu, 2018
-1970	Girma Beyene	Enken Yelelebesh	ግርማ በየነ	እንከን የለለብሽ		138744463	# Swinging Addis 1969-74
-1970	Girma Beyene	Ene Negn Bay Manesh	ግርማ በየነ	እኔ ነኝ ባይ ማነሽ		138744459	# Swinging Addis 1969-74
-1972	Girma Beyene	Ewnet Yet Lagegnesh	ግርማ በየነ	እውነት የት ላገኝሽ		3313948531	# guess: early 70s
-1969	Girma Beyene	Set Alamenem	ግርማ በየነ	ሴት አላምንም		138744475	# the 60s song; Deezer has the 2017 re-recording
-1972	Getatchew Mekurya	Shellela	ጌታቸው መኩሪያ	ሸለላ		224950	# Negus of Ethiopian Sax, recorded 1972
-1972	Getatchew Mekurya	Almaz Yeharerwa	ጌታቸው መኩሪያ	አልማዝ የሀረርዋ		224954	# Negus of Ethiopian Sax, recorded 1972
-1975	Asnakech Worku	Gelayewa	አስናቀች ወርቁ	ገላዬዋ		2552340932	# guess: 70s
-1968	Menelik Wossenachew	Tezeta	ምኒልክ ወስናቸው	ትዝታ		625925052	# his 60s Tezeta
-1975	Menelik Wossenachew	Fikir Ayarejim	ምኒልክ ወስናቸው	ፍቅር አያረጅም		2064669357	# guess: 70s
-1992	Tewodros Tadesse	Bemela Besebeb	ቴዎድሮስ ታደሰ	በመላ በሰበብ		1682041837	# guess: early 90s
-1990	Tewodros Tadesse	Fikren Ende Kelal	ቴዎድሮስ ታደሰ	ፍቅሬን እንደ ቀላል		2079628807	# guess: around 1990
-2005	Teshome Mitiku	Yegna Neger	ተሾመ ምትኩ	የኛ ነገር		1771460	# Yegna Neger, 2005
-1989	Aster Aweke	Tizita	አስቴር አወቀ	ትዝታ		11324131	# Aster, 1989
-1991	Aster Aweke	Kabu	አስቴር አወቀ	ካቡ		69159104	# Kabu, 1991
-1991	Aster Aweke	Hagerae	አስቴር አወቀ	ሀገሬ		380916341	# Deezer titles the album 'Hagerae 1983' — Ethiopian calendar, so about 1991
-2001	Aster Aweke	Sugar	አስቴር አወቀ	ስኳር		69159119	# Sugar, 2001
-2006	Aster Aweke	Fikir	አስቴር አወቀ	ፍቅር		88383717	# Fikir, 2006
-2010	Aster Aweke	Checheho	አስቴር አወቀ	ቼቼሆ		70994484	# Checheho, 2010
-2011	Aster Aweke	Yeneta	አስቴር አወቀ	የኔታ		72591567	# single, 2011
-2013	Aster Aweke	Ewedihalehu	አስቴር አወቀ	እወድሃለሁ		77203024	# Ewedihalehu, 2013
-2019	Aster Aweke	Nafkot	አስቴር አወቀ	ናፍቆት		716743492	# Ćhewa, 2019
-2021	Aster Aweke	Emiye Ethiopia	አስቴር አወቀ	እምዬ ኢትዮጵያ		1194453182	# single, 2021
-2023	Aster Aweke	Soba	አስቴር አወቀ	ሶባ		2150636367	# Soba, 2023
-1990	Neway Debebe	Yefikir Gedam	ነዋይ ደበበ	የፍቅር ገዳም		77341882	# guess: around 1990
-1988	Neway Debebe	Tey Enekebaber	ነዋይ ደበበ	ተይ እንከባበር		2867518462	# guess: late 80s
-1993	Neway Debebe	Wey Genzeb	ነዋይ ደበበ	ወይ ገንዘብ		2672331792	# guess: early 90s
-1995	Neway Debebe	Ayaya	ነዋይ ደበበ	አያያ		2733818921	# guess: mid 90s
-1990	Neway Debebe	Hageran Aleresam	ነዋይ ደበበ	ሀገሬን አልረሳም		2672331712	# guess: around 1990
-1988	Ephrem Tamiru	Mulu Gojam	ኤፍሬም ታምሩ	ሙሉ ጎጃም		78276594	# guess: late 80s; Deezer has a 2006 release
-1990	Ephrem Tamiru	Walshesa Bayne	ኤፍሬም ታምሩ			78276595	# guess: around 1990
-1992	Ephrem Tamiru	Negresh Nebere	ኤፍሬም ታምሩ	ነግሬሽ ነበረ	https://www.youtube.com/watch?v=PQ_ozPQvGWM	78276601	# from the group's playlist; guess: early 90s
-2008	Ephrem Tamiru	Balgeru	ኤፍሬም ታምሩ	ባልገሩ		77338220	# guess: late 2000s
-2015	Ephrem Tamiru	Yefikirin Kitat	ኤፍሬም ታምሩ	የፍቅርን ቅጣት		109752670	# The Reunion, 2015
-1990	Kuku Sebsibe	Anarejim	ኩኩ ሰብስቤ	አናረጅም		72051035	# guess: around 1990
-1988	Kuku Sebsibe	Welo	ኩኩ ሰብስቤ	ወሎ		2702754042	# guess: late 80s
-1992	Kuku Sebsibe	Tizita	ኩኩ ሰብስቤ	ትዝታ		2702753992	# guess: early 90s
-1998	Netsanet Melesse	Doju	ነፃነት መለሰ	ዶጁ		2166837177	# Doju, 1998
-1998	Netsanet Melesse	Shegeye	ነፃነት መለሰ	ሸጌዬ		2166837097	# Doju, 1998
-2005	Netsanet Melesse	Minew Jal	ነፃነት መለሰ	ምነው ጃል		1357110242	# Spirit of Sheba, 2005
-2016	Netsanet Melesse	Feker	ነፃነት መለሰ	ፍቅር		118958200	# Liben, 2016
-2001	Hamelmal Abate	Azenkubih	ሐመልማል አባተ	አዘንኩብህ		1068555012	# Sedet, 2001
-2005	Hamelmal Abate	Linur	ሐመልማል አባተ	ልኑር		1043559622	# Gize Mizan, 2005
-2019	Hamelmal Abate	Kumneger	ሐመልማል አባተ	ቁምነገር		749986612	# Kemsha, 2019
-2019	Hamelmal Abate	Gadissie	ሐመልማል አባተ	ጋዲሴ		749986722	# Kemsha, 2019
-1984	Tsehaye Yohannes	Be Sewlay Sew Mewded	ፀሐዬ ዮሐንስ	በሰው ላይ ሰው መውደድ		995397402	# Fenchetwa, 1984
-1996	Tsehaye Yohannes	Yalanchema	ፀሐዬ ዮሐንስ	ያላንችማ	https://www.youtube.com/watch?v=R5udIwJ--oM	1046852632	# Yalanchema, 1996; on the group's playlist
-1996	Tsehaye Yohannes	Yetnebersh	ፀሐዬ ዮሐንስ	የትነበርሽ		1046852642	# Yalanchema, 1996
-2007	Tsehaye Yohannes	Blen	ፀሐዬ ዮሐንስ	ብሌን	https://www.youtube.com/watch?v=QNLw_n_WpDw	698275492	# Sakilgne, 2007; on the group's playlist
-2007	Tsehaye Yohannes	Sakilgne	ፀሐዬ ዮሐንስ	ሳቂልኝ		698275582	# Sakilgne, 2007
-2014	Tsehaye Yohannes	Betesfa	ፀሐዬ ዮሐንስ	በተስፋ		2601580672	# Yenieta, 2014
-2001	Aregahegn Worash	Adey Ababa	አረጋኸኝ ወራሽ	አደይ አበባ		3630595312	# guess: around 2001
-1999	Aregahegn Worash	Sesete	አረጋኸኝ ወራሽ			3090401541	# guess: late 90s
-1996	Martha Ashagari	Zebnanu	ማርታ አሻጋሪ			69821122	# Child's Love, 1996
-2001	Tigist Bekele	Teretahu	ትዕግስት በቀለ	ተረታሁ		79904844	# Sakitaw, 2001
-2001	Tigist Bekele	Gella	ትዕግስት በቀለ	ገላ		79904860	# Sakitaw, 2001
-2026	Tigist Bekele	Mela	ትዕግስት በቀለ	መላ		4103200381	# Mela, 2026
-1998	Bezawork Asfaw	Bird Bird Yilegnal	በዛወርቅ አስፋው	ብርድ ብርድ ይለኛል		2818927202	# guess: late 90s
-2003	Bezawork Asfaw	Yewoyen Chimakie	በዛወርቅ አስፋው			2818927272	# guess: early 2000s
-1996	Bezawork Asfaw	Keftftwa Fitwa	በዛወርቅ አስፋው			2818927242	# guess: mid 90s
-2011	Yehunie Belay	Bizoru	የሁኔ በላይ			4265331562	# Bizoru, 2011
-2017	Yehunie Belay	Zegelila	የሁኔ በላይ	ዘገሊላ	https://www.youtube.com/watch?v=yV5-fE192og	374771841	# on the group's playlist; guess 2017
-2019	Yehunie Belay	Awoy Nuro	የሁኔ በላይ	አዋይ ኑሮ		985451432	# guess: around 2019
-2023	Yehunie Belay	Tegegnech	የሁኔ በላይ	ተገኘች		2261489827	# Tegegnech, 2023
-2006	Fikeraddis Nekatibeb	Kunama	ፍቅርአዲስ ነቃጥበብ	ኩናማ		3166274931	# guess: mid 2000s (Embi)
-2009	Fikeraddis Nekatibeb	Yekolo Temari	ፍቅርአዲስ ነቃጥበብ	የቆሎ ተማሪ		3218704381	# guess: late 2000s
-2012	Fikeraddis Nekatibeb	Enat	ፍቅርአዲስ ነቃጥበብ	እናት		3121635091	# guess: around 2012 (Misikir)
-2008	Shewandagne Hailu	Ayresat	ሸዋንዳኝ ኃይሉ	አይረሳት		2942529221	# guess: Sitotash, late 2000s
-2012	Shewandagne Hailu	Yekerebign	ሸዋንዳኝ ኃይሉ	የቀረብኝ		63055505	# Sik Alegn, 2012
-2012	Shewandagne Hailu	Eyat Eyat Yilegnal	ሸዋንዳኝ ኃይሉ	እያት እያት ይለኛል		63055500	# Sik Alegn, 2012
-2015	Abinet Agonafir	Yezarene	አብነት አጎናፍር	የዛሬን		125734990	# guess: around 2015
-2019	Abinet Agonafir	Ye Ewunet Menged	አብነት አጎናፍር	የእውነት መንገድ		683167372	# single, 2019
-2020	Abinet Agonafir	Ho Bye Metahu	አብነት አጎናፍር	ሆ ብዬ መጣሁ		1072177302	# single, 2020
-2023	Abinet Agonafir	Lene Kalesh	አብነት አጎናፍር	ለኔ ካልሽ		3605236752	# Hidden Beauty, 2023
-2012	Tadesse Alemu	Sela	ታደሰ ዓለሙ	ሰላ		1278629382	# guess: around 2012
-2012	Tadesse Alemu	Erikum	ታደሰ ዓለሙ	እሪኩም		1278629422	# guess: around 2012
-2004	Abonesh Adinew	Limitawey	አቦነሽ አድነው			942023102	# Bahilen, 2004
-2016	Abonesh Adinew	Balageru	አቦነሽ አድነው	ባላገሩ		117405134	# Balageru, 2016
-2024	Abonesh Adinew	Gojame	አቦነሽ አድነው	ጎጃሜ		2831383822	# Zarem Endamna, 2024
-2003	Rahel Yohannes	Arada	ራሔል ዮሐንስ	አራዳ		77012619	# Menelik, 2003
-2003	Rahel Yohannes	Hagere Ethiopia	ራሔል ዮሐንስ	ሀገሬ ኢትዮጵያ		77012612	# Menelik, 2003
-2009	Kassahun Taye	Megala	ካሳሁን ታዬ	መጋላ		145148606	# Ytemedal Berie, 2009
-2023	Kassahun Taye	Gonder	ካሳሁን ታዬ	ጎንደር		3000373431	# single, 2023
-1995	Dawit Mellesse	Lottery	ዳዊት መለሰ	ሎተሪ		3586238421	# Lottery, 1995
-1995	Dawit Mellesse	Yene Shega	ዳዊት መለሰ	የኔ ሸጋ		3586238491	# Lottery, 1995
-1999	Dawit Mellesse	Kunjina	ዳዊት መለሰ	ኩንጂና		3585710471	# Anchin New, 1999
-2003	Dawit Mellesse	Endet Lichal	ዳዊት መለሰ	እንዴት ልቻል		3585797121	# Andiken, 2003
-2001	Teddy Afro	Abugida	ቴዲ አፍሮ	አቡጊዳ		77214345	# Abugida, 2001
-2001	Teddy Afro	Lidjenet Alat	ቴዲ አፍሮ	ልጅነት አላት		77214346	# Abugida, 2001
-2001	Teddy Afro	Ayne Hulgeze	ቴዲ አፍሮ	አይኔ ሁልጊዜ		77214349	# Abugida, 2001
-2005	Teddy Afro	Lambadina	ቴዲ አፍሮ	ላምባዲና	https://www.youtube.com/watch?v=tazS5K2Nr7k		# Yasteseryal, 2005; Deezer only has a remix, so YouTube
-2010	Teddy Afro	Abebayewosh	ቴዲ አፍሮ	አበባየሆሽ		607730102	# guess: the 2010 new-year single
-2012	Teddy Afro	Hab Dahlak	ቴዲ አፍሮ	ሀብ ዳህላክ	https://www.youtube.com/watch?v=FDaReu_HOzE		# from the group's playlist; guess: Tikur Sew, 2012
-2015	Teddy Afro	Be 70 Dereja	ቴዲ አፍሮ	በ70 ደረጃ		607912042	# single, 2015
-2015	Teddy Afro	Korkuma Africa	ቴዲ አፍሮ	ቆርቁማ አፍሪካ		104588200	# single, 2015
-2017	Teddy Afro	Ethiopia	ቴዲ አፍሮ	ኢትዮጵያ		375746011	# Ethiopia, 2017
-2017	Teddy Afro	Sembere	ቴዲ አፍሮ	ሰምበሬ		375746021	# Ethiopia, 2017
-2017	Teddy Afro	Mar Eske Tuwaf	ቴዲ አፍሮ	ማር እስከ ጧፍ		358490681	# Ethiopia, 2017
-2017	Teddy Afro	Marakiye	ቴዲ አፍሮ	ማራኪዬ		375746101	# Ethiopia, 2017
-2026	Teddy Afro	Sememene	ቴዲ አፍሮ	ሰመመኔ		3966670961	# Etorika, 2026
-2026	Teddy Afro	Samenew	ቴዲ አፍሮ			4111150771	# Etorika, 2026
-1998	Gigi	Gera Geru	ጂጂ			9565066	# One Ethiopia, 1998
-2001	Gigi	Guramayle	ጂጂ	ጉራማይሌ		12589943	# Gigi, 2001
-2001	Gigi	Abay	ጂጂ	አባይ		12589941	# Gigi, 2001
-2001	Gigi	Zomaye	ጂጂ	ዞማዬ		12589947	# Gigi, 2001
-2001	Gigi	Adwa	ጂጂ	አድዋ		12589950	# Gigi, 2001
-2001	Gigi	Gud Fella	ጂጂ	ጉድ ፈላ		12589938	# Gigi, 2001
-2001	Gigi	Nafeken	ጂጂ			12589949	# Gigi, 2001
-2006	Gigi	Enoralehu	ጂጂ			12589993	# Gold & Wax, 2006
-2006	Gossaye Tesfaye	Enateye	ጎሳዬ ተስፋዬ	እናትዬ		614506772	# guess: mid 2000s
-2010	Gossaye Tesfaye	Tameryalesh	ጎሳዬ ተስፋዬ	ታመሪያለሽ		611477982	# Satamagne Bela, 2010
-2010	Gossaye Tesfaye	Ma Bengershe	ጎሳዬ ተስፋዬ			616050462	# guess: Evangadi, around 2010
-2019	Gossaye Tesfaye	Serk Addis	ጎሳዬ ተስፋዬ	ሰርቅ አዲስ		623766562	# Siyamish Yamegnal, 2019
-2012	Abdu Kiar	Merkato Sefere	አብዱ ኪያር	መርካቶ ሰፈሬ		1436560412	# single, 2012
-2015	Abdu Kiar	Wey Gude	አብዱ ኪያር	ወይ ጉዴ		109061964	# Tikur Anbessa, 2015
-2015	Abdu Kiar	Tikur Anbessa	አብዱ ኪያር	ጥቁር አንበሳ		109061960	# Tikur Anbessa, 2015
-2021	Abdu Kiar	Weye Weye	አብዱ ኪያር	ወዬ ወዬ		1449103792	# single, 2021
-2002	Madingo Afework	Aman New Goraw	ማዲንጎ አፈወርቅ	አማን ነው ጎራው		4344313602	# Aman New Goraw, 2002
-2005	Madingo Afework	Keteleyayen	ማዲንጎ አፈወርቅ	ከተለያየን		78289117	# Aydergem, 2005
-2005	Madingo Afework	Mognu Libe	ማዲንጎ አፈወርቅ	ሞኙ ልቤ		78289122	# Aydergem, 2005
-2005	Madingo Afework	Afar	ማዲንጎ አፈወርቅ	አፋር		78289118	# Aydergem, 2005
-2012	Madingo Afework	Akmien	ማዲንጎ አፈወርቅ			2091796387	# guess: around 2012
-2004	Michael Belayneh	Etebikeshalehu	ሚካኤል በላይነህ	እጠብቅሻለሁ		2730382891	# guess: mid 2000s
-2006	Michael Belayneh	Yefikir Mirchay	ሚካኤል በላይነህ	የፍቅር ምርጫዬ		2730382911	# guess: mid 2000s
-2008	Michael Belayneh	Tibeb New Tizita	ሚካኤል በላይነህ	ጥበብ ነው ትዝታ		2668131072	# guess: late 2000s
-2010	Michael Belayneh	Timechi Endehu	ሚካኤል በላይነህ	ትመጪ እንደሁ		2668790372	# guess: around 2010
-2018	Zeritu Kebede	Alefe Halifu	ዘሪቱ ከበደ			608836412	# single, 2018
-2023	Zeritu Kebede	Akal Lakal	ዘሪቱ ከበደ			2209428307	# Atihidibign, 2023
-2004	Tamrat Desta	Hakime Nesh	ታምራት ደስታ	ሀኪሜ ነሽ		81944264	# Anleyaym, 2004
-2004	Tamrat Desta	Anleyaym	ታምራት ደስታ	አንለያይም		81944250	# Anleyaym, 2004
-2004	Tamrat Desta	Yelben	ታምራት ደስታ	የልቤን		81944246	# Anleyaym, 2004
-2014	Tamrat Desta	Ewedshalehu	ታምራት ደስታ	እወድሻለሁ		87153111	# Keza Sefer, 2014
-2014	Tamrat Desta	Mamayie	ታምራት ደስታ	ማማዬ		87153103	# Keza Sefer, 2014
-2008	Eyob Mekonnen	Wede Enate Bet	እዮብ መኮንን	ወደ እናቴ ቤት		3965970751	# guess: late 2000s
-2012	Eyob Mekonnen	Yizebarekalu	እዮብ መኮንን	ይዘባርቃሉ	https://www.youtube.com/watch?v=DxGu_SFPZgg	3946393381	# on the group's playlist; guess: Ende Qal, 2012
-2012	Eyob Mekonnen	Man Ende Qal	እዮብ መኮንን	ማን እንደ ቃል		3946393341	# guess: Ende Qal, 2012
-2012	Eyob Mekonnen	Endetefash	እዮብ መኮንን	እንደተፋሽ		3946393401	# guess: Ende Qal, 2012
-2005	Jah Lude	Yachin Neger	ጃህ ሉድ	ያቺን ነገር		72897977	# guess: mid 2000s; Deezer dates the 2012 release
-2005	Jah Lude	Ye Irgib Amora	ጃህ ሉድ	የእርግብ አሞራ		72897984	# guess: mid 2000s
-2005	Jah Lude	Dance Dance	ጃህ ሉድ			72897974	# guess: mid 2000s
-2012	Haile Roots	Chiggae	ኃይሌ ሩትስ	ቺጌ		84392325	# Chiggae, 2012
-2012	Haile Roots	Ethiopia	ኃይሌ ሩትስ	ኢትዮጵያ		84392335	# Chiggae, 2012
-2012	Haile Roots	Melkam Yamarech	ኃይሌ ሩትስ			84392333	# Chiggae, 2012
-2020	Haile Roots	Yanchin	ኃይሌ ሩትስ	ያንቺን		1175977782	# Yetamene, 2020
-2006	Tsedenia Gebremarkos	Mengedegna	ፀደንያ ገብረማርቆስ	መንገደኛ		3855501271	# Bisetegn, 2006
-2006	Tsedenia Gebremarkos	Ewedhalehu	ፀደንያ ገብረማርቆስ	እወድሃለሁ		3855501291	# Bisetegn, 2006
-2006	Tsedenia Gebremarkos	Atalay	ፀደንያ ገብረማርቆስ	አታላይ		3855501251	# Bisetegn, 2006
-2016	Tsedenia Gebremarkos	Awkotal	ፀደንያ ገብረማርቆስ			3477087471	# Yefikir Girma, 2016
-2014	Abby Lakew	Yene Habesha	አቢ ላቀው	የኔ ሀበሻ		404493782	# the single came before the 2017 album; guess 2014
-2017	Abby Lakew	Nekogn	አቢ ላቀው	ነኮኝ		668541872	# Yene Habesha, 2017
-2017	Abby Lakew	Selam	አቢ ላቀው	ሰላም		668541862	# Yene Habesha, 2017
-2022	Abby Lakew	Gondere Wa	አቢ ላቀው	ጎንደሬዋ		1742792697	# single, 2022
-2013	Mesfin Bekele	Welelawa	መስፍን በቀለ	ወለላዋ		72105821	# Zimeta, 2013
-2013	Mesfin Bekele	Zimeta	መስፍን በቀለ	ዝምታ		72105823	# Zimeta, 2013
-2014	Mesfin Bekele	Asresh Mechew	መስፍን በቀለ			109752716	# guess: around 2014
-2020	Mesfin Bekele	Mister New	መስፍን በቀለ			1134788892	# single, 2020
-2024	Mesfin Bekele	Lamesgin	መስፍን በቀለ	ላመስግን		2832170392	# single, 2024
-2007	Mikaya Behailu	Lante Sil	ሚካያ በኃይሉ	ላንተ ስል		72051055	# Shemametew, 2007
-2007	Mikaya Behailu	Sebeb	ሚካያ በኃይሉ	ሰበብ		72051056	# Shemametew, 2007
-2007	Mikaya Behailu	Shemametew	ሚካያ በኃይሉ	ሸማመተው		72051060	# Shemametew, 2007
-2011	Jacky Gosee	Chirash	ጃኪ ጎሲ	ጭራሽ		3351027061	# guess: around 2011; Deezer dates a 2025 upload
-2013	Jacky Gosee	Sela Bey	ጃኪ ጎሲ	ሰላ በይ		3351027031	# guess: around 2013
-2022	Jacky Gosee	Debdabew	ጃኪ ጎሲ	ደብዳቤው		4347432702	# single, 2022
-2025	Jacky Gosee	Fiyameta	ጃኪ ጎሲ	ፊያሜታ		3358436431	# single, 2025
-2013	Teddy Yo	Gurage Tone	ቴዲ ዮ			68154237	# Demts Albaw Mesarya, 2013
-2017	Teddy Yo	Lo'o Lo'o	ቴዲ ዮ			471006712	# guess: around 2017
-2022	Teddy Yo	Wano	ቴዲ ዮ			1952476167	# single, 2022
-2024	Teddy Yo	Almetam	ቴዲ ዮ	አልመጣም		2864836622	# single, 2024
-2013	Nhatty Man	Fim Esat	ናቲ ማን	ፍም እሳት		69216729	# single, 2013
-2016	Nhatty Man	Amrogn	ናቲ ማን	አምሮኝ		118405936	# Man, 2016
-2016	Nhatty Man	Salayish	ናቲ ማን	ሳላይሽ		118405924	# Man, 2016
-2017	Nhatty Man	Bado	ናቲ ማን	ባዶ		438310312	# Vol. 2, 2017
-2024	Nhatty Man	Qimemun	ናቲ ማን			2667346522	# single, 2024
-2018	Bisrat Surafel	Yebet Sira	ብስራት ሱራፌል	የቤት ስራ		499823162	# Kal Bekal, 2018
-2018	Bisrat Surafel	Ethiopiawi Negn	ብስራት ሱራፌል	ኢትዮጵያዊ ነኝ		499823152	# Kal Bekal, 2018
-2022	Bisrat Surafel	Ateteyekuwat	ብስራት ሱራፌል			2791932362	# single, 2022
-2023	Bisrat Surafel	Erefi	ብስራት ሱራፌል	እረፊ		2373557235	# Malefiya, 2023
-2005	Hana Shenkute	Sintun Ayichebih	ሃና ሸንቁጤ	ስንቱን አይቼብህ		65445411	# guess: mid 2000s
-2010	Nati Haile	Beka	ናቲ ኃይሌ	በቃ		13668350	# Beka, 2010
-2015	Betty G	Manew Fitsum	ቤቲ ጂ	ማነው ፍጹም		98388206	# Manew Fitsum, 2015
-2015	Betty G	Kant Aybeltim	ቤቲ ጂ	ካንት አይበልጥም		98388220	# Manew Fitsum, 2015
-2018	Betty G	Geriye	ቤቲ ጂ	ገሪዬ		519921542	# Wegegta, 2018
-2026	Betty G	Yeselam Sew Negn	ቤቲ ጂ	የሰላም ሰው ነኝ		4260731631	# single, 2026
-2018	Jano Band	Keteraraw Mado	ጃኖ ባንድ	ከተራራው ማዶ		458259522	# Lerasih New, 2018
-2018	Jano Band	Shegiye	ጃኖ ባንድ	ሸጊዬ		458259472	# Lerasih New, 2018
-2018	Jano Band	Leba	ጃኖ ባንድ	ሌባ		458259452	# Lerasih New, 2018
-2018	Jano Band	Zew Zew	ጃኖ ባንድ	ዘው ዘው		454569332	# single, 2018
-2018	Jano Band	Hager Alegn	ጃኖ ባንድ	ሀገር አለኝ		458259552	# Lerasih New, 2018
-2016	Dawit Tsige	Betam New Emewodish	ዳዊት ጽጌ	በጣም ነው እምወድሽ		118406062	# single, 2016
-2020	Dawit Tsige	Bayew Bayew	ዳዊት ጽጌ	ባየው ባየው		846674482	# Yene Zema, 2020
-2020	Dawit Tsige	Yene Yene	ዳዊት ጽጌ	የኔ የኔ		846674442	# Yene Zema, 2020
-2020	Dawit Tsige	Yene Zema	ዳዊት ጽጌ	የኔ ዜማ		846674402	# Yene Zema, 2020
-2020	Dawit Tsige	Asmarino	ዳዊት ጽጌ	አስመሪኖ		846674462	# Yene Zema, 2020
-2018	Rophnan	Get to Work	ሮፍናን			501460352	# Reflection, 2018
-2020	Rophnan	Sekela	ሮፍናን	ሰቀላ		1820720707	# guess: Sost, 2020
-2022	Rophnan	Desse	ሮፍናን	ደሴ		1812899297	# Sidist, 2022 — corrects the starter deck's 2019
-2022	Rophnan	Haya	ሮፍናን	ሀያ		1812899327	# Sidist, 2022
-2022	Rophnan	Senaye	ሮፍናን	ሰናዬ		1812899247	# Sidist, 2022
-2022	Rophnan	Wegahta	ሮፍናን	ወጋህታ		1812899257	# Sidist, 2022
-2022	Rophnan	Bihon	ሮፍናን	ቢሆን		1812899287	# Sidist, 2022
-2024	Rophnan	Shegiye	ሮፍናን	ሸጊዬ		2673654482	# Zetegn, 2024
-2024	Rophnan	Atiyo	ሮፍናን	አቲዮ		2673655042	# Zetegn, 2024
-2016	Sami Dan	Tefa Yemileyen	ሳሚ ዳን	ጠፋ የሚለየን		123761170	# Keras Gar Negeger, 2016
-2019	Sami Dan	123	ሳሚ ዳን			669114812	# Asira Andu Getsoche, 2019
-2021	Sami Dan	Qalen	ሳሚ ዳን	ቃሌን		1481590282	# Sibet, 2021
-2021	Sami Dan	Yemechereshawa Se'at	ሳሚ ዳን	የመጨረሻዋ ሰዓት		1481590382	# Sibet, 2021
-2020	Kassmasse	Negen Letizita	ካስማሴ	ነገን ለትዝታ		1356084772	# Maleda, 2020
-2020	Kassmasse	Maleda	ካስማሴ	ማለዳ		1356084752	# Maleda, 2020
-2020	Kassmasse	Wubet	ካስማሴ	ውበት		1356084792	# Maleda, 2020
-2022	Kassmasse	Mela Mela	ካስማሴ	መላ መላ		1660832302	# Bahil | Weg, 2022
-2023	Kassmasse	Sanqa Souq	ካስማሴ			2426838465	# single, 2023
-2021	Lij Michael	Nanye	ልጅ ሚካኤል	ናንዬ		1247074642	# Atgebam Alugn, 2021
-2021	Lij Michael	Addis Ababa	ልጅ ሚካኤል	አዲስ አበባ		1247074662	# Atgebam Alugn, 2021
-2024	Lij Michael	Ayito	ልጅ ሚካኤል			2955738341	# Addis Arada, 2024
-2025	Lij Michael	Zemenay Mareye	ልጅ ሚካኤል			3413173161	# Zaray Yihun Nege, 2025
-2018	Yared Negu	Adimera	ያሬድ ነጉ	አድመራ		596143152	# single, 2018
-2018	Yared Negu	Yihen Endalay	ያሬድ ነጉ			3830919161	# guess: around 2018
-2017	Esubalew Yetayew	Mare Mare	እሱባለው ይታየው	ማሬ ማሬ		726202142	# Tertaye, 2017
-2017	Esubalew Yetayew	Godana Mulu	እሱባለው ይታየው			726202082	# Tertaye, 2017
-2017	Esubalew Yetayew	Samnat	እሱባለው ይታየው			726202132	# Tertaye, 2017
-2023	Esubalew Yetayew	Yeberesh Abeba	እሱባለው ይታየው	የበረሽ አበባ		2527847131	# single, 2023
-2019	Rahel Getu	Tilobign	ራሔል ጌቱ			732013122	# single, 2019
-2021	Rahel Getu	Kisto	ራሔል ጌቱ			1477144292	# Etemete, 2021
-2021	Rahel Getu	Etemete	ራሔል ጌቱ	እቴሜቴ		1477144322	# Etemete, 2021
-2021	Rahel Getu	Ethiopiaye	ራሔል ጌቱ	ኢትዮጵያዬ		1477144222	# Etemete, 2021
-2020	Hewan Gebrewold	Keminew	ሔዋን ገብረወልድ			999020832	# single, 2020
-2021	Hewan Gebrewold	Na Na	ሔዋን ገብረወልድ	ና ና		1251267462	# single, 2021
-2022	Hewan Gebrewold	Endene Endene	ሔዋን ገብረወልድ			1757683487	# Hewan, 2022
-2022	Hewan Gebrewold	Munaye	ሔዋን ገብረወልድ	ሙናዬ		1757683457	# Hewan, 2022
-2018	Selamawit Yohannes	Zomawa	ሰላማዊት ዮሐንስ	ዞማዋ		531261401	# single, 2018
-2023	Selamawit Yohannes	Bel Jalo	ሰላማዊት ዮሐንስ			2387412075	# single, 2023
-2021	Veronica Adane	Tewu	ቬሮኒካ አዳነ	ተው		1281395352	# single, 2021
-2023	Veronica Adane	Enaney	ቬሮኒካ አዳነ			2549499122	# single, 2023
-2024	Veronica Adane	Lemen Wey	ቬሮኒካ አዳነ			2963574091	# Meteriyaye, 2024
-2021	Tariku Gankisi	Dishtagina	ታሪኩ ጋንኪሲ	ዲሽታግና		1331179952	# single, 2021
-2022	Ziggy Zaga	Tizitana Nafkot	ዚጊ ዛጋ	ትዝታና ናፍቆት		1875712327	# single, 2022
-2023	Yohana	Gelagay	ዮሐና	ገላጋይ		2251657067	# single, 2023
-2019	Abush Zeleke	Ehem Ale	አቡሽ ዘለቀ			1853024617	# single, 2019
-2010	Henok Abebe	Honuatal	ሔኖክ አበበ	ሆኑዋታል	https://www.youtube.com/watch?v=Ke3mDPxRw8M	77583785	# from the group's playlist; guess: around 2010
-2008	Sayat Demissie	Hasabun Mesrek	ሳያት ደምሴ	ሀሳቡን ምስራቅ	https://www.youtube.com/watch?v=u7dEqIZBsvI	13603014	# from the group's playlist; guess: late 2000s
-2010	Johnnie Bass	Anchi Kalesh	ጆኒ ባስ	አንቺ ካለሽ	https://www.youtube.com/watch?v=N2emYqvIDwA		# from the group's playlist; guess: around 2010
-2012	Helen Berhe	Uzaza Aleyna	ሔለን በርሄ	ኡዛዛ አሌና	https://www.youtube.com/watch?v=8yOfFtOHL_4		# from the group's playlist; guess: around 2012
-2008	Hibist Tiruneh	Befetereh	ህብስት ጥሩነህ	በፈጠረህ	https://www.youtube.com/watch?v=m69Z2qlFPsI		# from the group's playlist; guess: late 2000s
-2010	Tadele Roba	Kefitret Yeglish	ታደለ ሮባ		https://www.youtube.com/watch?v=6C_UKhtqn80		# from the group's playlist; guess: around 2010
-2015	Haymanot Girma	Labablih	ሀይማኖት ግርማ		https://www.youtube.com/watch?v=ZLv0ym5mML4		# from the group's playlist; guess: mid 2010s
-2010	Dereje Dubale	Befikresh Tasere	ደረጀ ዱባለ	በፍቅርሽ ታስሬ	https://www.youtube.com/watch?v=yq5kVPvgyG8		# from the group's playlist; guess: around 2010
-2015	Bisrat Garedew	Salamnibet	ብስራት ጋረደው	ሳላምንበት	https://www.youtube.com/watch?v=Hpx8AnTi70U		# from the group's playlist; guess: mid 2010s
-2012	Solomon Kassa	Liqefish	ሰለሞን ካሳ		https://www.youtube.com/watch?v=Ncl7z8P_g1k		# from the group's playlist; guess: around 2012
-2018	Lelaalem Manaye	Yene Nesh	ሌላአለም ማናዬ	የእኔ ነሽ	https://www.youtube.com/watch?v=LJH3BN2CrKk		# from the group's playlist; guess: late 2010s
-2013	Mesfin Bekele	Ney Bekiremt	መስፍን በቀለ	ነይ በክረምት	https://www.youtube.com/watch?v=ZePj0oadtaw		# from the group's playlist; guess: Zimeta era, 2013
-2012	Jano Band	Darigne	ጃኖ ባንድ	ዳሪኝ		458259602	# Ertale, 2012; Deezer carries it as a bonus track on the 2018 album
-1993	Aster Aweke	Ken Bayene	አስቴር አወቀ	ቀን ባይኔ	https://www.youtube.com/watch?v=IQaCJX5owBs	69159111	# from the group's playlist; guess: early 90s
-1977	Hailu Mergia	Tche Belew	ኃይሉ መርጊያ	ጨ በለው		85516102	# Tche Belew LP with the Walias, 1977
+1970	Tilahun Gessesse	Kulun Mankwalesh	ጥላሁን ገሠሠ	ኩሉን ማንኳለሽ		225070	# confirmed · the 1970 take, labelled [70] on Éthiopiques 17, whose booklet dates it late 1970–early 1971 (Discogs 714386; Philips Ethiopia single, Discogs master 3534908). A second take followed in 1973.
+1970	Tilahun Gessesse	Sethed Seketelat	ጥላሁን ገሠሠ	ስትሄድ ስከተላት		225074	# confirmed · Philips Ethiopia single (Sithed Siketelat / Yefikir Tizita), 1970 (Discogs 6884829); the Éthiopiques 17 booklet dates the recording August 1970. Was 1972.
+1974	Tilahun Gessesse	Aykedashem Lebe	ጥላሁን ገሠሠ	አይከዳሽም ልቤ		225072	# confirmed · Philips Ethiopia; the Éthiopiques 17 booklet dates the recording April 1974 (Discogs 714386). Was 1970.
+1974	Tilahun Gessesse	Sewoch Min Yilalu	ጥላሁን ገሠሠ	ሰዎች ምን ይላሉ		2074112647	# no dated release found: not among his 1970-76 Philips, Amha or Kaifa 45s on Discogs; Mainz has it only on the 1992 Ethio-Grooves Vol. 3 compilation. A 2013 YouTube upload (Getu Negash) calls a shorter take a mid-1960s Imperial Bodyguard Band original. Year kept.
+1975	Tilahun Gessesse	Alchalkum	ጥላሁን ገሠሠ	አልቻልኩም		876962702	# no dated release found: not among his 1970-76 Philips, Amha or Kaifa 45s on Discogs, nor his tracklisted cassettes; Mainz and Discogs (10973456) have it only on the 1992 Ethio-Grooves Vol. 1 compilation. Deezer's 48-track Collection (1985) is a compilation. Year kept.
+1975	Mahmoud Ahmed	Ebakesh Tareqign	ማህሙድ አህመድ	እባክሽ ታረቂኝ		224827	# confirmed · B-side of Kaifa single KF 25 and on the LP LPKF 20, 1975 (Discogs 5274339, 5198041); Éthiopiques 7: Kaifa 1975.
+1973	Mahmoud Ahmed	Ambassel	ማህሙድ አህመድ	አምባሰል		224920	# confirmed · Almaz LP, Amha AELP 80, and single AE 730 (Ambasel / Mela Mela), 1973 (Discogs 6885233, 2101139); the Éthiopiques 6 booklet dates it November 1973.
+1975	Mahmoud Ahmed	Atawurulegn Lela	ማህሙድ አህመድ	አታውሩልኝ ሌላ		224821	# confirmed · Kaifa single KF 25 and the LP LPKF 20, 1975 (Discogs 5274339, 5198041); Éthiopiques 7: Kaifa 1975.
+1975	Mahmoud Ahmed	Belomi Benna	ማህሙድ አህመድ	በሎሚ በና		224829	# confirmed · Kaifa Records 1975 per the Éthiopiques 7 booklet (its tracks 12–15 'originally released on Kaifa Records in 1975', Discogs 20517256).
+1975	Mahmoud Ahmed	Abbay Mado	ማህሙድ አህመድ	አባይ ማዶ		224819	# confirmed · Kaifa LP LPKF 20, 1975 (Discogs 5198041); the Éthiopiques 7 reissue dates the Kaifa tracks 1975.
+1975	Mahmoud Ahmed	Selam Almazeye	ማህሙድ አህመድ	ሰላም አልማዜ		224776	# confirmed · Amha single AE 880 (Selam Almazeye / Lomiwen Tekebeletch), 1975 (Discogs 8272510); the Éthiopiques 3 booklet dates it April 1975. Was 1972.
+1974	Alemayehu Eshete	Telantena Zare	ዓለማየሁ እሸቴ	ትላንትና ዛሬ		225030	# confirmed · Amha single AE 780 (Konjit / Tilantina Zarie), 1974 (Discogs 6176358); the Éthiopiques 9 booklet dates it April 1974. Was 1970.
+1971	Alemayehu Eshete	Yeweyn Haregitu	ዓለማየሁ እሸቴ	የወይን ሀረጊቱ		225021	# confirmed · Amha single AE 310 (Yewoine Haregitu / Yelebene Bitayiw), 1971 (Discogs 8271534); the Éthiopiques 9 booklet dates it July 1971. Was 1972.
+1969	Alemayehu Eshete	Feqer Feqer New	ዓለማየሁ እሸቴ	ፍቅር ፍቅር ነው		225037	# confirmed · Amha single AE 130 (Fiker Fiker Naw / Gizew Honeshyna), 1969 (Discogs 8250657); the Éthiopiques 9 booklet dates it 1969. Was 1972.
+1974	Alemayehu Eshete	Eskegizew Bertchi	ዓለማየሁ እሸቴ	እስከጊዜው በርቺ		224849	# confirmed · Amha single AE 770 (Eskegizew Berchi / Tedesteshal Woy), 1974 (Discogs 7928033); the Éthiopiques 9 booklet dates the flip side April 1974. Was 1969.
+1975	Alemayehu Eshete	Hameta	ዓለማየሁ እሸቴ	ሃሜታ		224775	# confirmed · Amha single AE 990 (Ete Hol / Hameta), 1975 (Discogs 7059968); the Éthiopiques 3 booklet dates it September 1975. Was 1970.
+1972	Alemayehu Eshete	Temar Ledje	ዓለማየሁ እሸቴ	ተማር ልጄ		219197	# confirmed · Philips Ethiopia; the Éthiopiques 22 booklet dates Tèmar Ledjé June 1972 (Discogs 1491685). Discogs dates the 45 Beliye / Temar Lije 1973 (Discogs 6218216).
+1974	Alemayehu Eshete	Yeweb Dar	ዓለማየሁ እሸቴ	የወብ ዳር		225029	# confirmed · Amha single AE 800 (Yewubdar / Man Yihon Tilk Sew), 1974 (Discogs 4948208); the Éthiopiques 9 booklet dates it May 1974. Was 1971.
+1971	Alemayehu Eshete	Addis Ababa Bete	ዓለማየሁ እሸቴ	አዲስ አበባ ቤቴ		1353846682	# confirmed · Amha Records single AE 320 (Addis Ababa Bete / Alteleyeshignim), July 1971 (Discogs release 5732996); the Éthiopiques 9 booklet dates the track 07/1971. Was 1969. Deezer plays the 2005 Shanachie recording.
+1974	Bezunesh Bekele	Felagote	ብዙነሽ በቀለ	ፍላጎቴ		116285840	# confirmed · Philips Ethiopia single (Filagote / Min Neber), 1974 (Discogs 8248779); also on BBE's Taitu compilation. Was 1972.
+1974	Bezunesh Bekele	Kentu Siga	ብዙነሽ በቀለ			116285844	# confirmed · Philips Ethiopia single (Kentu Siga / Sintun Ayehu Bante), 1974 (Discogs 4851735). Was 1970. Deezer plays the 2012 Nahom compilation.
+1974	Bezunesh Bekele	Yenat Wuletawa	ብዙነሽ በቀለ	የእናት ውለታዋ		116285850	# no dated release found: not among her 1972-77 Philips or Kaifa 45s on Discogs, nor her tracklisted Ethio Music Shop Vol. 1 cassette; Deezer has it on Nahom's Greatest Hits (2012, Discogs 10371971), 9 of whose 15 tracks are her 1972-74 Philips sides. Year kept.
+1976	Bezunesh Bekele	Migoten Manyawkal	ብዙነሽ በቀለ			116285868	# no dated release found: not among her 1972-77 Philips or Kaifa 45s on Discogs, nor her tracklisted Ethio Music Shop Vol. 1 cassette; Deezer has it on Nahom's Greatest Hits (2012, Discogs 10371971), mostly her 1972-74 Philips sides. Year kept.
+1977	Hirut Bekele	Ewnetegna Feqer	ሂሩት በቀለ	እውነተኛ ፍቅር		224965	# confirmed · Kaifa single KF 48 (Des Yemiasegne / Ewnetegna Feker), 1977 (Discogs 6597696); inside the 1973–77 span of Éthiopiques 13. Was 1974.
+1972	Hirut Bekele	Almokerkum Nebere	ሂሩት በቀለ	አልሞከርኩም ነበር		224762	# confirmed · Amha single AE 570 (Almokerkum Nebere / Esu New Messelegne), 1972 (Discogs 8271935); the Éthiopiques 3 booklet dates it October 1972.
+1985	Hirut Bekele	Gudaye	ሂሩት በቀለ	ጉዳዬ		3472580271	# was 1978: 'Godade', track B5 of her Roha Band cassette Addis Abeba New Betu (Super Sonic; Discogs master 3291928, Mainz); Mirkuzz dates the same 7-minute recording 1977 E.C. // 1985 G.C., words and music Tesfaye Abebe. A 1980s recording, not a 1970s one.
+1980	Muluken Melesse	Nanu Nanu Neyi	ሙሉቀን መለሰ	ናኑ ናኑ ነይ		4354243512	# was 1983: track A1 of his untitled Electra cassette with the Dahlak Band (Discogs release 9971464); Mirkuzz dates its songs Aynuma and Yene Konjo 1972 E.C. (1980 G.C.), and its sax player Tilaye Gebre left Ethiopia in 1981 (Ethiopiques 31 booklet). Electra/Tango reissues' 1983/1985 dates cover a 17-track bundle.
+1980	Muluken Melesse	Kemekem	ሙሉቀን መለሰ	ከመከም		4354243562	# was 1975: not a 1970s single; track B1 of his untitled Electra cassette with the Dahlak Band (Discogs release 9971464, with Nanu Nanu Ney), which Mirkuzz dates 1972 E.C. (1980 G.C.). None of his Amha, Philips, Axum or Kaifa singles or LPs has it.
+1980	Muluken Melesse	Wedjesh Nebere	ሙሉቀን መለሰ	ወደጅሽ ነበር		4354243522	# was 1983: track A2 'Wodijesh Nebere' of his untitled Electra cassette with the Dahlak Band (Discogs release 9971464), which Mirkuzz dates 1972 E.C. (1980 G.C.) via its songs Aynuma and Yene Konjo. Ethiopian-calendar date from one curator; no Gregorian-dated release found.
+1980	Muluken Melesse	Yeney Konjo	ሙሉቀን መለሰ	የኔ ቆንጆ		4354243582	# was 1983: track B3 of his untitled Electra cassette with the Dahlak Band (Discogs release 9971464); Mirkuzz's upload dates this song 1972 E.C. // 1980 G.C. The 1983-06-06 date of Electra's 2020 digital 'Yigerem' covers a bundle with his later '1983' cassette.
+1975	Muluken Melesse	Wetete Marie	ሙሉቀን መለሰ	ወተቴ ማሬ		1281309982	# confirmed · Amha single AE 930 (Wotetie Mare / Ete Endenesh Gedawo), 1975 (Discogs 8272573); the Éthiopiques 1 booklet dates it June 1975. Was 1978. Deezer plays it from his 1998 Vol. 1 compilation.
+1973	Ayalew Mesfin	Hasabe	አያሌው መስፍን	ሃሳቤ		224833	# confirmed · Amha single AE 760 (Hasabe / Hedech Gara Zura), 1973 (Discogs 8272136), the year he formed the Black Lion Band and signed with Amha (Wikipedia); on Éthiopiques 8.
+1973	Ayalew Mesfin	Hedetch Gara Zura	አያሌው መስፍን	ሄደች ጋራ ዙራ		4960145	# confirmed · B-side of Amha single AE 760 (Hasabe / Hedech Gara Zura), 1973 (Discogs 8272136); on Éthiopiques 24. Was 1974.
+1977	Ayalew Mesfin	Gud Aderegetchegn	አያሌው መስፍን	ጉድ አደረገችኝ		498698692	# confirmed · Kaifa single KF 50 (Good Aderegechegn / Feker Aydelmwey), 1977 (Discogs 7059833); reissued in Heavenly Sweetness's Éthiopiques 7-inch box, which Deezer plays. Was 1976.
+1973	Ayalew Mesfin	Qondjo Ledj Nat	አያሌው መስፍን	ቆንጆ ልጅ ናት		4960132	# confirmed · Amha single AE 750 (Teregew Nebere / Konjo Lidge Nat), 1973 (Discogs 8272128); on Éthiopiques 24. Was 1975.
+1976	Ayalew Mesfin	Gedawo	አያሌው መስፍን	ገዳዎ		224978	# confirmed · Kaifa single KF 31 (Ghedawou / Yecew Neger), 1976 (Discogs 8249891); inside the 1973–77 span of Éthiopiques 13. Was 1975.
+1972	Getachew Kassa	Tizita	ጌታቸው ካሳ	ትዝታ		73785358	# confirmed · his Tezeta, Amha single AE 530 (slow and fast takes), 1972 (Discogs 1965569); the Éthiopiques 1 booklet dates both June 1972. Was 1975. Deezer plays a later recording from the Nahom Best of, whose songs match his Tango cassette titled 1982.
+1974	Getachew Kassa	Sayshi Esasalehu	ጌታቸው ካሳ	ሳይሽ እሳሳለሁ		1041409902	# no dated source found: not among his 1970-76 Philips, Amha or Kaifa 45s, his Tango '1982' cassette or his Walias Band tape on Discogs; Deezer has only his own 2020 single (same 4:00 take uploaded in 2017 as old music). Year kept.
+1989	Getachew Kassa	Iwedishalehu	ጌታቸው ካሳ	እወድሻለሁ		73785356	# was 1976: 'Ene Ewedishalehu', track A2 of his Tango cassette 'Getachew Kassa 1982' (Discogs release 37633554); Mirkuzz dates the same 9-minute recording 1982 E.C. // 1989 G.C., with Ethio Stars. Ethiopian-calendar date only; a 1980s recording, not a 1970s one.
+1989	Getachew Kassa	Amesegnalehu	ጌታቸው ካሳ	አመሰግናለሁ		73785367	# was 1974: track A1 of his Tango Music Shop cassette 'Getachew Kassa 1982' (Discogs release 37633554), an Ethiopian year: Mirkuzz dates its Ene Ewedishalehu and Liwsedish And Ken 1982 E.C. // 1989 G.C., backed by Ethio Stars. A 1980s recording, not a 1970s one.
+1966	Mulatu Astatke	Mascaram Setaba	ሙላቱ አስታጥቄ	መስከረም ሲጠባ		349369701	# confirmed · first released on Afro-Latin Soul Vol. 1, Mulatu Astatke & His Ethiopian Quintet, Worthy Records W-1014, 1966 (track A2, 1:47). Deezer plays the longer 1972 recording from Mulatu of Ethiopia (Worthy W-1020, Discogs 660346).
+1972	Mulatu Astatke	Munaye	ሙላቱ አስታጥቄ	ሙናዬ		224807	# confirmed · first issued on the Amha LP Ethiopian Modern Instrumentals Hits (AELP 10), June 1972, per the Éthiopiques 4 booklet (Discogs 724788, 2055359). Was 1970.
+1974	Mulatu Astatke	Gubelye	ሙላቱ አስታጥቄ	ጉበልዬ		224808	# confirmed · Yekatit – Ethio Jazz LP, Amha AELP 90, 1974 (Discogs 5139670); its catalogue number falls between Amha's November 1973 and October 1974 LPs. The Éthiopiques 4 booklet's 'September 1972' does not fit that order. Was 1970.
+1972	Mulatu Astatke	Dewel	ሙላቱ አስታጥቄ	ደወል		224815	# confirmed · Mulatu of Ethiopia LP, Worthy Records, 1972 (Discogs 660346; the Éthiopiques 4 booklet agrees). Was 1973.
+1974	Mulatu Astatke	Yekatit	ሙላቱ አስታጥቄ	የካቲት		224810	# confirmed · title track of Yekatit – Ethio Jazz, Amha AELP 90, 1974 (Discogs 5139670), issued between Amha's November 1973 and October 1974 LPs. The Éthiopiques 4 booklet's 'September 1972' does not fit that order.
+1974	Mulatu Astatke	Netsanet	ሙላቱ አስታጥቄ	ነፃነት		224811	# confirmed · Yekatit – Ethio Jazz LP, Amha AELP 90, 1974 (Discogs 5139670), issued between Amha's November 1973 and October 1974 LPs. The Éthiopiques 4 booklet's 'September 1972' does not fit that order.
+1969	Mulatu Astatke	Yegelle Tezeta	ሙላቱ አስታጥቄ	የገሌ ትዝታ		3313948541	# confirmed · Amha single AE 160 (Girma Beyene's Yebekagnale / Mulatu's Yegele Tezeta), 1969 (Discogs 5733086); the Éthiopiques 4 booklet dates it 1969. Was 1974.
+1975	Hailu Mergia	Tezeta	ኃይሉ መርጊያ	ትዝታ		1352393722	# confirmed · Tezeta cassette with the Walias Band, 1975 (℗ 1975 on the Awesome Tapes From Africa reissue, Discogs 18978370; Discogs' master entry says 1976).
+2015	Hailu Mergia	Yegle Nesh	ኃይሉ መርጊያ	የግሌ ነሽ		100357738	# confirmed · first issued on the Philophon 7-inch Yegle Nesha / Hailu, released 8 June 2015 (Discogs 7076935; Deezer single of the same date); on none of his 1970s–80s records. Was 1977.
+1985	Hailu Mergia	Sewnetuwa	ኃይሉ መርጊያ	ሰውነቷ		67882200	# confirmed · Shemonmuanaye cassette, Kaifa Records / Tango Music Shop, 1985 (1977 E.C.), Discogs release 26840891; Deezer plays the 2013 Awesome Tapes reissue.
+1985	Hailu Mergia	Laloye	ኃይሉ መርጊያ	ላሎዬ		67882201	# confirmed · Shemonmuanaye cassette, Kaifa Records / Tango Music Shop, 1985 (1977 E.C.), Discogs release 26840891; Deezer plays the 2013 Awesome Tapes reissue.
+2018	Hailu Mergia	Lala Belu	ኃይሉ መርጊያ	ላላ በሉ		453331952	# confirmed · Deezer album Lala Belu (Awesome Tapes From Africa) 2018-02-23; Discogs release 11616930 gives Awesome Tapes From Africa's release as 9 March 2018.
+2018	Hailu Mergia	Addis Nat	ኃይሉ መርጊያ	አዲስ ናት		453331922	# confirmed · Deezer album Lala Belu (Awesome Tapes From Africa) 2018-02-23; Discogs release 11616930, 9 March 2018; Awesome Tapes From Africa channel posted the track 2018-03-13.
+1969	Girma Beyene	Enken Yelelebesh	ግርማ በየነ	እንከን የለለብሽ		138744463	# confirmed · Amha single AE 210 (Enken Yelelebish / Ene Negne By Manesh), 1969 (Discogs 1892859); on Éthiopiques 8. Was 1970. Deezer plays the 2017 re-recording.
+1969	Girma Beyene	Ene Negn Bay Manesh	ግርማ በየነ	እኔ ነኝ ባይ ማነሽ		138744459	# confirmed · Amha single AE 210 (Enken Yelelebish / Ene Negne By Manesh), 1969 (Discogs 1892859); on Éthiopiques 8. Was 1970. Deezer plays the 2017 re-recording.
+1972	Girma Beyene	Ewnet Yet Lagegnesh	ግርማ በየነ	እውነት የት ላገኝሽ		3313948531	# confirmed · the instrumental Deezer plays is from the Amha LP Ethiopian Modern Instrumentals Hits (AELP 10), 1972 (Discogs 2055359); the Éthiopiques 4 booklet dates that LP June 1972. The Éthiopiques 1 booklet gives 6/1970 for the same track.
+1969	Girma Beyene	Set Alamenem	ግርማ በየነ	ሴት አላምንም		138744475	# confirmed · Amha single AE 170 (Set Alameneme / Yetesfa Tezeta), 1969 (Discogs 5733107); on Éthiopiques 8. Deezer plays the 2017 Éthiopiques 30 re-recording.
+1972	Getatchew Mekurya	Shellela	ጌታቸው መኩሪያ	ሸለላ		224950	# confirmed · Negus of Ethiopian Sax LP, Philips Ethiopia 1972; the Éthiopiques 14 reissue dates every track but one 1972 (Discogs 738557).
+1972	Getatchew Mekurya	Almaz Yeharerwa	ጌታቸው መኩሪያ	አልማዝ የሀረርዋ		224954	# confirmed · Negus of Ethiopian Sax LP, Philips Ethiopia 1972; the Éthiopiques 14 reissue dates every track but one 1972 (Discogs 738557).
+1975	Asnakech Worku	Gelayewa	አስናቀች ወርቁ	ገላዬዋ		2552340932	# no dated source: from her joint cassette with Getamesay Abebe, Tizetawoch (Ibex Music Shop, undated, no tracklist; Discogs 16210013), on Deezer as 'Tizita.' (2023); not on her 1974 Philips or 1976 Kaifa LPs. Check who sings it: Deezer credits both. Year kept.
+1971	Menelik Wossenachew	Tezeta	ምኒልክ ወስናቸው	ትዝታ		625925052	# confirmed · Amha single AE 350 (Belew Bedubaye / Tezeta), November 1971 (Discogs 1892844); on Éthiopiques 10 and BBE's Taitu, which Deezer plays. Was 1968.
+1995	Menelik Wossenachew	Fikir Ayarejim	ምኒልክ ወስናቸው	ፍቅር አያረጅም		2064669357	# was 1975: first documented on his CD Gash Jembere, Ethio-Grooves, US, 1995 (Discogs release 21438955), same ~6:15 take; not among his 1967-74 Philips or Amha 45s. Deezer's 15 Aug 1978 is a placeholder (his Gash Jembere single is dated 1975). The CD is partly a compilation.
+1992	Tewodros Tadesse	Bemela Besebeb	ቴዎድሮስ ታደሰ	በመላ በሰበብ		1682041837	# no dated source found: Deezer has it on his own 'Emeye Ethiopia' (2022), uploaded as the full album 'Bemela Besebeb' (Hageregna Musica); not on his tracklisted Discogs or Mainz cassettes, not among Mirkuzz's dated uploads, not named in his Music in Africa profile. Year kept.
+1987	Tewodros Tadesse	Fikren Ende Kelal	ቴዎድሮስ ታደሰ	ፍቅሬን እንደ ቀላል		2079628807	# was 1990: track A2 ፍቅር እንደቀላል of his Ambassel cassette titled '1979' (Ethiopian calendar, 1986/87; Discogs release 17258494, a later reissue dated 1987), with Sadula; Mirkuzz also dates the song 1979 E.C. Ethiopian-calendar dates only.
+2005	Teshome Mitiku	Yegna Neger	ተሾመ ምትኩ	የኛ ነገር		1771460	# Only distributor dates: Deezer T & Z Recordings 2005-02-01 and The Orchard's '℗ 2005 mitiku publishing' (YouTube 5B2RJ5FGboA); earliest fan upload 2012. Discogs lists Teshome Mitiku's Topia's Deluge (2006) and Zemen (2008) but not Yegna Neger.
+1989	Aster Aweke	Tizita	አስቴር አወቀ	ትዝታ		11324131	# confirmed · Tizita is on Aster, Triple Earth 1989 (Columbia 1990), Discogs master 430076; Deezer plays that album.
+1991	Aster Aweke	Kabu	አስቴር አወቀ	ካቡ		69159104	# confirmed · title track of Kabu, Columbia 1991 (Discogs master 816084); Deezer plays the Aster's Ballads (2004) take.
+1991	Aster Aweke	Hagerae	አስቴር አወቀ	ሀገሬ		380916341	# the Electra cassette titled '1983' (Discogs release 9182845, 8 tracks like Kabu's 2017 'Hagerae 1983'); Electra's Aster tapes carry Ethiopian years ('Lemedik Woi 1982' = 1989/90 in Mainz), so 1990/91. But Mirkuzz dates a cover of its track Yeteretahulet to 1976 E.C. (1983/84): check by hand.
+2001	Aster Aweke	Sugar	አስቴር አወቀ	ስኳር		69159119	# confirmed · Sikuar (Sugar), Kabu Records, 2001 (Discogs master 2384410); en.wikipedia Aster Aweke lists Sugar (2001); the Deezer Kabu release is dated 2001.
+2006	Aster Aweke	Fikir	አስቴር አወቀ	ፍቅር		88383717	# confirmed · Fikir, 2006 (Discogs master 913843; Electra CD 8968243 and cassette 28537621 both dated 2006); en.wikipedia Aster Aweke lists Fikir (2006).
+2010	Aster Aweke	Checheho	አስቴር አወቀ	ቼቼሆ		70994484	# confirmed · Deezer album Checheho (Kabu Records) 2010-12-20; English Wikipedia's Aster Aweke album table lists Checheho, 2010, Kabu Records; fan upload by mesfinyimam 2010-12-24.
+2011	Aster Aweke	Yeneta	አስቴር አወቀ	የኔታ		72591567	# confirmed · Deezer single Yeneta (Kabu Records) 2011-12-15; official upload on Aster Aweke's channel 2011-12-16 describing it as her second single, released December 2011.
+2013	Aster Aweke	Ewedihalehu	አስቴር አወቀ	እወድሃለሁ		77203024	# confirmed · Deezer album Ewedihalehu (Kabu Records) 2013-09-10; English Wikipedia's Aster Aweke album table lists Ewedhalew, 2013, Kabu Records.
+2019	Aster Aweke	Nafkot	አስቴር አወቀ	ናፍቆት		716743492	# confirmed · Deezer album Chewa (Kabu Records) 2019-07-23; official video on Aster Aweke's channel uploaded 2019-07-24; English Wikipedia lists Chewa as her 2019 album.
+2021	Aster Aweke	Emiye Ethiopia	አስቴር አወቀ	እምዬ ኢትዮጵያ		1194453182	# confirmed · Deezer single Emiye Ethiopia (Kabu Records) 2021-01-07; official video on Aster Aweke's YouTube channel uploaded 2021-01-06.
+2023	Aster Aweke	Soba	አስቴር አወቀ	ሶባ		2150636367	# confirmed · Title track of the album Soba: Deezer (Sewasew Multimedia) 2023-02-05; the label's Sewasew Multimedia channel posted the album's Temeles video 2023-01-28 and a 'new album Soba' clip 2023-01-31; Ethio Music uploaded this track 2023-01-28. Wikipedia lists Soba as 2023.
+1986	Neway Debebe	Yefikir Gedam	ነዋይ ደበበ	የፍቅር ገዳም		77341882	# was 1990: a song of his second cassette (Maebel Naw, 1978 E.C. per English Wikipedia = 1985/86); Mirkuzz on YouTube dates it 1978 E.C.; Kaifa's 'Vol. 2 - 1986' cassette (Discogs 16203094) has no tracklist. Ethiopian-calendar evidence only. Deezer plays Nahom's 2007 Best of re-recording.
+1988	Neway Debebe	Tey Enekebaber	ነዋይ ደበበ	ተይ እንከባበር		2867518462	# no tracklisted source names it. Deezer has it on Evangadi's 1985-1995 Collection Vol. 2 among songs from his shared cassettes (Anchin Lema, Hulum Bitebaber from 3 Flowers; Alekech Bekimisha from 4 Young Stars), which Mirkuzz dates 1977-1984 E.C. (1984-1992). Year kept.
+1998	Neway Debebe	Wey Genzeb	ነዋይ ደበበ	ወይ ገንዘብ		2672331792	# confirmed · was 1993: track 9 'Genzeb' of the CD Hageren Alresam, Maebel Production, US, 1998 (Discogs release 21493348); Evangadi's 1985-1995 Collection reproduces that CD's ten tracks in order as tracks 41-50, Wey Genzeb at 49. Mirkuzz dates the CD's songs 1990 E.C. (1997/98).
+1986	Neway Debebe	Ayaya	ነዋይ ደበበ	አያያ		2733818921	# was 1995 (a guess): every identifiable song on Nahom's 2007 Best of (Deezer's source) is from his 1977-79 E.C. cassettes; a 2009 YouTube upload (robelthag) titles it 'Ayaya (fikir yegara new)', and Sheromeda's upload dates Yegara New Fikir 1978 E.C. (1985/86, Roha Band, Tango). Identification unverified.
+1998	Neway Debebe	Hageran Aleresam	ነዋይ ደበበ	ሀገሬን አልረሳም		2672331712	# confirmed · was 1990: title track of the CD Hageren Alresam, Maebel Production, US, 1998 (Discogs release 21493348, master 2973934); English Wikipedia lists it as his 1998 Maebel album, made in the US after he emigrated in 1991. Mirkuzz on YouTube dates its other tracks 1990 E.C. (1997/98).
+2006	Ephrem Tamiru	Mulu Gojam	ኤፍሬም ታምሩ	ሙሉ ጎጃም		78276594	# confirmed · was 1988 (a guess): track 5 of Hualla Endaykocheshe, Nahom Records CD, US, 2006 (Discogs release 10380661); full-album uploads on YouTube (Munier Tube) date it 1999 E.C. (2006/07). Not on any tracklisted earlier cassette (Neylign 1983, 1977, 1981, Shegeye, 1985 E.C., Demo Jemeregne, 2000 CD).
+2006	Ephrem Tamiru	Walshesa Bayne	ኤፍሬም ታምሩ			78276595	# confirmed · was 1990 (a guess): track 6 of Hualla Endaykocheshe, Nahom Records CD, US, 2006 (Discogs release 10380661); YouTube full-album uploads date it 1999 E.C. (2006/07). Not on any tracklisted earlier cassette of his on Discogs; its lyric is an emigrant's longing.
+2006	Ephrem Tamiru	Negresh Nebere	ኤፍሬም ታምሩ	ነግሬሽ ነበረ	https://www.youtube.com/watch?v=PQ_ozPQvGWM	78276601	# confirmed · was 1992 (a guess): track 12 'Negriesh Neber' of Hualla Endaykocheshe, Nahom Records CD, US, 2006 (Discogs release 10380661); YouTube full-album uploads date it 1999 E.C. (2006/07). Not on any tracklisted earlier cassette of his on Discogs.
+2007	Ephrem Tamiru	Balgeru	ኤፍሬም ታምሩ	ባልገሩ		77338220	# confirmed · Balgeru Vol. 3 (Ephrem Tamiru with Gossaye Tesfaye) opens Nahom Favorite Vol. 16, Nahom Records CD, 2007 (Discogs release 14168995), the compilation Deezer plays (dated 2011, an upload date). Earliest documented release. Was 2008.
+2015	Ephrem Tamiru	Yefikirin Kitat	ኤፍሬም ታምሩ	የፍቅርን ቅጣት		109752670	# confirmed · Deezer album The Reunion (Nahom Records) 2015-09-25; Discogs release 9069138, Ephrem Tamiru & Roha Band 'The Reunion Endegena', CD, Nahom Records, 2015; News ET Social upload of the reunion single 2015-04-12.
+2005	Kuku Sebsibe	Anarejim	ኩኩ ሰብስቤ	አናረጅም		72051035	# confirmed · was 1990 (a guess): track 12 'Anarejm' of her album Tzita, Nahom Records NR1362, CD, US, 2005 (Discogs release 10397681), recorded with Express Band; English Wikipedia lists Tizita as 2005. Not on her three 1980s Electra cassettes (Mainz).
+2005	Kuku Sebsibe	Welo	ኩኩ ሰብስቤ	ወሎ		2702754042	# confirmed · was 1988 (a guess): track 8 of her album Tzita, Nahom Records NR1362, CD, US, 2005 (Discogs release 10397681), made with Express Band after she returned from the US; English Wikipedia also lists Tizita as 2005. Not on her 1980s Electra cassettes (Mainz).
+2005	Kuku Sebsibe	Tizita	ኩኩ ሰብስቤ	ትዝታ		2702753992	# was 1992 (a guess): this recording is from her album Tzita (Nahom NR1362, 2005, Discogs release 10397681; two Tizitas on it). Unconfirmed only because she also sang a Tizita on the undated 1980s Electra cassette Akal Demame (Mainz); same song not checked by ear.
+1985	Netsanet Melesse	Doju	ነፃነት መለሰ	ዶጁ		2166837177	# was 1998: title song of her first cassette Yilal Doju with Walias Band; Mirkuzz's full-album upload dates it 1977 E.C. (1984/85), Addis Standard (2013) says her debut Yelal Doju came out in 1983. Deezer's 1998 'Doju' is a compilation. Ethiopian-calendar date only; the two sources differ.
+1992	Netsanet Melesse	Shegeye	ነፃነት መለሰ	ሸጌዬ		2166837097	# was 1998: Deezer's 'Doju' (15 Aug 1998) is a compilation (it holds the 1977 E.C. Doju). A different take is on Spirit of Sheba (Shanachie), whose distributor metadata on YouTube gives 'Released on: 1992-01-01' (Deezer: 2005); she uploaded it in 2017 as 'old collection'. 1992 is an upper bound.
+1992	Netsanet Melesse	Minew Jal	ነፃነት መለሰ	ምነው ጃል		1357110242	# Dodge (Netsanet Mellesse and the Wallias Band), LP, Blue Moon/Dona Wana, France, 1992 (Discogs release 19348828), track B1; Deezer's Shanachie Spirit of Sheba (2005) has the same ten tracks. An undated Ethiopian cassette with Walias Band (Discogs 37587219) also has it, so possibly older. Was 2005.
+2013	Netsanet Melesse	Feker	ነፃነት መለሰ	ፍቅር		118958200	# Was 2016. Deezer's Liben (Zefens, 2016-02-14) is a re-upload; iTunes dates Liben 2013-12-01 and a YouTube upload naming 'Liben' dates 2013-03-26. Addis Standard reports a new Netsanet Melesse album on Adika in early 2013 but the snippet seen does not name it.
+2001	Hamelmal Abate	Azenkubih	ሐመልማል አባተ	አዘንኩብህ		1068555012	# confirmed · Sedet, Amel Productions CD HAMEL1, 2001 (Discogs release 23522624, master 1841223, track 5 Azenkubih); am.wikipedia album article 'ስደት (አልበም)' gives 2001 G.C.; Electra cassette 15223132 also 2001.
+2006	Hamelmal Abate	Linur	ሐመልማል አባተ	ልኑር		1043559622	# confirmed · Gize Mizan, Amel Productions CD marked '© 2006' (Discogs release 8724976, master 3272533), track 10 Linur; am.wikipedia 'ጊዜ ሚዛን' dates it 1998 E.C. (Sep 2005 to Sep 2006). Deezer's 2005-06-01 is the 2020 re-release's date. Was 2005.
+2019	Hamelmal Abate	Kumneger	ሐመልማል አባተ	ቁምነገር		749986612	# confirmed · Deezer album Kemsha (Amel Production) 2019-09-02; Hamelmal Abate's channel posted the track 2019-09-06 announcing her latest album Kemsha.
+2019	Hamelmal Abate	Gadissie	ሐመልማል አባተ	ጋዲሴ		749986722	# confirmed · Deezer album Kemsha (Amel Production) 2019-09-02; Hamelmal Abate's channel posted the track 2019-09-06 announcing her latest album Kemsha.
+1984	Tsehaye Yohannes	Be Sewlay Sew Mewded	ፀሐዬ ዮሐንስ	በሰው ላይ ሰው መውደድ		995397402	# Deezer's Fenchetwa album, the artist's own release dated 7 July 1984, and Wikipedia say 1984. The Fenchetwa cassette whose cover reads 1975 E.C. (1982/83, Discogs master 4083697) does not list this song. One date, so unconfirmed.
+1996	Tsehaye Yohannes	Yalanchema	ፀሐዬ ዮሐንስ	ያላንችማ	https://www.youtube.com/watch?v=R5udIwJ--oM	1046852632	# confirmed · Yalanchema, Ethio Sound cassette 1996 (Discogs release 15224920; Wikipedia).
+1996	Tsehaye Yohannes	Yetnebersh	ፀሐዬ ዮሐንስ	የትነበርሽ		1046852642	# confirmed · Yalanchema, Ethio Sound cassette 1996 (Discogs release 15224920; Wikipedia).
+2007	Tsehaye Yohannes	Blen	ፀሐዬ ዮሐንስ	ብሌን	https://www.youtube.com/watch?v=QNLw_n_WpDw	698275492	# confirmed · Sakilgne, CD on Round 10, 2007 (Discogs release 28634494); am.wikipedia 'ሳቂልኝ' lists ብሌን as track 3; en.wikipedia dates Sakilegn 2007; official video says 'Originally filmed in 2007'.
+2007	Tsehaye Yohannes	Sakilgne	ፀሐዬ ዮሐንስ	ሳቂልኝ		698275582	# confirmed · Sakilgne, CD on Round 10, 2007 (Discogs release 28634494); en.wikipedia Tsehaye Yohannes: Sakilegn (2007); am.wikipedia album article 'ሳቂልኝ' gives 1999 E.C.
+2014	Tsehaye Yohannes	Betesfa	ፀሐዬ ዮሐንስ	በተስፋ		2601580672	# Deezer album Yenieta (Nahom Records) 2014-12-24, CD Baby P 2014; English Wikipedia lists Yeneta, 2014; but Discogs release 14156590 is a 2015 Nahom Records CD and uploads from January and May 2015 call it 2014 and 2015. Disputed, 2014 vs 2015.
+2000	Aregahegn Worash	Adey Ababa	አረጋኸኝ ወራሽ	አደይ አበባ		3630595312	# YouTube uploads by Classic Ethiopian music (qZcWipgq0dw) and Global Music Media (t97mfSyZKTw) say Adey Abeba is from Aregahegn's 9th album, released 1992 E.C. (Sep 1999 to Sep 2000); am.wikipedia shows a Vol 9 cover. Deezer copy is a 2025 self-upload. Ethiopian-calendar date only. Was 2001.
+1985	Aregahegn Worash	Sesete	አረጋኸኝ ወራሽ			3090401541	# was 1999 (a guess): Mirkuzz on YouTube says the album with Sisite (ስስቴ), backed by Roha Band, went on sale Sene 28, 1977 E.C. = 5 July 1985, and dates its Zelel Zelel 1977 E.C.; Deezer's Zelel Zelel (2024) is that album. One curator's Ethiopian-calendar date; no tracklisted cassette found.
+1996	Martha Ashagari	Zebnanu	ማርታ አሻጋሪ			69821122	# confirmed · track 9 of Child's Love (Ye-Lij Fikir), AIT Records AIT006, CD, US, 1996 (Discogs release 10331113); Mirkuzz dates the song 1988 E.C. // 1996 G.C. (music Abebe Birhane, words Yilma Gebreab).
+2001	Tigist Bekele	Teretahu	ትዕግስት በቀለ	ተረታሁ		79904844	# confirmed · Sakitaw, Nahom Records CD, 2001 (Discogs release 10375841, track 1 Teretahu); Deezer Nahom release dated 2001-02-04.
+2001	Tigist Bekele	Gella	ትዕግስት በቀለ	ገላ		79904860	# confirmed · Sakitaw, Nahom Records CD, 2001 (Discogs release 10375841, track 9 Gella); Deezer Nahom release dated 2001-02-04.
+2026	Tigist Bekele	Mela	ትዕግስት በቀለ	መላ		4103200381	# Deezer EP Mela (Tonos Records, CD Baby, p 2026 Gregory Burk) 2026-07-12; the YouTube Topic copy (2026-07-11) is the same distribution and Tonos-Records' uploads are unavailable. No earlier issue found, but the ISRC ITA9F2300033 was registered in 2023. Needs an official video or press.
+1988	Bezawork Asfaw	Bird Bird Yilegnal	በዛወርቅ አስፋው	ብርድ ብርድ ይለኛል		2818927202	# was 1998 (a guess): on the joint Bezawork Asfaw / Elias Tebabel album that Deezer has as 'Fiker Yegara New' (2024); Mirkuzz dates its Keftftua Fitua ca. 1980 E.C. (1987/88), and Bezawork was already billed among singers 'from America' on Ambassel's 1984 E.C./1992 tape. Approximate.
+1988	Bezawork Asfaw	Yewoyen Chimakie	በዛወርቅ አስፋው			2818927272	# A duet with Elias Tebabel (CD Baby credit) from their album Fiker Yegara New; Yared Bekele's upload (t7VpllsxP9A) dates its Bird Bird Yilegnal 1980 E.C. (1987/88). Discogs lists an undated Elias and Bezawork cassette (master 3959438). Deezer's is a 2024 self-upload. Was 2003 (a guess).
+1988	Bezawork Asfaw	Keftftwa Fitwa	በዛወርቅ አስፋው			2818927242	# was 1996 (a guess): sung by Elias Tebabel, not Bezawork Asfaw; Deezer's 'Fiker Yegara New' (2024) is their joint album (cf. Discogs master 3959438, no tracklist). Mirkuzz dates Elias Tebabel's Keftftua Fitua ca. 1980 E.C. (1987/88), same 6:52 recording. Approximate E.C. date only.
+2011	Yehunie Belay	Bizoru	የሁኔ በላይ			4265331562	# Deezer single Bizoru (Yehunie Belay) 2011-09-15, but his own Deezer dates sit on Ethiopian New Year (Zegelila also 09-15) and look like E.C. placeholders; the official video on Yehunie Belay Plus (2012-10-20) is titled 2012. Sources disagree, 2011 vs 2012.
+2003	Yehunie Belay	Zegelila	የሁኔ በላይ	ዘገሊላ	https://www.youtube.com/watch?v=yV5-fE192og	374771841	# Was 2017. Title track of Zegelila: Yehunie Belay's own channel calls the full album 1996 E.C. (Sept 2003 to Sept 2004) and his Deezer upload is dated 2003-09-15, the E.C. New Year, so likely derived from it. Official video posted 2011-10-25. Unconfirmed, may be 2004.
+2019	Yehunie Belay	Awoy Nuro	የሁኔ በላይ	አዋይ ኑሮ		985451432	# confirmed · Deezer single Awoy Nuro (Yehunie Belay) 2019-11-18; official video on Yehunie Belay's channel uploaded 2019-07-03 as new 2019 music.
+2023	Yehunie Belay	Tegegnech	የሁኔ በላይ	ተገኘች		2261489827	# confirmed · Deezer single Tegegnech 2023-01-30; Yehunie Belay's official YouTube channel uploaded 'Tegegnech - Ethiopian Wedding Song (2023)' on 2023-01-04.
+2006	Fikeraddis Nekatibeb	Kunama	ፍቅርአዲስ ነቃጥበብ	ኩናማ		3166274931	# Track 6 of Fikeraddis's album Embi (on Deezer and YouTube only as 2022 to 2025 uploads); no dated source found on Discogs, Wikipedia or Music in Africa. A TesfaTube upload of 'Embi alegn' (2016-02-24) bounds it at 2016 or earlier. Deck guess kept.
+1997	Fikeraddis Nekatibeb	Yekolo Temari	ፍቅርአዲስ ነቃጥበብ	የቆሎ ተማሪ		3218704381	# Nile Music issued the 10-track album with Yekolo Temari as '1989' (i.e. 1989 E.C.), dated 1997-07-30 on Deezer (album 1067125331); a second Nile copy says 2001 and a TuneCore one 2003. No Discogs or press date. Was 2009 (a guess); Ethiopian-calendar evidence only.
+2015	Fikeraddis Nekatibeb	Enat	ፍቅርአዲስ ነቃጥበብ	እናት		3121635091	# Was 2012 (guess). On Fikeraddis Nekatibeb's album Misikir: CD Baby upload says P 2015 Nahom Records, released 2015-09-07; DistroKid reissue says released 2015-09-06; Nahom Records' 2019 upload names the album. No independent dated source.
+2013	Shewandagne Hailu	Ayresat	ሸዋንዳኝ ኃይሉ	አይረሳት		2942529221	# confirmed · Sitotash, Electra CDr, 2013, sponsored by St. George Beer (Discogs release 9395746, track 10 Ayresat); Nahom CD 2013 (Discogs 14151427); CD Baby release 2013-08-06. Was 2008 (a guess).
+2003	Shewandagne Hailu	Yekerebign	ሸዋንዳኝ ኃይሉ	የቀረብኝ		63055505	# Was 2012. Track of Sik Alegn, whose label metadata on YouTube says released 2003-01-01 and iTunes 2003-07-15; Deezer's 2012-12-16 is a later upload. A channel gives 1996 E.C. (Sept 2003 to Sept 2004). No authoritative dated source.
+2003	Shewandagne Hailu	Eyat Eyat Yilegnal	ሸዋንዳኝ ኃይሉ	እያት እያት ይለኛል		63055500	# Was 2012. Deezer's Sik Alegn (Habesha poetics, 2012-12-16) is a later upload: the label's YouTube metadata says released 2003-01-01, iTunes 2003-07-15, and a 2015 full-album upload calls it his 2003 first album. Another channel says 1996 E.C. (Sept 2003 to Sept 2004).
+2007	Abinet Agonafir	Yezarene	አብነት አጎናፍር	የዛሬን		125734990	# Was 2015. Abinet Agonafir's official lyric video (2026-02-13) tags it #weleta, his album Wuleta, 2007 per EverybodyWiki; a YouTube upload titled Yezaren dates 2008-12-01; iTunes dates the Nahom Favorites Vol. 35 carrier 2007-04-17. No dated tracklist ties it to Wuleta.
+2019	Abinet Agonafir	Ye Ewunet Menged	አብነት አጎናፍር	የእውነት መንገድ		683167372	# confirmed · Deezer single Ye Ewunet Menged (Minew Shewa Entertainment) 2019-05-16; Minew Shewa Tube official video uploaded the same day, 2019-05-16.
+2020	Abinet Agonafir	Ho Bye Metahu	አብነት አጎናፍር	ሆ ብዬ መጣሁ		1072177302	# confirmed · Deezer single Ho Bye Metahu (Nahom Records) 2020-09-04; Nahom Records Inc official video uploaded 2020-09-05.
+2003	Abinet Agonafir	Lene Kalesh	አብነት አጎናፍር	ለኔ ካልሽ		3605236752	# From his debut album Dibik Wubet (Hidden Beauty): his channel's 'Dibek Wubet Non Stop' (2026-02-22) has it at 15:09. EverybodyWiki bio dates the album late 2003 (AIT Records), iTunes 2003-01-01; Deezer 2023-11-21 is a re-upload. Was 2023. No primary dated source for 2003.
+2012	Tadesse Alemu	Sela	ታደሰ ዓለሙ	ሰላ		1278629382	# Only source is Deezer/CD Baby's self-titled Tadesse Alemu album, P 2012, released 2012-02-01. That album also holds Erikum, which was on YouTube by 2007, so it may collect older songs; no upload or press dates Sela itself.
+2007	Tadesse Alemu	Erikum	ታደሰ ዓለሙ	እሪኩም		1278629422	# Was 2012. Deezer's 2012 self-titled album is not its first release: YouTube upload by deray123 of Tadesse Alemu - Erikum dates 2007-04-15. Also on Electra's album Akal Gela (Deezer upload 2026, original year not shown). Release year itself not found; 2007 is the latest possible.
+2004	Abonesh Adinew	Limitawey	አቦነሽ አድነው			942023102	# Bahilen (Electra cassette, Discogs release 28515544, track B5 Limtawey) is dated 1996 E.C. (Sep 2003 to Sep 2004) by am.wikipedia 'ባህሌን', citing Ethiopia's National Bibliography of music (Sene 1998 E.C.); Deezer self-upload says 2004-01-01. Ethiopian-calendar date only, so unconfirmed.
+2006	Abonesh Adinew	Balageru	አቦነሽ አድነው	ባላገሩ		117405134	# Was 2016. Deezer's Balageru (Zefens) 2016-01-20 is a re-upload: YouTube user ahnd posted Abonesh Adinew - Balageru on 2006-06-20. Release year itself not found; 2006 is the latest possible year, it may be earlier.
+2008	Abonesh Adinew	Gojame	አቦነሽ አድነው	ጎጃሜ		2831383822	# Track 9 of her album Zarem Endamna: the earlier DistroKid issue on her channel (uploaded 2020-04-23) says released 2008-01-01, and the title track was posted as 'Abonesh new music' by BokuAnerProduction 2008-05-06. Deezer 2024-05-26 is a re-upload. Was 2024. No official or press date.
+2003	Rahel Yohannes	Arada	ራሔል ዮሐንስ	አራዳ		77012619	# confirmed · Menelik, AIT Records CD AIT023, 2003 (Discogs release 10340487, master 1687289, track 7 Arada); en.wikipedia Rahel Yohannes: her last album Menelik, 2003, AIT Records.
+2003	Rahel Yohannes	Hagere Ethiopia	ራሔል ዮሐንስ	ሀገሬ ኢትዮጵያ		77012612	# confirmed · Menelik, AIT Records CD AIT023, 2003 (Discogs release 10340487, master 1687289, track 1 Hagere Ethiopia); en.wikipedia Rahel Yohannes: Menelik (2003) on AIT Records.
+2009	Kassahun Taye	Megala	ካሳሁን ታዬ	መጋላ		145148606	# confirmed · Ytemedal Berie, Nahom Records CD, 2009 (Discogs release 10394937, barcode 4 23798 00690 8), the same release Deezer dates 2009-05-12; YouTube upload by mr2006ful on 2009-12-31.
+2017	Kassahun Taye	Gonder	ካሳሁን ታዬ	ጎንደር		3000373431	# Minew Shewa Tube official video 'Gonder' uploaded 2017-10-16 ('New Ethiopian Music 2017', 14.8M views; 6:41 vs Deezer 6:26). Deezer single (Amuseio) 2023-05-05 is a later upload. Was 2023. Needs a second 2017 source; a 2009 fan upload 'Gondar' (5:35) may be an older, different song.
+1995	Dawit Mellesse	Lottery	ዳዊት መለሰ	ሎተሪ		3586238421	# confirmed · title track 'Lottery (Fiker Belottery)' of Lottery, AIT Records AIT003, CD, 1995 (Discogs release 9022773); also on AIT's 1999 compilation The Sounds of Contemporary Ethiopian Music. Deezer: 3 March 1995; Mirkuzz: 1987 E.C. // 1995 G.C.
+1995	Dawit Mellesse	Yene Shega	ዳዊት መለሰ	የኔ ሸጋ		3586238491	# confirmed · track 9 of Lottery, AIT Records AIT003, CD, 1995 (Discogs release 9022773); the artist's own Deezer release is dated 3 March 1995, and Mirkuzz dates the album 1987 E.C. // 1995 G.C.
+1999	Dawit Mellesse	Kunjina	ዳዊት መለሰ	ኩንጂና		3585710471	# confirmed · track 3 of Anchin New, AIT Records AIT017, CD, US, 1999 (Discogs release 10335394, master 3255997); his own YouTube channel calls it his 3rd album, 1999 (1991 E.C.); Deezer: 9 June 1999.
+2003	Dawit Mellesse	Endet Lichal	ዳዊት መለሰ	እንዴት ልቻል		3585797121	# confirmed · And Ken (አንድ ቀን), AIT Records CD, 2003 per am.wikipedia album article 'አንድ ቀን' (source: CD cover, written by 2014), track 3 እንዴት ልቻል; Deezer self-upload Andiken dated 2003-10-16; Dawit's channel calls it And Ken album track 03.
+2001	Teddy Afro	Abugida	ቴዲ አፍሮ	አቡጊዳ		77214345	# confirmed · Abugida, 2001 (Discogs master 3767280, track 8 Abugida); en.wikipedia Teddy Afro: debut Abugida in 2001; am.wikipedia 1993 E.C.
+2001	Teddy Afro	Lidjenet Alat	ቴዲ አፍሮ	ልጅነት አላት		77214346	# confirmed · Abugida, 2001 (Discogs master 3767280, track 9 Lizinet Alat); en.wikipedia Teddy Afro: debut Abugida in 2001; am.wikipedia 1993 E.C.; CD Baby release dated 2001-06-01.
+2001	Teddy Afro	Ayne Hulgeze	ቴዲ አፍሮ	አይኔ ሁልጊዜ		77214349	# confirmed · Abugida, 2001 (Discogs master 3767280, track 5 Ayine Hulgize); en.wikipedia Teddy Afro: debut Abugida in 2001; TuneCore release dated 2001-04-01.
+2005	Teddy Afro	Lambadina	ቴዲ አፍሮ	ላምባዲና	https://www.youtube.com/watch?v=tazS5K2Nr7k	608317192	# confirmed · Yasteseryal, Electra CDr 2005 (Discogs release 9803784, track 7 Lambadina) and Nahom CD 2005 (Discogs 10595136); en.wikipedia Teddy Afro: Yasteseryal released 2005; the official video's description names the album.
+2007	Teddy Afro	Abebayewosh	ቴዲ አፍሮ	አበባየሆሽ		607730102	# Was 2010. YouTube upload by AmalHeyatey of Teddy Afro's Abebayehosh dates 2008-04-11, so this New Year song came out by September 2007 at the latest. Deezer's 2011 single collection is a later release. Exact year not found and may be earlier.
+2005	Teddy Afro	Hab Dahlak	ቴዲ አፍሮ	ሀብ ዳህላክ	https://www.youtube.com/watch?v=FDaReu_HOzE		# confirmed · Was 2012; not on Tikur Sew. English Wikipedia lists Hab Dahlak on Yasteseryal Edition 2, released 2005; CD Baby has Habdahlak on Yasteseryal, P 2005, released 2005-06-01; Deezer Yasteseryal 2005-05-17.
+2014	Teddy Afro	Be 70 Dereja	ቴዲ አፍሮ	በ70 ደረጃ		607912042	# confirmed · Was 2015. English Wikipedia says Teddy Afro released Be 70 Dereja on 22 August 2014; his own channel posted it 2014-08-22 as 'New Single 2014'; iTunes 2014-08-21. Deezer's 2015-10-01 single is a later upload.
+2015	Teddy Afro	Korkuma Africa	ቴዲ አፍሮ	ቆርቁማ አፍሪካ		104588200	# confirmed · Deezer single Korkuma Africa (Teddy Afro) 2015-06-26; posted as a new 2015 single the same day, 2015-06-26, by Amleset Muchie's official channel (Teddy Afro's wife and video director).
+2017	Teddy Afro	Ethiopia	ቴዲ አፍሮ	ኢትዮጵያ		375746011	# confirmed · Deezer single Ethiopia 2017-04-14; Teddy Afro's channel posted the official single 2017-04-15; English Wikipedia dates the album Ethiopia 2 May 2017.
+2017	Teddy Afro	Sembere	ቴዲ አፍሮ	ሰምበሬ		375746021	# confirmed · Deezer album Ethiopia 2017-06-17; English Wikipedia gives the album's release as 2 May 2017; Teddy Afro's channel posted the video 2017-06-12 as track 2 of Ethiopia.
+2017	Teddy Afro	Mar Eske Tuwaf	ቴዲ አፍሮ	ማር እስከ ጧፍ		358490681	# confirmed · On Teddy Afro's album Ethiopia, officially released 2 May 2017 per English Wikipedia; iTunes dates the album 2017-05-02; official video on his channel 2017-09-11.
+2017	Teddy Afro	Marakiye	ቴዲ አፍሮ	ማራኪዬ		375746101	# confirmed · Deezer album Ethiopia 2017-06-17; English Wikipedia gives the album's release as 2 May 2017; Teddy Afro's channel posted it 2017-10-10 as track 10 of Ethiopia.
+2026	Teddy Afro	Sememene	ቴዲ አፍሮ	ሰመመኔ		3966670961	# confirmed · Deezer album Etorika 2026-04-17; official lyrics video 'Sememene (GuReggae) | Track 5' on Teddy Afro's YouTube channel uploaded 2026-04-16.
+2026	Teddy Afro	Samenew	ቴዲ አፍሮ			4111150771	# confirmed · Etorika album, April 2026: official lyrics video 'Samnew | Track 3' on Teddy Afro's YouTube channel uploaded 2026-04-16; the Deezer entry the game plays is a second Etorika upload dated 2026-06-22.
+1998	Gigi	Gera Geru	ጂጂ			9565066	# confirmed · One Ethiopia, 1998 (Wikipedia discography; Deezer's album is dated 1998), like the deck's other One Ethiopia rows.
+2001	Gigi	Guramayle	ጂጂ	ጉራማይሌ		12589943	# confirmed · Gigi (Guramayle), Palm Pictures, 2001 (Discogs master 682853, track 6 Guramayle); en.wikipedia Gigi (singer) lists it as 2001; Palm's YouTube uploads say 'From the album Gigi (Guramayle), 2001'.
+2001	Gigi	Abay	ጂጂ	አባይ		12589941	# confirmed · Gigi (Guramayle), Palm Pictures, 2001 (Discogs master 682853, track 4 Abay); en.wikipedia Gigi (singer) lists it as 2001; Deezer Palm release dated 2001-06-04.
+2001	Gigi	Zomaye	ጂጂ	ዞማዬ		12589947	# confirmed · Gigi (Guramayle), Palm Pictures, 2001 (Discogs master 682853, track 10 Zomaye); en.wikipedia Gigi (singer) lists it as 2001; Deezer Palm release dated 2001-06-04.
+2001	Gigi	Adwa	ጂጂ	አድዋ		12589950	# confirmed · Gigi (Guramayle), Palm Pictures, 2001 (Discogs master 682853, track 13 Adwa); en.wikipedia Gigi (singer) lists it as 2001; Palm's YouTube upload says 'From the album Gigi (Guramayle), 2001'.
+2001	Gigi	Gud Fella	ጂጂ	ጉድ ፈላ		12589938	# confirmed · Gigi (Guramayle), Palm Pictures, 2001 (Discogs master 682853, track 1 Gud Fella); en.wikipedia Gigi (singer) lists Gigi (Guramayle), 2001; am.wikipedia album article gives 1993 E.C.
+2001	Gigi	Nafeken	ጂጂ			12589949	# confirmed · Gigi (Guramayle), Palm Pictures, 2001 (Discogs master 682853, track 12 Nafekeñ); en.wikipedia Gigi (singer) lists it as 2001; Palm's YouTube upload says 'From the album Gigi (Guramayle), 2001'.
+2006	Gigi	Enoralehu	ጂጂ			12589993	# confirmed · Gold & Wax, Palm Pictures, 2006 (Discogs master 3524798, track 11 Enoralehu); en.wikipedia Gigi (singer) and am.wikipedia both give 2006. Deezer's 2009-04-07 is later; Enoralehu is not on the 2005 Ethiopian cassette of the album (Discogs 19499677).
+2007	Gossaye Tesfaye	Enateye	ጎሳዬ ተስፋዬ	እናትዬ		614506772	# confirmed · Satamagn Bila, Electra CDr, 2007 (Discogs release 12656697, track 5 እናትዬ; master 2359651); en.wikipedia Gossaye Tesfaye: released 2 July 2007. Deezer's 2018 and TuneCore's 2010 dates are re-uploads. Was 2006.
+2007	Gossaye Tesfaye	Tameryalesh	ጎሳዬ ተስፋዬ	ታመሪያለሽ		611477982	# confirmed · Was 2010. Track on Gossaye Tesfaye's album Satamagn Bila, released 2 July 2007 per English Wikipedia (citing Addis Journal, 2007-07-23), which lists Tameryalesh. Deezer's 2010-12-01 is a later TuneCore upload.
+2004	Gossaye Tesfaye	Ma Bengershe	ጎሳዬ ተስፋዬ			616050462	# confirmed · Was 2010. Track 11 of Gossaye Tesfaye's album Evangadi, whose other tracks match the list in English Wikipedia, which dates Evangadi (Evangadi Production) to 2004; TuneCore/iTunes date it 2004-05-01. Deezer's 2018-12-20 Evangadi is a re-upload.
+2019	Gossaye Tesfaye	Serk Addis	ጎሳዬ ተስፋዬ	ሰርቅ አዲስ		623766562	# confirmed · Deezer album Siyamish Yamegnal 2019-01-06; English Wikipedia gives the release as 6 January 2019; Gossaye Tesfaye's channel posted the official video 2020-02-15 'from his new album Siyamesh Yamegnal'.
+2003	Abdu Kiar	Merkato Sefere	አብዱ ኪያር	መርካቶ ሰፈሬ		1436560412	# confirmed · Was 2012. Title track of Abdu Kiar's debut album Merkato Sefere, 2003: Music in Africa artist profile ('In 2003 he released his first album Merkato Sefere') and Abdu Kiar's own channel (upload 2020-12-14) agree; fan upload 2006-07-01. Deezer's 2012-01-05 is a later upload.
+2015	Abdu Kiar	Wey Gude	አብዱ ኪያር	ወይ ጉዴ		109061964	# confirmed · Deezer album Tikur Anbessa (Abdu Kiar) 2015-10-03; Hope Music Ethiopia official audio uploaded 2015-10-02; Abdu Kiar's channel calls it a track of the 2015 album Tikur Anbessa.
+2015	Abdu Kiar	Tikur Anbessa	አብዱ ኪያር	ጥቁር አንበሳ		109061960	# confirmed · Deezer album Tikur Anbessa (Abdu Kiar) 2015-10-03; Arada Movies upload 'Abdu Kiar New album 2015 Tikur Anbessa' 2015-09-28; Abdu Kiar's own channel says the album was released in 2015.
+2021	Abdu Kiar	Weye Weye	አብዱ ኪያር	ወዬ ወዬ		1449103792	# confirmed · Deezer single Weye Weye (Abdu Kiar, with Melat Kelemework) 2021-07-30; Minew Shewa Tube official video uploaded 2021-07-30 and Abdu Kiar's channel 2021-07-31.
+1999	Madingo Afework	Aman New Goraw	ማዲንጎ አፈወርቅ	አማን ነው ጎራው		4344313602	# From Madingo's debut album Siyame Atahulat: his own visualizer names the album, Music in Africa (node 8473) calls it an early hit; en.wikipedia dates the album 1999 and a Golden Mic Ethiopia upload 1991 E.C. Deezer's Electra single says 2002-10-11. Unconfirmed. Was 2002.
+2005	Madingo Afework	Keteleyayen	ማዲንጎ አፈወርቅ	ከተለያየን		78289117	# confirmed · Ayedergem, Nahom Records CD, 2005 (Discogs release 10397780); Deezer Nahom release dated 2005-02-14; en.wikipedia Madingo Afework: Ayderegim (2005).
+2005	Madingo Afework	Mognu Libe	ማዲንጎ አፈወርቅ	ሞኙ ልቤ		78289122	# confirmed · Ayedergem, Nahom Records CD, 2005 (Discogs release 10397780); Deezer Nahom release dated 2005-02-14; en.wikipedia Madingo Afework: Ayderegim (2005); am.wikipedia gives 1997 E.C./2005.
+2005	Madingo Afework	Afar	ማዲንጎ አፈወርቅ	አፋር		78289118	# confirmed · Ayedergem, Nahom Records CD, 2005 (Discogs release 10397780); Deezer Nahom release dated 2005-02-14; en.wikipedia Madingo Afework: Ayderegim (2005).
+2015	Madingo Afework	Akmien	ማዲንጎ አፈወርቅ			2091796387	# confirmed · Was 2012. On Madingo Afework's album Swedlat: Deezer Swedlat, Vol. 3 (Nahom Records) 2015-01-17; English Wikipedia lists Swedlat (2015, Nahom Records); upload by Birsh Nima 2015-03-10.
+2003	Michael Belayneh	Etebikeshalehu	ሚካኤል በላይነህ	እጠብቅሻለሁ		2730382891	# confirmed · First issued as Etebikishalehu on Meleya Keleme (Girma Yifrashewa and Michael Belayneh), BNL CD, '© ℗ BNL 2003', recorded April 2003 (Discogs release 27621390); en.wikipedia Girma Yifrashewa gives 2003. Deezer plays the Ante Godana remake (Nahom CD 2005, Discogs 10404379). Was 2004.
+2005	Michael Belayneh	Yefikir Mirchay	ሚካኤል በላይነህ	የፍቅር ምርጫዬ		2730382911	# confirmed · Ante Godana, Michael Belayneh's debut album, Nahom Records CD, 2005 (Discogs release 10404379, track 6 Yefkr Mrchay); Ethiopian Business Review (Sept 2024, 'Crafting love through songs') dates Ante Godana 2005. Deezer's 2024 date is a re-upload. Was 2006.
+2003	Michael Belayneh	Tibeb New Tizita	ሚካኤል በላይነህ	ጥበብ ነው ትዝታ		2668131072	# confirmed · First issued as Tibeb Now Tizita on Meleya Keleme (Girma Yifrashewa and Michael Belayneh), BNL CD, '© ℗ BNL 2003' (Discogs release 27621390); also on Nahom Favorite Vol. 23, 2010 (Discogs 14174300). The 2024 single on Deezer may be the later recording. Was 2008.
+2012	Michael Belayneh	Timechi Endehu	ሚካኤል በላይነህ	ትመጪ እንደሁ		2668790372	# confirmed · Was 2010. On Michael Belayneh's album Nafkot Ena Fikir: Capital Ethiopia (2018-02-05) says the album came out in 2012; iTunes dates it 2012-09-01; fan upload 2012-09-30 names the album. Deezer's 2024 album is a re-upload.
+2018	Zeritu Kebede	Alefe Halifu	ዘሪቱ ከበደ			608836412	# confirmed · Deezer single Alefe Halifu (Admas Entertainment) 2018-11-30; Admas Music posted the song the same day, 2018-11-30.
+2005	Zeritu Kebede	Akal Lakal	ዘሪቱ ከበደ			2209428307	# confirmed · Duet with Abinet Agonafir from her debut album Zeritu: Wikipedia says it came out September 2005 and names 'Akal le Akal' on it; iTunes dates the same 12-track album (Atihidibign) 2005-12-29. Deezer Atihidibign 2023-03-22 is a digital re-upload. Was 2023.
+2004	Tamrat Desta	Hakime Nesh	ታምራት ደስታ	ሀኪሜ ነሽ		81944264	# confirmed · Anleyaym, Nahom Records CD, 2004 (Discogs release 14152135, track 11 Hakime Nesh); en.wikipedia Tamrat Desta: first album Anleyaym, 2004; Deezer Nahom release dated 2004-07-08.
+2004	Tamrat Desta	Anleyaym	ታምራት ደስታ	አንለያይም		81944250	# confirmed · Anleyaym, Nahom Records CD, 2004 (Discogs release 14152135, track 4 Anleyaym); en.wikipedia Tamrat Desta: Anleyaym (2004); Deezer Nahom release dated 2004-07-08.
+2004	Tamrat Desta	Yelben	ታምራት ደስታ	የልቤን		81944246	# confirmed · Anleyaym, Nahom Records CD, 2004 (Discogs release 14152135, track 2 Yelben); en.wikipedia Tamrat Desta: Anleyaym (2004); Deezer Nahom release dated 2004-07-08.
+2014	Tamrat Desta	Ewedshalehu	ታምራት ደስታ	እወድሻለሁ		87153111	# confirmed · Deezer album Keza Sefer (Nahom Records) 2014-09-08; English Wikipedia lists Tamrat Desta's album Keza Sefer (2014).
+2014	Tamrat Desta	Mamayie	ታምራት ደስታ	ማማዬ		87153103	# confirmed · Deezer album Keza Sefer (Nahom Records) 2014-09-08; English Wikipedia lists Tamrat Desta's album Keza Sefer (2014).
+2017	Eyob Mekonnen	Wede Enate Bet	እዮብ መኮንን	ወደ እናቴ ቤት		3965970751	# confirmed · On Erotalehu, Eyob's posthumous second album: en.wikipedia and Music in Africa (node 385667) date it 2017; am.wikipedia lists ወደናቴ ቤት in its tracklist; kanatunes posted Man Yawkal from it as new on 2017-01-13. Deezer's 2026 date is a re-upload. Was 2008 (a guess).
+2007	Eyob Mekonnen	Yizebarekalu	እዮብ መኮንን	ይዘባርቃሉ	https://www.youtube.com/watch?v=DxGu_SFPZgg	3946393381	# confirmed · Was 2012. On Eyob Mekonnen's debut album Ende Kal, released December 2007 per English Wikipedia (citing Ethiosports); iTunes Ende Qal (CD Baby for Nahom Records) 2007-12-24. Deezer's 2026-04-04 album is a re-upload.
+2007	Eyob Mekonnen	Man Ende Qal	እዮብ መኮንን	ማን እንደ ቃል		3946393341	# confirmed · Was 2012. Title track of Eyob Mekonnen's debut album Ende Kal, released December 2007 per English Wikipedia (citing Ethiosports); iTunes Ende Qal 2007-12-24; YouTube upload by Yohanan Assefa 2010-07-13. Deezer's 2026 album is a re-upload.
+2007	Eyob Mekonnen	Endetefash	እዮብ መኮንን	እንደተፋሽ		3946393401	# confirmed · Was 2012. On Eyob Mekonnen's debut album Ende Kal, released December 2007 per English Wikipedia (citing Ethiosports, 2017-01-02); iTunes carries Ende Qal dated 2007-12-24. Deezer's 2026-04-04 album is a re-upload.
+2012	Jah Lude	Yachin Neger	ጃህ ሉድ	ያቺን ነገር		72897977	# confirmed · Yachin Neger (Yegeter Lij Negn), Jah Lude's 16-track album, Nahom Records CD, 2012 (Discogs release 5682229); CD Baby release 2012-02-14; YouTube uploads from March 2012 onward. Was 2005 (a guess).
+2012	Jah Lude	Ye Irgib Amora	ጃህ ሉድ	የእርግብ አሞራ		72897984	# confirmed · On Yachin Neger, Nahom Records CD, 2012 (Discogs release 5682229); CD Baby release 2012-02-14; mrnari20 posted it as 'New Ethiopian Music' on 2012-04-10. Was 2005 (a guess).
+2012	Jah Lude	Dance Dance	ጃህ ሉድ			72897974	# confirmed · On Yachin Neger, Nahom Records CD, 2012 (Discogs release 5682229); CD Baby release 2012-02-14; dreadlocke12's 2012-07-06 upload names the album. Was 2005 (a guess).
+2012	Haile Roots	Chiggae	ኃይሌ ሩትስ	ቺጌ		84392325	# confirmed · Deezer album Chiggae (Nahom Records) 2012-03-09; Adika Ethiopia official music video uploaded 2012-07-29, 'from his debut album of the same title'.
+2012	Haile Roots	Ethiopia	ኃይሌ ሩትስ	ኢትዮጵያ		84392335	# confirmed · Deezer album Chiggae (Nahom Records) 2012-03-09, Haile Roots' debut; Adika Ethiopia posted the official video of the title track 2012-07-29 'from his debut album'. Haile Roots' channel also says this song is from Chiggae.
+2012	Haile Roots	Melkam Yamarech	ኃይሌ ሩትስ			84392333	# confirmed · Deezer album Chiggae (Nahom Records) 2012-03-09; Adika Ethiopia posted the album's title-track video 2012-07-29 'from his debut album'; Haile Roots' channel (2016) says Melkam Yamarech is from Chiggae.
+2020	Haile Roots	Yanchin	ኃይሌ ሩትስ	ያንቺን		1175977782	# confirmed · Deezer album Yetamene (Awtar Multimedia) 2020-10-18; album launch corroborated by AWTAR TV's preview of the 'new album Yetamene' uploaded 2020-10-19 and its Laychal Yelem video 2020-11-28. AWTAR TV official audio of Yanchin followed 2021-02-06.
+2004	Tsedenia Gebremarkos	Mengedegna	ፀደንያ ገብረማርቆስ	መንገደኛ		3855501271	# confirmed · Bisetegn, Tsedenia's debut: en.wikipedia dates it 2004; the album's Ewedhalehu shared the 2004 Kora award (Music in Africa node 12118); Atalay uploads say 1996 E.C./2004. Deezer's 2006-07-19 is Nahom's later US release. Was 2006.
+2004	Tsedenia Gebremarkos	Ewedhalehu	ፀደንያ ገብረማርቆስ	እወድሃለሁ		3855501291	# confirmed · Shared the 2004 Kora award for best East African female (Music in Africa node 12118; en.wikipedia Kora Awards 2004 table); en.wikipedia dates the album Bisetegn 2004; her 2024 remake says it won the Kora 20 years ago. Deezer's 2006 is Nahom's US release. Was 2006.
+2004	Tsedenia Gebremarkos	Atalay	ፀደንያ ገብረማርቆስ	አታላይ		3855501251	# confirmed · Bisetegn, Tsedenia's debut: en.wikipedia dates it 2004; uploads by Mirkuzz and Yegeter Lij Tube date Atalay 1996 E.C./2004; its Ewedhalehu shared the 2004 Kora award (Music in Africa node 12118). Deezer's 2006-07-19 is Nahom's later US release. Was 2006.
+2016	Tsedenia Gebremarkos	Awkotal	ፀደንያ ገብረማርቆስ			3477087471	# confirmed · On the album Yefikir Girma: Deezer 2016-05-02 (CD Baby P 2016 Arifsoft); English Wikipedia says the album Yefikir Girma was released in 2016. The 2025-07-26 Deezer single is a re-upload.
+2015	Abby Lakew	Yene Habesha	አቢ ላቀው	የኔ ሀበሻ		404493782	# confirmed · Was 2014. Official video on Abby Lakew's YouTube channel uploaded 2015-06-16; English Wikipedia (Abby Lakew) says she released "Yene Habesha" on 16 June 2015. Deezer's 2017-09-13 single and 2017 album are later releases.
+2017	Abby Lakew	Nekogn	አቢ ላቀው	ነኮኝ		668541872	# confirmed · Deezer album Yene Habesha (Independent) 2017-09-25 (Ditto auto-upload says released 2017-09-25); English Wikipedia lists the album Yene Habesha (2017). The 2024 official video and Deezer single 2024-11-21 are a later reissue.
+2017	Abby Lakew	Selam	አቢ ላቀው	ሰላም		668541862	# confirmed · Deezer album Yene Habesha (Independent) 2017-09-25; English Wikipedia lists the album Yene Habesha (2017); official audio on Abby Lakew's channel uploaded 2017-10-20.
+2022	Abby Lakew	Gondere Wa	አቢ ላቀው	ጎንደሬዋ		1742792697	# confirmed · Deezer single Gondere Wa (Independent) 2022-05-12; official video on Abby Lakew's YouTube channel uploaded 2022-05-05.
+2013	Mesfin Bekele	Welelawa	መስፍን በቀለ	ወለላዋ		72105821	# confirmed · Deezer album Zimeta (Habesha poetics) 2013-10-28, Topic upload says released 2013-01-01; official video posted by Habesha Social 2013-05-05.
+2013	Mesfin Bekele	Zimeta	መስፍን በቀለ	ዝምታ		72105823	# confirmed · Deezer album Zimeta (Habesha poetics) 2013-10-28, YouTube Topic says released 2013-01-01; Habesha Social posted the official video of Welelawa from the same album 2013-05-05.
+2015	Mesfin Bekele	Asresh Mechew	መስፍን በቀለ			109752716	# confirmed · Was 2014. First issued on Nahom Favorites, Vol. 33: Alkayie (Nahom Records) 2015-07-01; Ethio One Love, the label of his Zimeta album, posted it the same day as 'New Ethiopian Music 2015'.
+2020	Mesfin Bekele	Mister New	መስፍን በቀለ			1134788892	# confirmed · Deezer single Mister New 2020-10-30; Minew Shewa Tube official video 'Mister New (ሚስጥር ነው)' uploaded the same day, 2020-10-30, announcing it as his new single.
+2024	Mesfin Bekele	Lamesgin	መስፍን በቀለ	ላመስግን		2832170392	# confirmed · Deezer single Lamesgin (Maraki) 2024-06-07; MARAKI MUZIQA official video uploaded 2024-06-14.
+2007	Mikaya Behailu	Lante Sil	ሚካያ በኃይሉ	ላንተ ስል		72051055	# confirmed · Shemametew, Nahom Records CD, 2007 (Discogs release 14143618; am.wikipedia tracklist has ላንተ ስል); en.wikipedia Mikaya Behailu dates the album 2007; Deezer Nahom release dated 2007-04-11.
+2007	Mikaya Behailu	Sebeb	ሚካያ በኃይሉ	ሰበብ		72051056	# confirmed · Shemametew, Nahom Records CD, 2007 (Discogs release 14143618; am.wikipedia tracklist has ሰበብ); en.wikipedia Mikaya Behailu dates the album 2007; also on Nahom Favorite Vol. 16, 2007 (Discogs 14168995).
+2007	Mikaya Behailu	Shemametew	ሚካያ በኃይሉ	ሸማመተው		72051060	# confirmed · Shemametew, Nahom Records CD, 2007 (Discogs release 14143618); en.wikipedia Mikaya Behailu: debut album Shemametew, 2007; am.wikipedia 1999 E.C.; Deezer Nahom release dated 2007-04-11.
+2011	Jacky Gosee	Chirash	ጃኪ ጎሲ	ጭራሽ		3351027061	# Deck year stands but unconfirmed. Earliest upload found is dreallu 2011-12-03 (Gosee Jacky - Chirash). Deezer's Sela Bey album is a 2025 upload and iTunes says 2024. No dated official or press source found.
+2011	Jacky Gosee	Sela Bey	ጃኪ ጎሲ	ሰላ በይ		3351027031	# Was 2013. YouTube upload by Alex Shan 2011-11-21 of Jacky Gosee 'Sela Bey' shows it was out by November 2011; Music in Africa calls it his biggest hit but gives no year. Deezer's 2025 album is a re-upload.
+2022	Jacky Gosee	Debdabew	ጃኪ ጎሲ	ደብዳቤው		4347432702	# confirmed · First released as a Nahom Records single 2022-10-05 (YouTube auto-generated credit, uploaded 2022-11-03); Nahom Records Inc official video uploaded 2022-10-14. The Deezer release the game plays (Jacky Gosee, 2026-10-08) is a re-upload.
+2014	Jacky Gosee	Fiyameta	ጃኪ ጎሲ	ፊያሜታ		3358436431	# First released as Deezer single Fiyameta (Jacky Gosee) 2014-06-05, same 5:10 recording; fan uploads from 2014 (ADDIS live in Melbourne 2014-04-21, Abebe Kebede 'New Song' 2014-09-26). The 2025 Deezer single and 2025-05-21 official video are later. Was 2025. No official 2014 video or press.
+2006	Teddy Yo	Gurage Tone	ቴዲ ዮ			68154237	# Was 2013. Deezer's Demts Albaw Mesarya (2013-05-20) is a re-upload: English Wikipedia lists the album Demese Albaw Mesarya (2006), while a 2007-04-19 YouTube upload calls the track an 'Official 2007 release'. Sources disagree, 2006 vs 2007.
+2018	Teddy Yo	Lo'o Lo'o	ቴዲ ዮ			471006712	# confirmed · Was 2017. Deezer album Arada, Vol. 2 2018-03-02 (CD Baby P 2018 Hope Entertainment); Hope Music Ethiopia official audio 2018-03-15 and video 2018-04-16; English Wikipedia lists Arada (2018).
+2022	Teddy Yo	Wano	ቴዲ ዮ			1952476167	# confirmed · MELA ALEM TV official video 'Teddy Yo ft Miko Michael Melaku - Wano' uploaded 2022-08-19 (copyright Melamuziqa Records 2022); Deezer single Wano (Mela Muziqa Records) 2022-10-06.
+2021	Teddy Yo	Almetam	ቴዲ ዮ	አልመጣም		2864836622	# confirmed · Minew Shewa Tube official video uploaded 2021-09-17 ('New Ethiopian Music 2021'); live performance on Seifu on EBS the same month (re-uploads 2021-09-26 and 2021-09-28). Digital release Amuseio 2022-10-08; the Deezer single 2024-06-26 is a re-upload. Was 2024.
+2013	Nhatty Man	Fim Esat	ናቲ ማን	ፍም እሳት		69216729	# confirmed · Deezer single Fim Esat (MondoTunes) 2013-07-29, iTunes 2013-07-03; Nhatty Man's own channel posted Nhatty Man and Jacky Gosee - Fim Esat on 2013-06-30.
+2007	Nhatty Man	Amrogn	ናቲ ማን	አምሮኝ		118405936	# Was 2016. Music in Africa says the single 'Amrogne' made Nhatty Man's name before his debut album Man (16 Feb 2011); YouTube upload of 'fikrish amrogn' 2008-01-02 calls it his first single. So out by 2007 at latest; exact year not found.
+2011	Nhatty Man	Salayish	ናቲ ማን	ሳላይሽ		118405924	# confirmed · Was 2016. On Nhatty Man's debut album Man, released 16 February 2011 per his Music in Africa profile; his own channel posted the video 2011-12-14. Deezer's 2016-02-03 Man (Zefens) is a re-upload.
+2017	Nhatty Man	Bado	ናቲ ማን	ባዶ		438310312	# Deezer album Vol. 2 (The Milo Mix) 2017-12-22; Nhatty Man's own channel tags it 'second album, 2010 E.C.' (Sept 2017 to Sept 2018) and its first uploads from the album date 2018-02-02. No 2017 official upload or dated press found.
+2024	Nhatty Man	Qimemun	ናቲ ማን			2667346522	# confirmed · Deezer single Qimemun (Digital University) 2024-02-17; official music video on Nhatty Man's YouTube channel uploaded 2024-02-23.
+2018	Bisrat Surafel	Yebet Sira	ብስራት ሱራፌል	የቤት ስራ		499823162	# confirmed · Deezer album Kal Bekal (Hope Entertainment) 2018-05-08; Hope Music Ethiopia official video uploaded 2018-04-15 as the lead single of the upcoming album Kal Bekal.
+2018	Bisrat Surafel	Ethiopiawi Negn	ብስራት ሱራፌል	ኢትዮጵያዊ ነኝ		499823152	# confirmed · Deezer album Kal Bekal (Hope Entertainment) 2018-05-08; Hope Music Ethiopia official audio uploaded 2018-05-15 and official video 2018-07-13.
+2022	Bisrat Surafel	Ateteyekuwat	ብስራት ሱራፌል			2791932362	# confirmed · Deezer single Ateteyekuwat (Bahgna Tv) 2022-07-08; BAHGNA TV official video uploaded the same day, 2022-07-08.
+2023	Bisrat Surafel	Erefi	ብስራት ሱራፌል	እረፊ		2373557235	# confirmed · Deezer album Malefiya (ela records) 2023-07-21; ELLA RECORDS official audio uploaded 2023-07-21 and official video 2023-07-28, both 'from brand new album Malefiya'.
+1995	Hana Shenkute	Sintun Ayichebih	ሃና ሸንቁጤ	ስንቱን አይቼብህ		65445411	# confirmed · Hana, AIT Records CD AIT004, 1995 (Discogs release 2393948, master 4002259), track 7 Sintun Ayechebeh; Deezer's AIT 'Hana' is also dated 1995. The deck's copy is the 2007 Ethiopian Millennium Collection reissue. Was 2005.
+2010	Nati Haile	Beka	ናቲ ኃይሌ	በቃ		13668350	# confirmed · Deezer album Beka (Nahom Records) 2010-08-18; Nati Haile's own channel (official video, 2015-06-15) says the Beka album was released in 2010; Nahom Records posted the official video 2013-06-11.
+2015	Betty G	Manew Fitsum	ቤቲ ጂ	ማነው ፍጹም		98388206	# confirmed · Deezer album Manew Fitsum (MondoTunes) 2015-04-25; English Wikipedia says Betty G released her debut album Manew Fitsum in 2015.
+2012	Betty G	Kant Aybeltim	ቤቲ ጂ	ካንት አይበልጥም		98388220	# confirmed · Was 2015. Released in 2012 as Betty G's first single with Nhatty Man: Nhatty Man's channel upload 2012-03-19 calls it her first single; official video by producer B2 Habesha Entertainment uploaded 2012-07-23. Deezer's 2015 album Manew Fitsum collects it.
+2018	Betty G	Geriye	ቤቲ ጂ	ገሪዬ		519921542	# confirmed · Deezer album Wegegta (Yisakal Entertainment) 2018-06-21; English Wikipedia lists Wegegta (2018) and the single Gereye (2018); Minew Shewa Tube official video uploaded 2018-11-30.
+2020	Betty G	Yeselam Sew Negn	ቤቲ ጂ	የሰላም ሰው ነኝ		4260731631	# confirmed · Hope Music Ethiopia official video (with Sofia Shibabaw, Zeritu Kebede, Chachi Tadesse, Israel Abel) uploaded 2020-04-24, 'New Ethiopian Music 2020'; EthiopikaLink (Fana FM 98.1) announced the collaboration 2020-03-23. Deezer single 2026-09-01 (same label) is a later upload. Was 2026.
+2018	Jano Band	Keteraraw Mado	ጃኖ ባንድ	ከተራራው ማዶ		458259522	# confirmed · Deezer album Lerasih New (Kistet) 2018-02-01; English Wikipedia says Jano Band released Lerasih New on 1 February 2018.
+2018	Jano Band	Shegiye	ጃኖ ባንድ	ሸጊዬ		458259472	# confirmed · Deezer album Lerasih New (Kistet) 2018-02-01; English Wikipedia says Jano Band released Lerasih New on 1 February 2018.
+2018	Jano Band	Leba	ጃኖ ባንድ	ሌባ		458259452	# confirmed · Deezer album Lerasih New (Kistet) 2018-02-01; English Wikipedia says Jano Band released Lerasih New on 1 February 2018.
+2018	Jano Band	Zew Zew	ጃኖ ባንድ	ዘው ዘው		454569332	# confirmed · Deezer single Zew Zew (Kistet) 2018-01-13; label Kistet's lyric video uploaded 2018-01-09; also on Lerasih New, released 1 February 2018 per English Wikipedia.
+2018	Jano Band	Hager Alegn	ጃኖ ባንድ	ሀገር አለኝ		458259552	# confirmed · Deezer album Lerasih New (Kistet) 2018-02-01; English Wikipedia gives 1 February 2018; label Kistet's animation video uploaded 2018-03-31.
+2016	Dawit Tsige	Betam New Emewodish	ዳዊት ጽጌ	በጣም ነው እምወድሽ		118406062	# confirmed · Deezer album Betam New Emiwodish (Zefens) 2016-02-02; Hope Music Ethiopia official video 'New Ethiopian Music 2016' uploaded 2016-03-23.
+2020	Dawit Tsige	Bayew Bayew	ዳዊት ጽጌ	ባየው ባየው		846674482	# confirmed · Deezer album Yene Zema (Balageru Multimedia) 2020-01-16; album launch corroborated by Balageru TV uploads 2020-01-19 and 2020-02-02; Lyrical Habesha lyric video of this track uploaded 2020-01-28.
+2020	Dawit Tsige	Yene Yene	ዳዊት ጽጌ	የኔ የኔ		846674442	# confirmed · Deezer album Yene Zema (Balageru Multimedia) 2020-01-16; Balageru TV official audio uploaded 2020-01-19 and the full album non-stop upload 2020-02-02.
+2020	Dawit Tsige	Yene Zema	ዳዊት ጽጌ	የኔ ዜማ		846674402	# confirmed · Deezer album Yene Zema (Balageru Multimedia) 2020-01-16; Balageru TV official audio of the title track uploaded 2020-01-19 and full album 2020-02-02.
+2020	Dawit Tsige	Asmarino	ዳዊት ጽጌ	አስመሪኖ		846674462	# confirmed · Deezer album Yene Zema (Balageru Multimedia) 2020-01-16; album launch corroborated by Balageru TV's official-audio uploads of 2020-01-19 and full-album upload of 2020-02-02; Cassette Lyrics video calls it 'from yene zema album released in 2020'.
+2018	Rophnan	Get to Work	ሮፍናን			501460352	# confirmed · Deezer album Reflection (Raey Records) 2018-05-17; English Wikipedia says Rophnan released his debut album Reflection on 17 May 2018 and that Major Lazer featured Get To Work in 2018.
+2021	Rophnan	Sekela	ሮፍናን	ሰቀላ		1820720707	# confirmed · Track 3 of the SOST EP, uploaded in full to Rophnan's YouTube channel 2021-05-17 (Sekela at 10:05); Ethiopian Business Review (Trualem Asmare, 'Album releases: the new tradition') dates SOST to May 2021. Deezer Sost (III) 2022-07-11 is the Universal re-release. Was 2020.
+2022	Rophnan	Desse	ሮፍናን	ደሴ		1812899297	# confirmed · Deezer album Sidist (VI) (Universal Music Africa) 2022-07-10; official visualizer on Rophnan's YouTube channel uploaded the same day, 2022-07-10. Keeps the earlier correction of the starter deck's 2019.
+2022	Rophnan	Haya	ሮፍናን	ሀያ		1812899327	# confirmed · Deezer album Sidist (VI) (Universal Music Africa) 2022-07-10; official visualizer on Rophnan's YouTube channel uploaded the same day, 2022-07-10.
+2022	Rophnan	Senaye	ሮፍናን	ሰናዬ		1812899247	# confirmed · Deezer album Sidist (VI) (Universal Music Africa) 2022-07-10; official visualizer 'Senay' on Rophnan's YouTube channel uploaded 2022-07-10.
+2022	Rophnan	Wegahta	ሮፍናን	ወጋህታ		1812899257	# confirmed · Deezer album Sidist (VI) (Universal Music Africa) 2022-07-10; official visualizer 'Wegahta feat. Meswani' on Rophnan's YouTube channel uploaded 2022-07-10.
+2022	Rophnan	Bihon	ሮፍናን	ቢሆን		1812899287	# confirmed · Deezer album Sidist (VI) (Universal Music Africa) 2022-07-10; official visualizer on Rophnan's YouTube channel uploaded the same day, 2022-07-10.
+2024	Rophnan	Shegiye	ሮፍናን	ሸጊዬ		2673654482	# confirmed · Deezer album ZETEGN | NOR (Universal Music Africa) 2024-02-16; official video on Rophnan's YouTube channel uploaded 2024-02-11.
+2024	Rophnan	Atiyo	ሮፍናን	አቲዮ		2673655042	# confirmed · Deezer album ZETEGN | HARAMBE (Universal Music Africa) 2024-02-16; official visualizer 'Atiyo ft Shewit Mezgebo' on Rophnan's YouTube channel uploaded 2024-02-11.
+2016	Sami Dan	Tefa Yemileyen	ሳሚ ዳን	ጠፋ የሚለየን		123761170	# confirmed · Deezer album Keras Gar Negeger (Sami Dan) 2016-05-01; music video posted 2016-05-19 on the album's own channel as 'from his new album'; CD Baby P 2016.
+2019	Sami Dan	123	ሳሚ ዳን			669114812	# confirmed · Deezer album Asira Andu Getsoche (Ras Promotion) 2019-04-25; Ras Promotion official audio uploaded 2019-09-13.
+2021	Sami Dan	Qalen	ሳሚ ዳን	ቃሌን		1481590282	# confirmed · Deezer album Sibet 2021-09-01; Sami Dan's YouTube channel uploaded Qalen the same day, 2021-09-01, labelled 'New Music Album 2021'; Mela Muziqa video 2022-01-28.
+2021	Sami Dan	Yemechereshawa Se'at	ሳሚ ዳን	የመጨረሻዋ ሰዓት		1481590382	# confirmed · Deezer album Sibet 2021-09-01; Sami Dan's YouTube channel uploaded the track the same day, 2021-09-01, as track 11 of his 'NEW ALBUM 2021'; MT TUBE posted the full 13-track Sibet album 2021-09-10.
+2020	Kassmasse	Negen Letizita	ካስማሴ	ነገን ለትዝታ		1356084772	# confirmed · Deezer EP Maleda (Meedo Records) 2020-12-31; official audio on Kassmasse's YouTube channel uploaded 2020-12-31; official video 2021-07-20. Released on the last day of 2020.
+2020	Kassmasse	Maleda	ካስማሴ	ማለዳ		1356084752	# confirmed · Deezer EP Maleda (Meedo Records) 2020-12-31; official audio on Kassmasse's YouTube channel uploaded 2020-12-24 announcing the song; official video followed 2021-01-15.
+2020	Kassmasse	Wubet	ካስማሴ	ውበት		1356084792	# confirmed · Deezer EP Maleda (Meedo Records) 2020-12-31; official audio 'Wubet (ft. Uno & Yizet)' on Kassmasse's YouTube channel uploaded 2020-12-31; Meedo Records video 2021-09-02. Released on the last day of 2020.
+2022	Kassmasse	Mela Mela	ካስማሴ	መላ መላ		1660832302	# confirmed · Deezer album Bahil | Weg (Meedo Records) 2022-02-17; 'Mela Mela feat. Dani Semma' on Kassmasse's YouTube channel uploaded the same day, 2022-02-17; Meedo Records video 2022-03-14.
+2023	Kassmasse	Sanqa Souq	ካስማሴ			2426838465	# confirmed · Deezer single Sanqa Souq (Meedo Records) 2023-09-02; Kassmasse's YouTube channel upload 2023-09-02 and Meedo Records official video 2023-09-08.
+2021	Lij Michael	Nanye	ልጅ ሚካኤል	ናንዬ		1247074642	# confirmed · Deezer album Atgebam Alugn 2021-02-15; Lij Michael's YouTube channel uploaded Nanye 2021-02-16 ('NEW ALBUM 2021'), official video 2021-03-04.
+2021	Lij Michael	Addis Ababa	ልጅ ሚካኤል	አዲስ አበባ		1247074662	# confirmed · Deezer album Atgebam Alugn 2021-02-15; Lij Michael's YouTube channel uploaded the track 2021-02-18 labelled 'new music album 2021', official video 2021-10-29.
+2024	Lij Michael	Ayito	ልጅ ሚካኤል			2955738341	# confirmed · Deezer album Addis Arada (LM music) 2024-08-27; Lij Michael's YouTube channel uploaded 'Ayeto' ft. Sayat Demissie the same day, 2024-08-27, as track 7 of Addis Arada.
+2015	Lij Michael	Zemenay Mareye	ልጅ ሚካኤል			3413173161	# Track 1 of his debut album Zaraye Yehun Nege: iTunes dates it 2015-11-26, Wikipedia November 2015; but Music in Africa (2016-08-31, Coke Studio piece) says it came out 'early this year'. Earliest track upload La Maschera 2016-02-04. Deezer 2025-06-05 is a re-upload. Was 2025; 2015 vs 2016 unsettled.
+2018	Yared Negu	Adimera	ያሬድ ነጉ	አድመራ		596143152	# confirmed · Deezer single Adimera (Admas Entertainment) 2018-11-16; Admas Music official video uploaded the same day, 2018-11-16.
+2024	Yared Negu	Yihen Endalay	ያሬድ ነጉ			3830919161	# Was 2018 (guess). No sign of a 2018 release: iTunes single dates 2024-04-07, earliest YouTube upload found is 2025-01-15 ('New Ethiopia Music 2025'), Deezer and TuneCore 2025-10-11. No official video or press found.
+2017	Esubalew Yetayew	Mare Mare	እሱባለው ይታየው	ማሬ ማሬ		726202142	# confirmed · Deezer album Tertaye (Minew Shewa Record) 2017-09-01; Minew Shewa Tube official audio 'New Album' uploaded 2017-09-16.
+2017	Esubalew Yetayew	Godana Mulu	እሱባለው ይታየው			726202082	# confirmed · Deezer album Tertaye (Minew Shewa Record) 2017-09-01; Minew Shewa Tube posted official audio from the new album on 2017-09-16 (Samnat, Mare Mare). No 2017 upload of this track itself found.
+2017	Esubalew Yetayew	Samnat	እሱባለው ይታየው			726202132	# confirmed · Deezer album Tertaye (Minew Shewa Record) 2017-09-01; Minew Shewa Tube official audio 'New Album' uploaded 2017-09-16.
+2023	Esubalew Yetayew	Yeberesh Abeba	እሱባለው ይታየው	የበረሽ አበባ		2527847131	# Deezer single Yeberesh Abeba (4:41) 2023-11-10; its YouTube copy (TuneCore, uploaded 2023-11-09) is the same distribution. His 2024-09-08 lyrics video is the longer 5:36 'Yeberesh Ababa 2' (Deezer 2024-09-14). No 2023 official video or press found.
+2019	Rahel Getu	Tilobign	ራሔል ጌቱ			732013122	# confirmed · Deezer single Tilobign (Minew Shewa) 2019-08-11; Minew Shewa Tube official video uploaded 2019-02-28.
+2021	Rahel Getu	Kisto	ራሔል ጌቱ			1477144292	# confirmed · Deezer album Etemete (ela records) 2021-09-04; AWTAR TV official audio of Kisto uploaded 2021-09-10 'from brand new album Etemete'.
+2021	Rahel Getu	Etemete	ራሔል ጌቱ	እቴሜቴ		1477144322	# confirmed · Deezer album Etemete (ela records) 2021-09-04; AWTAR TV official video of the title track uploaded 2021-10-30 'from brand new album Etemete', and Awtar's album audio uploads from 2021-09-07.
+2021	Rahel Getu	Ethiopiaye	ራሔል ጌቱ	ኢትዮጵያዬ		1477144222	# confirmed · Deezer album Etemete (ela records) 2021-09-04; AWTAR TV official video of Ethiopiaye uploaded 2021-09-07 and official audio 2021-09-10, 'from brand new album Etemete'.
+2020	Hewan Gebrewold	Keminew	ሔዋን ገብረወልድ			999020832	# confirmed · Deezer single Keminew (Nahom Records) 2020-06-19; Nahom Records Inc official video uploaded the same day, 2020-06-19.
+2021	Hewan Gebrewold	Na Na	ሔዋን ገብረወልድ	ና ና		1251267462	# confirmed · Deezer single Na Na (Nahom Records) 2021-02-19; Nahom Records Inc official video 'Nana' uploaded the same day, 2021-02-19.
+2022	Hewan Gebrewold	Endene Endene	ሔዋን ገብረወልድ			1757683487	# confirmed · Deezer album Hewan 2022-06-03; Hewan Music (Vevo) channel official audio of Endene Endene uploaded 2022-06-01, description '2022 Hewan Gebrewold'.
+2022	Hewan Gebrewold	Munaye	ሔዋን ገብረወልድ	ሙናዬ		1757683457	# confirmed · Deezer album Hewan 2022-06-03; the album's official audio went up on the Hewan Music (Vevo) channel 2022-06-01 and an Ethio lyrics video of Munaye 'new album' followed 2022-06-08; official video only in July 2023.
+2018	Selamawit Yohannes	Zomawa	ሰላማዊት ዮሐንስ	ዞማዋ		531261401	# confirmed · Deezer single Zomawa (Admas Entertainment) 2018-06-06; Admas Music official video uploaded 2018-06-08 as the new joint single with Hahu Beatz.
+2016	Selamawit Yohannes	Bel Jalo	ሰላማዊት ዮሐንስ			2387412075	# confirmed · Official music video premiered on DireTube 2016-03-11 ('Official Music Video 2016', 18M views) and was posted to her own channel Selamawit Yohannis 2016-03-17. The Deezer single (Independent, Ditto) 2023-08-03 is a later upload; iTunes 2010-12-01 is unsupported. Was 2023.
+2021	Veronica Adane	Tewu	ቬሮኒካ አዳነ	ተው		1281395352	# confirmed · Deezer single Tewu (Nahom Records) 2021-03-19; Nahom Records Inc official video 'Tew' uploaded the same day, 2021-03-19.
+2023	Veronica Adane	Enaney	ቬሮኒካ አዳነ			2549499122	# confirmed · Deezer single Enaney (Nahom Records) 2023-11-17; Nahom Records Inc official video uploaded the same day, 2023-11-17.
+2024	Veronica Adane	Lemen Wey	ቬሮኒካ አዳነ			2963574091	# confirmed · Deezer album Meteriyaye (Zojak World Wide) 2024-08-30; official video on Veronica Adane's YouTube channel uploaded 2024-08-29.
+2021	Tariku Gankisi	Dishtagina	ታሪኩ ጋንኪሲ	ዲሽታግና		1331179952	# confirmed · Deezer single Dishtagina (Nahom Records) 2021-04-07; Nahom Records Inc official video 'Dishta Gina' uploaded the same day, 2021-04-07.
+2022	Ziggy Zaga	Tizitana Nafkot	ዚጊ ዛጋ	ትዝታና ናፍቆት		1875712327	# confirmed · Deezer single Tizitana Nafkot (Nahom Records) 2022-08-19; Nahom Records Inc official video 'Ziggy Zagana - Maritu Legesse - Tizitana Nafkot' uploaded the same day, 2022-08-19.
+2023	Yohana	Gelagay	ዮሐና	ገላጋይ		2251657067	# confirmed · Deezer single Gelagay (Online Communications PLC) 2023-06-21; official video on Yohana's YouTube (Vevo) channel uploaded the same day, 2023-06-21.
+2019	Abush Zeleke	Ehem Ale	አቡሽ ዘለቀ			1853024617	# confirmed · Deezer single Ehem Ale (Coke Studio Africa) 2019-03-24; Coke Studio Africa channel posted Lourena Nhate & Abush Zeleke 'Ehem Male - Coke Studio Africa Original' on 2019-03-09; Music in Africa confirms the pairing for the 2019 season.
+2004	Henok Abebe	Honuatal	ሔኖክ አበበ	ሆኑዋታል	https://www.youtube.com/watch?v=Ke3mDPxRw8M	77583785	# Was 2010 (guess). Deezer and CD Baby carry it on Henok Abebe's album Yamrbatal (Nahom Records), released 2004-08-20, P 2004. Only distributor metadata; Last.fm lists the album without a year.
+2011	Sayat Demissie	Hasabun Mesrek	ሳያት ደምሴ	ሀሳቡን ምስራቅ	https://www.youtube.com/watch?v=u7dEqIZBsvI	13603014	# confirmed · Sayat's official video, uploaded 2011-06-18, calls it 'a single from the new album titled Kifel Soste'; that album is Nahom Records CD 'Vol. 1', 2011 (Discogs release 14151176), on Deezer as Kihe 3 Vol. 1, 2011-07-03. en.wikipedia's '2009' is contradicted. Was 2008.
+2009	Johnnie Bass	Anchi Kalesh	ጆኒ ባስ	አንቺ ካለሽ	https://www.youtube.com/watch?v=N2emYqvIDwA		# Was 2010 (guess). An earlier recording with Samvod is on SongCast as 'Keremela With Jonnie', Ethiopian Hot Dance Hitz, P 2009 Axum Records, released 2009-03-09; Enzira's 2024 upload says Johnnie Bass first made it with Samvod. The card's video is a 2019 remake.
+2008	Helen Berhe	Uzaza Aleyna	ሔለን በርሄ	ኡዛዛ አሌና	https://www.youtube.com/watch?v=8yOfFtOHL_4		# Was 2012 (guess). CD Baby carries Uzaza Aleyna on the compilation Nahom Fav, Vol. 17, P 2008, released 2008-06-11, so it is 2008 at the latest; the original album and year were not found.
+2003	Hibist Tiruneh	Befetereh	ህብስት ጥሩነህ	በፈጠረህ	https://www.youtube.com/watch?v=m69Z2qlFPsI		# confirmed · Yikerta (ይቅርታ), Nahom Records CD, 2003 (Discogs release 23937563, track 2 በፈጠረህ); CD Baby/Deezer Nahom release Yekerta dated 2003-08-14; Nahom's YouTube upload names the album. Was 2008 (a guess).
+2004	Tadele Roba	Kefitret Yeglish	ታደለ ሮባ		https://www.youtube.com/watch?v=6C_UKhtqn80		# Was 2010. CD Baby has it on Guadegna by Lafonte (Tadele Roba), Nahom Records, P 2004, released 2004-08-24; Mirkuzz's upload dates it 1996 E.C., August 2004 G.C. Both may stem from the same label metadata; no independent source.
+2004	Haymanot Girma	Labablih	ሀይማኖት ግርማ		https://www.youtube.com/watch?v=ZLv0ym5mML4		# Was 2015 (guess). iTunes carries Lababl on Haymanot Girma's album Omahire dated 2004-04-10; a YouTube upload by ethiopiaWiit dates 2009-03-30, so it predates 2015. No Deezer release and no second source for 2004.
+2010	Dereje Dubale	Befikresh Tasere	ደረጀ ዱባለ	በፍቅርሽ ታስሬ	https://www.youtube.com/watch?v=yq5kVPvgyG8		# No Deezer or iTunes release found and not on his 2022 Deezer album Aynen Alashim. Earliest YouTube upload found is 2019-04-16 (fan, captioned 90s); the official video FPIeSJKhEsA is gone. Year unverified.
+2005	Bisrat Garedew	Salamnibet	ብስራት ጋረደው	ሳላምንበት	https://www.youtube.com/watch?v=Hpx8AnTi70U		# Was 2015 (guess). Deezer and CD Baby carry it on Bisrat Garedew's album Salamnbat (Nahom Records), released 2005-11-02, P 2005. Only distributor metadata; no independent dated source found.
+2007	Solomon Kassa	Liqefish	ሰለሞን ካሳ		https://www.youtube.com/watch?v=Ncl7z8P_g1k		# Was 2012. YouTube upload by ahnd of Solomon Kassa - Liqefish dates 2008-03-13, so it is 2007 at the latest; TuneCore files it on Best Ethiopian 90s Music Collection Vol. 1 (Ethiopian-calendar 1990s run 1997 to 2007). No Deezer release; year unknown.
+2013	Lelaalem Manaye	Yene Nesh	ሌላአለም ማናዬ	የእኔ ነሽ	https://www.youtube.com/watch?v=LJH3BN2CrKk		# Was 2018 (guess). Upload by Focus Ethiopian 2014-03-05 titled 'New Ethiopian music 2013'; TuneCore puts it on Best Ethiopian 90s Music Collection Vol. 1 (2020) and another channel calls it 1990s. Ethiopian-calendar 1990s run 1997-2007, so it may be older.
+2007	Mesfin Bekele	Ney Bekiremt	መስፍን በቀለ	ነይ በክረምት	https://www.youtube.com/watch?v=ZePj0oadtaw		# Was 2013; not from Zimeta. YouTube upload by Nish Kebede of Mesfin Bekele - Ney bekiremt dates 2007-12-27, so it was out by 2007. No Deezer or iTunes release found; the original album and year are unknown and may be earlier.
+2015	Jano Band	Darigne	ጃኖ ባንድ	ዳሪኝ		458259602	# Was 2012; not on Ertale. English Wikipedia says Jano performed Darign live at Club H2O in September 2015 but its singles table dates the release 2016; uploads calling it a new 2015 single date 2015-12-10 and 2015-12-17. Studio version is a 2018 bonus track. Sources disagree, 2015 vs 2016.
+1993	Aster Aweke	Ken Bayene	አስቴር አወቀ	ቀን ባይኔ	https://www.youtube.com/watch?v=IQaCJX5owBs	69159111	# not found on any tracklisted cassette (Kaifa 1, 3, 4, 5; Electra 1982 E.C., 86, 1986; Ibex, Mainz Electra tapes). Deezer has it on Aster's Ballads (Kabu 2004), which Kabu calls a compilation: its other songs come from her 1977-90 cassettes. Year kept; likely earlier.
+1977	Hailu Mergia	Tche Belew	ኃይሉ መርጊያ	ጨ በለው		85516102	# confirmed · Tche Belew LP with the Walias Band, Kaifa LPKF 45, 1977 (Discogs 5217597).
