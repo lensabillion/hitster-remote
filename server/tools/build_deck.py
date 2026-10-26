@@ -22,7 +22,12 @@ Deezer does not carry.
 Seed file is tab-separated, '#' comments allowed (a '#' column ends the row):
 
     year <TAB> artist_latin <TAB> title_latin [<TAB> artist_am <TAB> title_am
-         <TAB> youtube_url <TAB> deezer_track_id]
+         <TAB> youtube_url <TAB> deezer_track_id] [<TAB> # note]
+
+The note is where a worksheet says where a year came from. A note that starts
+with the word "confirmed" imports that one row as confirmed, so a worksheet can
+carry documented years and open proposals side by side; `--confirmed` still
+confirms a whole file.
 
 When a Deezer track id is given it is taken as is -- the harvest already
 verified it -- so importing a worksheet makes no network calls. Otherwise the
@@ -191,7 +196,7 @@ async def cmd_import(args: argparse.Namespace) -> int:
         card = await build_card(
             year, parts[1], parts[2], parts[3], parts[4], parts[5], args.by,
             deezer_track_id=int(parts[6]) if parts[6].isdigit() else None,
-            year_confirmed=args.confirmed,
+            year_confirmed=args.confirmed or note_confirms(row_note(line)),
         )
         if card:
             cards.append(card)
@@ -331,6 +336,24 @@ def split_row(line: str) -> list[str]:
             break
         parts.append(part)
     return parts
+
+
+def row_note(line: str) -> str:
+    """The note on a seed row: everything after its '#' column, without the hash."""
+    for part in line.split("\t"):
+        part = part.strip()
+        if part.startswith("#"):
+            return part.lstrip("#").strip()
+    return ""
+
+
+# "confirmed · Kabu LP, Columbia 1991": the note's first word says a person
+# checked this year against a documented release, so the row imports confirmed.
+CONFIRMED_NOTE_RE = re.compile(r"(?i)^confirmed\b")
+
+
+def note_confirms(note: str) -> bool:
+    return bool(CONFIRMED_NOTE_RE.match(note))
 
 
 # ---------- harvest ----------
@@ -634,7 +657,8 @@ def main() -> int:
     p_import.add_argument("--by", default="", help="who is adding these cards")
     p_import.add_argument(
         "--confirmed", action="store_true",
-        help="the years in this file have been checked by a person",
+        help="every year in this file has been checked by a person "
+             "(a row whose note starts with 'confirmed' is taken as checked either way)",
     )
     p_import.set_defaults(func=cmd_import)
 

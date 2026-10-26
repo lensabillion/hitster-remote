@@ -1,0 +1,67 @@
+# Artists whose best-known songs date from the 1980s and 1990s, one per line:
+# Latin name <TAB> Amharic name. The Latin spelling is the one Deezer uses.
+#
+#     python tools/build_deck.py harvest decks/artists-1980s-1990s.txt --per-artist 40
+#
+# The deck of October 2026 had eleven 1980s songs and twenty-six 1990s songs, so
+# this list leans on the Roha Band era in Addis and the first wave of recordings
+# made in exile: Washington DC, and the Ethiopian cassette labels of the time.
+#
+# Singers of the two decades
+Aster Aweke	አስቴር አወቀ
+Neway Debebe	ነዋይ ደበበ
+Ephrem Tamiru	ኤፍሬም ታምሩ
+Kuku Sebsibe	ኩኩ ሰብስቤ
+Hamelmal Abate	ሐመልማል አባተ
+Tsehaye Yohannes	ፀሐዬ ዮሐንስ
+Netsanet Melesse	ነፃነት መለሰ
+Tigist Bekele	ትዕግስት በቀለ
+Abonesh Adinew	አቦነሽ አድነው
+Fikeraddis Nekatibeb	ፍቅርአዲስ ነቃጥበብ
+Martha Ashagari	ማርታ አሻጋሪ
+Tadesse Alemu	ታደሰ ዓለሙ
+Aregahegn Worash	አረጋኸኝ ወራሽ
+Tsegaye Eshetu	ፀጋዬ እሸቱ
+Bezawork Asfaw	በዛወርቅ አስፋው
+Yehunie Belay	የሁኔ በላይ
+Tewodros Tadesse	ቴዎድሮስ ታደሰ
+Dawit Mellesse	ዳዊት መለሰ
+Abebe Teka	አበበ ተካ
+Yeshimebet Dubale	የሺመቤት ዱባለ
+Shambel Belayneh	ሻምበል በላይነህ
+Teshome Wolde	ተሾመ ወልዴ
+Elias Tebabal	ኤልያስ ተባባል
+Solomon Tekalign	ሰለሞን ተካልኝ
+Fantahun Shewankochew	ፋንታሁን ሸዋንቆጨው
+Zeleke Gessesse	ዘለቀ ገሠሠ
+Alemtsehay Wodajo	ዓለምፀሐይ ወዳጆ
+Teshome Assegid	ተሾመ አሰግድ
+Bitsat Seyoum	ብፅዓት ስዩም
+Genet Masresha	ገነት ማስረሻ
+Mohammed Tawil	መሐመድ ጣዊል
+Gossaye Tesfaye	ጎሳዬ ተስፋዬ
+Abdu Kiar	አብዱ ኪያር
+Gigi	ጂጂ
+# Golden-era singers who kept recording through the 80s and 90s
+Mahmoud Ahmed	ማህሙድ አህመድ
+Tilahun Gessesse	ጥላሁን ገሠሠ
+Alemayehu Eshete	ዓለማየሁ እሸቴ
+Hirut Bekele	ሂሩት በቀለ
+Bezunesh Bekele	ብዙነሽ በቀለ
+Getachew Kassa	ጌታቸው ካሳ
+Muluken Melesse	ሙሉቀን መለሰ
+Teshome Mitiku	ተሾመ ምትኩ
+Ali Birra	አሊ ቢራ
+Ayalew Mesfin	አያሌው መስፍን
+Menelik Wossenachew	ምኒልክ ወስናቸው
+Asnakech Worku	አስናቀች ወርቁ
+Bahta Gebrehiwot	ባህታ ገብረሕይወት
+Tamrat Molla	ታምራት ሞላ
+# The bands and keyboard players behind the cassettes
+Hailu Mergia	ኃይሉ መርጊያ
+Roha Band	ሮሃ ባንድ
+Walias Band	ዋሊያስ ባንድ
+Ethio Stars	ኢትዮ ስታርስ
+Dahlak Band	ዳህላክ ባንድ
+Elias Negash	ኤልያስ ነጋሽ
+Abegaz Kibrework Shiota	አበጋዝ ክብረወርቅ ሺዎታ

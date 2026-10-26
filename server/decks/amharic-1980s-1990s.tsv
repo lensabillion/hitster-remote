@@ -1,0 +1,150 @@
+# The 1980s and 1990s, curated on 25 October 2026 from decks/harvest-1980s-1990s-2026-10-25.tsv.
+# The deck had eleven 1980s songs and twenty-six 1990s songs, and the game now
+# deals evenly across eras, so those two decades repeated within an evening.
+#
+# Deezer's own dates are reissue and upload dates for almost everything here, so
+# every year was taken from somewhere else and the note beside it says where:
+# the original cassette, LP or CD on Discogs; the African Cassettes archive at
+# Mainz University (african-cassettes.uni-mainz.de), which catalogues the
+# cassettes themselves; Wikipedia discographies; or the artist's own dated
+# releases. Ethiopian cassettes carry Ethiopian-calendar years, which run from
+# September to September, seven or eight years behind; a year converted from one
+# is written as such and is never marked confirmed.
+#
+# A note that starts with "confirmed" marks a year a documented release settles,
+# and `import` takes that row as confirmed. Every other year is a proposal for
+# /deck. Where Deezer only has a later re-recording of a song, the note says so
+# and the year is still the song's.
+#
+#     python tools/build_deck.py import decks/amharic-1980s-1990s.tsv --by harvest
+#
+# year <TAB> artist_latin <TAB> title_latin <TAB> artist_am <TAB> title_am <TAB> youtube_url <TAB> deezer_track_id <TAB> # note
+
+# ---------- The 1980s ----------
+
+# Kuku Sebsibe · ኩኩ ሰብስቤ — the first cassette, with Roha Band
+1982	Kuku Sebsibe	Benafkoth	ኩኩ ሰብስቤ	በናፍቆትህ ነው		2412722985	# confirmed · Benafkoteh New, her first cassette, with Roha Band: 1974 E.C. per Capital Ethiopia, 1982 per the Little Axe reissue; its tracklist is in the African Cassettes archive (Mainz)
+1982	Kuku Sebsibe	Fikreh Beretabegne	ኩኩ ሰብስቤ	ፍቅርህ በረታብኝ		2412723015	# confirmed · Benafkoteh New cassette, 1982 (see above)
+1982	Kuku Sebsibe	Hodiye Hodiye	ኩኩ ሰብስቤ	ሆድዬ ሆድዬ		2412723025	# confirmed · Benafkoteh New cassette, 1982 (see above)
+1982	Kuku Sebsibe	Munaye Munaye	ኩኩ ሰብስቤ	ሙናዬ ሙናዬ		2412723045	# confirmed · Benafkoteh New cassette, 1982 (see above)
+1982	Kuku Sebsibe	Dene Belew	ኩኩ ሰብስቤ	ደኔ በለው		2412723005	# confirmed · Benafkoteh New cassette, 1982 (see above)
+
+# Tsehaye Yohannes · ፀሐዬ ዮሐንስ — Fenchetwa, then Tebale Ende
+1983	Tsehaye Yohannes	Yaze Yaze	ፀሐዬ ዮሐንስ	ያዝ ያዝ		995397352	# Fenchetwa, his first cassette: its cover reads 1975 in the Ethiopian calendar (1982/83), Discogs master 4083697; Deezer, Wikipedia and the deck's Be Sewlay Sew Mewded card say 1984
+1983	Tsehaye Yohannes	Bechengneten New	ፀሐዬ ዮሐንስ			995397382	# Fenchetwa cassette, 1975 E.C. (see above)
+1983	Tsehaye Yohannes	Keta Alugne	ፀሐዬ ዮሐንስ			995397412	# Fenchetwa cassette, 1975 E.C. (see above)
+1983	Tsehaye Yohannes	Balem Lay	ፀሐዬ ዮሐንስ			995397422	# Fenchetwa cassette, 1975 E.C. (see above)
+1989	Tsehaye Yohannes	Tebale Ende	ፀሐዬ ዮሐንስ			1653581692	# Tebale Ende: the artist's own Deezer release is dated 20 June 1989, and Discogs lists a Tsehaye cassette titled '1982' (Ethiopian calendar, 1989/90)
+1989	Tsehaye Yohannes	Yesew Neger	ፀሐዬ ዮሐንስ	የሰው ነገር		1653581722	# Tebale Ende, 1989 (see above)
+1989	Tsehaye Yohannes	Teze Teze Alegne	ፀሐዬ ዮሐንስ	ትዝ ትዝ አለኝ		1653581752	# Tebale Ende, 1989 (see above)
+1989	Tsehaye Yohannes	Fezez Yadergegnal	ፀሐዬ ዮሐንስ	ፈዘዝ ያደርገኛል		1653581702	# Tebale Ende, 1989 (see above)
+
+# Aster Aweke · አስቴር አወቀ — the Triple Earth LP
+1989	Aster Aweke	Sebebu	አስቴር አወቀ	ሰበቡ		11324129	# confirmed · Aster, Triple Earth 1989 (Columbia 1990); Discogs master 430076
+1989	Aster Aweke	Selale	አስቴር አወቀ	ሰላሌ		11324137	# confirmed · Aster, Triple Earth 1989
+1989	Aster Aweke	Teyim	አስቴር አወቀ	ጠይም		11324132	# confirmed · Aster, Triple Earth 1989
+1989	Aster Aweke	Wolela	አስቴር አወቀ	ወለላ		11324136	# confirmed · Aster, Triple Earth 1989
+1989	Aster Aweke	Sengno	አስቴር አወቀ	ሰኞ		11324133	# confirmed · Aster, Triple Earth 1989
+
+# Hailu Mergia · ኃይሉ መርጊያ — the 1985 cassette the deck already draws Laloye and Sewnetuwa from
+1985	Hailu Mergia	Shemonmuanaye	ኃይሉ መርጊያ	ሸሞንሟናዬ		67882199	# confirmed · Hailu Mergia & His Classical Instrument: Shemonmuanaye, 1985 cassette (Discogs master 576919, Wikipedia); Deezer has the 2013 Awesome Tapes reissue
+1985	Hailu Mergia	Amrew Demkew	ኃይሉ መርጊያ	አምረው ደምቀው		67882204	# confirmed · Shemonmuanaye cassette, 1985
+1985	Hailu Mergia	Shilela	ኃይሉ መርጊያ	ሽለላ		67882209	# confirmed · Shemonmuanaye cassette, 1985
+1985	Hailu Mergia	Belew Beduby	ኃይሉ መርጊያ	በለው በዱብዬ		67882208	# confirmed · Shemonmuanaye cassette, 1985
+
+# Hirut Bekele · ሂሩት በቀለ — her 1980s cassettes, dated only by the Ethiopian year in the release titles
+1986	Hirut Bekele	Nefs Neger	ሂሩት በቀለ	ነፍስ ነገር		3477305951	# her tenth cassette: the Deezer release 'Hirut Bekele 10th 1978' carries the Ethiopian year 1978 (1985/86); no other source
+1986	Hirut Bekele	Fikir New	ሂሩት በቀለ	ፍቅር ነው		3477305961	# the tenth cassette, 1978 E.C. (see above)
+1986	Hirut Bekele	Zares Enew Metaw	ሂሩት በቀለ			3477306041	# the tenth cassette, 1978 E.C. (see above)
+1988	Hirut Bekele	Yene Alem	ሂሩት በቀለ	የኔ ዓለም		3483297141	# the Deezer release 'Hirut Bekele 1980' carries the Ethiopian year 1980 (1987/88); no other source
+1988	Hirut Bekele	Yenew Tesfa	ሂሩት በቀለ	የኔው ተስፋ		3483297221	# the 1980 E.C. cassette (see above)
+1988	Hirut Bekele	Irk Andnew	ሂሩት በቀለ			3483297211	# the 1980 E.C. cassette (see above)
+
+# Yehunie Belay · የሁኔ በላይ — the first album
+1989	Yehunie Belay	Yagere Lij	የሁኔ በላይ	ያገሬ ልጅ		374780061	# Yagere Lij (Bal Game), his first album per Music in Africa; the artist's own Deezer release is dated 15 March 1989
+1989	Yehunie Belay	Ehehe	የሁኔ በላይ			374780101	# Yagere Lij, 1989 (see above)
+1989	Yehunie Belay	Yale Guazu	የሁኔ በላይ			374780111	# Yagere Lij, 1989 (see above)
+1989	Yehunie Belay	Che Belaw	የሁኔ በላይ	ቼ በለው		374780131	# Yagere Lij, 1989 (see above)
+
+# Neway Debebe · ነዋይ ደበበ — the debut cassette
+1985	Neway Debebe	Yetekemet Abeba	ነዋይ ደበበ	የጥቅምት አበባ		2672331312	# his first cassette, Yetikimt Abeba, 1977 E.C. (1984/85) per Amharic and English Wikipedia; Deezer has it on the 1985-1995 Collection
+1985	Neway Debebe	Eshet Belaw	ነዋይ ደበበ	እሸት በላሁኝ		2672331322	# a hit of the first cassette, 1977 E.C. (see above)
+1985	Neway Debebe	Enetarek	ነዋይ ደበበ	እኛው እንታረቅ		2672331372	# a hit of the first cassette, 1977 E.C. (see above)
+
+# Ephrem Tamiru · ኤፍሬም ታምሩ — the debut cassette, in the 2015 reunion recording
+1983	Ephrem Tamiru	Neylgne	ኤፍሬም ታምሩ	ነይልኝ		109752666	# the Neylign cassette, his first: 1983 on Discogs (master 3963941), 1975 E.C. on Amharic Wikipedia; Deezer has the 2015 Roha Band reunion re-recording
+1983	Ephrem Tamiru	Akalie	ኤፍሬም ታምሩ	አካሌ		109752684	# the Neylign cassette, 1983 (see above); 2015 re-recording on Deezer
+
+# Tewodros Tadesse · ቴዎድሮስ ታደሰ
+1985	Tewodros Tadesse	Lubanjaye	ቴዎድሮስ ታደሰ	ሉባንጃዬ		76956329	# his first album, with Ethio Stars: the cassette 'Lubanjaye 1977' (Ethiopian year, 1984/85) is dated 1985 on Discogs (release 10953502); Deezer has the 2013 Yesterday & Today recording
+1989	Tewodros Tadesse	Ketemaw	ቴዎድሮስ ታደሰ	በከተማው		2079628827	# the Bekatemaw cassette, Shami Music Shop, 1981 E.C. (1988/89) in the African Cassettes archive (Mainz)
+
+# ---------- The 1990s ----------
+
+# Aster Aweke · አስቴር አወቀ — Kabu and Ebo
+1991	Aster Aweke	Yedi Gosh	አስቴር አወቀ	የዲጎሽ		11169914	# confirmed · Kabu, Columbia 1991; Electra's Ethiopian cassette of it, Yedigosh, is dated 1991 in the African Cassettes archive
+1991	Aster Aweke	Tchewata	አስቴር አወቀ	ጨዋታ		11169919	# confirmed · Kabu, Columbia 1991
+1991	Aster Aweke	Bati	አስቴር አወቀ	ባቲ		11169918	# confirmed · Kabu, Columbia 1991
+1991	Aster Aweke	Eyoha	አስቴር አወቀ	ኢዮሃ		11169920	# confirmed · Kabu, Columbia 1991
+1991	Aster Aweke	Bitchengna	አስቴር አወቀ	ብቸኛ		11169921	# confirmed · Kabu, Columbia 1991
+1993	Aster Aweke	Yene Konjo	አስቴር አወቀ	የኔ ቆንጆ		69159110	# confirmed · first on Ebo, Barkhanns 1993 (Discogs release 2718022); Deezer has the Aster's Ballads take
+
+# Dawit Mellesse · ዳዊት መለሰ — the two AIT albums
+1995	Dawit Mellesse	Derbabaye	ዳዊት መለሰ	ደርባባዬ		3586238441	# Lottery, AIT Records, his first US album: 1995 per his biography and the artist's own Deezer release (3 March 1995)
+1995	Dawit Mellesse	Kanchi Lela	ዳዊት መለሰ	ካንቺ ሌላ		3586238451	# Lottery, 1995 (see above)
+1995	Dawit Mellesse	Lijnetish Alfwal	ዳዊት መለሰ	ልጅነትሽ አልፏል		3586238471	# Lottery, 1995 (see above)
+1999	Dawit Mellesse	Diresh Kedega	ዳዊት መለሰ			3585710531	# Anchin New, AIT Records: 1999 per his biography and the artist's own Deezer release (9 June 1999); some listings say 2000
+1999	Dawit Mellesse	Bichashn	ዳዊት መለሰ	ብቻሽን		3585710451	# Anchin New, 1999 (see above)
+1999	Dawit Mellesse	Keremela	ዳዊት መለሰ	ከረሜላ		3585710541	# Anchin New, 1999 (see above)
+1999	Dawit Mellesse	Suse Nesh	ዳዊት መለሰ	ሱሴ ነሽ		3585710521	# Anchin New, 1999 (see above)
+
+# Yehunie Belay · የሁኔ በላይ — the 1990s albums, in the artist's own dated releases
+1992	Yehunie Belay	Gibi Gibi	የሁኔ በላይ	ግቢ ግቢ		556165862	# Gibi Gibi, his second album (Music in Africa); the artist's own Deezer release is dated 21 March 1992
+1992	Yehunie Belay	Ker Alegn	የሁኔ በላይ			556165852	# Gibi Gibi, 1992 (see above)
+1992	Yehunie Belay	Zoma	የሁኔ በላይ	ዞማ		556165922	# Gibi Gibi, 1992 (see above)
+1994	Yehunie Belay	Alo Lulo	የሁኔ በላይ	አሎ ሉሎ		1392930312	# Alo Lulo; the artist's own Deezer release is dated 30 October 1994
+1994	Yehunie Belay	Emye Monemone	የሁኔ በላይ			1392930332	# Alo Lulo, 1994 (see above)
+1998	Yehunie Belay	Kuku Melekote	የሁኔ በላይ	ኩኩ መለኮቴ		813206232	# Kuku Melekote; the artist's own Deezer release is dated 3 August 1998
+1998	Yehunie Belay	Kim Kimuwan	የሁኔ በላይ			813206252	# Kuku Melekote, 1998 (see above)
+
+# Tsehaye Yohannes · ፀሐዬ ዮሐንስ — Yalanchema
+1996	Tsehaye Yohannes	Site Engidih	ፀሐዬ ዮሐንስ			1046852682	# confirmed · Yalanchema, Ethio Sound 1996 (Discogs release 15224920, Wikipedia)
+1996	Tsehaye Yohannes	Tikur Abebawoch	ፀሐዬ ዮሐንስ	ጥቁር አበባዎች		1046852662	# confirmed · Yalanchema, Ethio Sound 1996
+1996	Tsehaye Yohannes	Koyehu Sasibishi	ፀሐዬ ዮሐንስ	ቆየሁ ሳስብሽ		1046852712	# confirmed · Yalanchema, Ethio Sound 1996
+1996	Tsehaye Yohannes	Abayin Zoresh	ፀሐዬ ዮሐንስ	አባይን ዞረሽ		1046852652	# confirmed · Yalanchema, Ethio Sound 1996
+
+# Gigi · ጂጂ — One Ethiopia
+1998	Gigi	Ande Ethiopia	ጂጂ	አንድ ኢትዮጵያ		3876757791	# confirmed · One Ethiopia, Innerhythmic 1998 (Wikipedia discography)
+1998	Gigi	Gela	ጂጂ	ገላ		3876757861	# confirmed · One Ethiopia, 1998
+1998	Gigi	Eske Meche	ጂጂ	እስከ መቼ		3876757801	# confirmed · One Ethiopia, 1998
+1998	Gigi	Salayew	ጂጂ	ሳላየው		3876757821	# confirmed · One Ethiopia, 1998
+1998	Gigi	Abo Shemane	ጂጂ	አቦ ሸማኔ		3876757841	# confirmed · One Ethiopia, 1998
+
+# Tewodros Tadesse · ቴዎድሮስ ታደሰ — Zimita
+1997	Tewodros Tadesse	Girma Mogese	ቴዎድሮስ ታደሰ	ግርማ ሞገስ		69375498	# confirmed · Zimita, AIT Records 1997 (Music in Africa)
+1997	Tewodros Tadesse	Albo	ቴዎድሮስ ታደሰ	አልቦ		69375495	# confirmed · Zimita, AIT Records 1997
+1997	Tewodros Tadesse	Tena-Adam	ቴዎድሮስ ታደሰ	ጤና አዳም		69375494	# confirmed · Zimita, AIT Records 1997
+
+# Mahmoud Ahmed · ማህሙድ አህመድ — Soul of Addis
+1997	Mahmoud Ahmed	Ene Berdognal	ማህሙድ አህመድ	እኔ በርዶኛል		10715067	# Soul of Addis, Earthworks 1997; the same ten songs were his Addis cassette Titesh (Ambassel), a few years earlier
+1997	Mahmoud Ahmed	Bechayen Befiker	ማህሙድ አህመድ	ብቻዬን በፍቅር		10715066	# Soul of Addis, 1997 (see above)
+1997	Mahmoud Ahmed	Abet	ማህሙድ አህመድ	አቤት		10715065	# Soul of Addis, 1997 (see above)
+1997	Mahmoud Ahmed	Nafkot	ማህሙድ አህመድ	ናፍቆት		10715069	# Soul of Addis, 1997 (see above)
+
+# Hamelmal Abate · ሐመልማል አባተ — Ermehin Awuta
+1994	Hamelmal Abate	Ermehin Awuta	ሐመልማል አባተ			1201691132	# Ermehin Awuta, Amel Production, dated 7 September 1994 on Deezer; Electra's cassette is titled '1986/1994' (Ethiopian and Gregorian years), and the song was already in her 1991 US tour video (Discogs)
+1994	Hamelmal Abate	Kalkidan	ሐመልማል አባተ	ቃል ኪዳን		1201691162	# Ermehin Awuta, 1994 (see above)
+1994	Hamelmal Abate	Yaltewata Fikir	ሐመልማል አባተ	ያልተዋጣ ፍቅር		1201691152	# Ermehin Awuta, 1994 (see above)
+1994	Hamelmal Abate	Bechegna	ሐመልማል አባተ	ብቸኛ		1201691212	# Ermehin Awuta, 1994 (see above)
+
+# Elias Tebabal · ኤልያስ ተባባል — the two Virginia CDs
+1998	Elias Tebabal	Abejehu	ኤልያስ ተባባል	አበጀሁ		3713210242	# confirmed · Abejehu, his 1998 CD, recorded at Miti Studios, Alexandria VA (Discogs release 6495724)
+1999	Elias Tebabal	Tewdag	ኤልያስ ተባባል	ተውዳጅ		3713210232	# confirmed · Tidar, his 1999 CD (Discogs release 29455510)
+1999	Elias Tebabal	Mamaye	ኤልያስ ተባባል	ማማዬ		3323916361	# confirmed · Tidar, his 1999 CD (Discogs release 29455510)
+
+# Ephrem Tamiru · ኤፍሬም ታምሩ — two 1990s cassettes
+1993	Ephrem Tamiru	Ken Sitel	ኤፍሬም ታምሩ	ቀን ሲጥል		2293414795	# the Yecheger Yeleme Wey cassette, Electra, 1985 E.C. (1992/93; Discogs release 9182953)
+1996	Ephrem Tamiru	Endet Nesh Hagere	ኤፍሬም ታምሩ	እንዴት ነሽ ሀገሬ		2293414775	# the Demo Jemeregne cassette, 1988 E.C.; Discogs master 3557524 dates it 1996
+
+# Tsegaye Eshetu · ፀጋዬ እሸቱ
+1991	Tsegaye Eshetu	Sendekalama	ፀጋዬ እሸቱ	ሰንደቅ ዓላማ		116313596	# a cassette whose cover reads 1983 (Ethiopian year, 1990/91), Soul Kuku Music Shop, in the African Cassettes archive (Mainz); Deezer has the 2013 Best of

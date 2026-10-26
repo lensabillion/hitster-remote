@@ -12,7 +12,9 @@ from __future__ import annotations
 from tools.build_deck import (
     guess_artist_title,
     is_alternate_version,
+    note_confirms,
     propose_year,
+    row_note,
     song_key,
     split_row,
 )
@@ -26,6 +28,21 @@ class TestSplitRow:
 
     def test_columns_are_stripped(self):
         assert split_row(" 1991 \t Aster Aweke \t Kabu ") == ["1991", "Aster Aweke", "Kabu"]
+
+
+class TestRowNote:
+    def test_the_note_is_the_hash_column_without_its_hash(self):
+        row = "1991\tAster Aweke\tKabu\t\t\t\t1021925\t# confirmed · Kabu, Columbia 1991"
+        assert row_note(row) == "confirmed · Kabu, Columbia 1991"
+        assert row_note("1991\tAster Aweke\tKabu") == ""
+
+    def test_only_a_note_that_opens_with_confirmed_confirms(self):
+        # A worksheet carries documented years and open proposals side by side;
+        # the word has to lead the note, or every note that mentions it would count.
+        assert note_confirms("confirmed · Kabu, Columbia 1991")
+        assert note_confirms("Confirmed: Discogs master 816084")
+        assert not note_confirms("guess: early 90s, not confirmed")
+        assert not note_confirms("")
 
 
 class TestSongKey:
