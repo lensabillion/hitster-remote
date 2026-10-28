@@ -88,7 +88,9 @@ page beats a text file. On a deployed server those edits are lost on the next de
 page lists what is not in `deck.json` yet and offers it as a download that is
 byte-identical to the CLI export.
 
-Where a year came from is written down beside it. The three curated worksheets,
+Every year in the deck, on the timeline and in the worksheets is Gregorian; the landing
+page says so, because Ethiopian covers and listeners count in ዓ.ም, seven or eight years
+behind. Where a year came from is written down beside it. The three curated worksheets,
 `decks/starter-amharic.tsv`, `decks/amharic-2026-10.tsv` and
 `decks/amharic-1980s-1990s.tsv`, carry a `#` note on every row naming the source of its
 year: the Éthiopiques booklets as transcribed on Discogs and the original Amha, Kaifa and

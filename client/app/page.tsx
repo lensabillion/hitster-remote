@@ -94,7 +94,9 @@ export default function Home() {
             <span className="step-no num">2</span>
             <span>
               <strong>Slot the song into your timeline.</strong>{" "}
-              <span className="soft">30 points if it lands in the right place.</span>
+              <span className="soft">
+                30 points if it lands in the right place. Years are Gregorian, not ዓ.ም.
+              </span>
             </span>
           </li>
           <li>

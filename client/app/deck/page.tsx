@@ -478,7 +478,7 @@ export default function DeckPage() {
 
             <div className="stack" style={{ maxWidth: 260 }}>
               <label className="label" htmlFor="add-year">
-                Original release year
+                Original release year — Gregorian
               </label>
               <input
                 id="add-year"
