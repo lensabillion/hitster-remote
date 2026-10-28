@@ -70,7 +70,8 @@ export default function AnswerCard({
         </div>
         <Timeline cards={timeline} interactive onPlace={setGap} />
         <p className="hint">
-          Tap a gap. If the year ties one already down, either side counts.
+          Tap a gap. Years are Gregorian, not ዓ.ም. If the year ties one already down, either
+          side counts.
         </p>
       </div>
 

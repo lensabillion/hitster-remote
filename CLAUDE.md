@@ -38,8 +38,8 @@ Lint: `./.venv/bin/ruff check .` (server) · `npm run typecheck && npm run lint`
 Release years cannot be taken from an API — MusicBrainz gives three answers for
 "Billie Jean", and Deezer and iTunes both report reissue dates. So a year is only ever
 *proposed* by a machine and *confirmed* by a human, once. Every card carries
-`year_confirmed`; the game plays unconfirmed cards as they are, and `/deck` lists them
-first so a person can confirm or fix each one with one tap.
+`year_confirmed`; the game deals only confirmed cards, and `/deck` lists the unconfirmed
+ones first so a person can confirm or fix each one with one tap and bring it into play.
 
 Growing the deck, from broad to narrow:
 
@@ -88,7 +88,9 @@ page beats a text file. On a deployed server those edits are lost on the next de
 page lists what is not in `deck.json` yet and offers it as a download that is
 byte-identical to the CLI export.
 
-Where a year came from is written down beside it. The three curated worksheets,
+Every year in the deck, on the timeline and in the worksheets is Gregorian; the landing
+page says so, because Ethiopian covers and listeners count in ዓ.ም, seven or eight years
+behind. Where a year came from is written down beside it. The three curated worksheets,
 `decks/starter-amharic.tsv`, `decks/amharic-2026-10.tsv` and
 `decks/amharic-1980s-1990s.tsv`, carry a `#` note on every row naming the source of its
 year: the Éthiopiques booklets as transcribed on Discogs and the original Amha, Kaifa and
