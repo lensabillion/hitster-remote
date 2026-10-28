@@ -28,7 +28,7 @@ CREATE TABLE IF NOT EXISTS cards (
     id              TEXT PRIMARY KEY,
     year            INTEGER NOT NULL,
     -- 0 until a person has checked the year. A harvested or guessed year is
-    -- playable, but the editor shows it as still needing that look.
+    -- kept on /deck, out of the deal, until a person has had that look.
     year_confirmed  INTEGER NOT NULL DEFAULT 0,
     artist_latin    TEXT NOT NULL,
     title_latin     TEXT NOT NULL,

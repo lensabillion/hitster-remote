@@ -80,6 +80,8 @@ class Harness:
                     "youtube_id": HARNESS_YOUTUBE_ID,
                     "deezer_track_id": None,
                     "added_by": "test",
+                    # Only cards with a confirmed year are dealt.
+                    "year_confirmed": True,
                 }
                 for i in range(HARNESS_DECK_SIZE)
             ]
@@ -408,6 +410,57 @@ async def test_a_deck_of_silence_ends_the_game_rather_than_looping(tmp_path, mon
         await guest.disconnect()
 
 
+async def test_an_unconfirmed_year_is_never_dealt(tmp_path, monkeypatch):
+    """A proposed year is a guess; a game scored against it would be decided by
+    evidence nobody has checked. Such cards wait on /deck, out of the deal.
+
+    Deck order is pinned: cards 0 and 1 are the seeds, cards 2-6 are unconfirmed,
+    so round 1 must land on card 7.
+    """
+    monkeypatch.setattr(rooms_module, "deal_across_eras", list)  # deal in deck order
+    async with Harness(tmp_path) as h:
+        rows = await db_module.db.all_cards()
+        for i, row in enumerate(rows):
+            row["year_confirmed"] = not (2 <= i <= 6)
+        await db_module.db.upsert_cards(rows)
+
+        host, guest, _ = await two_player_game(h, "13")
+        await host.emit("round:answer", {"code": host.state["code"], "gap": 0})
+        revealed = await host.wait_for(lambda s: s["phase"] == "revealing")
+        assert revealed["card"]["id"] == "card7", "an unconfirmed card was dealt"
+
+        await host.disconnect()
+        await guest.disconnect()
+
+
+async def test_a_deck_without_confirmed_years_does_not_start(tmp_path):
+    async with Harness(tmp_path) as h:
+        rows = await db_module.db.all_cards()
+        for row in rows:
+            row["year_confirmed"] = False
+        await db_module.db.upsert_cards(rows)
+
+        host, guest = Client("host-14", "Lensa"), Client("guest-14", "Sara")
+        await host.connect(h.url)
+        await guest.connect(h.url)
+        await host.emit("room:create", {"name": "Lensa"})
+        await host.wait_for(lambda s: s["phase"] == "lobby")
+        code = host.state["code"]
+        await guest.emit("room:join", {"code": code, "name": "Sara"})
+        await guest.wait_for(lambda s: len(s["players"]) == 2)
+
+        await host.emit("game:start", {"code": code})
+        for _ in range(50):
+            if host.errors:
+                break
+            await asyncio.sleep(0.02)
+        assert host.errors and "confirm" in host.errors[-1], "the start should be refused"
+        assert host.state["phase"] == "lobby"
+
+        await host.disconnect()
+        await guest.disconnect()
+
+
 async def test_an_absent_player_cannot_stall_the_table(tmp_path):
     """The answer window is a ceiling: when it expires the round reveals itself."""
     async with Harness(tmp_path) as h:
@@ -547,7 +600,11 @@ async def test_a_harvested_year_is_confirmed_in_place(tmp_path):
     """The curation loop: a proposed year shows as unconfirmed, one PATCH
     settles it, and the count the editor leads with drops."""
     async with Harness(tmp_path) as h, h.http() as http:
-        # The harness deck is unconfirmed throughout, like a fresh harvest.
+        # Make the whole harness deck unconfirmed, like a fresh harvest.
+        rows = await db_module.db.all_cards()
+        for row in rows:
+            row["year_confirmed"] = False
+        await db_module.db.upsert_cards(rows)
         before = (await http.get("/deck")).json()
         assert before["unconfirmed"] == HARNESS_DECK_SIZE
         assert all(c["yearConfirmed"] is False for c in before["cards"])

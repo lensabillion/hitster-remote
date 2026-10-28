@@ -54,6 +54,7 @@ _origins = os.getenv("CORS_ORIGINS", "*").strip()
 ALLOWED_ORIGINS: str | list[str] = (
     "*" if _origins in ("", "*") else [o.strip() for o in _origins.split(",") if o.strip()]
 )
+# The fewest confirmed cards a game can start with.
 MIN_DECK = 6
 # Optional shared secret for editing the deck. Unset means open, which matches
 # the rest of the game -- there are no accounts anywhere. Set it if the URL ever
@@ -186,7 +187,7 @@ async def deck_list() -> dict:
     return {
         "count": len(cards),
         # Years nobody has checked yet: harvested proposals and the starter
-        # deck's guesses. Playable, but the editor puts them first.
+        # deck's guesses. Not dealt until confirmed, so the editor puts them first.
         "unconfirmed": sum(1 for c in cards if not c["year_confirmed"]),
         # Songs that exist only in this server's database. On an ephemeral host
         # they disappear on the next deploy, restart, or idle spin-down, so the
@@ -486,9 +487,15 @@ async def on_start(sid, data):
     if len(room.connected_players()) < 2:
         return await fail(sid, "Need at least two players")
 
-    rows = await db.all_cards()
+    # Only cards whose year a person has checked are dealt. An unconfirmed year
+    # is a proposal, and a game scored against a guess decides who wins on
+    # evidence nobody has looked at; such cards wait on /deck until confirmed.
+    rows = [r for r in await db.all_cards() if r["year_confirmed"]]
     if len(rows) < MIN_DECK:
-        return await fail(sid, f"Deck needs at least {MIN_DECK} cards -- add some at /deck")
+        return await fail(
+            sid,
+            f"Deck needs at least {MIN_DECK} songs with a confirmed year -- confirm some at /deck",
+        )
 
     rounds = data.get("rounds")
     # bool is an int in Python; "true" is not a number of rounds.

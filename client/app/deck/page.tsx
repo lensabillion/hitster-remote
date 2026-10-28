@@ -69,7 +69,8 @@ function validYear(text: string): number | null {
 }
 
 /* One card in the list. An unconfirmed year is an open question with the
- * answer prefilled: fix it or just agree, either way one tap. A confirmed one
+ * answer prefilled: fix it or just agree, either way one tap, and the song joins
+ * the deal. A confirmed one
  * can still be reopened. */
 function CardRow({
   card,
@@ -569,7 +570,8 @@ export default function DeckPage() {
           <div className="row" style={{ gap: 10 }}>
             {unconfirmedCount > 0 ? (
               <span className="pill pill-accent">
-                {unconfirmedCount} {unconfirmedCount === 1 ? "year" : "years"} to confirm
+                {unconfirmedCount} {unconfirmedCount === 1 ? "song waits" : "songs wait"} for a
+                confirmed year before they are dealt
               </span>
             ) : (
               cards.length > 0 && <span className="pill pill-good">every year confirmed</span>

@@ -38,8 +38,8 @@ Lint: `./.venv/bin/ruff check .` (server) · `npm run typecheck && npm run lint`
 Release years cannot be taken from an API — MusicBrainz gives three answers for
 "Billie Jean", and Deezer and iTunes both report reissue dates. So a year is only ever
 *proposed* by a machine and *confirmed* by a human, once. Every card carries
-`year_confirmed`; the game plays unconfirmed cards as they are, and `/deck` lists them
-first so a person can confirm or fix each one with one tap.
+`year_confirmed`; the game deals only confirmed cards, and `/deck` lists the unconfirmed
+ones first so a person can confirm or fix each one with one tap and bring it into play.
 
 Growing the deck, from broad to narrow:
 
